@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="dedae490-ff5c-4369-bcae-7c9aac2cfe02" name="Facturacion.FacturacionManual_Comercial_DP" description="Facturacion Manual Comercial" namespace="app">
+  <Signature name="par">
+    <Parameter name="Emprcod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>3</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="Clicod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Numeric</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>6</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="Prior">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>1</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ReturnValue" accessor="out">
+      <Field name="FacturacionManual_Comerciales__SDT" description="Facturacion Manual_Comerciales__SDT" collection="true">
+        <Fields>
+          <Field name="Seleccionar" description="Seleccionar">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Boolean</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="AlbComCod" description="Nº Documento">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>8</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZZZZZZ9</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="AlbComFch" description="Fecha">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Date</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>8</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>99/99/99</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="AlbComImp" description="Importe">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>13</Value>
+              </Property>
+              <Property>
+                <Name>Decimals</Name>
+                <Value>2</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZZZZZZZZ9.99</Value>
+              </Property>
+            </Properties>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

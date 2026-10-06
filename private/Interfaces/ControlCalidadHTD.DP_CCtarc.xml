@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="56a05dd5-7977-412e-8c2b-c737120f5dfb" name="ControlCalidadHTD.DP_CCtarc" description="DP_CCtarc" namespace="app">
+  <Signature name="parm">
+    <Parameter name="ReturnValue" accessor="out">
+      <Field name="SDT_CCtarc_SeleccionaArchivo" description="SDT_CCtarc_Selecciona Archivo" collection="true">
+        <Fields>
+          <Field name="SelOP" description="Sel OP">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Boolean</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="NomFile" description="Modelo">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>128</Value>
+              </Property>
+            </Properties>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

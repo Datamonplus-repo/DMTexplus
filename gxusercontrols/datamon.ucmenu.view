@@ -1,0 +1,57 @@
+    <div class="wrapper">
+    
+            <!-- Sidebar Holder -->
+            <nav id="sidebar" class="{{gxTpr_MENUACTIVE}}{{MENUACTIVE}}">
+		  
+                <div class="sidebar-header">
+                    <h4>{{gxTpr_INFORMATIVO}}{{INFORMATIVO}}</h4>
+                </div>
+			 
+                <ul class="list-unstyled components">
+                    <p>{{gxTpr_SISTEMA}}{{SISTEMA}}</br>{{gxTpr_SISTEMADESCRICAO}}{{SISTEMADESCRICAO}}</p>				
+				{{#SdtMenu}}
+                    <li class="active">
+                        <a href="#{{gxTpr_TITLE}}{{TITLE}}"  data-event="OnClick"  onclick="return false;" data-toggle="collapse" aria-expanded="false" class="collapsed">{{gxTpr_DESCRIPTION}}{{DESCRIPTION}}
+						<span><i class="{{gxTpr_INFO_TEXT}}{{INFO_TEXT}}"></i></span>
+						</a>
+				    <ul class="list-unstyled collapse" id="{{gxTpr_TITLE}}{{TITLE}}" aria-expanded="true" style="height: 0px;">		
+				    
+						{{#ITEMS}}
+							<li class="active">
+							<a href="#{{gxTpr_TITLE}}{{TITLE}}"  data-event="OnClick"  onclick="return false;" data-toggle="collapse" aria-expanded="false" class="collapsed">{{gxTpr_DESCRIPTION}}{{DESCRIPTION}}
+							<span><i class="{{gxTpr_INFO_TEXT}}{{INFO_TEXT}}"></i></span>
+							</a>
+							<ul class="list-unstyled collapse" id="{{gxTpr_TITLE}}{{TITLE}}" aria-expanded="true" style="height: 0px;">		    
+					
+								{{#ITEMS}}
+									<li>						
+										<a href="#"  data-event="OnClick"  onclick="return false;" >
+											{{gxTpr_DESCRIPTION}}{{DESCRIPTION}}			
+											<span><i class="{{gxTpr_INFO_TEXT}}{{INFO_TEXT}}"></i></span>
+										</a>
+									</li>
+								{{/ITEMS}}                    						
+							
+							</ul>		
+							</li>
+						{{/ITEMS}}            
+				    </ul>				    
+                    </li>
+				{{/SdtMenu}}				
+                </ul>
+			 
+            </nav>
+
+            <!-- Page Content Holder -->
+            <div id="content">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">			  
+				  <div id="root">
+                      	<div data-slot="extraContent" data-parent="{{ContainerName}}"></div>
+				  </div>
+                    </div>
+                </nav>
+            </div>
+		  
+        </div>	   
+	   

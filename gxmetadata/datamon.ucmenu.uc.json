@@ -1,0 +1,126 @@
+{
+	"Name": "Datamon.UCMenu",
+	"Target": "",
+	"IsControlType": false,
+	"Template": "    <div class=\"wrapper\">                <!-- Sidebar Holder -->            <nav id=\"sidebar\" class=\"{{MENUACTIVE}}\">		                  <div class=\"sidebar-header\">                    <h4>{{INFORMATIVO}}</h4>                </div>			                 <ul class=\"list-unstyled components\">                    <p>{{SISTEMA}}</br>{{SISTEMADESCRICAO}}</p>								{{#SdtMenu}}                    <li class=\"active\">                        <a href=\"#{{TITLE}}\" {{OnClick}} onclick=\"return false;\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"collapsed\">{{DESCRIPTION}}						<span><i class=\"{{INFO_TEXT}}\"></i></span>						</a>				    <ul class=\"list-unstyled collapse\" id=\"{{TITLE}}\" aria-expanded=\"true\" style=\"height: 0px;\">						    						{{#ITEMS}}							<li class=\"active\">							<a href=\"#{{TITLE}}\" {{OnClick}} onclick=\"return false;\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"collapsed\">{{DESCRIPTION}}							<span><i class=\"{{INFO_TEXT}}\"></i></span>							</a>							<ul class=\"list-unstyled collapse\" id=\"{{TITLE}}\" aria-expanded=\"true\" style=\"height: 0px;\">		    													{{#ITEMS}}									<li>																<a href=\"#\" {{OnClick}} onclick=\"return false;\" >											{{DESCRIPTION}}														<span><i class=\"{{INFO_TEXT}}\"></i></span>										</a>									</li>								{{/ITEMS}}                    																				</ul>									</li>						{{/ITEMS}}            				    </ul>				                        </li>				{{/SdtMenu}}				                </ul>			             </nav>            <!-- Page Content Holder -->            <div id=\"content\">                <nav class=\"navbar navbar-default\">                    <div class=\"container-fluid\">			  				  <div id=\"root\">                      	<slot name=\"extraContent\" />				  </div>                    </div>                </nav>            </div>		          </div>	   	   ",
+	"Events": [
+		{
+			"Name": "OnClick",
+			"On": "click",
+			"Parameters": ""
+		} 
+	],
+	"Properties": [
+		{
+			"Id": "MENUACTIVE",
+			"Name": "MENUACTIVE",
+			"Type": "string",
+			"Default": ""
+		} ,
+		{
+			"Id": "INFORMATIVO",
+			"Name": "INFORMATIVO",
+			"Type": "string",
+			"Default": ""
+		} ,
+		{
+			"Id": "SISTEMA",
+			"Name": "SISTEMA",
+			"Type": "string",
+			"Default": ""
+		} ,
+		{
+			"Id": "SISTEMADESCRICAO",
+			"Name": "SISTEMADESCRICAO",
+			"Type": "string",
+			"Default": ""
+		} ,
+		{
+			"Id": "SdtMenu",
+			"Name": "SdtMenu",
+			"Type": "sdt",
+			"Default": ""
+		} ,
+		{
+			"Id": "SdtMenuCurrentIndex",
+			"Name": "SdtMenuCurrentIndex",
+			"Type": "numeric",
+			"Default": ""
+		} ,
+		{
+			"Id": "ITEMS",
+			"Name": "ITEMS",
+			"Type": "sdt",
+			"Default": ""
+		} ,
+		{
+			"Id": "ITEMSCurrentIndex",
+			"Name": "ITEMSCurrentIndex",
+			"Type": "numeric",
+			"Default": ""
+		} 
+	],
+	"Methods": {
+		"Public": [
+			{
+				"Name": "click",
+				"Source": "  ",
+				"Return": "",
+				"Parameters": [
+				]
+			} ,
+			{
+				"Name": "reload",
+				"Source": "     location.reload();   ",
+				"Return": "",
+				"Parameters": [
+				]
+			} ,
+			{
+				"Name": "open",
+				"Source": "        if(typeof a !== \"undefined\") {			 		 $(\"#iframecontainer\").remove();		 		var h = \'<div id=\"container\">\'					 + \'<span id=\"label1\"></span>\'		// + \'<div id=\"contentDiv\" width=\"800px\" height=\"600px\">\'		 + \'<iframe id=\"iframecontainer\" src=\"#\" aria-labelledby=\"label1\" width=\"980px\" height=\"600px\" height=\"600px\" frameBorder=\"0\"></iframe>\'		 		 + \'</div>\';						$(\'#root\').empty();			$(\'#root\').append(h);			//			$.noConflict();//			jQuery(document).ready(function($) {//  				$(\'#contentDiv\').load(a);//			});			 					$(\"#iframecontainer\").attr(\'src\',a);						$(\'#iframecontainer\').on(\'load\', function(){ 				console.log(\'load \' + this);			});											} 			   ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "a",
+						"Type": "a"
+					} 
+				]
+			} ,
+			{
+				"Name": "menuState",
+				"Source": "       $(\"a[data-items-index=\'1\']\").click();   ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "pos",
+						"Type": "pos"
+					} ,
+					 {
+						"Name": "obj",
+						"Type": "obj"
+					} 
+				]
+			} 
+		],
+		"Private": [
+		]
+	},
+	"Scripts": {
+		"AfterShow": [
+			{
+				"Name": "Init",
+				"Source": " 		var _this = this;		  		if (!this.IsPostBack) {			wasLoaded = true;  					}	  ",
+				"AngularLocation": ""
+			} 
+		],
+		"BeforeShow": [
+		]
+	},
+	"Dependencies": [
+	],
+	"Imports": [
+	],
+	"Styles": [
+	]
+}

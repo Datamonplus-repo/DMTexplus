@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="7e781581-d639-4b2c-9635-4653f2e2a48a" name="Pedidos.DisObs_DP" description="Observaciones" namespace="app">
+  <Signature name="par">
+    <Parameter name="EmprCod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>3</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="DisCod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Numeric</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>8</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ReturnValue" accessor="out" collection="true">
+      <Field name="DisObs_SDT" description="Dis Obs_SDT">
+        <Fields>
+          <Field name="Eliminar" description="">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Boolean</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="EmprCod" description="Código Empresa">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>3</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>@!</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="DisCod" description="Codigo Disposicion">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>8</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZZZZZZ9</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="DisObsLin" description="Lineas observaciones">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>1</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>9</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="DisObsTxt" description="Texto observaciones">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>60</Value>
+              </Property>
+            </Properties>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

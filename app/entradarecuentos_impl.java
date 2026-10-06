@@ -1,0 +1,1789 @@
+package app ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.webpanels.*;
+import java.sql.*;
+import com.genexus.search.*;
+
+public final  class entradarecuentos_impl extends GXDataArea
+{
+   public entradarecuentos_impl( com.genexus.internet.HttpContext context )
+   {
+      super(context);
+   }
+
+   public entradarecuentos_impl( int remoteHandle )
+   {
+      super( remoteHandle , new ModelContext( entradarecuentos_impl.class ));
+   }
+
+   public entradarecuentos_impl( int remoteHandle ,
+                                 ModelContext context )
+   {
+      super( remoteHandle , context);
+   }
+
+   protected void createObjects( )
+   {
+   }
+
+   public void initweb( )
+   {
+      initialize_properties( ) ;
+      if ( nGotPars == 0 )
+      {
+         entryPointCalled = false ;
+         gxfirstwebparm = httpContext.GetNextPar( ) ;
+         gxfirstwebparm_bkp = gxfirstwebparm ;
+         gxfirstwebparm = httpContext.DecryptAjaxCall( gxfirstwebparm) ;
+         toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+         if ( httpContext.isSpaRequest( ) )
+         {
+            httpContext.disableJsOutput();
+         }
+         if ( GXutil.strcmp(gxfirstwebparm, "dyncall") == 0 )
+         {
+            httpContext.setAjaxCallMode();
+            if ( ! httpContext.IsValidAjaxCall( true) )
+            {
+               GxWebError = (byte)(1) ;
+               return  ;
+            }
+            dyncall( httpContext.GetNextPar( )) ;
+            return  ;
+         }
+         else if ( GXutil.strcmp(gxfirstwebparm, "gxajaxEvt") == 0 )
+         {
+            httpContext.setAjaxEventMode();
+            if ( ! httpContext.IsValidAjaxCall( true) )
+            {
+               GxWebError = (byte)(1) ;
+               return  ;
+            }
+            gxfirstwebparm = httpContext.GetNextPar( ) ;
+         }
+         else if ( GXutil.strcmp(gxfirstwebparm, "gxfullajaxEvt") == 0 )
+         {
+            if ( ! httpContext.IsValidAjaxCall( true) )
+            {
+               GxWebError = (byte)(1) ;
+               return  ;
+            }
+            gxfirstwebparm = httpContext.GetNextPar( ) ;
+         }
+         else
+         {
+            if ( ! httpContext.IsValidAjaxCall( false) )
+            {
+               GxWebError = (byte)(1) ;
+               return  ;
+            }
+            gxfirstwebparm = gxfirstwebparm_bkp ;
+         }
+         if ( toggleJsOutput )
+         {
+            if ( httpContext.isSpaRequest( ) )
+            {
+               httpContext.enableJsOutput();
+            }
+         }
+      }
+      if ( ! httpContext.isLocalStorageSupported( ) )
+      {
+         httpContext.pushCurrentUrl();
+      }
+   }
+
+   public void webExecute( )
+   {
+      initweb( ) ;
+      if ( ! isAjaxCallMode( ) )
+      {
+         MasterPageObj= createMasterPage(remoteHandle, "app.wwpbaseobjects.workwithplusmasterpage");
+         MasterPageObj.setDataArea(this,false);
+         validateSpaRequest();
+         MasterPageObj.webExecute();
+         if ( ( GxWebError == 0 ) && httpContext.isAjaxRequest( ) )
+         {
+            httpContext.enableOutput();
+            if ( ! httpContext.isAjaxRequest( ) )
+            {
+               httpContext.GX_webresponse.addHeader("Cache-Control", "no-store");
+            }
+            if ( ! httpContext.willRedirect( ) )
+            {
+               addString( httpContext.getJSONResponse( )) ;
+            }
+            else
+            {
+               if ( httpContext.isAjaxRequest( ) )
+               {
+                  httpContext.disableOutput();
+               }
+               renderHtmlHeaders( ) ;
+               httpContext.redirect( httpContext.wjLoc );
+               httpContext.dispatchAjaxCommands();
+            }
+         }
+      }
+      if ( isAjaxCallMode( ) )
+      {
+         cleanup();
+      }
+   }
+
+   public byte executeStartEvent( )
+   {
+      pa13D2( ) ;
+      gxajaxcallmode = (byte)((isAjaxCallMode( ) ? 1 : 0)) ;
+      if ( ( gxajaxcallmode == 0 ) && ( GxWebError == 0 ) )
+      {
+         start13D2( ) ;
+      }
+      return gxajaxcallmode ;
+   }
+
+   public void renderHtmlHeaders( )
+   {
+      app.GxWebStd.gx_html_headers( httpContext, 0, "", "", Form.getMeta(), Form.getMetaequiv(), true);
+   }
+
+   public void renderHtmlOpenForm( )
+   {
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      httpContext.writeText( "<title>") ;
+      httpContext.writeValue( Form.getCaption()) ;
+      httpContext.writeTextNL( "</title>") ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      if ( GXutil.len( sDynURL) > 0 )
+      {
+         httpContext.writeText( "<BASE href=\""+sDynURL+"\" />") ;
+      }
+      define_styles( ) ;
+      if ( nGXWrapped != 1 )
+      {
+         MasterPageObj.master_styles();
+      }
+      if ( ( ( httpContext.getBrowserType( ) == 1 ) || ( httpContext.getBrowserType( ) == 5 ) ) && ( GXutil.strcmp(httpContext.getBrowserVersion( ), "7.0") == 0 ) )
+      {
+         httpContext.AddJavascriptSource("json2.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      }
+      httpContext.AddJavascriptSource("jquery.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("gxgral.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("gxcfg.js", "?"+httpContext.getCacheInvalidationToken( ), false, true);
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      httpContext.AddJavascriptSource("calendar.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("calendar-setup.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("calendar-"+GXutil.substring( httpContext.getLanguageProperty( "culture"), 1, 2)+".js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("Shared/HistoryManager/HistoryManager.js", "", false, true);
+      httpContext.AddJavascriptSource("Shared/HistoryManager/rsh/json2005.js", "", false, true);
+      httpContext.AddJavascriptSource("Shared/HistoryManager/rsh/rsh.js", "", false, true);
+      httpContext.AddJavascriptSource("Shared/HistoryManager/HistoryManagerCreate.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("UserControls/DatamonJSRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("Tab/TabRender.js", "", false, true);
+      httpContext.writeText( Form.getHeaderrawhtml()) ;
+      httpContext.closeHtmlHeader();
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      FormProcess = " data-HasEnter=\"false\" data-Skiponenter=\"true\"" ;
+      httpContext.writeText( "<body ") ;
+      bodyStyle = "" + "background-color:" + WebUtils.getHTMLColor( Form.getIBackground()) + ";color:" + WebUtils.getHTMLColor( Form.getTextcolor()) + ";" ;
+      if ( nGXWrapped == 0 )
+      {
+         bodyStyle += "-moz-opacity:0;opacity:0;" ;
+      }
+      if ( ! ( (GXutil.strcmp("", Form.getBackground())==0) ) )
+      {
+         bodyStyle += " background-image:url(" + httpContext.convertURL( Form.getBackground()) + ")" ;
+      }
+      httpContext.writeText( " "+"class=\"form-horizontal Form\""+" "+ "style='"+bodyStyle+"'") ;
+      httpContext.writeText( FormProcess+">") ;
+      httpContext.skipLines( 1 );
+      httpContext.writeTextNL( "<form id=\"MAINFORM\" autocomplete=\"off\" name=\"MAINFORM\" method=\"post\" tabindex=-1  class=\"form-horizontal Form\" data-gx-class=\"form-horizontal Form\" novalidate action=\""+formatLink("app.entradarecuentos", new String[] {}, new String[] {}) +"\">") ;
+      app.GxWebStd.gx_hidden_field( httpContext, "_EventName", "");
+      app.GxWebStd.gx_hidden_field( httpContext, "_EventGridId", "");
+      app.GxWebStd.gx_hidden_field( httpContext, "_EventRowId", "");
+      httpContext.writeText( "<input type=\"submit\" title=\"submit\" style=\"display:block;height:0;border:0;padding:0\" disabled>") ;
+      httpContext.ajax_rsp_assign_prop("", false, "FORM", "Class", "form-horizontal Form", true);
+      toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableJsOutput();
+      }
+   }
+
+   public void send_integrity_footer_hashes( )
+   {
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vEMPRCOD", getSecureSignedToken( "", GXutil.rtrim( localUtil.format( AV10EmprCod, "@!"))));
+      GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+   }
+
+   public void sendCloseFormHiddens( )
+   {
+      /* Send hidden variables. */
+      /* Send saved values. */
+      send_integrity_footer_hashes( ) ;
+      app.GxWebStd.gx_hidden_field( httpContext, "EMPRCOD", GXutil.rtrim( A396EmprCod));
+      app.GxWebStd.gx_hidden_field( httpContext, "RECFEC", localUtil.dtoc( A810RecFec, 0, "/"));
+      app.GxWebStd.gx_hidden_field( httpContext, "vEMPRCOD", GXutil.rtrim( AV10EmprCod));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vEMPRCOD", getSecureSignedToken( "", GXutil.rtrim( localUtil.format( AV10EmprCod, "@!"))));
+      app.GxWebStd.gx_hidden_field( httpContext, "RECESTINV", GXutil.ltrim( localUtil.ntoc( A13416RecEstInv, (byte)(1), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Width", GXutil.rtrim( Dvpanel_panel_filtrosgenerales_Width));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Autowidth", GXutil.booltostr( Dvpanel_panel_filtrosgenerales_Autowidth));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Autoheight", GXutil.booltostr( Dvpanel_panel_filtrosgenerales_Autoheight));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Cls", GXutil.rtrim( Dvpanel_panel_filtrosgenerales_Cls));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Title", GXutil.rtrim( Dvpanel_panel_filtrosgenerales_Title));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Collapsible", GXutil.booltostr( Dvpanel_panel_filtrosgenerales_Collapsible));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Collapsed", GXutil.booltostr( Dvpanel_panel_filtrosgenerales_Collapsed));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Showcollapseicon", GXutil.booltostr( Dvpanel_panel_filtrosgenerales_Showcollapseicon));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Iconposition", GXutil.rtrim( Dvpanel_panel_filtrosgenerales_Iconposition));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Autoscroll", GXutil.booltostr( Dvpanel_panel_filtrosgenerales_Autoscroll));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Width", GXutil.rtrim( Dvpanel_panel_filtros_Width));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Autowidth", GXutil.booltostr( Dvpanel_panel_filtros_Autowidth));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Autoheight", GXutil.booltostr( Dvpanel_panel_filtros_Autoheight));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Cls", GXutil.rtrim( Dvpanel_panel_filtros_Cls));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Title", GXutil.rtrim( Dvpanel_panel_filtros_Title));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Collapsible", GXutil.booltostr( Dvpanel_panel_filtros_Collapsible));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Collapsed", GXutil.booltostr( Dvpanel_panel_filtros_Collapsed));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Showcollapseicon", GXutil.booltostr( Dvpanel_panel_filtros_Showcollapseicon));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Iconposition", GXutil.rtrim( Dvpanel_panel_filtros_Iconposition));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Autoscroll", GXutil.booltostr( Dvpanel_panel_filtros_Autoscroll));
+      app.GxWebStd.gx_hidden_field( httpContext, "GXUITABSPANEL_TABS_Pagecount", GXutil.ltrim( localUtil.ntoc( Gxuitabspanel_tabs_Pagecount, (byte)(9), (byte)(0), ".", "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "GXUITABSPANEL_TABS_Class", GXutil.rtrim( Gxuitabspanel_tabs_Class));
+      app.GxWebStd.gx_hidden_field( httpContext, "GXUITABSPANEL_TABS_Historymanagement", GXutil.booltostr( Gxuitabspanel_tabs_Historymanagement));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_RESULTADO_Width", GXutil.rtrim( Dvpanel_panel_resultado_Width));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_RESULTADO_Autowidth", GXutil.booltostr( Dvpanel_panel_resultado_Autowidth));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_RESULTADO_Autoheight", GXutil.booltostr( Dvpanel_panel_resultado_Autoheight));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_RESULTADO_Cls", GXutil.rtrim( Dvpanel_panel_resultado_Cls));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_RESULTADO_Title", GXutil.rtrim( Dvpanel_panel_resultado_Title));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_RESULTADO_Collapsible", GXutil.booltostr( Dvpanel_panel_resultado_Collapsible));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_RESULTADO_Collapsed", GXutil.booltostr( Dvpanel_panel_resultado_Collapsed));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_RESULTADO_Showcollapseicon", GXutil.booltostr( Dvpanel_panel_resultado_Showcollapseicon));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_RESULTADO_Iconposition", GXutil.rtrim( Dvpanel_panel_resultado_Iconposition));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_RESULTADO_Autoscroll", GXutil.booltostr( Dvpanel_panel_resultado_Autoscroll));
+   }
+
+   public void renderHtmlCloseForm( )
+   {
+      sendCloseFormHiddens( ) ;
+      app.GxWebStd.gx_hidden_field( httpContext, "GX_FocusControl", GX_FocusControl);
+      httpContext.SendAjaxEncryptionKey();
+      sendSecurityToken(sPrefix);
+      httpContext.SendComponentObjects();
+      httpContext.SendServerCommands();
+      httpContext.SendState();
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      httpContext.writeTextNL( "</form>") ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      include_jscripts( ) ;
+      if ( ! ( WebComp_Wcentradarecuentos_wc == null ) )
+      {
+         WebComp_Wcentradarecuentos_wc.componentjscripts();
+      }
+      if ( ! ( WebComp_Wcentradarecuentos___wc == null ) )
+      {
+         WebComp_Wcentradarecuentos___wc.componentjscripts();
+      }
+      httpContext.writeText( "<script type=\"text/javascript\">") ;
+      httpContext.writeText( "gx.setLanguageCode(\""+httpContext.getLanguageProperty( "code")+"\");") ;
+      if ( ! httpContext.isSpaRequest( ) )
+      {
+         httpContext.writeText( "gx.setDateFormat(\""+httpContext.getLanguageProperty( "date_fmt")+"\");") ;
+         httpContext.writeText( "gx.setTimeFormat("+httpContext.getLanguageProperty( "time_fmt")+");") ;
+         httpContext.writeText( "gx.setCenturyFirstYear("+40+");") ;
+         httpContext.writeText( "gx.setDecimalPoint(\""+httpContext.getLanguageProperty( "decimal_point")+"\");") ;
+         httpContext.writeText( "gx.setThousandSeparator(\""+httpContext.getLanguageProperty( "thousand_sep")+"\");") ;
+         httpContext.writeText( "gx.StorageTimeZone = "+2+";") ;
+      }
+      httpContext.writeText( "</script>") ;
+   }
+
+   public void renderHtmlContent( )
+   {
+      gxajaxcallmode = (byte)((isAjaxCallMode( ) ? 1 : 0)) ;
+      if ( ( gxajaxcallmode == 0 ) && ( GxWebError == 0 ) )
+      {
+         httpContext.writeText( "<div") ;
+         app.GxWebStd.classAttribute( httpContext, "gx-ct-body"+" "+((GXutil.strcmp("", Form.getThemeClass())==0) ? "form-horizontal Form" : Form.getThemeClass())+"-fx");
+         httpContext.writeText( ">") ;
+         we13D2( ) ;
+         httpContext.writeText( "</div>") ;
+      }
+   }
+
+   public void dispatchEvents( )
+   {
+      evt13D2( ) ;
+   }
+
+   public boolean hasEnterEvent( )
+   {
+      return false ;
+   }
+
+   public com.genexus.webpanels.GXWebForm getForm( )
+   {
+      return Form ;
+   }
+
+   public String getSelfLink( )
+   {
+      return formatLink("app.entradarecuentos", new String[] {}, new String[] {})  ;
+   }
+
+   public String getPgmname( )
+   {
+      return "EntradaRecuentos" ;
+   }
+
+   public String getPgmdesc( )
+   {
+      return httpContext.getMessage( "Entrada Recuentos", "") ;
+   }
+
+   public void wb13D0( )
+   {
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      if ( ! wbLoad )
+      {
+         if ( nGXWrapped == 1 )
+         {
+            renderHtmlHeaders( ) ;
+            renderHtmlOpenForm( ) ;
+         }
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "Section", "left", "top", " "+"data-gx-base-lib=\"bootstrapv3\""+" "+"data-abstract-form"+" ", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divLayoutmaintable_Internalname, 1, 0, "px", 0, "px", "Table", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTablemain_Internalname, 1, 0, "px", 0, "px", "TableMain", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         ClassString = "ErrorViewer" ;
+         StyleString = "" ;
+         app.GxWebStd.gx_msg_list( httpContext, "", httpContext.GX_msglist.getDisplaymode(), StyleString, ClassString, "", "false");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTablecontent_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucDvpanel_panel_filtros.setProperty("Width", Dvpanel_panel_filtros_Width);
+         ucDvpanel_panel_filtros.setProperty("AutoWidth", Dvpanel_panel_filtros_Autowidth);
+         ucDvpanel_panel_filtros.setProperty("AutoHeight", Dvpanel_panel_filtros_Autoheight);
+         ucDvpanel_panel_filtros.setProperty("Cls", Dvpanel_panel_filtros_Cls);
+         ucDvpanel_panel_filtros.setProperty("Title", Dvpanel_panel_filtros_Title);
+         ucDvpanel_panel_filtros.setProperty("Collapsible", Dvpanel_panel_filtros_Collapsible);
+         ucDvpanel_panel_filtros.setProperty("Collapsed", Dvpanel_panel_filtros_Collapsed);
+         ucDvpanel_panel_filtros.setProperty("ShowCollapseIcon", Dvpanel_panel_filtros_Showcollapseicon);
+         ucDvpanel_panel_filtros.setProperty("IconPosition", Dvpanel_panel_filtros_Iconposition);
+         ucDvpanel_panel_filtros.setProperty("AutoScroll", Dvpanel_panel_filtros_Autoscroll);
+         ucDvpanel_panel_filtros.render(context, "dvelop.gxbootstrap.panel_al", Dvpanel_panel_filtros_Internalname, "DVPANEL_PANEL_FILTROSContainer");
+         httpContext.writeText( "<div class=\"gx_usercontrol_child\" id=\""+"DVPANEL_PANEL_FILTROSContainer"+"Panel_Filtros"+"\" style=\"display:none;\">") ;
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divPanel_filtros_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucDvpanel_panel_filtrosgenerales.setProperty("Width", Dvpanel_panel_filtrosgenerales_Width);
+         ucDvpanel_panel_filtrosgenerales.setProperty("AutoWidth", Dvpanel_panel_filtrosgenerales_Autowidth);
+         ucDvpanel_panel_filtrosgenerales.setProperty("AutoHeight", Dvpanel_panel_filtrosgenerales_Autoheight);
+         ucDvpanel_panel_filtrosgenerales.setProperty("Cls", Dvpanel_panel_filtrosgenerales_Cls);
+         ucDvpanel_panel_filtrosgenerales.setProperty("Title", Dvpanel_panel_filtrosgenerales_Title);
+         ucDvpanel_panel_filtrosgenerales.setProperty("Collapsible", Dvpanel_panel_filtrosgenerales_Collapsible);
+         ucDvpanel_panel_filtrosgenerales.setProperty("Collapsed", Dvpanel_panel_filtrosgenerales_Collapsed);
+         ucDvpanel_panel_filtrosgenerales.setProperty("ShowCollapseIcon", Dvpanel_panel_filtrosgenerales_Showcollapseicon);
+         ucDvpanel_panel_filtrosgenerales.setProperty("IconPosition", Dvpanel_panel_filtrosgenerales_Iconposition);
+         ucDvpanel_panel_filtrosgenerales.setProperty("AutoScroll", Dvpanel_panel_filtrosgenerales_Autoscroll);
+         ucDvpanel_panel_filtrosgenerales.render(context, "dvelop.gxbootstrap.panel_al", Dvpanel_panel_filtrosgenerales_Internalname, "DVPANEL_PANEL_FILTROSGENERALESContainer");
+         httpContext.writeText( "<div class=\"gx_usercontrol_child\" id=\""+"DVPANEL_PANEL_FILTROSGENERALESContainer"+"Panel_FiltrosGenerales"+"\" style=\"display:none;\">") ;
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divPanel_filtrosgenerales_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTable_filtrosgenerales_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-6", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavRecfec_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavRecfec_Internalname, httpContext.getMessage( "Fecha Recuento", ""), "col-sm-3 AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 30,'',false,'',0)\"" ;
+         httpContext.writeText( "<div id=\""+edtavRecfec_Internalname+"_dp_container\" class=\"dp_container\" style=\"white-space:nowrap;display:inline;\">") ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavRecfec_Internalname, localUtil.format(AV7RecFec, "99/99/99"), localUtil.format( AV7RecFec, "99/99/99"), TempTags+" onchange=\""+"gx.date.valid_date(this, 8,'"+httpContext.getLanguageProperty( "date_fmt")+"',0,"+httpContext.getLanguageProperty( "time_fmt")+",'"+httpContext.getLanguageProperty( "code")+"',false,0);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.date.valid_date(this, 8,'"+httpContext.getLanguageProperty( "date_fmt")+"',0,"+httpContext.getLanguageProperty( "time_fmt")+",'"+httpContext.getLanguageProperty( "code")+"',false,0);"+";gx.evt.onblur(this,30);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavRecfec_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavRecfec_Enabled, 0, "text", "", 8, "chr", 1, "row", 8, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_EntradaRecuentos.htm");
+         app.GxWebStd.gx_bitmap( httpContext, edtavRecfec_Internalname+"_dp_trigger", context.getHttpContext().getImagePath( "61b9b5d3-dff6-4d59-9b00-da61bc2cbe93", "", context.getHttpContext().getTheme( )), "", "", "", "", ((1==0)||(edtavRecfec_Enabled==0) ? 0 : 1), 0, "Date selector", "Date selector", 0, 1, 0, "", 0, "", 0, 0, 0, "", "", "cursor: pointer;", "", "", "", "", "", "", "", "", 1, false, false, "", "HLP_EntradaRecuentos.htm");
+         httpContext.writeTextNL( "</div>") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-6", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavCcstkhor_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavCcstkhor_Internalname, httpContext.getMessage( "Hora", ""), "col-sm-3 AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 34,'',false,'',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavCcstkhor_Internalname, GXutil.rtrim( AV14CCStkHor), GXutil.rtrim( localUtil.format( AV14CCStkHor, "")), TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,34);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavCcstkhor_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavCcstkhor_Enabled, 0, "text", "", 8, "chr", 1, "row", 8, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_EntradaRecuentos.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         httpContext.writeText( "</div>") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 CellMarginTop", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTable_acciones_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-action-group ActionGroup", "left", "top", " "+"data-gx-actiongroup-type=\"toolbar\""+" ", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 42,'',false,'',0)\"" ;
+         ClassString = "Button" ;
+         StyleString = "" ;
+         app.GxWebStd.gx_button_ctrl( httpContext, bttBtnresultados_Internalname, "", httpContext.getMessage( "Ver resultado", ""), bttBtnresultados_Jsonclick, 5, httpContext.getMessage( "Ver resultado", ""), "", StyleString, ClassString, 1, 1, "standard", "'"+""+"'"+",false,"+"'"+"E\\'DORESULTADOS\\'."+"'", TempTags, "", httpContext.getButtonType( ), "HLP_EntradaRecuentos.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 44,'',false,'',0)\"" ;
+         ClassString = "Button" ;
+         StyleString = "" ;
+         app.GxWebStd.gx_button_ctrl( httpContext, bttBtncerrar_Internalname, "", httpContext.getMessage( "Cerrar", ""), bttBtncerrar_Jsonclick, 5, httpContext.getMessage( "Cerrar", ""), "", StyleString, ClassString, 1, 1, "standard", "'"+""+"'"+",false,"+"'"+"E\\'DOCERRAR\\'."+"'", TempTags, "", httpContext.getButtonType( ), "HLP_EntradaRecuentos.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucDatamon.render(context, "datamonjs", Datamon_Internalname, "DATAMONContainer");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         httpContext.writeText( "</div>") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 CellMarginTop", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucDvpanel_panel_resultado.setProperty("Width", Dvpanel_panel_resultado_Width);
+         ucDvpanel_panel_resultado.setProperty("AutoWidth", Dvpanel_panel_resultado_Autowidth);
+         ucDvpanel_panel_resultado.setProperty("AutoHeight", Dvpanel_panel_resultado_Autoheight);
+         ucDvpanel_panel_resultado.setProperty("Cls", Dvpanel_panel_resultado_Cls);
+         ucDvpanel_panel_resultado.setProperty("Title", Dvpanel_panel_resultado_Title);
+         ucDvpanel_panel_resultado.setProperty("Collapsible", Dvpanel_panel_resultado_Collapsible);
+         ucDvpanel_panel_resultado.setProperty("Collapsed", Dvpanel_panel_resultado_Collapsed);
+         ucDvpanel_panel_resultado.setProperty("ShowCollapseIcon", Dvpanel_panel_resultado_Showcollapseicon);
+         ucDvpanel_panel_resultado.setProperty("IconPosition", Dvpanel_panel_resultado_Iconposition);
+         ucDvpanel_panel_resultado.setProperty("AutoScroll", Dvpanel_panel_resultado_Autoscroll);
+         ucDvpanel_panel_resultado.render(context, "dvelop.gxbootstrap.panel_al", Dvpanel_panel_resultado_Internalname, "DVPANEL_PANEL_RESULTADOContainer");
+         httpContext.writeText( "<div class=\"gx_usercontrol_child\" id=\""+"DVPANEL_PANEL_RESULTADOContainer"+"Panel_Resultado"+"\" style=\"display:none;\">") ;
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divPanel_resultado_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucGxuitabspanel_tabs.setProperty("PageCount", Gxuitabspanel_tabs_Pagecount);
+         ucGxuitabspanel_tabs.setProperty("Class", Gxuitabspanel_tabs_Class);
+         ucGxuitabspanel_tabs.setProperty("HistoryManagement", Gxuitabspanel_tabs_Historymanagement);
+         ucGxuitabspanel_tabs.render(context, "tab", Gxuitabspanel_tabs_Internalname, "GXUITABSPANEL_TABSContainer");
+         httpContext.writeText( "<div class=\"gx_usercontrol_child\" id=\""+"GXUITABSPANEL_TABSContainer"+"title1"+"\" style=\"display:none;\">") ;
+         /* Text block */
+         app.GxWebStd.gx_label_ctrl( httpContext, lblTab01_title_Internalname, httpContext.getMessage( "Resultado", ""), "", "", lblTab01_title_Jsonclick, "'"+""+"'"+",false,"+"'"+""+"'", "", "TextBlock", 0, "", 1, 1, 0, (short)(0), "HLP_EntradaRecuentos.htm");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "Section", "left", "top", "", "display:none;", "div");
+         httpContext.writeText( "Tab01") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         httpContext.writeText( "</div>") ;
+         httpContext.writeText( "<div class=\"gx_usercontrol_child\" id=\""+"GXUITABSPANEL_TABSContainer"+"panel1"+"\" style=\"display:none;\">") ;
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTableresultado1_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         if ( ! isFullAjaxMode( ) )
+         {
+            /* WebComponent */
+            app.GxWebStd.gx_hidden_field( httpContext, "W0063"+"", GXutil.rtrim( WebComp_Wcentradarecuentos_wc_Component));
+            httpContext.writeText( "<div") ;
+            app.GxWebStd.classAttribute( httpContext, "gxwebcomponent");
+            httpContext.writeText( " id=\""+"gxHTMLWrpW0063"+""+"\""+"") ;
+            httpContext.writeText( ">") ;
+            if ( GXutil.len( WebComp_Wcentradarecuentos_wc_Component) != 0 )
+            {
+               if ( GXutil.strcmp(GXutil.lower( OldWcentradarecuentos_wc), GXutil.lower( WebComp_Wcentradarecuentos_wc_Component)) != 0 )
+               {
+                  httpContext.ajax_rspStartCmp("gxHTMLWrpW0063"+"");
+               }
+               WebComp_Wcentradarecuentos_wc.componentdraw();
+               if ( GXutil.strcmp(GXutil.lower( OldWcentradarecuentos_wc), GXutil.lower( WebComp_Wcentradarecuentos_wc_Component)) != 0 )
+               {
+                  httpContext.ajax_rspEndCmp();
+               }
+            }
+            httpContext.writeText( "</div>") ;
+         }
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         httpContext.writeText( "</div>") ;
+         httpContext.writeText( "<div class=\"gx_usercontrol_child\" id=\""+"GXUITABSPANEL_TABSContainer"+"title2"+"\" style=\"display:none;\">") ;
+         /* Text block */
+         app.GxWebStd.gx_label_ctrl( httpContext, lblTab02_title_Internalname, httpContext.getMessage( "Resultado v.03", ""), "", "", lblTab02_title_Jsonclick, "'"+""+"'"+",false,"+"'"+""+"'", "", "TextBlock", 0, "", 1, 1, 0, (short)(0), "HLP_EntradaRecuentos.htm");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "Section", "left", "top", "", "display:none;", "div");
+         httpContext.writeText( "Tab02") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         httpContext.writeText( "</div>") ;
+         httpContext.writeText( "<div class=\"gx_usercontrol_child\" id=\""+"GXUITABSPANEL_TABSContainer"+"panel2"+"\" style=\"display:none;\">") ;
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTableresultado2_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         if ( ! isFullAjaxMode( ) )
+         {
+            /* WebComponent */
+            app.GxWebStd.gx_hidden_field( httpContext, "W0071"+"", GXutil.rtrim( WebComp_Wcentradarecuentos___wc_Component));
+            httpContext.writeText( "<div") ;
+            app.GxWebStd.classAttribute( httpContext, "gxwebcomponent");
+            httpContext.writeText( " id=\""+"gxHTMLWrpW0071"+""+"\""+"") ;
+            httpContext.writeText( ">") ;
+            if ( GXutil.len( WebComp_Wcentradarecuentos___wc_Component) != 0 )
+            {
+               if ( GXutil.strcmp(GXutil.lower( OldWcentradarecuentos___wc), GXutil.lower( WebComp_Wcentradarecuentos___wc_Component)) != 0 )
+               {
+                  httpContext.ajax_rspStartCmp("gxHTMLWrpW0071"+"");
+               }
+               WebComp_Wcentradarecuentos___wc.componentdraw();
+               if ( GXutil.strcmp(GXutil.lower( OldWcentradarecuentos___wc), GXutil.lower( WebComp_Wcentradarecuentos___wc_Component)) != 0 )
+               {
+                  httpContext.ajax_rspEndCmp();
+               }
+            }
+            httpContext.writeText( "</div>") ;
+         }
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         httpContext.writeText( "</div>") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         httpContext.writeText( "</div>") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 CellMarginTop10 CellMarginBottom10", "Right", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", " gx-attribute", "left", "top", "", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavPgmname_Internalname, httpContext.getMessage( "pgmname", ""), "col-sm-3 AttributeLabel", 0, true, "");
+         /* Single line edit */
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavPgmname_Internalname, GXutil.rtrim( AV22Pgmname), GXutil.rtrim( localUtil.format( AV22Pgmname, "")), "", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavPgmname_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtavPgmname_Enabled, 0, "text", "", 80, "chr", 1, "row", 129, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_EntradaRecuentos.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "Right", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      }
+      wbLoad = true ;
+   }
+
+   public void start13D2( )
+   {
+      wbLoad = false ;
+      wbEnd = 0 ;
+      wbStart = 0 ;
+      if ( ! httpContext.isSpaRequest( ) )
+      {
+         if ( httpContext.exposeMetadata( ) )
+         {
+            Form.getMeta().addItem("generator", "GeneXus Java 17_0_11-163677", (short)(0)) ;
+         }
+         Form.getMeta().addItem("description", httpContext.getMessage( "Entrada Recuentos", ""), (short)(0)) ;
+      }
+      httpContext.wjLoc = "" ;
+      httpContext.nUserReturn = (byte)(0) ;
+      httpContext.wbHandled = (byte)(0) ;
+      if ( GXutil.strcmp(httpContext.getRequestMethod( ), "POST") == 0 )
+      {
+      }
+      wbErr = false ;
+      strup13D0( ) ;
+   }
+
+   public void ws13D2( )
+   {
+      start13D2( ) ;
+      evt13D2( ) ;
+   }
+
+   public void evt13D2( )
+   {
+      if ( GXutil.strcmp(httpContext.getRequestMethod( ), "POST") == 0 )
+      {
+         if ( ! httpContext.willRedirect( ) && ( httpContext.nUserReturn != 1 ) && ! wbErr )
+         {
+            /* Read Web Panel buttons. */
+            sEvt = httpContext.cgiGet( "_EventName") ;
+            EvtGridId = httpContext.cgiGet( "_EventGridId") ;
+            EvtRowId = httpContext.cgiGet( "_EventRowId") ;
+            if ( GXutil.len( sEvt) > 0 )
+            {
+               sEvtType = GXutil.left( sEvt, 1) ;
+               sEvt = GXutil.right( sEvt, GXutil.len( sEvt)-1) ;
+               if ( GXutil.strcmp(sEvtType, "M") != 0 )
+               {
+                  if ( GXutil.strcmp(sEvtType, "E") == 0 )
+                  {
+                     sEvtType = GXutil.right( sEvt, 1) ;
+                     if ( GXutil.strcmp(sEvtType, ".") == 0 )
+                     {
+                        sEvt = GXutil.left( sEvt, GXutil.len( sEvt)-1) ;
+                        if ( GXutil.strcmp(sEvt, "RFR") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                        }
+                        else if ( GXutil.strcmp(sEvt, "START") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                           /* Execute user event: Start */
+                           e1113D2 ();
+                        }
+                        else if ( GXutil.strcmp(sEvt, "'DORESULTADOS'") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                           /* Execute user event: 'DoResultados' */
+                           e1213D2 ();
+                        }
+                        else if ( GXutil.strcmp(sEvt, "'DOCERRAR'") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                           /* Execute user event: 'DoCerrar' */
+                           e1313D2 ();
+                        }
+                        else if ( GXutil.strcmp(sEvt, "LOAD") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                           /* Execute user event: Load */
+                           e1413D2 ();
+                        }
+                        else if ( GXutil.strcmp(sEvt, "ENTER") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           if ( ! wbErr )
+                           {
+                              Rfr0gs = false ;
+                              if ( ! Rfr0gs )
+                              {
+                              }
+                              dynload_actions( ) ;
+                           }
+                           /* No code required for Cancel button. It is implemented as the Reset button. */
+                        }
+                        else if ( GXutil.strcmp(sEvt, "LSCR") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                           dynload_actions( ) ;
+                        }
+                     }
+                     else
+                     {
+                     }
+                  }
+                  else if ( GXutil.strcmp(sEvtType, "W") == 0 )
+                  {
+                     sEvtType = GXutil.left( sEvt, 4) ;
+                     sEvt = GXutil.right( sEvt, GXutil.len( sEvt)-4) ;
+                     nCmpId = (short)(GXutil.lval( sEvtType)) ;
+                     if ( nCmpId == 63 )
+                     {
+                        OldWcentradarecuentos_wc = httpContext.cgiGet( "W0063") ;
+                        if ( ( GXutil.len( OldWcentradarecuentos_wc) == 0 ) || ( GXutil.strcmp(OldWcentradarecuentos_wc, WebComp_Wcentradarecuentos_wc_Component) != 0 ) )
+                        {
+                           WebComp_Wcentradarecuentos_wc = WebUtils.getWebComponent(getClass(), "app." + OldWcentradarecuentos_wc + "_impl", remoteHandle, context);
+                           WebComp_Wcentradarecuentos_wc_Component = OldWcentradarecuentos_wc ;
+                        }
+                        if ( GXutil.len( WebComp_Wcentradarecuentos_wc_Component) != 0 )
+                        {
+                           WebComp_Wcentradarecuentos_wc.componentprocess("W0063", "", sEvt);
+                        }
+                        WebComp_Wcentradarecuentos_wc_Component = OldWcentradarecuentos_wc ;
+                     }
+                     else if ( nCmpId == 71 )
+                     {
+                        OldWcentradarecuentos___wc = httpContext.cgiGet( "W0071") ;
+                        if ( ( GXutil.len( OldWcentradarecuentos___wc) == 0 ) || ( GXutil.strcmp(OldWcentradarecuentos___wc, WebComp_Wcentradarecuentos___wc_Component) != 0 ) )
+                        {
+                           WebComp_Wcentradarecuentos___wc = WebUtils.getWebComponent(getClass(), "app." + OldWcentradarecuentos___wc + "_impl", remoteHandle, context);
+                           WebComp_Wcentradarecuentos___wc_Component = OldWcentradarecuentos___wc ;
+                        }
+                        if ( GXutil.len( WebComp_Wcentradarecuentos___wc_Component) != 0 )
+                        {
+                           WebComp_Wcentradarecuentos___wc.componentprocess("W0071", "", sEvt);
+                        }
+                        WebComp_Wcentradarecuentos___wc_Component = OldWcentradarecuentos___wc ;
+                     }
+                  }
+                  httpContext.wbHandled = (byte)(1) ;
+               }
+            }
+         }
+      }
+   }
+
+   public void we13D2( )
+   {
+      if ( ! app.GxWebStd.gx_redirect( httpContext) )
+      {
+         Rfr0gs = true ;
+         refresh( ) ;
+         if ( ! app.GxWebStd.gx_redirect( httpContext) )
+         {
+            if ( nGXWrapped == 1 )
+            {
+               renderHtmlCloseForm( ) ;
+            }
+         }
+      }
+   }
+
+   public void pa13D2( )
+   {
+      if ( nDonePA == 0 )
+      {
+         if ( (GXutil.strcmp("", httpContext.getCookie( "GX_SESSION_ID"))==0) )
+         {
+            gxcookieaux = httpContext.setCookie( "GX_SESSION_ID", httpContext.encrypt64( com.genexus.util.Encryption.getNewKey( ), context.getServerKey( )), "", GXutil.nullDate(), "", (short)(httpContext.getHttpSecure( ))) ;
+         }
+         GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+         toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+         if ( httpContext.isSpaRequest( ) )
+         {
+            httpContext.disableJsOutput();
+         }
+         init_web_controls( ) ;
+         if ( toggleJsOutput )
+         {
+            if ( httpContext.isSpaRequest( ) )
+            {
+               httpContext.enableJsOutput();
+            }
+         }
+         if ( ! httpContext.isAjaxRequest( ) )
+         {
+            GX_FocusControl = edtavRecfec_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+         }
+         nDonePA = (byte)(1) ;
+      }
+   }
+
+   public void dynload_actions( )
+   {
+      /* End function dynload_actions */
+   }
+
+   public void send_integrity_hashes( )
+   {
+   }
+
+   public void clear_multi_value_controls( )
+   {
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         dynload_actions( ) ;
+         before_start_formulas( ) ;
+      }
+   }
+
+   public void fix_multi_value_controls( )
+   {
+   }
+
+   public void refresh( )
+   {
+      send_integrity_hashes( ) ;
+      rf13D2( ) ;
+      if ( isFullAjaxMode( ) )
+      {
+         send_integrity_footer_hashes( ) ;
+      }
+      /* End function Refresh */
+   }
+
+   public void initialize_formulas( )
+   {
+      /* GeneXus formulas. */
+      AV22Pgmname = "EntradaRecuentos" ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV22Pgmname", AV22Pgmname);
+      Gx_err = (short)(0) ;
+      edtavPgmname_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavPgmname_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavPgmname_Enabled), 5, 0), true);
+   }
+
+   public void rf13D2( )
+   {
+      initialize_formulas( ) ;
+      clear_multi_value_controls( ) ;
+      if ( ! httpContext.willRedirect( ) && ( httpContext.nUserReturn != 1 ) )
+      {
+         if ( 1 != 0 )
+         {
+            if ( GXutil.len( WebComp_Wcentradarecuentos_wc_Component) != 0 )
+            {
+               WebComp_Wcentradarecuentos_wc.componentstart();
+            }
+         }
+      }
+      if ( ! httpContext.willRedirect( ) && ( httpContext.nUserReturn != 1 ) )
+      {
+         if ( 1 != 0 )
+         {
+            if ( GXutil.len( WebComp_Wcentradarecuentos___wc_Component) != 0 )
+            {
+               WebComp_Wcentradarecuentos___wc.componentstart();
+            }
+         }
+      }
+      gxdyncontrolsrefreshing = true ;
+      fix_multi_value_controls( ) ;
+      gxdyncontrolsrefreshing = false ;
+      if ( ! httpContext.willRedirect( ) && ( httpContext.nUserReturn != 1 ) )
+      {
+         /* Execute user event: Load */
+         e1413D2 ();
+         wb13D0( ) ;
+      }
+   }
+
+   public void send_integrity_lvl_hashes13D2( )
+   {
+      app.GxWebStd.gx_hidden_field( httpContext, "vEMPRCOD", GXutil.rtrim( AV10EmprCod));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vEMPRCOD", getSecureSignedToken( "", GXutil.rtrim( localUtil.format( AV10EmprCod, "@!"))));
+   }
+
+   public void before_start_formulas( )
+   {
+      AV22Pgmname = "EntradaRecuentos" ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV22Pgmname", AV22Pgmname);
+      Gx_err = (short)(0) ;
+      edtavPgmname_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavPgmname_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavPgmname_Enabled), 5, 0), true);
+      fix_multi_value_controls( ) ;
+   }
+
+   public void strup13D0( )
+   {
+      /* Before Start, stand alone formulas. */
+      before_start_formulas( ) ;
+      /* Execute Start event if defined. */
+      httpContext.wbGlbDoneStart = (byte)(0) ;
+      /* Execute user event: Start */
+      e1113D2 ();
+      httpContext.wbGlbDoneStart = (byte)(1) ;
+      /* After Start, stand alone formulas. */
+      if ( GXutil.strcmp(httpContext.getRequestMethod( ), "POST") == 0 )
+      {
+         /* Read saved SDTs. */
+         /* Read saved values. */
+         Dvpanel_panel_filtrosgenerales_Width = httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Width") ;
+         Dvpanel_panel_filtrosgenerales_Autowidth = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Autowidth")) ;
+         Dvpanel_panel_filtrosgenerales_Autoheight = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Autoheight")) ;
+         Dvpanel_panel_filtrosgenerales_Cls = httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Cls") ;
+         Dvpanel_panel_filtrosgenerales_Title = httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Title") ;
+         Dvpanel_panel_filtrosgenerales_Collapsible = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Collapsible")) ;
+         Dvpanel_panel_filtrosgenerales_Collapsed = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Collapsed")) ;
+         Dvpanel_panel_filtrosgenerales_Showcollapseicon = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Showcollapseicon")) ;
+         Dvpanel_panel_filtrosgenerales_Iconposition = httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Iconposition") ;
+         Dvpanel_panel_filtrosgenerales_Autoscroll = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Autoscroll")) ;
+         Dvpanel_panel_filtros_Width = httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Width") ;
+         Dvpanel_panel_filtros_Autowidth = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Autowidth")) ;
+         Dvpanel_panel_filtros_Autoheight = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Autoheight")) ;
+         Dvpanel_panel_filtros_Cls = httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Cls") ;
+         Dvpanel_panel_filtros_Title = httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Title") ;
+         Dvpanel_panel_filtros_Collapsible = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Collapsible")) ;
+         Dvpanel_panel_filtros_Collapsed = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Collapsed")) ;
+         Dvpanel_panel_filtros_Showcollapseicon = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Showcollapseicon")) ;
+         Dvpanel_panel_filtros_Iconposition = httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Iconposition") ;
+         Dvpanel_panel_filtros_Autoscroll = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Autoscroll")) ;
+         Gxuitabspanel_tabs_Pagecount = (int)(localUtil.ctol( httpContext.cgiGet( "GXUITABSPANEL_TABS_Pagecount"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         Gxuitabspanel_tabs_Class = httpContext.cgiGet( "GXUITABSPANEL_TABS_Class") ;
+         Gxuitabspanel_tabs_Historymanagement = GXutil.strtobool( httpContext.cgiGet( "GXUITABSPANEL_TABS_Historymanagement")) ;
+         Dvpanel_panel_resultado_Width = httpContext.cgiGet( "DVPANEL_PANEL_RESULTADO_Width") ;
+         Dvpanel_panel_resultado_Autowidth = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_RESULTADO_Autowidth")) ;
+         Dvpanel_panel_resultado_Autoheight = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_RESULTADO_Autoheight")) ;
+         Dvpanel_panel_resultado_Cls = httpContext.cgiGet( "DVPANEL_PANEL_RESULTADO_Cls") ;
+         Dvpanel_panel_resultado_Title = httpContext.cgiGet( "DVPANEL_PANEL_RESULTADO_Title") ;
+         Dvpanel_panel_resultado_Collapsible = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_RESULTADO_Collapsible")) ;
+         Dvpanel_panel_resultado_Collapsed = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_RESULTADO_Collapsed")) ;
+         Dvpanel_panel_resultado_Showcollapseicon = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_RESULTADO_Showcollapseicon")) ;
+         Dvpanel_panel_resultado_Iconposition = httpContext.cgiGet( "DVPANEL_PANEL_RESULTADO_Iconposition") ;
+         Dvpanel_panel_resultado_Autoscroll = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_RESULTADO_Autoscroll")) ;
+         /* Read variables values. */
+         if ( localUtil.vcdate( httpContext.cgiGet( edtavRecfec_Internalname), (byte)(localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt")))) == 0 )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_faildate", new Object[] {}), 1, "vRECFEC");
+            GX_FocusControl = edtavRecfec_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV7RecFec = GXutil.nullDate() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV7RecFec", localUtil.format(AV7RecFec, "99/99/99"));
+         }
+         else
+         {
+            AV7RecFec = localUtil.ctod( httpContext.cgiGet( edtavRecfec_Internalname), localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV7RecFec", localUtil.format(AV7RecFec, "99/99/99"));
+         }
+         AV14CCStkHor = httpContext.cgiGet( edtavCcstkhor_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV14CCStkHor", AV14CCStkHor);
+         AV22Pgmname = httpContext.cgiGet( edtavPgmname_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV22Pgmname", AV22Pgmname);
+         /* Read subfile selected row values. */
+         /* Read hidden variables. */
+         GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+      }
+      else
+      {
+         dynload_actions( ) ;
+      }
+   }
+
+   protected void GXStart( )
+   {
+      /* Execute user event: Start */
+      e1113D2 ();
+      if (returnInSub) return;
+   }
+
+   public void e1113D2( )
+   {
+      /* Start Routine */
+      returnInSub = false ;
+      GXt_char1 = AV9Station ;
+      GXv_char2[0] = GXt_char1 ;
+      new app.obtenerwrkst(remoteHandle, context).execute( GXv_char2) ;
+      entradarecuentos_impl.this.GXt_char1 = GXv_char2[0] ;
+      AV9Station = GXt_char1 ;
+      GXv_char2[0] = AV10EmprCod ;
+      GXv_char3[0] = AV11EmprNom ;
+      GXv_char4[0] = AV12UsurCod ;
+      new app.pbusemp(remoteHandle, context).execute( AV9Station, GXv_char2, GXv_char3, GXv_char4) ;
+      entradarecuentos_impl.this.AV10EmprCod = GXv_char2[0] ;
+      entradarecuentos_impl.this.AV11EmprNom = GXv_char3[0] ;
+      entradarecuentos_impl.this.AV12UsurCod = GXv_char4[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV10EmprCod", AV10EmprCod);
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vEMPRCOD", getSecureSignedToken( "", GXutil.rtrim( localUtil.format( AV10EmprCod, "@!"))));
+      /* Execute user subroutine: 'LASTRECUEN' */
+      S112 ();
+      if (returnInSub) return;
+      GXt_char1 = AV9Station ;
+      GXv_char4[0] = GXt_char1 ;
+      new app.obtenerwrkst(remoteHandle, context).execute( GXv_char4) ;
+      entradarecuentos_impl.this.GXt_char1 = GXv_char4[0] ;
+      AV9Station = GXt_char1 ;
+      GXv_char4[0] = AV10EmprCod ;
+      GXv_char3[0] = AV11EmprNom ;
+      GXv_char2[0] = AV12UsurCod ;
+      new app.pbusemp(remoteHandle, context).execute( AV9Station, GXv_char4, GXv_char3, GXv_char2) ;
+      entradarecuentos_impl.this.AV10EmprCod = GXv_char4[0] ;
+      entradarecuentos_impl.this.AV11EmprNom = GXv_char3[0] ;
+      entradarecuentos_impl.this.AV12UsurCod = GXv_char2[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV10EmprCod", AV10EmprCod);
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vEMPRCOD", getSecureSignedToken( "", GXutil.rtrim( localUtil.format( AV10EmprCod, "@!"))));
+      this.executeUsercontrolMethod("", false, "GXUITABSPANEL_TABSContainer", "HideTab", "", new Object[] {Integer.valueOf(1)});
+   }
+
+   public void e1213D2( )
+   {
+      /* 'DoResultados' Routine */
+      returnInSub = false ;
+      AV15Flag_rec = (short)(0) ;
+      AV16Hay_rec = (short)(0) ;
+      AV18regtos0 = (short)(0) ;
+      AV17regtos1 = (short)(0) ;
+      AV19regtos = (short)(0) ;
+      /* Using cursor H013D2 */
+      pr_default.execute(0, new Object[] {AV10EmprCod, AV7RecFec});
+      while ( (pr_default.getStatus(0) != 101) )
+      {
+         A810RecFec = H013D2_A810RecFec[0] ;
+         A396EmprCod = H013D2_A396EmprCod[0] ;
+         A13416RecEstInv = H013D2_A13416RecEstInv[0] ;
+         AV17regtos1 = (short)(AV17regtos1+(((A13416RecEstInv==1) ? 1 : 0))) ;
+         AV18regtos0 = (short)(AV18regtos0+(((A13416RecEstInv==0) ? 1 : 0))) ;
+         AV19regtos = (short)(AV19regtos+1) ;
+         pr_default.readNext(0);
+      }
+      pr_default.close(0);
+      if ( (0==AV19regtos) )
+      {
+         httpContext.GX_msglist.addItem(httpContext.getMessage( "NO hay Datos para esta Fecha ¡", ""));
+      }
+      else
+      {
+         if ( AV17regtos1 == AV19regtos )
+         {
+            httpContext.GX_msglist.addItem(httpContext.getMessage( "Todos los productos para esta fecha, ya fueron Inventariados", ""));
+         }
+         else
+         {
+            /* Object Property */
+            if ( true )
+            {
+               bDynCreated_Wcentradarecuentos_wc = true ;
+            }
+            if ( GXutil.strcmp(GXutil.lower( WebComp_Wcentradarecuentos_wc_Component), GXutil.lower( "EntradaRecuentos__WC")) != 0 )
+            {
+               WebComp_Wcentradarecuentos_wc = WebUtils.getWebComponent(getClass(), "app.entradarecuentos__wc_impl", remoteHandle, context);
+               WebComp_Wcentradarecuentos_wc_Component = "EntradaRecuentos__WC" ;
+            }
+            if ( GXutil.len( WebComp_Wcentradarecuentos_wc_Component) != 0 )
+            {
+               WebComp_Wcentradarecuentos_wc.setjustcreated();
+               WebComp_Wcentradarecuentos_wc.componentprepare(new Object[] {"W0063","",AV10EmprCod,AV7RecFec});
+               WebComp_Wcentradarecuentos_wc.componentbind(new Object[] {"","vRECFEC"});
+            }
+            if ( isFullAjaxMode( ) || isAjaxCallMode( ) && bDynCreated_Wcentradarecuentos_wc )
+            {
+               httpContext.ajax_rspStartCmp("gxHTMLWrpW0063"+"");
+               WebComp_Wcentradarecuentos_wc.componentdraw();
+               httpContext.ajax_rspEndCmp();
+            }
+            /* Object Property */
+            if ( true )
+            {
+               bDynCreated_Wcentradarecuentos___wc = true ;
+            }
+            if ( GXutil.strcmp(GXutil.lower( WebComp_Wcentradarecuentos___wc_Component), GXutil.lower( "EntradaRecuentos___WC")) != 0 )
+            {
+               WebComp_Wcentradarecuentos___wc = WebUtils.getWebComponent(getClass(), "app.entradarecuentos___wc_impl", remoteHandle, context);
+               WebComp_Wcentradarecuentos___wc_Component = "EntradaRecuentos___WC" ;
+            }
+            if ( GXutil.len( WebComp_Wcentradarecuentos___wc_Component) != 0 )
+            {
+               WebComp_Wcentradarecuentos___wc.setjustcreated();
+               WebComp_Wcentradarecuentos___wc.componentprepare(new Object[] {"W0071","",AV10EmprCod,AV7RecFec});
+               WebComp_Wcentradarecuentos___wc.componentbind(new Object[] {"","vRECFEC"});
+            }
+            if ( isFullAjaxMode( ) || isAjaxCallMode( ) && bDynCreated_Wcentradarecuentos___wc )
+            {
+               httpContext.ajax_rspStartCmp("gxHTMLWrpW0071"+"");
+               WebComp_Wcentradarecuentos___wc.componentdraw();
+               httpContext.ajax_rspEndCmp();
+            }
+            this.executeUsercontrolMethod("", false, "DATAMONContainer", "CollapsePanel", "", new Object[] {httpContext.getMessage( "Title_DVPANEL_PANEL_FILTROSContainer", "")});
+         }
+      }
+      /*  Sending Event outputs  */
+   }
+
+   public void e1313D2( )
+   {
+      /* 'DoCerrar' Routine */
+      returnInSub = false ;
+      httpContext.setWebReturnParms(new Object[] {});
+      httpContext.setWebReturnParmsMetadata(new Object[] {});
+      httpContext.wjLocDisableFrm = (byte)(1) ;
+      httpContext.nUserReturn = (byte)(1) ;
+      returnInSub = true;
+      if (true) return;
+   }
+
+   public void S112( )
+   {
+      /* 'LASTRECUEN' Routine */
+      returnInSub = false ;
+      AV5RecHora = GXutil.resetTime( GXutil.nullDate() );
+      httpContext.ajax_rsp_assign_attri("", false, "AV5RecHora", localUtil.ttoc( AV5RecHora, 8, 5, ((GXutil.strcmp(httpContext.getLanguageProperty( "time_fmt"), "12")==0) ? 1 : 0), localUtil.mapDateTimeFormat( httpContext.getLanguageProperty( "date_fmt")), "/", ":", " "));
+      AV6Diahora = GXutil.serverNow( context, remoteHandle, pr_default) ;
+      /* Using cursor H013D3 */
+      pr_default.execute(1, new Object[] {AV10EmprCod});
+      while ( (pr_default.getStatus(1) != 101) )
+      {
+         A396EmprCod = H013D3_A396EmprCod[0] ;
+         A13455Rechora = H013D3_A13455Rechora[0] ;
+         A810RecFec = H013D3_A810RecFec[0] ;
+         AV7RecFec = A810RecFec ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV7RecFec", localUtil.format(AV7RecFec, "99/99/99"));
+         AV5RecHora = A13455Rechora ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV5RecHora", localUtil.ttoc( AV5RecHora, 8, 5, ((GXutil.strcmp(httpContext.getLanguageProperty( "time_fmt"), "12")==0) ? 1 : 0), localUtil.mapDateTimeFormat( httpContext.getLanguageProperty( "date_fmt")), "/", ":", " "));
+         /* Exit For each command. Update data (if necessary), close cursors & exit. */
+         if (true) break;
+         pr_default.readNext(1);
+      }
+      pr_default.close(1);
+      AV8Invprd = (short)(0) ;
+      /* Using cursor H013D4 */
+      pr_default.execute(2, new Object[] {AV10EmprCod});
+      while ( (pr_default.getStatus(2) != 101) )
+      {
+         A396EmprCod = H013D4_A396EmprCod[0] ;
+         A8577RecFecHr = H013D4_A8577RecFecHr[0] ;
+         AV13Recfechr = A8577RecFecHr ;
+         AV8Invprd = (short)(1) ;
+         /* Exit For each command. Update data (if necessary), close cursors & exit. */
+         if (true) break;
+         pr_default.readNext(2);
+      }
+      pr_default.close(2);
+      AV14CCStkHor = (GXutil.dateCompare(GXutil.nullDate(), AV5RecHora) ? localUtil.ttoc( GXutil.serverNow( context, remoteHandle, pr_default), 0, 8, ((GXutil.strcmp(httpContext.getLanguageProperty( "time_fmt"), "12")==0) ? 1 : 0), localUtil.mapDateTimeFormat( httpContext.getLanguageProperty( "date_fmt")), "/", ":", " ") : localUtil.ttoc( AV5RecHora, 0, 8, ((GXutil.strcmp(httpContext.getLanguageProperty( "time_fmt"), "12")==0) ? 1 : 0), localUtil.mapDateTimeFormat( httpContext.getLanguageProperty( "date_fmt")), "/", ":", " ")) ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV14CCStkHor", AV14CCStkHor);
+   }
+
+   protected void nextLoad( )
+   {
+   }
+
+   protected void e1413D2( )
+   {
+      /* Load Routine */
+      returnInSub = false ;
+   }
+
+   @SuppressWarnings("unchecked")
+   public void setparameters( Object[] obj )
+   {
+   }
+
+   public String getresponse( String sGXDynURL )
+   {
+      initialize_properties( ) ;
+      BackMsgLst = httpContext.GX_msglist ;
+      httpContext.GX_msglist = LclMsgLst ;
+      sDynURL = sGXDynURL ;
+      nGotPars = 1 ;
+      nGXWrapped = 1 ;
+      httpContext.setWrapped(true);
+      pa13D2( ) ;
+      ws13D2( ) ;
+      we13D2( ) ;
+      if ( isAjaxCallMode( ) )
+      {
+         cleanup();
+      }
+      httpContext.setWrapped(false);
+      httpContext.GX_msglist = BackMsgLst ;
+      String response = "";
+      try
+      {
+         response = ((java.io.ByteArrayOutputStream) httpContext.getOutputStream()).toString("UTF8");
+      }
+      catch (java.io.UnsupportedEncodingException e)
+      {
+         Application.printWarning(e.getMessage(), e);
+      }
+      finally
+      {
+         httpContext.closeOutputStream();
+      }
+      return response;
+   }
+
+   public void responsestatic( String sGXDynURL )
+   {
+   }
+
+   public void define_styles( )
+   {
+      httpContext.AddStyleSheetFile("calendar-system.css", "");
+      httpContext.AddThemeStyleSheetFile("", context.getHttpContext().getTheme( )+".css", "?"+httpContext.getCacheInvalidationToken( ));
+      if ( ! ( WebComp_Wcentradarecuentos_wc == null ) )
+      {
+         if ( GXutil.len( WebComp_Wcentradarecuentos_wc_Component) != 0 )
+         {
+            WebComp_Wcentradarecuentos_wc.componentthemes();
+         }
+      }
+      if ( ! ( WebComp_Wcentradarecuentos___wc == null ) )
+      {
+         if ( GXutil.len( WebComp_Wcentradarecuentos___wc_Component) != 0 )
+         {
+            WebComp_Wcentradarecuentos___wc.componentthemes();
+         }
+      }
+      boolean outputEnabled = httpContext.isOutputEnabled( );
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      idxLst = 1 ;
+      while ( idxLst <= Form.getJscriptsrc().getCount() )
+      {
+         httpContext.AddJavascriptSource(GXutil.rtrim( Form.getJscriptsrc().item(idxLst)), "?20266101642414", true, true);
+         idxLst = (int)(idxLst+1) ;
+      }
+      if ( ! outputEnabled )
+      {
+         if ( httpContext.isSpaRequest( ) )
+         {
+            httpContext.disableOutput();
+         }
+      }
+      /* End function define_styles */
+   }
+
+   public void include_jscripts( )
+   {
+      httpContext.AddJavascriptSource("messages."+httpContext.getLanguageProperty( "code")+".js", "?"+httpContext.getCacheInvalidationToken( ), false, true);
+      httpContext.AddJavascriptSource("entradarecuentos.js", "?20266101642414", false, true);
+      httpContext.AddJavascriptSource("Shared/HistoryManager/HistoryManager.js", "", false, true);
+      httpContext.AddJavascriptSource("Shared/HistoryManager/rsh/json2005.js", "", false, true);
+      httpContext.AddJavascriptSource("Shared/HistoryManager/rsh/rsh.js", "", false, true);
+      httpContext.AddJavascriptSource("Shared/HistoryManager/HistoryManagerCreate.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("UserControls/DatamonJSRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("Tab/TabRender.js", "", false, true);
+      /* End function include_jscripts */
+   }
+
+   public void init_default_properties( )
+   {
+      edtavRecfec_Internalname = "vRECFEC" ;
+      edtavCcstkhor_Internalname = "vCCSTKHOR" ;
+      divTable_filtrosgenerales_Internalname = "TABLE_FILTROSGENERALES" ;
+      divPanel_filtrosgenerales_Internalname = "PANEL_FILTROSGENERALES" ;
+      Dvpanel_panel_filtrosgenerales_Internalname = "DVPANEL_PANEL_FILTROSGENERALES" ;
+      bttBtnresultados_Internalname = "BTNRESULTADOS" ;
+      bttBtncerrar_Internalname = "BTNCERRAR" ;
+      divTable_acciones_Internalname = "TABLE_ACCIONES" ;
+      Datamon_Internalname = "DATAMON" ;
+      divPanel_filtros_Internalname = "PANEL_FILTROS" ;
+      Dvpanel_panel_filtros_Internalname = "DVPANEL_PANEL_FILTROS" ;
+      lblTab01_title_Internalname = "TAB01_TITLE" ;
+      divTableresultado1_Internalname = "TABLERESULTADO1" ;
+      lblTab02_title_Internalname = "TAB02_TITLE" ;
+      divTableresultado2_Internalname = "TABLERESULTADO2" ;
+      Gxuitabspanel_tabs_Internalname = "GXUITABSPANEL_TABS" ;
+      divPanel_resultado_Internalname = "PANEL_RESULTADO" ;
+      Dvpanel_panel_resultado_Internalname = "DVPANEL_PANEL_RESULTADO" ;
+      divTablecontent_Internalname = "TABLECONTENT" ;
+      edtavPgmname_Internalname = "vPGMNAME" ;
+      divTablemain_Internalname = "TABLEMAIN" ;
+      divLayoutmaintable_Internalname = "LAYOUTMAINTABLE" ;
+      Form.setInternalname( "FORM" );
+   }
+
+   public void initialize_properties( )
+   {
+      httpContext.setAjaxOnSessionTimeout(ajaxOnSessionTimeout());
+      httpContext.setDefaultTheme("WorkWithPlusThemeDS");
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableJsOutput();
+      }
+      init_default_properties( ) ;
+      edtavPgmname_Jsonclick = "" ;
+      edtavPgmname_Enabled = 0 ;
+      edtavCcstkhor_Jsonclick = "" ;
+      edtavCcstkhor_Enabled = 1 ;
+      edtavRecfec_Jsonclick = "" ;
+      edtavRecfec_Enabled = 1 ;
+      Dvpanel_panel_resultado_Autoscroll = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_resultado_Iconposition = "Right" ;
+      Dvpanel_panel_resultado_Showcollapseicon = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_resultado_Collapsed = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_resultado_Collapsible = GXutil.toBoolean( -1) ;
+      Dvpanel_panel_resultado_Title = httpContext.getMessage( "<i class=\"fas fa-poll-h\"></i>  Resultados", "") ;
+      Dvpanel_panel_resultado_Cls = "PanelCard_GrayTitle" ;
+      Dvpanel_panel_resultado_Autoheight = GXutil.toBoolean( -1) ;
+      Dvpanel_panel_resultado_Autowidth = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_resultado_Width = "100%" ;
+      Gxuitabspanel_tabs_Historymanagement = GXutil.toBoolean( 0) ;
+      Gxuitabspanel_tabs_Class = "" ;
+      Gxuitabspanel_tabs_Pagecount = 2 ;
+      Dvpanel_panel_filtros_Autoscroll = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtros_Iconposition = "Right" ;
+      Dvpanel_panel_filtros_Showcollapseicon = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtros_Collapsed = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtros_Collapsible = GXutil.toBoolean( -1) ;
+      Dvpanel_panel_filtros_Title = httpContext.getMessage( "<i class=\"fas fa-filter\"></i> Filtros", "") ;
+      Dvpanel_panel_filtros_Cls = "PanelCard_GrayTitle" ;
+      Dvpanel_panel_filtros_Autoheight = GXutil.toBoolean( -1) ;
+      Dvpanel_panel_filtros_Autowidth = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtros_Width = "100%" ;
+      Dvpanel_panel_filtrosgenerales_Autoscroll = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtrosgenerales_Iconposition = "Right" ;
+      Dvpanel_panel_filtrosgenerales_Showcollapseicon = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtrosgenerales_Collapsed = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtrosgenerales_Collapsible = GXutil.toBoolean( -1) ;
+      Dvpanel_panel_filtrosgenerales_Title = httpContext.getMessage( "Generales", "") ;
+      Dvpanel_panel_filtrosgenerales_Cls = "PanelCard_GrayTitle" ;
+      Dvpanel_panel_filtrosgenerales_Autoheight = GXutil.toBoolean( -1) ;
+      Dvpanel_panel_filtrosgenerales_Autowidth = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtrosgenerales_Width = "100%" ;
+      Form.setHeaderrawhtml( "" );
+      Form.setBackground( "" );
+      Form.setTextcolor( 0 );
+      Form.setIBackground( (int)(0xFFFFFF) );
+      Form.setCaption( httpContext.getMessage( "Entrada Recuentos", "") );
+      httpContext.GX_msglist.setDisplaymode( (short)(1) );
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableJsOutput();
+      }
+   }
+
+   public void init_web_controls( )
+   {
+      /* End function init_web_controls */
+   }
+
+   public boolean supportAjaxEvent( )
+   {
+      return true ;
+   }
+
+   public String ajaxOnSessionTimeout( )
+   {
+      httpContext.setAjaxOnSessionTimeout("Warn");
+      return "Warn" ;
+   }
+
+   public void initializeDynEvents( )
+   {
+      setEventMetadata("REFRESH","{handler:'refresh',iparms:[{av:'AV10EmprCod',fld:'vEMPRCOD',pic:'@!',hsh:true}]");
+      setEventMetadata("REFRESH",",oparms:[]}");
+      setEventMetadata("'DORESULTADOS'","{handler:'e1213D2',iparms:[{av:'A396EmprCod',fld:'EMPRCOD',pic:'@!'},{av:'A810RecFec',fld:'RECFEC',pic:''},{av:'AV10EmprCod',fld:'vEMPRCOD',pic:'@!',hsh:true},{av:'AV7RecFec',fld:'vRECFEC',pic:''},{av:'A13416RecEstInv',fld:'RECESTINV',pic:'9'}]");
+      setEventMetadata("'DORESULTADOS'",",oparms:[{ctrl:'WCENTRADARECUENTOS_WC'},{ctrl:'WCENTRADARECUENTOS___WC'}]}");
+      setEventMetadata("'DOCERRAR'","{handler:'e1313D2',iparms:[]");
+      setEventMetadata("'DOCERRAR'",",oparms:[]}");
+      setEventMetadata("VALIDV_RECFEC","{handler:'validv_Recfec',iparms:[]");
+      setEventMetadata("VALIDV_RECFEC",",oparms:[]}");
+   }
+
+   protected boolean IntegratedSecurityEnabled( )
+   {
+      return false;
+   }
+
+   protected int IntegratedSecurityLevel( )
+   {
+      return 0;
+   }
+
+   protected String IntegratedSecurityPermissionPrefix( )
+   {
+      return "";
+   }
+
+   protected String EncryptURLParameters( )
+   {
+      return "NO";
+   }
+
+   protected void cleanup( )
+   {
+      super.cleanup();
+      CloseOpenCursors();
+   }
+
+   protected void CloseOpenCursors( )
+   {
+   }
+
+   /* Aggregate/select formulas */
+   public void initialize( )
+   {
+      gxfirstwebparm = "" ;
+      gxfirstwebparm_bkp = "" ;
+      Form = new com.genexus.webpanels.GXWebForm();
+      sDynURL = "" ;
+      FormProcess = "" ;
+      bodyStyle = "" ;
+      AV10EmprCod = "" ;
+      GXKey = "" ;
+      A396EmprCod = "" ;
+      A810RecFec = GXutil.nullDate() ;
+      GX_FocusControl = "" ;
+      sPrefix = "" ;
+      ClassString = "" ;
+      StyleString = "" ;
+      ucDvpanel_panel_filtros = new com.genexus.webpanels.GXUserControl();
+      ucDvpanel_panel_filtrosgenerales = new com.genexus.webpanels.GXUserControl();
+      TempTags = "" ;
+      AV7RecFec = GXutil.nullDate() ;
+      AV14CCStkHor = "" ;
+      bttBtnresultados_Jsonclick = "" ;
+      bttBtncerrar_Jsonclick = "" ;
+      ucDatamon = new com.genexus.webpanels.GXUserControl();
+      ucDvpanel_panel_resultado = new com.genexus.webpanels.GXUserControl();
+      ucGxuitabspanel_tabs = new com.genexus.webpanels.GXUserControl();
+      lblTab01_title_Jsonclick = "" ;
+      WebComp_Wcentradarecuentos_wc_Component = "" ;
+      OldWcentradarecuentos_wc = "" ;
+      lblTab02_title_Jsonclick = "" ;
+      WebComp_Wcentradarecuentos___wc_Component = "" ;
+      OldWcentradarecuentos___wc = "" ;
+      AV22Pgmname = "" ;
+      sEvt = "" ;
+      EvtGridId = "" ;
+      EvtRowId = "" ;
+      sEvtType = "" ;
+      AV9Station = "" ;
+      AV11EmprNom = "" ;
+      AV12UsurCod = "" ;
+      GXt_char1 = "" ;
+      GXv_char4 = new String[1] ;
+      GXv_char3 = new String[1] ;
+      GXv_char2 = new String[1] ;
+      scmdbuf = "" ;
+      H013D2_A719PrdNum = new String[] {""} ;
+      H013D2_A810RecFec = new java.util.Date[] {GXutil.nullDate()} ;
+      H013D2_A396EmprCod = new String[] {""} ;
+      H013D2_A13416RecEstInv = new byte[1] ;
+      AV5RecHora = GXutil.resetTime( GXutil.nullDate() );
+      AV6Diahora = GXutil.resetTime( GXutil.nullDate() );
+      H013D3_A719PrdNum = new String[] {""} ;
+      H013D3_A396EmprCod = new String[] {""} ;
+      H013D3_A13455Rechora = new java.util.Date[] {GXutil.nullDate()} ;
+      H013D3_A810RecFec = new java.util.Date[] {GXutil.nullDate()} ;
+      A13455Rechora = GXutil.resetTime( GXutil.nullDate() );
+      H013D4_A719PrdNum = new String[] {""} ;
+      H013D4_A396EmprCod = new String[] {""} ;
+      H013D4_A8577RecFecHr = new java.util.Date[] {GXutil.nullDate()} ;
+      A8577RecFecHr = GXutil.resetTime( GXutil.nullDate() );
+      AV13Recfechr = GXutil.resetTime( GXutil.nullDate() );
+      BackMsgLst = new com.genexus.internet.MsgList();
+      LclMsgLst = new com.genexus.internet.MsgList();
+      pr_default = new DataStoreProvider(context, remoteHandle, new app.entradarecuentos__default(),
+         new Object[] {
+             new Object[] {
+            H013D2_A719PrdNum, H013D2_A810RecFec, H013D2_A396EmprCod, H013D2_A13416RecEstInv
+            }
+            , new Object[] {
+            H013D3_A719PrdNum, H013D3_A396EmprCod, H013D3_A13455Rechora, H013D3_A810RecFec
+            }
+            , new Object[] {
+            H013D4_A719PrdNum, H013D4_A396EmprCod, H013D4_A8577RecFecHr
+            }
+         }
+      );
+      AV22Pgmname = "EntradaRecuentos" ;
+      /* GeneXus formulas. */
+      AV22Pgmname = "EntradaRecuentos" ;
+      Gx_err = (short)(0) ;
+      edtavPgmname_Enabled = 0 ;
+      WebComp_Wcentradarecuentos_wc = new com.genexus.webpanels.GXWebComponentNull(remoteHandle, context);
+      WebComp_Wcentradarecuentos___wc = new com.genexus.webpanels.GXWebComponentNull(remoteHandle, context);
+   }
+
+   private byte nGotPars ;
+   private byte GxWebError ;
+   private byte gxajaxcallmode ;
+   private byte A13416RecEstInv ;
+   private byte nDonePA ;
+   private byte nGXWrapped ;
+   private short nRcdExists_5 ;
+   private short nIsMod_5 ;
+   private short nRcdExists_4 ;
+   private short nIsMod_4 ;
+   private short nRcdExists_3 ;
+   private short nIsMod_3 ;
+   private short wbEnd ;
+   private short wbStart ;
+   private short nCmpId ;
+   private short gxcookieaux ;
+   private short Gx_err ;
+   private short AV15Flag_rec ;
+   private short AV16Hay_rec ;
+   private short AV18regtos0 ;
+   private short AV17regtos1 ;
+   private short AV19regtos ;
+   private short AV8Invprd ;
+   private int Gxuitabspanel_tabs_Pagecount ;
+   private int edtavRecfec_Enabled ;
+   private int edtavCcstkhor_Enabled ;
+   private int edtavPgmname_Enabled ;
+   private int idxLst ;
+   private String gxfirstwebparm ;
+   private String gxfirstwebparm_bkp ;
+   private String sDynURL ;
+   private String FormProcess ;
+   private String bodyStyle ;
+   private String AV10EmprCod ;
+   private String GXKey ;
+   private String A396EmprCod ;
+   private String Dvpanel_panel_filtrosgenerales_Width ;
+   private String Dvpanel_panel_filtrosgenerales_Cls ;
+   private String Dvpanel_panel_filtrosgenerales_Title ;
+   private String Dvpanel_panel_filtrosgenerales_Iconposition ;
+   private String Dvpanel_panel_filtros_Width ;
+   private String Dvpanel_panel_filtros_Cls ;
+   private String Dvpanel_panel_filtros_Title ;
+   private String Dvpanel_panel_filtros_Iconposition ;
+   private String Gxuitabspanel_tabs_Class ;
+   private String Dvpanel_panel_resultado_Width ;
+   private String Dvpanel_panel_resultado_Cls ;
+   private String Dvpanel_panel_resultado_Title ;
+   private String Dvpanel_panel_resultado_Iconposition ;
+   private String GX_FocusControl ;
+   private String sPrefix ;
+   private String divLayoutmaintable_Internalname ;
+   private String divTablemain_Internalname ;
+   private String ClassString ;
+   private String StyleString ;
+   private String divTablecontent_Internalname ;
+   private String Dvpanel_panel_filtros_Internalname ;
+   private String divPanel_filtros_Internalname ;
+   private String Dvpanel_panel_filtrosgenerales_Internalname ;
+   private String divPanel_filtrosgenerales_Internalname ;
+   private String divTable_filtrosgenerales_Internalname ;
+   private String edtavRecfec_Internalname ;
+   private String TempTags ;
+   private String edtavRecfec_Jsonclick ;
+   private String edtavCcstkhor_Internalname ;
+   private String AV14CCStkHor ;
+   private String edtavCcstkhor_Jsonclick ;
+   private String divTable_acciones_Internalname ;
+   private String bttBtnresultados_Internalname ;
+   private String bttBtnresultados_Jsonclick ;
+   private String bttBtncerrar_Internalname ;
+   private String bttBtncerrar_Jsonclick ;
+   private String Datamon_Internalname ;
+   private String Dvpanel_panel_resultado_Internalname ;
+   private String divPanel_resultado_Internalname ;
+   private String Gxuitabspanel_tabs_Internalname ;
+   private String lblTab01_title_Internalname ;
+   private String lblTab01_title_Jsonclick ;
+   private String divTableresultado1_Internalname ;
+   private String WebComp_Wcentradarecuentos_wc_Component ;
+   private String OldWcentradarecuentos_wc ;
+   private String lblTab02_title_Internalname ;
+   private String lblTab02_title_Jsonclick ;
+   private String divTableresultado2_Internalname ;
+   private String WebComp_Wcentradarecuentos___wc_Component ;
+   private String OldWcentradarecuentos___wc ;
+   private String edtavPgmname_Internalname ;
+   private String AV22Pgmname ;
+   private String edtavPgmname_Jsonclick ;
+   private String sEvt ;
+   private String EvtGridId ;
+   private String EvtRowId ;
+   private String sEvtType ;
+   private String AV9Station ;
+   private String AV11EmprNom ;
+   private String AV12UsurCod ;
+   private String GXt_char1 ;
+   private String GXv_char4[] ;
+   private String GXv_char3[] ;
+   private String GXv_char2[] ;
+   private String scmdbuf ;
+   private java.util.Date AV5RecHora ;
+   private java.util.Date AV6Diahora ;
+   private java.util.Date A13455Rechora ;
+   private java.util.Date A8577RecFecHr ;
+   private java.util.Date AV13Recfechr ;
+   private java.util.Date A810RecFec ;
+   private java.util.Date AV7RecFec ;
+   private boolean entryPointCalled ;
+   private boolean toggleJsOutput ;
+   private boolean Dvpanel_panel_filtrosgenerales_Autowidth ;
+   private boolean Dvpanel_panel_filtrosgenerales_Autoheight ;
+   private boolean Dvpanel_panel_filtrosgenerales_Collapsible ;
+   private boolean Dvpanel_panel_filtrosgenerales_Collapsed ;
+   private boolean Dvpanel_panel_filtrosgenerales_Showcollapseicon ;
+   private boolean Dvpanel_panel_filtrosgenerales_Autoscroll ;
+   private boolean Dvpanel_panel_filtros_Autowidth ;
+   private boolean Dvpanel_panel_filtros_Autoheight ;
+   private boolean Dvpanel_panel_filtros_Collapsible ;
+   private boolean Dvpanel_panel_filtros_Collapsed ;
+   private boolean Dvpanel_panel_filtros_Showcollapseicon ;
+   private boolean Dvpanel_panel_filtros_Autoscroll ;
+   private boolean Gxuitabspanel_tabs_Historymanagement ;
+   private boolean Dvpanel_panel_resultado_Autowidth ;
+   private boolean Dvpanel_panel_resultado_Autoheight ;
+   private boolean Dvpanel_panel_resultado_Collapsible ;
+   private boolean Dvpanel_panel_resultado_Collapsed ;
+   private boolean Dvpanel_panel_resultado_Showcollapseicon ;
+   private boolean Dvpanel_panel_resultado_Autoscroll ;
+   private boolean wbLoad ;
+   private boolean Rfr0gs ;
+   private boolean wbErr ;
+   private boolean gxdyncontrolsrefreshing ;
+   private boolean returnInSub ;
+   private boolean bDynCreated_Wcentradarecuentos_wc ;
+   private boolean bDynCreated_Wcentradarecuentos___wc ;
+   private com.genexus.internet.MsgList BackMsgLst ;
+   private com.genexus.internet.MsgList LclMsgLst ;
+   private GXWebComponent WebComp_Wcentradarecuentos_wc ;
+   private GXWebComponent WebComp_Wcentradarecuentos___wc ;
+   private com.genexus.webpanels.GXUserControl ucDvpanel_panel_filtros ;
+   private com.genexus.webpanels.GXUserControl ucDvpanel_panel_filtrosgenerales ;
+   private com.genexus.webpanels.GXUserControl ucDatamon ;
+   private com.genexus.webpanels.GXUserControl ucDvpanel_panel_resultado ;
+   private com.genexus.webpanels.GXUserControl ucGxuitabspanel_tabs ;
+   private IDataStoreProvider pr_default ;
+   private String[] H013D2_A719PrdNum ;
+   private java.util.Date[] H013D2_A810RecFec ;
+   private String[] H013D2_A396EmprCod ;
+   private byte[] H013D2_A13416RecEstInv ;
+   private String[] H013D3_A719PrdNum ;
+   private String[] H013D3_A396EmprCod ;
+   private java.util.Date[] H013D3_A13455Rechora ;
+   private java.util.Date[] H013D3_A810RecFec ;
+   private String[] H013D4_A719PrdNum ;
+   private String[] H013D4_A396EmprCod ;
+   private java.util.Date[] H013D4_A8577RecFecHr ;
+   private com.genexus.webpanels.GXWebForm Form ;
+}
+
+final  class entradarecuentos__default extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+          new ForEachCursor("H013D2", "SELECT PrdNum, RecFec, EmprCod, RecEstInv FROM TXPRECUEN WHERE EmprCod = ? and RecFec = ? ORDER BY EmprCod, RecFec ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("H013D3", "SELECT * FROM (SELECT PrdNum, EmprCod, Rechora, RecFec FROM TXPRECUEN WHERE EmprCod = ? ORDER BY EmprCod, RecFec DESC) WHERE rownum <= 1 ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("H013D4", "SELECT * FROM (SELECT PrdNum, EmprCod, RecFecHr FROM TXPINVPRD WHERE EmprCod = ? ORDER BY EmprCod, RecFecHr DESC) WHERE rownum <= 1 ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,true )
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 6);
+               ((java.util.Date[]) buf[1])[0] = rslt.getGXDate(2);
+               ((String[]) buf[2])[0] = rslt.getString(3, 3);
+               ((byte[]) buf[3])[0] = rslt.getByte(4);
+               return;
+            case 1 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 6);
+               ((String[]) buf[1])[0] = rslt.getString(2, 3);
+               ((java.util.Date[]) buf[2])[0] = rslt.getGXDateTime(3);
+               ((java.util.Date[]) buf[3])[0] = rslt.getGXDate(4);
+               return;
+            case 2 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 6);
+               ((String[]) buf[1])[0] = rslt.getString(2, 3);
+               ((java.util.Date[]) buf[2])[0] = rslt.getGXDateTime(3);
+               return;
+      }
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setDate(2, (java.util.Date)parms[1]);
+               return;
+            case 1 :
+               stmt.setString(1, (String)parms[0], 3);
+               return;
+            case 2 :
+               stmt.setString(1, (String)parms[0], 3);
+               return;
+      }
+   }
+
+}
+

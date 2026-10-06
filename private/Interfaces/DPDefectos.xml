@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="f760648c-adaf-4a6e-b122-e8f64b05a611" name="DPDefectos" description="DPDefectos" namespace="app">
+  <Signature name="par">
+    <Parameter name="Emprcod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>3</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="FechaIni">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Date</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>8</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="FechaFin">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Date</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>8</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ClicodIni">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Numeric</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>6</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ClicodFin">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Numeric</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>6</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="HisEstReo">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Numeric</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>1</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ReturnValue" accessor="out" collection="true">
+      <Field name="SDTDefectos" description="SDTDefectos">
+        <Fields>
+          <Field name="TipDefDsc" description="Defecto">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>30</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="NumeroDefectos" description="Cantidad">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>4</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZZ9</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="KilosDefectos" description="Kilos">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>9</Value>
+              </Property>
+              <Property>
+                <Name>Decimals</Name>
+                <Value>2</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZZZZ9.99</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="MetrosDefectos" description="Metros">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>9</Value>
+              </Property>
+              <Property>
+                <Name>Decimals</Name>
+                <Value>2</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZZZZ9.99</Value>
+              </Property>
+            </Properties>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

@@ -1,0 +1,46 @@
+{
+	"Name": "UCDirectory",
+	"Target": "",
+	"IsControlType": false,
+	"Template": "<button class=\"btn btn-secondary\">  <i class=\"fas fa-ellipsis-h\"></i></button>",
+	"Events": [
+		{
+			"Name": "DirectorySelected",
+			"On": "directoryselected",
+			"Parameters": ""
+		} 
+	],
+	"Properties": [
+		{
+			"Id": "DirectoryPath",
+			"Name": "DirectoryPath",
+			"Type": "string",
+			"Default": ""
+		} 
+	],
+	"Methods": {
+		"Public": [
+			{
+				"Name": "Init",
+				"Source": "      const input = document.createElement(\"input\");    input.type = \"file\";    input.webkitdirectory = true;    input.style.display = \"none\";    const button = document.createElement(\"button\");    button.textContent = \"Selecionar Pasta\";    button.className = \"gx-btn btn btn-secondary\";    button.onclick = function () {      input.click();    };    input.addEventListener(\"change\", function () {      if (input.files.length > 0) {        // Pegando o primeiro caminho de pasta como exemplo        const fullPath = input.files[0].webkitRelativePath;        const folder = fullPath.split(\"/\")[0];        UC.DirectoryPath = folder;        gx.fx.obs.notify(\"DirectorySelected\");      }    });    this.getContainerControl().appendChild(button);    this.getContainerControl().appendChild(input);  ",
+				"Return": "",
+				"Parameters": [
+				]
+			} 
+		],
+		"Private": [
+		]
+	},
+	"Scripts": {
+		"AfterShow": [
+		],
+		"BeforeShow": [
+		]
+	},
+	"Dependencies": [
+	],
+	"Imports": [
+	],
+	"Styles": [
+	]
+}

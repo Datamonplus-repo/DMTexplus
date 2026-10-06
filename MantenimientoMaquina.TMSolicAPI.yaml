@@ -1,0 +1,10 @@
+openapi: 3.0.0
+info:
+  title: "Texplus NET"
+  version: "20260902135456"
+servers:
+  - url: http://localhost:8080/TexplusNETJavaOracle/MantenimientoMaquina/TMSolicAPI
+paths:
+components:
+  schemas:
+  

@@ -1,0 +1,803 @@
+package app ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.webpanels.*;
+import java.sql.*;
+import com.genexus.search.*;
+
+public final  class tempparwwexportreport_impl extends GXWebReport
+{
+   public tempparwwexportreport_impl( com.genexus.internet.HttpContext context )
+   {
+      super(context);
+   }
+
+   public void webExecute( )
+   {
+      if ( (GXutil.strcmp("", httpContext.getCookie( "GX_SESSION_ID"))==0) )
+      {
+         gxcookieaux = httpContext.setCookie( "GX_SESSION_ID", httpContext.encrypt64( com.genexus.util.Encryption.getNewKey( ), context.getServerKey( )), "", GXutil.nullDate(), "", (short)(httpContext.getHttpSecure( ))) ;
+      }
+      GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+      entryPointCalled = false ;
+      gxfirstwebparm = httpContext.GetNextPar( ) ;
+      toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+      if ( toggleJsOutput )
+      {
+      }
+      /* GeneXus formulas */
+      /* Output device settings */
+      privateExecute();
+   }
+
+   private void privateExecute( )
+   {
+      httpContext.setDefaultTheme("WorkWithPlusThemeDS");
+      M_top = 0 ;
+      M_bot = 6 ;
+      P_lines = (int)(66-M_bot) ;
+      getPrinter().GxClearAttris() ;
+      add_metrics( ) ;
+      lineHeight = 15 ;
+      PrtOffset = 0 ;
+      gxXPage = 100 ;
+      gxYPage = 100 ;
+      getPrinter().GxSetDocName("") ;
+      try
+      {
+         Gx_out = "FIL" ;
+         if (!initPrinter (Gx_out, gxXPage, gxYPage, "GXPRN.INI", "", "", 2, 1, 1, 15840, 12240, 0, 1, 1, 0, 1, 1) )
+         {
+            cleanup();
+            return;
+         }
+         getPrinter().setModal(true) ;
+         P_lines = (int)(gxYPage-(lineHeight*6)) ;
+         Gx_line = (int)(P_lines+1) ;
+         getPrinter().setPageLines(P_lines);
+         getPrinter().setLineHeight(lineHeight);
+         getPrinter().setM_top(M_top);
+         getPrinter().setM_bot(M_bot);
+         GXv_SdtWWPContext1[0] = AV9WWPContext;
+         new app.wwpbaseobjects.loadwwpcontext(remoteHandle, context).execute( GXv_SdtWWPContext1) ;
+         AV9WWPContext = GXv_SdtWWPContext1[0] ;
+         /* Execute user subroutine: 'LOADGRIDSTATE' */
+         S151 ();
+         if ( returnInSub )
+         {
+            getPrinter().GxEndPage() ;
+            /* Close printer file */
+            getPrinter().GxEndDocument() ;
+            endPrinter();
+            returnInSub = true;
+            cleanup();
+            if (true) return;
+         }
+         AV34Title = httpContext.getMessage( "Lista de PARAMETROS EMPRESA", "") ;
+         /* Execute user subroutine: 'PRINTFILTERS' */
+         S111 ();
+         if ( returnInSub )
+         {
+            getPrinter().GxEndPage() ;
+            /* Close printer file */
+            getPrinter().GxEndDocument() ;
+            endPrinter();
+            returnInSub = true;
+            cleanup();
+            if (true) return;
+         }
+         /* Execute user subroutine: 'PRINTCOLUMNTITLES' */
+         S121 ();
+         if ( returnInSub )
+         {
+            getPrinter().GxEndPage() ;
+            /* Close printer file */
+            getPrinter().GxEndDocument() ;
+            endPrinter();
+            returnInSub = true;
+            cleanup();
+            if (true) return;
+         }
+         /* Execute user subroutine: 'PRINTDATA' */
+         S131 ();
+         if ( returnInSub )
+         {
+            getPrinter().GxEndPage() ;
+            /* Close printer file */
+            getPrinter().GxEndDocument() ;
+            endPrinter();
+            returnInSub = true;
+            cleanup();
+            if (true) return;
+         }
+         /* Execute user subroutine: 'PRINTFOOTER' */
+         S171 ();
+         if ( returnInSub )
+         {
+         }
+         /* Print footer for last page */
+         ToSkip = (int)(P_lines+1) ;
+         h8P20( true, 0) ;
+         /* Close printer file */
+         getPrinter().GxEndDocument() ;
+         endPrinter();
+      }
+      catch ( ProcessInterruptedException e )
+      {
+      }
+      if ( httpContext.willRedirect( ) )
+      {
+         httpContext.redirect( httpContext.wjLoc );
+         httpContext.wjLoc = "" ;
+      }
+      cleanup();
+   }
+
+   public void S111( ) throws ProcessInterruptedException
+   {
+      /* 'PRINTFILTERS' Routine */
+      returnInSub = false ;
+      if ( ! (GXutil.strcmp("", AV12FilterFullText)==0) )
+      {
+         h8P20( false, 20) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 169, 169, 169, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(httpContext.getMessage( "Filter", ""), 25, Gx_line+0, 136, Gx_line+15, 0, 0, 0, 0) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 0, 0, 0, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV12FilterFullText, "")), 136, Gx_line+0, 789, Gx_line+15, 0, 0, 0, 0) ;
+         Gx_OldLine = Gx_line ;
+         Gx_line = (int)(Gx_line+20) ;
+      }
+      if ( ! (GXutil.strcmp("", AV18TFEmprCod_Sel)==0) )
+      {
+         h8P20( false, 20) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 169, 169, 169, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(httpContext.getMessage( "Código Empresa", ""), 25, Gx_line+0, 136, Gx_line+15, 0, 0, 0, 0) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 0, 0, 0, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV18TFEmprCod_Sel, "@!")), 136, Gx_line+0, 789, Gx_line+15, 0, 0, 0, 0) ;
+         Gx_OldLine = Gx_line ;
+         Gx_line = (int)(Gx_line+20) ;
+      }
+      else
+      {
+         if ( ! (GXutil.strcmp("", AV17TFEmprCod)==0) )
+         {
+            h8P20( false, 20) ;
+            getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 169, 169, 169, 0, 255, 255, 255) ;
+            getPrinter().GxDrawText(httpContext.getMessage( "Código Empresa", ""), 25, Gx_line+0, 136, Gx_line+15, 0, 0, 0, 0) ;
+            getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 0, 0, 0, 0, 255, 255, 255) ;
+            getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV17TFEmprCod, "@!")), 136, Gx_line+0, 789, Gx_line+15, 0, 0, 0, 0) ;
+            Gx_OldLine = Gx_line ;
+            Gx_line = (int)(Gx_line+20) ;
+         }
+      }
+      if ( ! (GXutil.strcmp("", AV20TFEmprNom_Sel)==0) )
+      {
+         h8P20( false, 20) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 169, 169, 169, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(httpContext.getMessage( "Nombre", ""), 25, Gx_line+0, 136, Gx_line+15, 0, 0, 0, 0) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 0, 0, 0, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV20TFEmprNom_Sel, "")), 136, Gx_line+0, 789, Gx_line+15, 0, 0, 0, 0) ;
+         Gx_OldLine = Gx_line ;
+         Gx_line = (int)(Gx_line+20) ;
+      }
+      else
+      {
+         if ( ! (GXutil.strcmp("", AV19TFEmprNom)==0) )
+         {
+            h8P20( false, 20) ;
+            getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 169, 169, 169, 0, 255, 255, 255) ;
+            getPrinter().GxDrawText(httpContext.getMessage( "Nombre", ""), 25, Gx_line+0, 136, Gx_line+15, 0, 0, 0, 0) ;
+            getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 0, 0, 0, 0, 255, 255, 255) ;
+            getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV19TFEmprNom, "")), 136, Gx_line+0, 789, Gx_line+15, 0, 0, 0, 0) ;
+            Gx_OldLine = Gx_line ;
+            Gx_line = (int)(Gx_line+20) ;
+         }
+      }
+      if ( ! ( (0==AV21TFEmpNumDec) && (0==AV22TFEmpNumDec_To) ) )
+      {
+         h8P20( false, 20) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 169, 169, 169, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(httpContext.getMessage( "EmpNumDec", ""), 25, Gx_line+0, 136, Gx_line+15, 0, 0, 0, 0) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 0, 0, 0, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(GXutil.ltrim( localUtil.format( DecimalUtil.doubleToDec(AV21TFEmpNumDec), "9")), 136, Gx_line+0, 789, Gx_line+15, 0, 0, 0, 0) ;
+         Gx_OldLine = Gx_line ;
+         Gx_line = (int)(Gx_line+20) ;
+         AV23TFEmpNumDec_To_Description = GXutil.format( "%1 (%2)", httpContext.getMessage( "EmpNumDec", ""), httpContext.getMessage( "WWP_TSTo", ""), "", "", "", "", "", "", "") ;
+         h8P20( false, 20) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 169, 169, 169, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV23TFEmpNumDec_To_Description, "")), 25, Gx_line+0, 136, Gx_line+15, 0, 0, 0, 0) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 0, 0, 0, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(GXutil.ltrim( localUtil.format( DecimalUtil.doubleToDec(AV22TFEmpNumDec_To), "9")), 136, Gx_line+0, 789, Gx_line+15, 0, 0, 0, 0) ;
+         Gx_OldLine = Gx_line ;
+         Gx_line = (int)(Gx_line+20) ;
+      }
+   }
+
+   public void S121( ) throws ProcessInterruptedException
+   {
+      /* 'PRINTCOLUMNTITLES' Routine */
+      returnInSub = false ;
+      h8P20( false, 22) ;
+      getPrinter().GxDrawLine(25, Gx_line+21, 789, Gx_line+21, 2, 149, 0, 0, 0) ;
+      Gx_OldLine = Gx_line ;
+      Gx_line = (int)(Gx_line+22) ;
+      h8P20( false, 37) ;
+      getPrinter().GxAttris("Microsoft Sans Serif", 9, false, false, false, false, 0, 149, 0, 0, 0, 255, 255, 255) ;
+      getPrinter().GxDrawText(httpContext.getMessage( "Código Empresa", ""), 30, Gx_line+10, 217, Gx_line+27, 0, 0, 0, 0) ;
+      getPrinter().GxDrawText(httpContext.getMessage( "Nombre", ""), 221, Gx_line+10, 595, Gx_line+27, 0, 0, 0, 0) ;
+      getPrinter().GxDrawText(httpContext.getMessage( "EmpNumDec", ""), 599, Gx_line+10, 787, Gx_line+27, 2, 0, 0, 0) ;
+      Gx_OldLine = Gx_line ;
+      Gx_line = (int)(Gx_line+37) ;
+   }
+
+   public void S131( ) throws ProcessInterruptedException
+   {
+      /* 'PRINTDATA' Routine */
+      returnInSub = false ;
+      AV42Tempparwwds_1_filterfulltext = AV12FilterFullText ;
+      AV43Tempparwwds_2_tfemprcod = AV17TFEmprCod ;
+      AV44Tempparwwds_3_tfemprcod_sel = AV18TFEmprCod_Sel ;
+      AV45Tempparwwds_4_tfemprnom = AV19TFEmprNom ;
+      AV46Tempparwwds_5_tfemprnom_sel = AV20TFEmprNom_Sel ;
+      AV47Tempparwwds_6_tfempnumdec = AV21TFEmpNumDec ;
+      AV48Tempparwwds_7_tfempnumdec_to = AV22TFEmpNumDec_To ;
+      pr_default.dynParam(0, new Object[]{ new Object[]{
+                                           AV42Tempparwwds_1_filterfulltext ,
+                                           AV44Tempparwwds_3_tfemprcod_sel ,
+                                           AV43Tempparwwds_2_tfemprcod ,
+                                           AV46Tempparwwds_5_tfemprnom_sel ,
+                                           AV45Tempparwwds_4_tfemprnom ,
+                                           Byte.valueOf(AV47Tempparwwds_6_tfempnumdec) ,
+                                           Byte.valueOf(AV48Tempparwwds_7_tfempnumdec_to) ,
+                                           A396EmprCod ,
+                                           A407EmprNom ,
+                                           Byte.valueOf(A3915EmpNumDec) ,
+                                           Short.valueOf(AV10OrderedBy) ,
+                                           Boolean.valueOf(AV11OrderedDsc) } ,
+                                           new int[]{
+                                           TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.BYTE, TypeConstants.BYTE, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.BOOLEAN,
+                                           TypeConstants.BYTE, TypeConstants.BOOLEAN, TypeConstants.SHORT, TypeConstants.BOOLEAN
+                                           }
+      });
+      lV42Tempparwwds_1_filterfulltext = GXutil.concat( GXutil.rtrim( AV42Tempparwwds_1_filterfulltext), "%", "") ;
+      lV42Tempparwwds_1_filterfulltext = GXutil.concat( GXutil.rtrim( AV42Tempparwwds_1_filterfulltext), "%", "") ;
+      lV42Tempparwwds_1_filterfulltext = GXutil.concat( GXutil.rtrim( AV42Tempparwwds_1_filterfulltext), "%", "") ;
+      lV43Tempparwwds_2_tfemprcod = GXutil.padr( GXutil.rtrim( AV43Tempparwwds_2_tfemprcod), 3, "%") ;
+      lV45Tempparwwds_4_tfemprnom = GXutil.padr( GXutil.rtrim( AV45Tempparwwds_4_tfemprnom), 30, "%") ;
+      /* Using cursor P08P22 */
+      pr_default.execute(0, new Object[] {lV42Tempparwwds_1_filterfulltext, lV42Tempparwwds_1_filterfulltext, lV42Tempparwwds_1_filterfulltext, lV43Tempparwwds_2_tfemprcod, AV44Tempparwwds_3_tfemprcod_sel, lV45Tempparwwds_4_tfemprnom, AV46Tempparwwds_5_tfemprnom_sel, Byte.valueOf(AV47Tempparwwds_6_tfempnumdec), Byte.valueOf(AV48Tempparwwds_7_tfempnumdec_to)});
+      while ( (pr_default.getStatus(0) != 101) )
+      {
+         A3915EmpNumDec = P08P22_A3915EmpNumDec[0] ;
+         n3915EmpNumDec = P08P22_n3915EmpNumDec[0] ;
+         A407EmprNom = P08P22_A407EmprNom[0] ;
+         n407EmprNom = P08P22_n407EmprNom[0] ;
+         A396EmprCod = P08P22_A396EmprCod[0] ;
+         /* Execute user subroutine: 'BEFOREPRINTLINE' */
+         S144 ();
+         if ( returnInSub )
+         {
+            pr_default.close(0);
+            getPrinter().GxEndPage() ;
+            /* Close printer file */
+            getPrinter().GxEndDocument() ;
+            endPrinter();
+            returnInSub = true;
+            if (true) return;
+         }
+         h8P20( false, 36) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 0, 0, 0, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( A396EmprCod, "@!")), 30, Gx_line+10, 217, Gx_line+25, 0, 0, 0, 0) ;
+         getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( A407EmprNom, "")), 221, Gx_line+10, 595, Gx_line+25, 0, 0, 0, 0) ;
+         getPrinter().GxDrawText(GXutil.ltrim( localUtil.format( DecimalUtil.doubleToDec(A3915EmpNumDec), "9")), 599, Gx_line+10, 787, Gx_line+25, 2, 0, 0, 0) ;
+         getPrinter().GxDrawLine(28, Gx_line+35, 789, Gx_line+35, 1, 220, 220, 220, 0) ;
+         Gx_OldLine = Gx_line ;
+         Gx_line = (int)(Gx_line+36) ;
+         /* Execute user subroutine: 'AFTERPRINTLINE' */
+         S161 ();
+         if ( returnInSub )
+         {
+            pr_default.close(0);
+            getPrinter().GxEndPage() ;
+            /* Close printer file */
+            getPrinter().GxEndDocument() ;
+            endPrinter();
+            returnInSub = true;
+            if (true) return;
+         }
+         pr_default.readNext(0);
+      }
+      pr_default.close(0);
+   }
+
+   public void S151( ) throws ProcessInterruptedException
+   {
+      /* 'LOADGRIDSTATE' Routine */
+      returnInSub = false ;
+      if ( GXutil.strcmp(AV13Session.getValue("TEMPPARWWGridState"), "") == 0 )
+      {
+         AV15GridState.fromxml(new app.wwpbaseobjects.loadgridstate(remoteHandle, context).executeUdp( "TEMPPARWWGridState"), null, null);
+      }
+      else
+      {
+         AV15GridState.fromxml(AV13Session.getValue("TEMPPARWWGridState"), null, null);
+      }
+      AV10OrderedBy = AV15GridState.getgxTv_SdtWWPGridState_Orderedby() ;
+      AV11OrderedDsc = AV15GridState.getgxTv_SdtWWPGridState_Ordereddsc() ;
+      AV49GXV1 = 1 ;
+      while ( AV49GXV1 <= AV15GridState.getgxTv_SdtWWPGridState_Filtervalues().size() )
+      {
+         AV16GridStateFilterValue = (app.wwpbaseobjects.SdtWWPGridState_FilterValue)((app.wwpbaseobjects.SdtWWPGridState_FilterValue)AV15GridState.getgxTv_SdtWWPGridState_Filtervalues().elementAt(-1+AV49GXV1));
+         if ( GXutil.strcmp(AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "FILTERFULLTEXT") == 0 )
+         {
+            AV12FilterFullText = AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+         }
+         else if ( GXutil.strcmp(AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFEMPRCOD") == 0 )
+         {
+            AV17TFEmprCod = AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+         }
+         else if ( GXutil.strcmp(AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFEMPRCOD_SEL") == 0 )
+         {
+            AV18TFEmprCod_Sel = AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+         }
+         else if ( GXutil.strcmp(AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFEMPRNOM") == 0 )
+         {
+            AV19TFEmprNom = AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+         }
+         else if ( GXutil.strcmp(AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFEMPRNOM_SEL") == 0 )
+         {
+            AV20TFEmprNom_Sel = AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+         }
+         else if ( GXutil.strcmp(AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFEMPNUMDEC") == 0 )
+         {
+            AV21TFEmpNumDec = (byte)(GXutil.lval( AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+            AV22TFEmpNumDec_To = (byte)(GXutil.lval( AV16GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Valueto())) ;
+         }
+         AV49GXV1 = (int)(AV49GXV1+1) ;
+      }
+   }
+
+   public void S144( ) throws ProcessInterruptedException
+   {
+      /* 'BEFOREPRINTLINE' Routine */
+      returnInSub = false ;
+   }
+
+   public void S161( ) throws ProcessInterruptedException
+   {
+      /* 'AFTERPRINTLINE' Routine */
+      returnInSub = false ;
+   }
+
+   public void S171( ) throws ProcessInterruptedException
+   {
+      /* 'PRINTFOOTER' Routine */
+      returnInSub = false ;
+   }
+
+   public void h8P20( boolean bFoot ,
+                      int Inc )
+   {
+      /* Skip the required number of lines */
+      while ( ( ToSkip > 0 ) || ( Gx_line + Inc > P_lines ) )
+      {
+         if ( Gx_line + Inc >= P_lines )
+         {
+            if ( Gx_page > 0 )
+            {
+               /* Print footers */
+               Gx_line = P_lines ;
+               AV32PageInfo = httpContext.getMessage( "Page: ", "") + GXutil.trim( GXutil.str( Gx_page, 6, 0)) ;
+               AV29DateInfo = httpContext.getMessage( "Date: ", "") + localUtil.format( Gx_date, "99/99/99") ;
+               getPrinter().GxDrawRect(0, Gx_line+5, 819, Gx_line+40, 1, 0, 0, 0, 1, 149, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0) ;
+               getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 255, 255, 255, 0, 255, 255, 255) ;
+               getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV32PageInfo, "")), 30, Gx_line+15, 409, Gx_line+30, 0, 0, 0, 0) ;
+               getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV29DateInfo, "")), 409, Gx_line+15, 789, Gx_line+30, 2, 0, 0, 0) ;
+               Gx_OldLine = Gx_line ;
+               Gx_line = (int)(Gx_line+40) ;
+               getPrinter().GxEndPage() ;
+               if ( bFoot )
+               {
+                  return  ;
+               }
+            }
+            ToSkip = 0 ;
+            Gx_line = 0 ;
+            Gx_page = (int)(Gx_page+1) ;
+            /* Skip Margin Top Lines */
+            Gx_line = (int)(Gx_line+(M_top*lineHeight)) ;
+            /* Print headers */
+            getPrinter().GxStartPage() ;
+            getPrinter().setPage(Gx_page);
+            AV34Title = AV38Pgmdesc ;
+            getPrinter().GxDrawRect(0, Gx_line+0, 819, Gx_line+108, 1, 0, 0, 0, 1, 149, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0) ;
+            getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 255, 255, 255, 0, 255, 255, 255) ;
+            getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV27AppName, "")), 30, Gx_line+30, 789, Gx_line+45, 0, 0, 0, 0) ;
+            getPrinter().GxAttris("Microsoft Sans Serif", 20, false, false, false, false, 0, 255, 255, 255, 0, 255, 255, 255) ;
+            getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV34Title, "")), 30, Gx_line+45, 789, Gx_line+78, 0, 0, 0, 0) ;
+            Gx_OldLine = Gx_line ;
+            Gx_line = (int)(Gx_line+128) ;
+            if (true) break;
+         }
+         else
+         {
+            PrtOffset = 0 ;
+            Gx_line = (int)(Gx_line+1) ;
+         }
+         ToSkip = (int)(ToSkip-1) ;
+      }
+      getPrinter().setPage(Gx_page);
+   }
+
+   public void add_metrics( )
+   {
+      add_metrics0( ) ;
+   }
+
+   public void add_metrics0( )
+   {
+      getPrinter().setMetrics("Microsoft Sans Serif", false, false, 58, 14, 72, 171,  new int[] {48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 18, 20, 23, 36, 36, 57, 43, 12, 21, 21, 25, 37, 18, 21, 18, 18, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 18, 18, 37, 37, 37, 36, 65, 43, 43, 46, 46, 43, 39, 50, 46, 18, 32, 43, 36, 53, 46, 50, 43, 50, 46, 43, 40, 46, 43, 64, 41, 42, 39, 18, 18, 18, 27, 36, 21, 36, 36, 32, 36, 36, 18, 36, 36, 14, 15, 33, 14, 55, 36, 36, 36, 36, 21, 32, 18, 36, 33, 47, 31, 31, 31, 21, 17, 21, 37, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 18, 20, 36, 36, 36, 36, 17, 36, 21, 47, 24, 36, 37, 21, 47, 35, 26, 35, 21, 21, 21, 37, 34, 21, 21, 21, 23, 36, 53, 53, 53, 39, 43, 43, 43, 43, 43, 43, 64, 46, 43, 43, 43, 43, 18, 18, 18, 18, 46, 46, 50, 50, 50, 50, 50, 37, 50, 46, 46, 46, 46, 43, 43, 39, 36, 36, 36, 36, 36, 36, 57, 32, 36, 36, 36, 36, 18, 18, 18, 18, 36, 36, 36, 36, 36, 36, 36, 35, 39, 36, 36, 36, 36, 32, 36, 32}) ;
+   }
+
+   protected int getOutputType( )
+   {
+      return OUTPUT_PDF;
+   }
+
+   protected java.io.OutputStream getOutputStream( )
+   {
+      return httpContext.getOutputStream();
+   }
+
+   protected boolean IntegratedSecurityEnabled( )
+   {
+      return false;
+   }
+
+   protected int IntegratedSecurityLevel( )
+   {
+      return 0;
+   }
+
+   protected String IntegratedSecurityPermissionPrefix( )
+   {
+      return "";
+   }
+
+   protected String EncryptURLParameters( )
+   {
+      return "NO";
+   }
+
+   protected void cleanup( )
+   {
+      CloseOpenCursors();
+      super.cleanup();
+   }
+
+   protected void CloseOpenCursors( )
+   {
+   }
+
+   /* Aggregate/select formulas */
+   public void initialize( )
+   {
+      GXKey = "" ;
+      gxfirstwebparm = "" ;
+      AV9WWPContext = new app.wwpbaseobjects.SdtWWPContext(remoteHandle, context);
+      GXv_SdtWWPContext1 = new app.wwpbaseobjects.SdtWWPContext[1] ;
+      AV34Title = "" ;
+      AV12FilterFullText = "" ;
+      AV18TFEmprCod_Sel = "" ;
+      AV17TFEmprCod = "" ;
+      AV20TFEmprNom_Sel = "" ;
+      AV19TFEmprNom = "" ;
+      AV23TFEmpNumDec_To_Description = "" ;
+      A396EmprCod = "" ;
+      A407EmprNom = "" ;
+      AV42Tempparwwds_1_filterfulltext = "" ;
+      AV43Tempparwwds_2_tfemprcod = "" ;
+      AV44Tempparwwds_3_tfemprcod_sel = "" ;
+      AV45Tempparwwds_4_tfemprnom = "" ;
+      AV46Tempparwwds_5_tfemprnom_sel = "" ;
+      scmdbuf = "" ;
+      lV42Tempparwwds_1_filterfulltext = "" ;
+      lV43Tempparwwds_2_tfemprcod = "" ;
+      lV45Tempparwwds_4_tfemprnom = "" ;
+      P08P22_A3915EmpNumDec = new byte[1] ;
+      P08P22_n3915EmpNumDec = new boolean[] {false} ;
+      P08P22_A407EmprNom = new String[] {""} ;
+      P08P22_n407EmprNom = new boolean[] {false} ;
+      P08P22_A396EmprCod = new String[] {""} ;
+      AV13Session = httpContext.getWebSession();
+      AV15GridState = new app.wwpbaseobjects.SdtWWPGridState(remoteHandle, context);
+      AV16GridStateFilterValue = new app.wwpbaseobjects.SdtWWPGridState_FilterValue(remoteHandle, context);
+      AV32PageInfo = "" ;
+      AV29DateInfo = "" ;
+      Gx_date = GXutil.nullDate() ;
+      AV38Pgmdesc = "" ;
+      AV27AppName = "" ;
+      pr_default = new DataStoreProvider(context, remoteHandle, new app.tempparwwexportreport__default(),
+         new Object[] {
+             new Object[] {
+            P08P22_A3915EmpNumDec, P08P22_n3915EmpNumDec, P08P22_A407EmprNom, P08P22_n407EmprNom, P08P22_A396EmprCod
+            }
+         }
+      );
+      Gx_date = GXutil.today( ) ;
+      AV38Pgmdesc = httpContext.getMessage( "TEMPPARWWExport Report", "") ;
+      /* GeneXus formulas. */
+      Gx_line = 0 ;
+      Gx_date = GXutil.today( ) ;
+      AV38Pgmdesc = httpContext.getMessage( "TEMPPARWWExport Report", "") ;
+      Gx_err = (short)(0) ;
+   }
+
+   private byte AV21TFEmpNumDec ;
+   private byte AV22TFEmpNumDec_To ;
+   private byte A3915EmpNumDec ;
+   private byte AV47Tempparwwds_6_tfempnumdec ;
+   private byte AV48Tempparwwds_7_tfempnumdec_to ;
+   private short gxcookieaux ;
+   private short AV10OrderedBy ;
+   private short Gx_err ;
+   private int M_top ;
+   private int M_bot ;
+   private int Line ;
+   private int ToSkip ;
+   private int PrtOffset ;
+   private int Gx_OldLine ;
+   private int AV49GXV1 ;
+   private String GXKey ;
+   private String gxfirstwebparm ;
+   private String AV18TFEmprCod_Sel ;
+   private String AV17TFEmprCod ;
+   private String AV20TFEmprNom_Sel ;
+   private String AV19TFEmprNom ;
+   private String A396EmprCod ;
+   private String A407EmprNom ;
+   private String AV43Tempparwwds_2_tfemprcod ;
+   private String AV44Tempparwwds_3_tfemprcod_sel ;
+   private String AV45Tempparwwds_4_tfemprnom ;
+   private String AV46Tempparwwds_5_tfemprnom_sel ;
+   private String scmdbuf ;
+   private String lV43Tempparwwds_2_tfemprcod ;
+   private String lV45Tempparwwds_4_tfemprnom ;
+   private String AV38Pgmdesc ;
+   private java.util.Date Gx_date ;
+   private boolean entryPointCalled ;
+   private boolean toggleJsOutput ;
+   private boolean returnInSub ;
+   private boolean AV11OrderedDsc ;
+   private boolean n3915EmpNumDec ;
+   private boolean n407EmprNom ;
+   private String AV34Title ;
+   private String AV12FilterFullText ;
+   private String AV23TFEmpNumDec_To_Description ;
+   private String AV42Tempparwwds_1_filterfulltext ;
+   private String lV42Tempparwwds_1_filterfulltext ;
+   private String AV32PageInfo ;
+   private String AV29DateInfo ;
+   private String AV27AppName ;
+   private com.genexus.webpanels.WebSession AV13Session ;
+   private IDataStoreProvider pr_default ;
+   private byte[] P08P22_A3915EmpNumDec ;
+   private boolean[] P08P22_n3915EmpNumDec ;
+   private String[] P08P22_A407EmprNom ;
+   private boolean[] P08P22_n407EmprNom ;
+   private String[] P08P22_A396EmprCod ;
+   private app.wwpbaseobjects.SdtWWPContext AV9WWPContext ;
+   private app.wwpbaseobjects.SdtWWPContext GXv_SdtWWPContext1[] ;
+   private app.wwpbaseobjects.SdtWWPGridState AV15GridState ;
+   private app.wwpbaseobjects.SdtWWPGridState_FilterValue AV16GridStateFilterValue ;
+}
+
+final  class tempparwwexportreport__default extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   protected Object[] conditional_P08P22( ModelContext context ,
+                                          int remoteHandle ,
+                                          com.genexus.IHttpContext httpContext ,
+                                          String AV42Tempparwwds_1_filterfulltext ,
+                                          String AV44Tempparwwds_3_tfemprcod_sel ,
+                                          String AV43Tempparwwds_2_tfemprcod ,
+                                          String AV46Tempparwwds_5_tfemprnom_sel ,
+                                          String AV45Tempparwwds_4_tfemprnom ,
+                                          byte AV47Tempparwwds_6_tfempnumdec ,
+                                          byte AV48Tempparwwds_7_tfempnumdec_to ,
+                                          String A396EmprCod ,
+                                          String A407EmprNom ,
+                                          byte A3915EmpNumDec ,
+                                          short AV10OrderedBy ,
+                                          boolean AV11OrderedDsc )
+   {
+      java.lang.StringBuffer sWhereString = new java.lang.StringBuffer();
+      String scmdbuf;
+      byte[] GXv_int2 = new byte[9];
+      Object[] GXv_Object3 = new Object[2];
+      scmdbuf = "SELECT EmpNumDec, EmprNom, EmprCod FROM TXPEMPRES" ;
+      if ( ! (GXutil.strcmp("", AV42Tempparwwds_1_filterfulltext)==0) )
+      {
+         addWhere(sWhereString, "(( UPPER(EmprCod) like '%' || UPPER(?)) or ( UPPER(EmprNom) like '%' || UPPER(?)) or ( SUBSTR(TO_CHAR(EmpNumDec,'90'), 2) like '%' || ?))");
+      }
+      else
+      {
+         GXv_int2[0] = (byte)(1) ;
+         GXv_int2[1] = (byte)(1) ;
+         GXv_int2[2] = (byte)(1) ;
+      }
+      if ( (GXutil.strcmp("", AV44Tempparwwds_3_tfemprcod_sel)==0) && ( ! (GXutil.strcmp("", AV43Tempparwwds_2_tfemprcod)==0) ) )
+      {
+         addWhere(sWhereString, "(UPPER(EmprCod) like '%' || UPPER(?))");
+      }
+      else
+      {
+         GXv_int2[3] = (byte)(1) ;
+      }
+      if ( ! (GXutil.strcmp("", AV44Tempparwwds_3_tfemprcod_sel)==0) )
+      {
+         addWhere(sWhereString, "(EmprCod = ?)");
+      }
+      else
+      {
+         GXv_int2[4] = (byte)(1) ;
+      }
+      if ( (GXutil.strcmp("", AV46Tempparwwds_5_tfemprnom_sel)==0) && ( ! (GXutil.strcmp("", AV45Tempparwwds_4_tfemprnom)==0) ) )
+      {
+         addWhere(sWhereString, "(UPPER(EmprNom) like '%' || UPPER(?))");
+      }
+      else
+      {
+         GXv_int2[5] = (byte)(1) ;
+      }
+      if ( ! (GXutil.strcmp("", AV46Tempparwwds_5_tfemprnom_sel)==0) )
+      {
+         addWhere(sWhereString, "(EmprNom = ?)");
+      }
+      else
+      {
+         GXv_int2[6] = (byte)(1) ;
+      }
+      if ( ! (0==AV47Tempparwwds_6_tfempnumdec) )
+      {
+         addWhere(sWhereString, "(EmpNumDec >= ?)");
+      }
+      else
+      {
+         GXv_int2[7] = (byte)(1) ;
+      }
+      if ( ! (0==AV48Tempparwwds_7_tfempnumdec_to) )
+      {
+         addWhere(sWhereString, "(EmpNumDec <= ?)");
+      }
+      else
+      {
+         GXv_int2[8] = (byte)(1) ;
+      }
+      scmdbuf += sWhereString ;
+      if ( ( AV10OrderedBy == 1 ) && ! AV11OrderedDsc )
+      {
+         scmdbuf += " ORDER BY EmprNom" ;
+      }
+      else if ( ( AV10OrderedBy == 1 ) && ( AV11OrderedDsc ) )
+      {
+         scmdbuf += " ORDER BY EmprNom DESC" ;
+      }
+      else if ( ( AV10OrderedBy == 2 ) && ! AV11OrderedDsc )
+      {
+         scmdbuf += " ORDER BY EmprCod" ;
+      }
+      else if ( ( AV10OrderedBy == 2 ) && ( AV11OrderedDsc ) )
+      {
+         scmdbuf += " ORDER BY EmprCod DESC" ;
+      }
+      else if ( ( AV10OrderedBy == 3 ) && ! AV11OrderedDsc )
+      {
+         scmdbuf += " ORDER BY EmpNumDec" ;
+      }
+      else if ( ( AV10OrderedBy == 3 ) && ( AV11OrderedDsc ) )
+      {
+         scmdbuf += " ORDER BY EmpNumDec DESC" ;
+      }
+      GXv_Object3[0] = scmdbuf ;
+      GXv_Object3[1] = GXv_int2 ;
+      return GXv_Object3 ;
+   }
+
+   public Object [] getDynamicStatement( int cursor ,
+                                         ModelContext context ,
+                                         int remoteHandle ,
+                                         com.genexus.IHttpContext httpContext ,
+                                         Object [] dynConstraints )
+   {
+      switch ( cursor )
+      {
+            case 0 :
+                  return conditional_P08P22(context, remoteHandle, httpContext, (String)dynConstraints[0] , (String)dynConstraints[1] , (String)dynConstraints[2] , (String)dynConstraints[3] , (String)dynConstraints[4] , ((Number) dynConstraints[5]).byteValue() , ((Number) dynConstraints[6]).byteValue() , (String)dynConstraints[7] , (String)dynConstraints[8] , ((Number) dynConstraints[9]).byteValue() , ((Number) dynConstraints[10]).shortValue() , ((Boolean) dynConstraints[11]).booleanValue() );
+      }
+      return super.getDynamicStatement(cursor, context, remoteHandle, httpContext, dynConstraints);
+   }
+
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+          new ForEachCursor("P08P22", "scmdbuf",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               ((byte[]) buf[0])[0] = rslt.getByte(1);
+               ((boolean[]) buf[1])[0] = rslt.wasNull();
+               ((String[]) buf[2])[0] = rslt.getString(2, 30);
+               ((boolean[]) buf[3])[0] = rslt.wasNull();
+               ((String[]) buf[4])[0] = rslt.getString(3, 3);
+               return;
+      }
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      short sIdx;
+      switch ( cursor )
+      {
+            case 0 :
+               sIdx = (short)(0) ;
+               if ( ((Number) parms[0]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setVarchar(sIdx, (String)parms[9], 100);
+               }
+               if ( ((Number) parms[1]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setVarchar(sIdx, (String)parms[10], 100);
+               }
+               if ( ((Number) parms[2]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setVarchar(sIdx, (String)parms[11], 100);
+               }
+               if ( ((Number) parms[3]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[12], 3);
+               }
+               if ( ((Number) parms[4]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[13], 3);
+               }
+               if ( ((Number) parms[5]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[14], 30);
+               }
+               if ( ((Number) parms[6]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[15], 30);
+               }
+               if ( ((Number) parms[7]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setByte(sIdx, ((Number) parms[16]).byteValue());
+               }
+               if ( ((Number) parms[8]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setByte(sIdx, ((Number) parms[17]).byteValue());
+               }
+               return;
+      }
+   }
+
+}
+

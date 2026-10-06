@@ -1,0 +1,100 @@
+{
+	"Name": "Balance.UCBalance",
+	"Target": "",
+	"IsControlType": false,
+	"Template": "<div id=\"balance_slot\"></div>",
+	"Events": [
+		{
+			"Name": "zero",
+			"On": "zero",
+			"Parameters": ""
+		} ,
+		{
+			"Name": "tare",
+			"On": "tare",
+			"Parameters": ""
+		} ,
+		{
+			"Name": "cancel_tare",
+			"On": "cancel_tare",
+			"Parameters": ""
+		} ,
+		{
+			"Name": "request_weight",
+			"On": "request_weight",
+			"Parameters": ""
+		} ,
+		{
+			"Name": "weight_stopped",
+			"On": "weight_stopped",
+			"Parameters": ""
+		} 
+	],
+	"Properties": [
+		{
+			"Id": "server",
+			"Name": "server",
+			"Type": "string",
+			"Default": ""
+		} ,
+		{
+			"Id": "device_id",
+			"Name": "device_id",
+			"Type": "string",
+			"Default": "1"
+		} ,
+		{
+			"Id": "title",
+			"Name": "title",
+			"Type": "string",
+			"Default": "Balança"
+		} ,
+		{
+			"Id": "stopped_weight",
+			"Name": "stopped_weight",
+			"Type": "string",
+			"Default": ""
+		} ,
+		{
+			"Id": "stopped_unit",
+			"Name": "stopped_unit",
+			"Type": "string",
+			"Default": ""
+		} ,
+		{
+			"Id": "stopped_raw",
+			"Name": "stopped_raw",
+			"Type": "string",
+			"Default": ""
+		} ,
+		{
+			"Id": "stopped_timestamp",
+			"Name": "stopped_timestamp",
+			"Type": "string",
+			"Default": ""
+		} 
+	],
+	"Methods": {
+		"Public": [
+		],
+		"Private": [
+		]
+	},
+	"Scripts": {
+		"AfterShow": [
+			{
+				"Name": "Init",
+				"Source": "    (function () {      var self = this;      var slotId = \"balance_slot\";      var selector = \"#\" + slotId;      var lastStoppedSignature = null;      function raiseEvent(evtName) {        try {          if (typeof self[evtName] === \"function\") {            self[evtName]();            return;          }          if (self.Events && typeof self.Events[evtName] === \"function\") {            self.Events[evtName]();          }        } catch (e) {          console.error(\"Erro ao disparar evento GX:\", evtName, e);        }      }      function loadScriptOnce(src, cb) {        var exists = Array.prototype.some.call(document.scripts, function (s) {          return s.src && s.src.indexOf(src) >= 0;        });        if (exists || window.BalanceWidget) {          cb();          return;        }        var s = document.createElement(\"script\");        s.src = src;        s.async = true;        s.onload = cb;        s.onerror = function () {          console.error(\"Falha ao carregar script:\", src);        };        document.head.appendChild(s);      }      function mountWidget() {        if (!window.BalanceWidget) {          console.error(\"BalanceWidget não encontrado.\");          return;        }        var host = document.querySelector(selector);        if (!host) {          console.error(\"Slot do widget não encontrado:\", selector);          return;        }        var serverUrl = (self.server || \"\").trim() || window.location.origin;        var deviceId = (self.device_id || \"1\").toString();        self._bw = window.BalanceWidget.mount(selector, {          serverUrl: serverUrl,          deviceId: deviceId,          title: self.title || \"Balança\",		  useShadowDom: false,  		  includeDefaultStyles: false        });        self.GetStoppedData = function () {          if (!self._bw || typeof self._bw.getStoppedData !== \"function\") {            return null;          }          return self._bw.getStoppedData();        };        self._bw.ready          .then(function (api) {            if (!api || !api.socket) {              return;            }            api.socket.on(\"cmd_ack\", function (p) {              if (!p || String(p.device_id) !== String(deviceId) || !p.ok) {                return;              }              if (p.cmd === \"zero\") {                raiseEvent(\"zero\");              }              if (p.cmd === \"tare\") {                raiseEvent(\"tare\");              }              if (p.cmd === \"cancel_tare\") {                raiseEvent(\"cancel_tare\");              }              if (p.cmd === \"request_weight\") {                raiseEvent(\"request_weight\");              }            });            if (self._stoppedPollTimer) {              clearInterval(self._stoppedPollTimer);              self._stoppedPollTimer = null;            }            self._stoppedPollTimer = setInterval(function () {              if (!self._bw || typeof self._bw.getStoppedData !== \"function\") {                return;              }              var data = self._bw.getStoppedData();              var reading = data && data.reading;              if (!reading) {                return;              }              var signature =                String(reading.timestamp || \"\") +                \"|\" +                String(reading.weight || \"\");              if (signature === lastStoppedSignature) {                return;              }              lastStoppedSignature = signature;              self.stopped_weight = String(                reading.weight == null ? \"\" : reading.weight              );              self.stopped_unit = String(reading.unit || \"\");              self.stopped_raw = String(reading.raw || \"\");              self.stopped_timestamp = String(reading.timestamp || \"\");              raiseEvent(\"weight_stopped\");            }, 300);          })          .catch(function (err) {            console.error(\"Erro ao iniciar widget:\", err);          });      }      loadScriptOnce(\"/balance-widget.js?v=20260722-3\", mountWidget);    }).call(this);  ",
+				"AngularLocation": ""
+			} 
+		],
+		"BeforeShow": [
+		]
+	},
+	"Dependencies": [
+	],
+	"Imports": [
+	],
+	"Styles": [
+	]
+}

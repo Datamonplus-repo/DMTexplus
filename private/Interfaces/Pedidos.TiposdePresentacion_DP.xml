@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="b5d74a51-abc9-4aa8-8f65-a981a9d50605" name="Pedidos.TiposdePresentacion_DP" description="Tipos de Presentacion" namespace="app">
+  <Signature name="parm">
+    <Parameter name="ReturnValue" accessor="out">
+      <Field name="TiposdePresentacion_SDT" description="Tiposde Presentacion_SDT" collection="true">
+        <Fields>
+          <Field name="Seleccion" description="Seleccion">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Boolean</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="Tipprecod" description="Codigo">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>4</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZZ9</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="TipPreDsc" description="Tipo Presentacion">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>60</Value>
+              </Property>
+            </Properties>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

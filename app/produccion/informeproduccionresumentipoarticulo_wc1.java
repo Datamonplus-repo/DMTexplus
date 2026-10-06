@@ -1,0 +1,64 @@
+package app.produccion ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.webpanels.*;
+import java.sql.*;
+import com.genexus.search.*;
+
+@jakarta.servlet.annotation.WebServlet(urlPatterns = {"/servlet/app.produccion.informeproduccionresumentipoarticulo_wc1", "/app.produccion.informeproduccionresumentipoarticulo_wc1"})
+@jakarta.servlet.annotation.MultipartConfig
+public final  class informeproduccionresumentipoarticulo_wc1 extends GXWebObjectStub
+{
+   public informeproduccionresumentipoarticulo_wc1( )
+   {
+   }
+
+   public informeproduccionresumentipoarticulo_wc1( int remoteHandle )
+   {
+      super(remoteHandle, new ModelContext( informeproduccionresumentipoarticulo_wc1.class ));
+   }
+
+   public informeproduccionresumentipoarticulo_wc1( int remoteHandle ,
+                                                    ModelContext context )
+   {
+      super(remoteHandle, context);
+   }
+
+   protected void doExecute( com.genexus.internet.HttpContext context ) throws Exception
+   {
+      new informeproduccionresumentipoarticulo_wc1_impl(context).doExecute();
+   }
+
+   protected void init( com.genexus.internet.HttpContext context )
+   {
+      new informeproduccionresumentipoarticulo_wc1_impl(context).cleanup();
+   }
+
+   public String getServletInfo( )
+   {
+      return " Table LHIPRO";
+   }
+
+   protected boolean IntegratedSecurityEnabled( )
+   {
+      return false;
+   }
+
+   protected int IntegratedSecurityLevel( )
+   {
+      return 0;
+   }
+
+   protected String IntegratedSecurityPermissionPrefix( )
+   {
+      return "";
+   }
+
+   protected String EncryptURLParameters( )
+   {
+      return "NO";
+   }
+
+}
+

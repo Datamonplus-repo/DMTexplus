@@ -1,0 +1,73 @@
+{
+	"Name": "Balance.Balance",
+	"Target": "",
+	"IsControlType": false,
+	"Template": "<div id=\"balance-slot\"></div>",
+	"Events": [
+		{
+			"Name": "zero",
+			"On": "zero",
+			"Parameters": ""
+		} ,
+		{
+			"Name": "tare",
+			"On": "tare",
+			"Parameters": ""
+		} ,
+		{
+			"Name": "cancel_tare",
+			"On": "cancel_tare",
+			"Parameters": ""
+		} ,
+		{
+			"Name": "request_weight",
+			"On": "request_weight",
+			"Parameters": ""
+		} 
+	],
+	"Properties": [
+		{
+			"Id": "server",
+			"Name": "server",
+			"Type": "string",
+			"Default": ""
+		} ,
+		{
+			"Id": "client_id",
+			"Name": "client_id",
+			"Type": "string",
+			"Default": ""
+		} ,
+		{
+			"Id": "device_id",
+			"Name": "device_id",
+			"Type": "string",
+			"Default": ""
+		} 
+	],
+	"Methods": {
+		"Public": [
+			{
+				"Name": "Init",
+				"Source": "      BalanceWidget.mount(\"#balance-slot\", {	    serverUrl: \"https://SEU_SERVIDOR\",	    deviceId: \"1\",	    bridge: {	      baseUrl: \"localhost:8080/TexplusNETJavaOracle\",	      clientId: \"0f20a1f1-f0ef-4014-a6de-774ffc0a5123\",	      deviceId: \"1\"	    }  });  ",
+				"Return": "",
+				"Parameters": [
+				]
+			} 
+		],
+		"Private": [
+		]
+	},
+	"Scripts": {
+		"AfterShow": [
+		],
+		"BeforeShow": [
+		]
+	},
+	"Dependencies": [
+	],
+	"Imports": [
+	],
+	"Styles": [
+	]
+}

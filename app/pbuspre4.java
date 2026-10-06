@@ -1,0 +1,1504 @@
+package app ;
+import app.*;
+import java.sql.*;
+import com.genexus.db.*;
+import com.genexus.*;
+import com.genexus.search.*;
+
+public final  class pbuspre4 extends GXProcedure
+{
+   public pbuspre4( int remoteHandle )
+   {
+      super( remoteHandle , new ModelContext( pbuspre4.class ), "" );
+   }
+
+   public pbuspre4( int remoteHandle ,
+                    ModelContext context )
+   {
+      super( remoteHandle , context, "" );
+   }
+
+   @SuppressWarnings("unchecked")
+   public String executeUdp( String aP0 ,
+                             int aP1 ,
+                             byte aP2 ,
+                             String aP3 ,
+                             java.math.BigDecimal[] aP4 ,
+                             java.math.BigDecimal[] aP5 ,
+                             byte[] aP6 ,
+                             java.math.BigDecimal[] aP7 )
+   {
+      pbuspre4.this.aP8 = new String[] {""};
+      execute_int(aP0, aP1, aP2, aP3, aP4, aP5, aP6, aP7, aP8);
+      return aP8[0];
+   }
+
+   public void execute( String aP0 ,
+                        int aP1 ,
+                        byte aP2 ,
+                        String aP3 ,
+                        java.math.BigDecimal[] aP4 ,
+                        java.math.BigDecimal[] aP5 ,
+                        byte[] aP6 ,
+                        java.math.BigDecimal[] aP7 ,
+                        String[] aP8 )
+   {
+      execute_int(aP0, aP1, aP2, aP3, aP4, aP5, aP6, aP7, aP8);
+   }
+
+   private void execute_int( String aP0 ,
+                             int aP1 ,
+                             byte aP2 ,
+                             String aP3 ,
+                             java.math.BigDecimal[] aP4 ,
+                             java.math.BigDecimal[] aP5 ,
+                             byte[] aP6 ,
+                             java.math.BigDecimal[] aP7 ,
+                             String[] aP8 )
+   {
+      pbuspre4.this.AV15EmprCod = aP0;
+      pbuspre4.this.AV16BarCod = aP1;
+      pbuspre4.this.AV17BarReo = aP2;
+      pbuspre4.this.AV18BarPar = aP3;
+      pbuspre4.this.aP4 = aP4;
+      pbuspre4.this.aP5 = aP5;
+      pbuspre4.this.aP6 = aP6;
+      pbuspre4.this.aP7 = aP7;
+      pbuspre4.this.aP8 = aP8;
+      initialize();
+      /* GeneXus formulas */
+      /* Output device settings */
+      privateExecute();
+   }
+
+   private void privateExecute( )
+   {
+      GXv_int1[0] = AV45Flag ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, "100006", GXv_int1) ;
+      pbuspre4.this.AV45Flag = GXv_int1[0] ;
+      GXv_int1[0] = AV60FlagPer ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "PERVAF", ""), GXv_int1) ;
+      pbuspre4.this.AV60FlagPer = GXv_int1[0] ;
+      GXv_int1[0] = AV61FlagTintbo ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "TINTBO", ""), GXv_int1) ;
+      pbuspre4.this.AV61FlagTintbo = GXv_int1[0] ;
+      GXv_int1[0] = AV67FlagRibes ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "RIBES", ""), GXv_int1) ;
+      pbuspre4.this.AV67FlagRibes = GXv_int1[0] ;
+      GXv_int1[0] = AV64FlagGrabis ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "GRABIS", ""), GXv_int1) ;
+      pbuspre4.this.AV64FlagGrabis = GXv_int1[0] ;
+      AV65FlagRecCol = (byte)(0) ;
+      GXv_int1[0] = AV65FlagRecCol ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "RECCOL", ""), GXv_int1) ;
+      pbuspre4.this.AV65FlagRecCol = GXv_int1[0] ;
+      GXv_int1[0] = AV68FlagPrePar ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "PREPAR", ""), GXv_int1) ;
+      pbuspre4.this.AV68FlagPrePar = GXv_int1[0] ;
+      GXv_int1[0] = AV71FlagPreAgr ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "PREAGR", ""), GXv_int1) ;
+      pbuspre4.this.AV71FlagPreAgr = GXv_int1[0] ;
+      GXv_int1[0] = AV72Finite ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "FINITE", ""), GXv_int1) ;
+      pbuspre4.this.AV72Finite = GXv_int1[0] ;
+      GXv_int1[0] = AV79RecarE ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "RECESC", ""), GXv_int1) ;
+      pbuspre4.this.AV79RecarE = GXv_int1[0] ;
+      GXv_int1[0] = AV81Texknit ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "TEXKNI", ""), GXv_int1) ;
+      pbuspre4.this.AV81Texknit = GXv_int1[0] ;
+      GXv_int1[0] = AV82BusPr3 ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "BUSPR3", ""), GXv_int1) ;
+      pbuspre4.this.AV82BusPr3 = GXv_int1[0] ;
+      GXv_int1[0] = AV85FlagSala ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "SALAYE", ""), GXv_int1) ;
+      pbuspre4.this.AV85FlagSala = GXv_int1[0] ;
+      GXv_int1[0] = AV86PLinea ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "PLINEA", ""), GXv_int1) ;
+      pbuspre4.this.AV86PLinea = GXv_int1[0] ;
+      GXv_int1[0] = AV91Carvema ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "CARVEM", ""), GXv_int1) ;
+      pbuspre4.this.AV91Carvema = GXv_int1[0] ;
+      GXt_int2 = AV89Tintutex ;
+      GXv_int1[0] = GXt_int2 ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "TINTUT", ""), GXv_int1) ;
+      pbuspre4.this.GXt_int2 = GXv_int1[0] ;
+      AV89Tintutex = GXt_int2 ;
+      GXt_int2 = AV90Tas ;
+      GXv_int1[0] = GXt_int2 ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "TAS", ""), GXv_int1) ;
+      pbuspre4.this.GXt_int2 = GXv_int1[0] ;
+      AV90Tas = GXt_int2 ;
+      GXt_int2 = AV92Tintex ;
+      GXv_int1[0] = GXt_int2 ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "TXPREC", ""), GXv_int1) ;
+      pbuspre4.this.GXt_int2 = GXv_int1[0] ;
+      AV92Tintex = GXt_int2 ;
+      GXt_int2 = AV95Termilenio ;
+      GXv_int1[0] = GXt_int2 ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "TERMIL", ""), GXv_int1) ;
+      pbuspre4.this.GXt_int2 = GXv_int1[0] ;
+      AV95Termilenio = GXt_int2 ;
+      GXt_int2 = AV99etm ;
+      GXv_int1[0] = GXt_int2 ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "ETM", ""), GXv_int1) ;
+      pbuspre4.this.GXt_int2 = GXv_int1[0] ;
+      AV99etm = GXt_int2 ;
+      GXt_int2 = AV100aplicarGrm ;
+      GXv_int1[0] = GXt_int2 ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "ETMGRM", ""), GXv_int1) ;
+      pbuspre4.this.GXt_int2 = GXv_int1[0] ;
+      AV100aplicarGrm = GXt_int2 ;
+      GXt_int2 = (byte)(AV101carvitin) ;
+      GXv_int1[0] = GXt_int2 ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "CARVIT", ""), GXv_int1) ;
+      pbuspre4.this.GXt_int2 = GXv_int1[0] ;
+      AV101carvitin = GXt_int2 ;
+      GXt_int2 = (byte)(AV102bfpvp) ;
+      GXv_int1[0] = GXt_int2 ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "BPVPGR", ""), GXv_int1) ;
+      pbuspre4.this.GXt_int2 = GXv_int1[0] ;
+      AV102bfpvp = GXt_int2 ;
+      AV70FlagPorCol = (byte)(0) ;
+      GXv_int1[0] = AV70FlagPorCol ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "PORCOL", ""), GXv_int1) ;
+      pbuspre4.this.AV70FlagPorCol = GXv_int1[0] ;
+      GXt_int2 = AV94Pre000 ;
+      GXv_int1[0] = GXt_int2 ;
+      new app.pexicon(remoteHandle, context).execute( AV15EmprCod, httpContext.getMessage( "PRE000", ""), GXv_int1) ;
+      pbuspre4.this.GXt_int2 = GXv_int1[0] ;
+      AV94Pre000 = GXt_int2 ;
+      if ( AV82BusPr3 == 1 )
+      {
+         GXv_char3[0] = AV15EmprCod ;
+         GXv_int4[0] = AV16BarCod ;
+         GXv_int1[0] = AV17BarReo ;
+         GXv_char5[0] = AV18BarPar ;
+         GXv_decimal6[0] = AV19PreKgm ;
+         GXv_decimal7[0] = AV20PreMts ;
+         GXv_int8[0] = AV21Operesp ;
+         GXv_decimal9[0] = AV22TotRec ;
+         new app.pbuspr3(remoteHandle, context).execute( GXv_char3, GXv_int4, GXv_int1, GXv_char5, GXv_decimal6, GXv_decimal7, GXv_int8, GXv_decimal9) ;
+         pbuspre4.this.AV15EmprCod = GXv_char3[0] ;
+         pbuspre4.this.AV16BarCod = GXv_int4[0] ;
+         pbuspre4.this.AV17BarReo = GXv_int1[0] ;
+         pbuspre4.this.AV18BarPar = GXv_char5[0] ;
+         pbuspre4.this.AV19PreKgm = GXv_decimal6[0] ;
+         pbuspre4.this.AV20PreMts = GXv_decimal7[0] ;
+         pbuspre4.this.AV21Operesp = GXv_int8[0] ;
+         pbuspre4.this.AV22TotRec = GXv_decimal9[0] ;
+         returnInSub = true;
+         cleanup();
+         if (true) return;
+      }
+      if ( AV91Carvema == 1 )
+      {
+         GXv_char5[0] = AV15EmprCod ;
+         GXv_int4[0] = AV16BarCod ;
+         GXv_int8[0] = AV17BarReo ;
+         GXv_char3[0] = AV18BarPar ;
+         GXv_decimal9[0] = AV19PreKgm ;
+         GXv_decimal7[0] = AV20PreMts ;
+         GXv_int1[0] = AV21Operesp ;
+         GXv_decimal6[0] = AV22TotRec ;
+         GXv_decimal10[0] = AV93Albdto ;
+         new app.pprecarv(remoteHandle, context).execute( GXv_char5, GXv_int4, GXv_int8, GXv_char3, GXv_decimal9, GXv_decimal7, GXv_int1, GXv_decimal6, GXv_decimal10) ;
+         pbuspre4.this.AV15EmprCod = GXv_char5[0] ;
+         pbuspre4.this.AV16BarCod = GXv_int4[0] ;
+         pbuspre4.this.AV17BarReo = GXv_int8[0] ;
+         pbuspre4.this.AV18BarPar = GXv_char3[0] ;
+         pbuspre4.this.AV19PreKgm = GXv_decimal9[0] ;
+         pbuspre4.this.AV20PreMts = GXv_decimal7[0] ;
+         pbuspre4.this.AV21Operesp = GXv_int1[0] ;
+         pbuspre4.this.AV22TotRec = GXv_decimal6[0] ;
+         pbuspre4.this.AV93Albdto = GXv_decimal10[0] ;
+         returnInSub = true;
+         cleanup();
+         if (true) return;
+      }
+      if ( AV45Flag == 1 )
+      {
+         GXv_char5[0] = AV15EmprCod ;
+         GXv_int4[0] = AV16BarCod ;
+         GXv_int8[0] = AV17BarReo ;
+         GXv_char3[0] = AV18BarPar ;
+         GXv_decimal10[0] = AV19PreKgm ;
+         GXv_decimal9[0] = AV20PreMts ;
+         GXv_int1[0] = AV21Operesp ;
+         GXv_decimal7[0] = AV22TotRec ;
+         new app.ptarpro(remoteHandle, context).execute( GXv_char5, GXv_int4, GXv_int8, GXv_char3, GXv_decimal10, GXv_decimal9, GXv_int1, GXv_decimal7) ;
+         pbuspre4.this.AV15EmprCod = GXv_char5[0] ;
+         pbuspre4.this.AV16BarCod = GXv_int4[0] ;
+         pbuspre4.this.AV17BarReo = GXv_int8[0] ;
+         pbuspre4.this.AV18BarPar = GXv_char3[0] ;
+         pbuspre4.this.AV19PreKgm = GXv_decimal10[0] ;
+         pbuspre4.this.AV20PreMts = GXv_decimal9[0] ;
+         pbuspre4.this.AV21Operesp = GXv_int1[0] ;
+         pbuspre4.this.AV22TotRec = GXv_decimal7[0] ;
+         Gx_msg = httpContext.getMessage( "&PreKgm =", "") + GXutil.str( AV19PreKgm, 13, 5) + GXutil.newLine( ) + httpContext.getMessage( "&PreMts =", "") + GXutil.str( AV20PreMts, 13, 5) + GXutil.newLine( ) + httpContext.getMessage( "&Operesp=", "") + GXutil.str( AV21Operesp, 2, 0) + GXutil.newLine( ) ;
+      }
+      else
+      {
+         AV19PreKgm = DecimalUtil.ZERO ;
+         AV20PreMts = DecimalUtil.ZERO ;
+         AV24PreDef = httpContext.getMessage( "S", "") ;
+         /* Using cursor P04OX2 */
+         pr_default.execute(0, new Object[] {AV15EmprCod, Integer.valueOf(AV16BarCod), Byte.valueOf(AV17BarReo), AV18BarPar, AV15EmprCod, Integer.valueOf(AV16BarCod), Byte.valueOf(AV17BarReo), AV18BarPar});
+         while ( (pr_default.getStatus(0) != 101) )
+         {
+            A132BarCodReo = P04OX2_A132BarCodReo[0] ;
+            A130BarCodPar = P04OX2_A130BarCodPar[0] ;
+            A129BarCod = P04OX2_A129BarCod[0] ;
+            A396EmprCod = P04OX2_A396EmprCod[0] ;
+            A161BarFecSal = P04OX2_A161BarFecSal[0] ;
+            A252CliCod = P04OX2_A252CliCod[0] ;
+            n252CliCod = P04OX2_n252CliCod[0] ;
+            A212BarSer = P04OX2_A212BarSer[0] ;
+            A135BarColNom = P04OX2_A135BarColNom[0] ;
+            A136BarColNum = P04OX2_A136BarColNum[0] ;
+            A218BarTipCol = P04OX2_A218BarTipCol[0] ;
+            A2010BarTipDis = P04OX2_A2010BarTipDis[0] ;
+            A1909BarGraAca = P04OX2_A1909BarGraAca[0] ;
+            A361DisCod = P04OX2_A361DisCod[0] ;
+            A228BarUniMed = P04OX2_A228BarUniMed[0] ;
+            A120BarAgrEst = P04OX2_A120BarAgrEst[0] ;
+            A193BarOpeEsp = P04OX2_A193BarOpeEsp[0] ;
+            A148BarEstReo = P04OX2_A148BarEstReo[0] ;
+            A5253BarAcc = P04OX2_A5253BarAcc[0] ;
+            /* Using cursor P04OX4 */
+            pr_default.execute(1, new Object[] {A396EmprCod, Integer.valueOf(A129BarCod), Byte.valueOf(A132BarCodReo), A130BarCodPar});
+            if ( (pr_default.getStatus(1) != 101) )
+            {
+               A184BarMtr = P04OX4_A184BarMtr[0] ;
+               A166BarKgm = P04OX4_A166BarKgm[0] ;
+            }
+            else
+            {
+               A184BarMtr = DecimalUtil.doubleToDec(0) ;
+               A166BarKgm = DecimalUtil.doubleToDec(0) ;
+            }
+            A161BarFecSal = Gx_date ;
+            AV35CliCod = A252CliCod ;
+            AV31BarSer = A212BarSer ;
+            AV32BarColNom = A135BarColNom ;
+            AV33BarColNum = A136BarColNum ;
+            AV34TipColCod = A218BarTipCol ;
+            AV87BarTipDis = A2010BarTipDis ;
+            AV98BarGraAca = A1909BarGraAca ;
+            AV74DisCod = A361DisCod ;
+            /* Execute user subroutine: 'DISPOS' */
+            S141 ();
+            if ( returnInSub )
+            {
+               pr_default.close(1);
+               pr_default.close(0);
+               returnInSub = true;
+               cleanup();
+               if (true) return;
+            }
+            if ( GXutil.strcmp(A228BarUniMed, httpContext.getMessage( "M", "")) == 0 )
+            {
+               AV27LimUni = (int)(DecimalUtil.decToDouble(GXutil.roundDecimal( A184BarMtr, 0))) ;
+               AV44UniMed = httpContext.getMessage( "M", "") ;
+            }
+            else
+            {
+               AV27LimUni = (int)(DecimalUtil.decToDouble(GXutil.roundDecimal( A166BarKgm, 0))) ;
+               AV44UniMed = httpContext.getMessage( "K", "") ;
+            }
+            if ( ( GXutil.strcmp(A120BarAgrEst, httpContext.getMessage( "S", "")) == 0 ) && ( AV71FlagPreAgr == 1 ) )
+            {
+               GXv_char5[0] = A396EmprCod ;
+               GXv_int4[0] = A129BarCod ;
+               GXv_int8[0] = A132BarCodReo ;
+               GXv_char3[0] = A130BarCodPar ;
+               GXv_decimal10[0] = DecimalUtil.doubleToDec(AV27LimUni) ;
+               new app.ppreagr(remoteHandle, context).execute( GXv_char5, GXv_int4, GXv_int8, GXv_char3, GXv_decimal10) ;
+               pbuspre4.this.A396EmprCod = GXv_char5[0] ;
+               pbuspre4.this.A129BarCod = GXv_int4[0] ;
+               pbuspre4.this.A132BarCodReo = GXv_int8[0] ;
+               pbuspre4.this.A130BarCodPar = GXv_char3[0] ;
+               pbuspre4.this.AV27LimUni = (int)(DecimalUtil.decToDouble(GXv_decimal10[0])) ;
+            }
+            if ( AV68FlagPrePar == 1 )
+            {
+               GXv_char5[0] = AV15EmprCod ;
+               GXv_int4[0] = AV16BarCod ;
+               GXv_int8[0] = AV17BarReo ;
+               GXv_decimal10[0] = AV69TotUni ;
+               new app.ptotpar(remoteHandle, context).execute( GXv_char5, GXv_int4, GXv_int8, GXv_decimal10) ;
+               pbuspre4.this.AV15EmprCod = GXv_char5[0] ;
+               pbuspre4.this.AV16BarCod = GXv_int4[0] ;
+               pbuspre4.this.AV17BarReo = GXv_int8[0] ;
+               pbuspre4.this.AV69TotUni = GXv_decimal10[0] ;
+               AV27LimUni = (int)(DecimalUtil.decToDouble(AV69TotUni)) ;
+            }
+            AV97Vtxt = " " ;
+            /* Execute user subroutine: 'LOCFOR' */
+            S111 ();
+            if ( returnInSub )
+            {
+               pr_default.close(1);
+               pr_default.close(0);
+               returnInSub = true;
+               cleanup();
+               if (true) return;
+            }
+            if ( (DecimalUtil.compareTo(DecimalUtil.ZERO, AV19PreKgm)==0) && (DecimalUtil.compareTo(DecimalUtil.ZERO, AV20PreMts)==0) )
+            {
+               AV36Noprecio = httpContext.getMessage( "N", "") ;
+            }
+            else
+            {
+               AV36Noprecio = httpContext.getMessage( "S", "") ;
+            }
+            if ( ( GXutil.strcmp(AV24PreDef, httpContext.getMessage( "N", "")) == 0 ) || ( GXutil.strcmp(AV36Noprecio, httpContext.getMessage( "N", "")) == 0 ) )
+            {
+               AV21Operesp = (byte)(2) ;
+            }
+            if ( ( GXutil.strcmp(AV36Noprecio, httpContext.getMessage( "N", "")) == 0 ) && ( A193BarOpeEsp == 4 ) )
+            {
+               AV21Operesp = (byte)(4) ;
+            }
+            if ( ( GXutil.strcmp(AV36Noprecio, httpContext.getMessage( "S", "")) == 0 ) && ( GXutil.strcmp(AV24PreDef, httpContext.getMessage( "S", "")) == 0 ) )
+            {
+               if ( ( A193BarOpeEsp == 1 ) || ( A193BarOpeEsp == 5 ) || ( A193BarOpeEsp == 7 ) )
+               {
+                  AV21Operesp = A193BarOpeEsp ;
+               }
+               else
+               {
+                  AV21Operesp = (byte)(A193BarOpeEsp+10) ;
+               }
+            }
+            if ( ( GXutil.strcmp(A2010BarTipDis, httpContext.getMessage( "A", "")) == 0 ) && ( AV61FlagTintbo == 1 ) )
+            {
+               AV21Operesp = (byte)(10) ;
+            }
+            A161BarFecSal = GXutil.today( ) ;
+            if ( ( AV89Tintutex == 1 ) && ( A148BarEstReo == 1 ) && ( GXutil.strcmp(AV36Noprecio, httpContext.getMessage( "S", "")) == 0 ) && ( GXutil.strcmp(AV24PreDef, httpContext.getMessage( "S", "")) == 0 ) )
+            {
+               AV21Operesp = (byte)(A193BarOpeEsp+10) ;
+            }
+            if ( GXutil.strcmp(A5253BarAcc, httpContext.getMessage( "S", "")) == 0 )
+            {
+               AV21Operesp = (byte)(10) ;
+               AV19PreKgm = AV83DisPreKgm ;
+               AV20PreMts = AV84DisPreMtr ;
+            }
+            if ( ( AV99etm == 1 ) && ( AV100aplicarGrm == 1 ) )
+            {
+               if ( ( AV98BarGraAca > 0 ) && ( AV98BarGraAca <= 120 ) )
+               {
+                  AV19PreKgm = AV19PreKgm.add(DecimalUtil.stringToDec("0.40")) ;
+               }
+               if ( ( AV98BarGraAca >= 121 ) && ( AV98BarGraAca <= 140 ) )
+               {
+                  AV19PreKgm = AV19PreKgm.add(DecimalUtil.stringToDec("0.20")) ;
+               }
+            }
+            /* Using cursor P04OX5 */
+            pr_default.execute(2, new Object[] {A161BarFecSal, A396EmprCod, Integer.valueOf(A129BarCod), Byte.valueOf(A132BarCodReo), A130BarCodPar});
+            Application.getSmartCacheProvider(remoteHandle).setUpdated("TXPBARCAD");
+            /* Exiting from a For First loop. */
+            if (true) break;
+         }
+         pr_default.close(0);
+         pr_default.close(1);
+      }
+      cleanup();
+   }
+
+   public void S111( )
+   {
+      /* 'LOCFOR' Routine */
+      returnInSub = false ;
+      /* Using cursor P04OX6 */
+      pr_default.execute(3, new Object[] {AV15EmprCod, Integer.valueOf(AV35CliCod), AV31BarSer, AV32BarColNom, Integer.valueOf(AV33BarColNum), Byte.valueOf(AV34TipColCod)});
+      while ( (pr_default.getStatus(3) != 101) )
+      {
+         A831TipColCod = P04OX6_A831TipColCod[0] ;
+         A483ForColNum = P04OX6_A483ForColNum[0] ;
+         A482ForColNom = P04OX6_A482ForColNom[0] ;
+         A494ForSer = P04OX6_A494ForSer[0] ;
+         A252CliCod = P04OX6_A252CliCod[0] ;
+         n252CliCod = P04OX6_n252CliCod[0] ;
+         A396EmprCod = P04OX6_A396EmprCod[0] ;
+         A3915EmpNumDec = P04OX6_A3915EmpNumDec[0] ;
+         n3915EmpNumDec = P04OX6_n3915EmpNumDec[0] ;
+         A583IntCod = P04OX6_A583IntCod[0] ;
+         A493ForPreMtr = P04OX6_A493ForPreMtr[0] ;
+         n493ForPreMtr = P04OX6_n493ForPreMtr[0] ;
+         A492ForPreKgm = P04OX6_A492ForPreKgm[0] ;
+         n492ForPreKgm = P04OX6_n492ForPreKgm[0] ;
+         A491ForPreDef = P04OX6_A491ForPreDef[0] ;
+         n491ForPreDef = P04OX6_n491ForPreDef[0] ;
+         A3915EmpNumDec = P04OX6_A3915EmpNumDec[0] ;
+         n3915EmpNumDec = P04OX6_n3915EmpNumDec[0] ;
+         AV25IntCod = A583IntCod ;
+         if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, A492ForPreKgm)==0) || ! (DecimalUtil.compareTo(DecimalUtil.ZERO, A493ForPreMtr)==0) )
+         {
+            AV19PreKgm = A492ForPreKgm ;
+            AV20PreMts = A493ForPreMtr ;
+            if ( GXutil.strcmp(A491ForPreDef, httpContext.getMessage( "N", "")) == 0 )
+            {
+               AV24PreDef = httpContext.getMessage( "N", "") ;
+            }
+            AV97Vtxt = httpContext.getMessage( "PC", "") ;
+         }
+         /* Using cursor P04OX7 */
+         pr_default.execute(4, new Object[] {A396EmprCod, Boolean.valueOf(n252CliCod), Integer.valueOf(A252CliCod), A494ForSer, A482ForColNom, Integer.valueOf(A483ForColNum), Byte.valueOf(A831TipColCod)});
+         while ( (pr_default.getStatus(4) != 101) )
+         {
+            A1521RecValFin = P04OX7_A1521RecValFin[0] ;
+            n1521RecValFin = P04OX7_n1521RecValFin[0] ;
+            A1520RecValIni = P04OX7_A1520RecValIni[0] ;
+            n1520RecValIni = P04OX7_n1520RecValIni[0] ;
+            A1522RecCanRec = P04OX7_A1522RecCanRec[0] ;
+            n1522RecCanRec = P04OX7_n1522RecCanRec[0] ;
+            A1519RecCorLin = P04OX7_A1519RecCorLin[0] ;
+            if ( ( ( AV27LimUni >= A1520RecValIni ) && ( AV27LimUni <= A1521RecValFin ) ) || ( ( AV27LimUni >= A1520RecValIni ) && (0==A1521RecValFin) ) )
+            {
+               AV22TotRec = A1522RecCanRec ;
+               AV54PorRec = A1522RecCanRec ;
+               if ( AV70FlagPorCol == 0 )
+               {
+                  if ( GXutil.strcmp(AV44UniMed, httpContext.getMessage( "K", "")) == 0 )
+                  {
+                     AV19PreKgm = AV22TotRec ;
+                  }
+                  else
+                  {
+                     AV20PreMts = AV22TotRec ;
+                  }
+                  if ( AV60FlagPer == 1 )
+                  {
+                     AV22TotRec = DecimalUtil.ZERO ;
+                  }
+               }
+               else
+               {
+                  AV22TotRec = DecimalUtil.doubleToDec(0) ;
+                  if ( AV99etm == 1 )
+                  {
+                     AV22TotRec = AV54PorRec ;
+                  }
+                  else
+                  {
+                     if ( GXutil.strcmp(AV44UniMed, httpContext.getMessage( "M", "")) == 0 )
+                     {
+                        if ( A3915EmpNumDec == 0 )
+                        {
+                           AV22TotRec = GXutil.roundDecimal( AV20PreMts.multiply(AV54PorRec).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN), 0) ;
+                        }
+                        else
+                        {
+                           AV22TotRec = GXutil.roundDecimal( AV20PreMts.multiply(AV54PorRec).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN), 2) ;
+                        }
+                        AV20PreMts = AV20PreMts.add(AV22TotRec) ;
+                     }
+                     else
+                     {
+                        if ( A3915EmpNumDec == 0 )
+                        {
+                           AV22TotRec = GXutil.roundDecimal( AV19PreKgm.multiply(AV54PorRec).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN), 0) ;
+                        }
+                        else
+                        {
+                           AV22TotRec = GXutil.roundDecimal( AV19PreKgm.multiply(AV54PorRec).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN), 2) ;
+                        }
+                        AV19PreKgm = AV19PreKgm.add(AV22TotRec) ;
+                     }
+                  }
+               }
+               /* Exit For each command. Update data (if necessary), close cursors & exit. */
+               if (true) break;
+            }
+            pr_default.readNext(4);
+         }
+         pr_default.close(4);
+         /* Exiting from a For First loop. */
+         if (true) break;
+      }
+      pr_default.close(3);
+      if ( AV65FlagRecCol == 1 )
+      {
+         /* Using cursor P04OX8 */
+         pr_default.execute(5, new Object[] {AV15EmprCod, Integer.valueOf(AV35CliCod), AV31BarSer, Integer.valueOf(AV27LimUni)});
+         while ( (pr_default.getStatus(5) != 101) )
+         {
+            A596LimUni = P04OX8_A596LimUni[0] ;
+            n596LimUni = P04OX8_n596LimUni[0] ;
+            A65ArtCod = P04OX8_A65ArtCod[0] ;
+            A252CliCod = P04OX8_A252CliCod[0] ;
+            n252CliCod = P04OX8_n252CliCod[0] ;
+            A396EmprCod = P04OX8_A396EmprCod[0] ;
+            A675PorRec = P04OX8_A675PorRec[0] ;
+            n675PorRec = P04OX8_n675PorRec[0] ;
+            A598LinRec = P04OX8_A598LinRec[0] ;
+            AV54PorRec = A675PorRec ;
+            /* Exit For each command. Update data (if necessary), close cursors & exit. */
+            if (true) break;
+            pr_default.readNext(5);
+         }
+         pr_default.close(5);
+         if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV54PorRec)==0) )
+         {
+            if ( GXutil.strcmp(AV44UniMed, httpContext.getMessage( "M", "")) == 0 )
+            {
+               if ( A3915EmpNumDec == 0 )
+               {
+                  AV22TotRec = GXutil.roundDecimal( AV20PreMts.multiply(AV54PorRec).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN), 0) ;
+               }
+               else
+               {
+                  if ( A3915EmpNumDec == 2 )
+                  {
+                     AV22TotRec = GXutil.roundDecimal( AV20PreMts.multiply(AV54PorRec).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN), 2) ;
+                  }
+               }
+               AV20PreMts = AV20PreMts.add(AV22TotRec) ;
+            }
+            else
+            {
+               if ( A3915EmpNumDec == 0 )
+               {
+                  AV22TotRec = GXutil.roundDecimal( AV19PreKgm.multiply(AV54PorRec).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN), 0) ;
+               }
+               else
+               {
+                  if ( A3915EmpNumDec == 2 )
+                  {
+                     AV22TotRec = GXutil.roundDecimal( AV19PreKgm.multiply(AV54PorRec).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN), 2) ;
+                  }
+               }
+               AV19PreKgm = AV19PreKgm.add(AV22TotRec) ;
+            }
+         }
+      }
+      if ( (DecimalUtil.compareTo(DecimalUtil.ZERO, AV19PreKgm)==0) && (DecimalUtil.compareTo(DecimalUtil.ZERO, AV20PreMts)==0) )
+      {
+         /* Execute user subroutine: 'LOCART' */
+         S121 ();
+         if (returnInSub) return;
+      }
+   }
+
+   public void S121( )
+   {
+      /* 'LOCART' Routine */
+      returnInSub = false ;
+      if ( AV95Termilenio == 1 )
+      {
+         AV96Tc = (byte)(0) ;
+      }
+      else
+      {
+         AV96Tc = AV34TipColCod ;
+      }
+      /* Using cursor P04OX9 */
+      pr_default.execute(6, new Object[] {AV15EmprCod, Integer.valueOf(AV35CliCod), AV31BarSer});
+      while ( (pr_default.getStatus(6) != 101) )
+      {
+         A65ArtCod = P04OX9_A65ArtCod[0] ;
+         A252CliCod = P04OX9_A252CliCod[0] ;
+         n252CliCod = P04OX9_n252CliCod[0] ;
+         A396EmprCod = P04OX9_A396EmprCod[0] ;
+         A92ArtPreKgm = P04OX9_A92ArtPreKgm[0] ;
+         n92ArtPreKgm = P04OX9_n92ArtPreKgm[0] ;
+         A93ArtPreMtr = P04OX9_A93ArtPreMtr[0] ;
+         n93ArtPreMtr = P04OX9_n93ArtPreMtr[0] ;
+         A91ArtPreDef = P04OX9_A91ArtPreDef[0] ;
+         n91ArtPreDef = P04OX9_n91ArtPreDef[0] ;
+         A3915EmpNumDec = P04OX9_A3915EmpNumDec[0] ;
+         n3915EmpNumDec = P04OX9_n3915EmpNumDec[0] ;
+         A3915EmpNumDec = P04OX9_A3915EmpNumDec[0] ;
+         n3915EmpNumDec = P04OX9_n3915EmpNumDec[0] ;
+         AV19PreKgm = A92ArtPreKgm ;
+         AV20PreMts = A93ArtPreMtr ;
+         if ( GXutil.strcmp(AV24PreDef, httpContext.getMessage( "S", "")) == 0 )
+         {
+            if ( GXutil.strcmp(A91ArtPreDef, httpContext.getMessage( "N", "")) == 0 )
+            {
+               AV24PreDef = httpContext.getMessage( "N", "") ;
+            }
+         }
+         /* Using cursor P04OX10 */
+         pr_default.execute(7, new Object[] {A396EmprCod, Boolean.valueOf(n252CliCod), Integer.valueOf(A252CliCod), A65ArtCod, Byte.valueOf(AV96Tc), Byte.valueOf(AV25IntCod)});
+         while ( (pr_default.getStatus(7) != 101) )
+         {
+            A583IntCod = P04OX10_A583IntCod[0] ;
+            A831TipColCod = P04OX10_A831TipColCod[0] ;
+            A586IntPreKgm = P04OX10_A586IntPreKgm[0] ;
+            n586IntPreKgm = P04OX10_n586IntPreKgm[0] ;
+            A587IntPreMtr = P04OX10_A587IntPreMtr[0] ;
+            n587IntPreMtr = P04OX10_n587IntPreMtr[0] ;
+            A585IntPreDef = P04OX10_A585IntPreDef[0] ;
+            n585IntPreDef = P04OX10_n585IntPreDef[0] ;
+            AV19PreKgm = AV19PreKgm.add(A586IntPreKgm) ;
+            AV20PreMts = AV20PreMts.add(A587IntPreMtr) ;
+            if ( GXutil.strcmp(AV24PreDef, httpContext.getMessage( "S", "")) == 0 )
+            {
+               if ( GXutil.strcmp(A585IntPreDef, httpContext.getMessage( "N", "")) == 0 )
+               {
+                  AV24PreDef = httpContext.getMessage( "N", "") ;
+               }
+            }
+            if ( ( A586IntPreKgm.doubleValue() != 0 ) || ( A587IntPreMtr.doubleValue() != 0 ) )
+            {
+               AV97Vtxt = httpContext.getMessage( "PI", "") ;
+            }
+            /* Exiting from a For First loop. */
+            if (true) break;
+         }
+         pr_default.close(7);
+         AV80TotRecInt = DecimalUtil.doubleToDec(0) ;
+         if ( AV79RecarE == 1 )
+         {
+            /* Execute user subroutine: 'RECINT' */
+            S136 ();
+            if ( returnInSub )
+            {
+               pr_default.close(6);
+               pr_default.close(6);
+               returnInSub = true;
+               if (true) return;
+            }
+            if ( GXutil.strcmp(AV44UniMed, httpContext.getMessage( "M", "")) == 0 )
+            {
+               AV20PreMts = AV20PreMts.add(AV80TotRecInt) ;
+            }
+            else
+            {
+               AV19PreKgm = AV19PreKgm.add(AV80TotRecInt) ;
+            }
+         }
+         /* Using cursor P04OX11 */
+         pr_default.execute(8, new Object[] {A396EmprCod, Boolean.valueOf(n252CliCod), Integer.valueOf(A252CliCod), A65ArtCod, Integer.valueOf(AV27LimUni)});
+         while ( (pr_default.getStatus(8) != 101) )
+         {
+            A596LimUni = P04OX11_A596LimUni[0] ;
+            n596LimUni = P04OX11_n596LimUni[0] ;
+            A675PorRec = P04OX11_A675PorRec[0] ;
+            n675PorRec = P04OX11_n675PorRec[0] ;
+            A598LinRec = P04OX11_A598LinRec[0] ;
+            AV54PorRec = A675PorRec ;
+            /* Exit For each command. Update data (if necessary), close cursors & exit. */
+            if (true) break;
+            pr_default.readNext(8);
+         }
+         pr_default.close(8);
+         if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV54PorRec)==0) )
+         {
+            if ( GXutil.strcmp(AV44UniMed, httpContext.getMessage( "M", "")) == 0 )
+            {
+               if ( A3915EmpNumDec == 0 )
+               {
+                  AV22TotRec = GXutil.roundDecimal( AV20PreMts.multiply(AV54PorRec).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN), 0) ;
+               }
+               else
+               {
+                  if ( A3915EmpNumDec == 2 )
+                  {
+                     AV22TotRec = GXutil.roundDecimal( AV20PreMts.multiply(AV54PorRec).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN), 2) ;
+                  }
+               }
+               AV20PreMts = AV20PreMts.add(AV22TotRec) ;
+            }
+            else
+            {
+               if ( A3915EmpNumDec == 0 )
+               {
+                  AV22TotRec = GXutil.roundDecimal( AV19PreKgm.multiply(AV54PorRec).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN), 0) ;
+               }
+               else
+               {
+                  if ( A3915EmpNumDec == 2 )
+                  {
+                     AV22TotRec = GXutil.roundDecimal( AV19PreKgm.multiply(AV54PorRec).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN), 2) ;
+                  }
+               }
+               AV19PreKgm = AV19PreKgm.add(AV22TotRec) ;
+            }
+         }
+         /* Exiting from a For First loop. */
+         if (true) break;
+      }
+      pr_default.close(6);
+   }
+
+   public void S136( )
+   {
+      /* 'RECINT' Routine */
+      returnInSub = false ;
+      AV80TotRecInt = DecimalUtil.doubleToDec(0) ;
+      /* Using cursor P04OX12 */
+      pr_default.execute(9, new Object[] {AV15EmprCod, Integer.valueOf(AV35CliCod), AV31BarSer, Byte.valueOf(AV34TipColCod), Byte.valueOf(AV25IntCod), Integer.valueOf(AV27LimUni)});
+      while ( (pr_default.getStatus(9) != 101) )
+      {
+         A4322Limite5 = P04OX12_A4322Limite5[0] ;
+         A583IntCod = P04OX12_A583IntCod[0] ;
+         A831TipColCod = P04OX12_A831TipColCod[0] ;
+         A65ArtCod = P04OX12_A65ArtCod[0] ;
+         A252CliCod = P04OX12_A252CliCod[0] ;
+         n252CliCod = P04OX12_n252CliCod[0] ;
+         A396EmprCod = P04OX12_A396EmprCod[0] ;
+         A4323RecIImp = P04OX12_A4323RecIImp[0] ;
+         n4323RecIImp = P04OX12_n4323RecIImp[0] ;
+         AV80TotRecInt = A4323RecIImp ;
+         /* Exit For each command. Update data (if necessary), close cursors & exit. */
+         if (true) break;
+         pr_default.readNext(9);
+      }
+      pr_default.close(9);
+   }
+
+   public void S141( )
+   {
+      /* 'DISPOS' Routine */
+      returnInSub = false ;
+      AV83DisPreKgm = DecimalUtil.doubleToDec(0) ;
+      AV84DisPreMtr = DecimalUtil.doubleToDec(0) ;
+      /* Using cursor P04OX13 */
+      pr_default.execute(10, new Object[] {Integer.valueOf(AV74DisCod)});
+      while ( (pr_default.getStatus(10) != 101) )
+      {
+         A361DisCod = P04OX13_A361DisCod[0] ;
+         A388DisPreKgm = P04OX13_A388DisPreKgm[0] ;
+         A389DisPreMtr = P04OX13_A389DisPreMtr[0] ;
+         A396EmprCod = P04OX13_A396EmprCod[0] ;
+         AV83DisPreKgm = A388DisPreKgm ;
+         AV84DisPreMtr = A389DisPreMtr ;
+         pr_default.readNext(10);
+      }
+      pr_default.close(10);
+   }
+
+   protected void cleanup( )
+   {
+      this.aP4[0] = pbuspre4.this.AV19PreKgm;
+      this.aP5[0] = pbuspre4.this.AV20PreMts;
+      this.aP6[0] = pbuspre4.this.AV21Operesp;
+      this.aP7[0] = pbuspre4.this.AV22TotRec;
+      this.aP8[0] = pbuspre4.this.AV97Vtxt;
+      Application.commitDataStores(context, remoteHandle, pr_default, "pbuspre4");
+      CloseOpenCursors();
+      exitApp();
+   }
+
+   protected void CloseOpenCursors( )
+   {
+   }
+
+   /* Aggregate/select formulas */
+   public void initialize( )
+   {
+      AV19PreKgm = DecimalUtil.ZERO ;
+      AV20PreMts = DecimalUtil.ZERO ;
+      AV22TotRec = DecimalUtil.ZERO ;
+      AV97Vtxt = "" ;
+      GXv_decimal6 = new java.math.BigDecimal[1] ;
+      AV93Albdto = DecimalUtil.ZERO ;
+      GXv_decimal9 = new java.math.BigDecimal[1] ;
+      GXv_int1 = new byte[1] ;
+      GXv_decimal7 = new java.math.BigDecimal[1] ;
+      Gx_msg = "" ;
+      AV24PreDef = "" ;
+      scmdbuf = "" ;
+      P04OX2_A132BarCodReo = new byte[1] ;
+      P04OX2_A130BarCodPar = new String[] {""} ;
+      P04OX2_A129BarCod = new int[1] ;
+      P04OX2_A396EmprCod = new String[] {""} ;
+      P04OX2_A161BarFecSal = new java.util.Date[] {GXutil.nullDate()} ;
+      P04OX2_A252CliCod = new int[1] ;
+      P04OX2_n252CliCod = new boolean[] {false} ;
+      P04OX2_A212BarSer = new String[] {""} ;
+      P04OX2_A135BarColNom = new String[] {""} ;
+      P04OX2_A136BarColNum = new int[1] ;
+      P04OX2_A218BarTipCol = new byte[1] ;
+      P04OX2_A2010BarTipDis = new String[] {""} ;
+      P04OX2_A1909BarGraAca = new short[1] ;
+      P04OX2_A361DisCod = new int[1] ;
+      P04OX2_A228BarUniMed = new String[] {""} ;
+      P04OX2_A120BarAgrEst = new String[] {""} ;
+      P04OX2_A193BarOpeEsp = new byte[1] ;
+      P04OX2_A148BarEstReo = new byte[1] ;
+      P04OX2_A5253BarAcc = new String[] {""} ;
+      A130BarCodPar = "" ;
+      A396EmprCod = "" ;
+      A161BarFecSal = GXutil.nullDate() ;
+      A212BarSer = "" ;
+      A135BarColNom = "" ;
+      A2010BarTipDis = "" ;
+      A228BarUniMed = "" ;
+      A120BarAgrEst = "" ;
+      A5253BarAcc = "" ;
+      P04OX4_A184BarMtr = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX4_A166BarKgm = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      A184BarMtr = DecimalUtil.ZERO ;
+      A166BarKgm = DecimalUtil.ZERO ;
+      Gx_date = GXutil.nullDate() ;
+      AV31BarSer = "" ;
+      AV32BarColNom = "" ;
+      AV87BarTipDis = "" ;
+      AV44UniMed = "" ;
+      GXv_char3 = new String[1] ;
+      GXv_char5 = new String[1] ;
+      GXv_int4 = new int[1] ;
+      GXv_int8 = new byte[1] ;
+      AV69TotUni = DecimalUtil.ZERO ;
+      GXv_decimal10 = new java.math.BigDecimal[1] ;
+      AV36Noprecio = "" ;
+      AV83DisPreKgm = DecimalUtil.ZERO ;
+      AV84DisPreMtr = DecimalUtil.ZERO ;
+      P04OX6_A831TipColCod = new byte[1] ;
+      P04OX6_A483ForColNum = new int[1] ;
+      P04OX6_A482ForColNom = new String[] {""} ;
+      P04OX6_A494ForSer = new String[] {""} ;
+      P04OX6_A252CliCod = new int[1] ;
+      P04OX6_n252CliCod = new boolean[] {false} ;
+      P04OX6_A396EmprCod = new String[] {""} ;
+      P04OX6_A3915EmpNumDec = new byte[1] ;
+      P04OX6_n3915EmpNumDec = new boolean[] {false} ;
+      P04OX6_A583IntCod = new byte[1] ;
+      P04OX6_A493ForPreMtr = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX6_n493ForPreMtr = new boolean[] {false} ;
+      P04OX6_A492ForPreKgm = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX6_n492ForPreKgm = new boolean[] {false} ;
+      P04OX6_A491ForPreDef = new String[] {""} ;
+      P04OX6_n491ForPreDef = new boolean[] {false} ;
+      A482ForColNom = "" ;
+      A494ForSer = "" ;
+      A493ForPreMtr = DecimalUtil.ZERO ;
+      A492ForPreKgm = DecimalUtil.ZERO ;
+      A491ForPreDef = "" ;
+      P04OX7_A396EmprCod = new String[] {""} ;
+      P04OX7_A252CliCod = new int[1] ;
+      P04OX7_n252CliCod = new boolean[] {false} ;
+      P04OX7_A494ForSer = new String[] {""} ;
+      P04OX7_A482ForColNom = new String[] {""} ;
+      P04OX7_A483ForColNum = new int[1] ;
+      P04OX7_A831TipColCod = new byte[1] ;
+      P04OX7_A1521RecValFin = new int[1] ;
+      P04OX7_n1521RecValFin = new boolean[] {false} ;
+      P04OX7_A1520RecValIni = new int[1] ;
+      P04OX7_n1520RecValIni = new boolean[] {false} ;
+      P04OX7_A1522RecCanRec = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX7_n1522RecCanRec = new boolean[] {false} ;
+      P04OX7_A1519RecCorLin = new byte[1] ;
+      A1522RecCanRec = DecimalUtil.ZERO ;
+      AV54PorRec = DecimalUtil.ZERO ;
+      P04OX8_A596LimUni = new int[1] ;
+      P04OX8_n596LimUni = new boolean[] {false} ;
+      P04OX8_A65ArtCod = new String[] {""} ;
+      P04OX8_A252CliCod = new int[1] ;
+      P04OX8_n252CliCod = new boolean[] {false} ;
+      P04OX8_A396EmprCod = new String[] {""} ;
+      P04OX8_A675PorRec = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX8_n675PorRec = new boolean[] {false} ;
+      P04OX8_A598LinRec = new byte[1] ;
+      A65ArtCod = "" ;
+      A675PorRec = DecimalUtil.ZERO ;
+      P04OX9_A65ArtCod = new String[] {""} ;
+      P04OX9_A252CliCod = new int[1] ;
+      P04OX9_n252CliCod = new boolean[] {false} ;
+      P04OX9_A396EmprCod = new String[] {""} ;
+      P04OX9_A92ArtPreKgm = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX9_n92ArtPreKgm = new boolean[] {false} ;
+      P04OX9_A93ArtPreMtr = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX9_n93ArtPreMtr = new boolean[] {false} ;
+      P04OX9_A91ArtPreDef = new String[] {""} ;
+      P04OX9_n91ArtPreDef = new boolean[] {false} ;
+      P04OX9_A3915EmpNumDec = new byte[1] ;
+      P04OX9_n3915EmpNumDec = new boolean[] {false} ;
+      A92ArtPreKgm = DecimalUtil.ZERO ;
+      A93ArtPreMtr = DecimalUtil.ZERO ;
+      A91ArtPreDef = "" ;
+      P04OX10_A396EmprCod = new String[] {""} ;
+      P04OX10_A252CliCod = new int[1] ;
+      P04OX10_n252CliCod = new boolean[] {false} ;
+      P04OX10_A65ArtCod = new String[] {""} ;
+      P04OX10_A583IntCod = new byte[1] ;
+      P04OX10_A831TipColCod = new byte[1] ;
+      P04OX10_A586IntPreKgm = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX10_n586IntPreKgm = new boolean[] {false} ;
+      P04OX10_A587IntPreMtr = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX10_n587IntPreMtr = new boolean[] {false} ;
+      P04OX10_A585IntPreDef = new String[] {""} ;
+      P04OX10_n585IntPreDef = new boolean[] {false} ;
+      A586IntPreKgm = DecimalUtil.ZERO ;
+      A587IntPreMtr = DecimalUtil.ZERO ;
+      A585IntPreDef = "" ;
+      AV80TotRecInt = DecimalUtil.ZERO ;
+      P04OX11_A396EmprCod = new String[] {""} ;
+      P04OX11_A252CliCod = new int[1] ;
+      P04OX11_n252CliCod = new boolean[] {false} ;
+      P04OX11_A65ArtCod = new String[] {""} ;
+      P04OX11_A596LimUni = new int[1] ;
+      P04OX11_n596LimUni = new boolean[] {false} ;
+      P04OX11_A675PorRec = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX11_n675PorRec = new boolean[] {false} ;
+      P04OX11_A598LinRec = new byte[1] ;
+      P04OX12_A4322Limite5 = new short[1] ;
+      P04OX12_A583IntCod = new byte[1] ;
+      P04OX12_A831TipColCod = new byte[1] ;
+      P04OX12_A65ArtCod = new String[] {""} ;
+      P04OX12_A252CliCod = new int[1] ;
+      P04OX12_n252CliCod = new boolean[] {false} ;
+      P04OX12_A396EmprCod = new String[] {""} ;
+      P04OX12_A4323RecIImp = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX12_n4323RecIImp = new boolean[] {false} ;
+      A4323RecIImp = DecimalUtil.ZERO ;
+      P04OX13_A361DisCod = new int[1] ;
+      P04OX13_A388DisPreKgm = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX13_A389DisPreMtr = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OX13_A396EmprCod = new String[] {""} ;
+      A388DisPreKgm = DecimalUtil.ZERO ;
+      A389DisPreMtr = DecimalUtil.ZERO ;
+      pr_default = new DataStoreProvider(context, remoteHandle, new app.pbuspre4__default(),
+         new Object[] {
+             new Object[] {
+            P04OX2_A132BarCodReo, P04OX2_A130BarCodPar, P04OX2_A129BarCod, P04OX2_A396EmprCod, P04OX2_A161BarFecSal, P04OX2_A252CliCod, P04OX2_n252CliCod, P04OX2_A212BarSer, P04OX2_A135BarColNom, P04OX2_A136BarColNum,
+            P04OX2_A218BarTipCol, P04OX2_A2010BarTipDis, P04OX2_A1909BarGraAca, P04OX2_A361DisCod, P04OX2_A228BarUniMed, P04OX2_A120BarAgrEst, P04OX2_A193BarOpeEsp, P04OX2_A148BarEstReo, P04OX2_A5253BarAcc
+            }
+            , new Object[] {
+            P04OX4_A184BarMtr, P04OX4_A166BarKgm
+            }
+            , new Object[] {
+            }
+            , new Object[] {
+            P04OX6_A831TipColCod, P04OX6_A483ForColNum, P04OX6_A482ForColNom, P04OX6_A494ForSer, P04OX6_A252CliCod, P04OX6_A396EmprCod, P04OX6_A3915EmpNumDec, P04OX6_n3915EmpNumDec, P04OX6_A583IntCod, P04OX6_A493ForPreMtr,
+            P04OX6_n493ForPreMtr, P04OX6_A492ForPreKgm, P04OX6_n492ForPreKgm, P04OX6_A491ForPreDef, P04OX6_n491ForPreDef
+            }
+            , new Object[] {
+            P04OX7_A396EmprCod, P04OX7_A252CliCod, P04OX7_A494ForSer, P04OX7_A482ForColNom, P04OX7_A483ForColNum, P04OX7_A831TipColCod, P04OX7_A1521RecValFin, P04OX7_n1521RecValFin, P04OX7_A1520RecValIni, P04OX7_n1520RecValIni,
+            P04OX7_A1522RecCanRec, P04OX7_n1522RecCanRec, P04OX7_A1519RecCorLin
+            }
+            , new Object[] {
+            P04OX8_A596LimUni, P04OX8_n596LimUni, P04OX8_A65ArtCod, P04OX8_A252CliCod, P04OX8_A396EmprCod, P04OX8_A675PorRec, P04OX8_n675PorRec, P04OX8_A598LinRec
+            }
+            , new Object[] {
+            P04OX9_A65ArtCod, P04OX9_A252CliCod, P04OX9_A396EmprCod, P04OX9_A92ArtPreKgm, P04OX9_n92ArtPreKgm, P04OX9_A93ArtPreMtr, P04OX9_n93ArtPreMtr, P04OX9_A91ArtPreDef, P04OX9_n91ArtPreDef, P04OX9_A3915EmpNumDec,
+            P04OX9_n3915EmpNumDec
+            }
+            , new Object[] {
+            P04OX10_A396EmprCod, P04OX10_A252CliCod, P04OX10_A65ArtCod, P04OX10_A583IntCod, P04OX10_A831TipColCod, P04OX10_A586IntPreKgm, P04OX10_n586IntPreKgm, P04OX10_A587IntPreMtr, P04OX10_n587IntPreMtr, P04OX10_A585IntPreDef,
+            P04OX10_n585IntPreDef
+            }
+            , new Object[] {
+            P04OX11_A396EmprCod, P04OX11_A252CliCod, P04OX11_A65ArtCod, P04OX11_A596LimUni, P04OX11_n596LimUni, P04OX11_A675PorRec, P04OX11_n675PorRec, P04OX11_A598LinRec
+            }
+            , new Object[] {
+            P04OX12_A4322Limite5, P04OX12_A583IntCod, P04OX12_A831TipColCod, P04OX12_A65ArtCod, P04OX12_A252CliCod, P04OX12_A396EmprCod, P04OX12_A4323RecIImp, P04OX12_n4323RecIImp
+            }
+            , new Object[] {
+            P04OX13_A361DisCod, P04OX13_A388DisPreKgm, P04OX13_A389DisPreMtr, P04OX13_A396EmprCod
+            }
+         }
+      );
+      Gx_date = GXutil.today( ) ;
+      /* GeneXus formulas. */
+      Gx_date = GXutil.today( ) ;
+      Gx_err = (short)(0) ;
+   }
+
+   private byte AV17BarReo ;
+   private byte AV21Operesp ;
+   private byte AV45Flag ;
+   private byte AV60FlagPer ;
+   private byte AV61FlagTintbo ;
+   private byte AV67FlagRibes ;
+   private byte AV64FlagGrabis ;
+   private byte AV65FlagRecCol ;
+   private byte AV68FlagPrePar ;
+   private byte AV71FlagPreAgr ;
+   private byte AV72Finite ;
+   private byte AV79RecarE ;
+   private byte AV81Texknit ;
+   private byte AV82BusPr3 ;
+   private byte AV85FlagSala ;
+   private byte AV86PLinea ;
+   private byte AV91Carvema ;
+   private byte AV89Tintutex ;
+   private byte AV90Tas ;
+   private byte AV92Tintex ;
+   private byte AV95Termilenio ;
+   private byte AV99etm ;
+   private byte AV100aplicarGrm ;
+   private byte AV70FlagPorCol ;
+   private byte AV94Pre000 ;
+   private byte GXt_int2 ;
+   private byte GXv_int1[] ;
+   private byte A132BarCodReo ;
+   private byte A218BarTipCol ;
+   private byte A193BarOpeEsp ;
+   private byte A148BarEstReo ;
+   private byte AV34TipColCod ;
+   private byte GXv_int8[] ;
+   private byte A3915EmpNumDec ;
+   private byte A831TipColCod ;
+   private byte A583IntCod ;
+   private byte AV25IntCod ;
+   private byte A1519RecCorLin ;
+   private byte A598LinRec ;
+   private byte AV96Tc ;
+   private short AV101carvitin ;
+   private short AV102bfpvp ;
+   private short A1909BarGraAca ;
+   private short AV98BarGraAca ;
+   private short A4322Limite5 ;
+   private short Gx_err ;
+   private int AV16BarCod ;
+   private int A129BarCod ;
+   private int A252CliCod ;
+   private int A136BarColNum ;
+   private int A361DisCod ;
+   private int AV35CliCod ;
+   private int AV33BarColNum ;
+   private int AV74DisCod ;
+   private int AV27LimUni ;
+   private int GXv_int4[] ;
+   private int A483ForColNum ;
+   private int A1521RecValFin ;
+   private int A1520RecValIni ;
+   private int A596LimUni ;
+   private java.math.BigDecimal AV19PreKgm ;
+   private java.math.BigDecimal AV20PreMts ;
+   private java.math.BigDecimal AV22TotRec ;
+   private java.math.BigDecimal GXv_decimal6[] ;
+   private java.math.BigDecimal AV93Albdto ;
+   private java.math.BigDecimal GXv_decimal9[] ;
+   private java.math.BigDecimal GXv_decimal7[] ;
+   private java.math.BigDecimal A184BarMtr ;
+   private java.math.BigDecimal A166BarKgm ;
+   private java.math.BigDecimal AV69TotUni ;
+   private java.math.BigDecimal GXv_decimal10[] ;
+   private java.math.BigDecimal AV83DisPreKgm ;
+   private java.math.BigDecimal AV84DisPreMtr ;
+   private java.math.BigDecimal A493ForPreMtr ;
+   private java.math.BigDecimal A492ForPreKgm ;
+   private java.math.BigDecimal A1522RecCanRec ;
+   private java.math.BigDecimal AV54PorRec ;
+   private java.math.BigDecimal A675PorRec ;
+   private java.math.BigDecimal A92ArtPreKgm ;
+   private java.math.BigDecimal A93ArtPreMtr ;
+   private java.math.BigDecimal A586IntPreKgm ;
+   private java.math.BigDecimal A587IntPreMtr ;
+   private java.math.BigDecimal AV80TotRecInt ;
+   private java.math.BigDecimal A4323RecIImp ;
+   private java.math.BigDecimal A388DisPreKgm ;
+   private java.math.BigDecimal A389DisPreMtr ;
+   private String AV15EmprCod ;
+   private String AV18BarPar ;
+   private String AV97Vtxt ;
+   private String Gx_msg ;
+   private String AV24PreDef ;
+   private String scmdbuf ;
+   private String A130BarCodPar ;
+   private String A396EmprCod ;
+   private String A212BarSer ;
+   private String A135BarColNom ;
+   private String A2010BarTipDis ;
+   private String A228BarUniMed ;
+   private String A120BarAgrEst ;
+   private String A5253BarAcc ;
+   private String AV31BarSer ;
+   private String AV32BarColNom ;
+   private String AV87BarTipDis ;
+   private String AV44UniMed ;
+   private String GXv_char3[] ;
+   private String GXv_char5[] ;
+   private String AV36Noprecio ;
+   private String A482ForColNom ;
+   private String A494ForSer ;
+   private String A491ForPreDef ;
+   private String A65ArtCod ;
+   private String A91ArtPreDef ;
+   private String A585IntPreDef ;
+   private java.util.Date A161BarFecSal ;
+   private java.util.Date Gx_date ;
+   private boolean returnInSub ;
+   private boolean n252CliCod ;
+   private boolean n3915EmpNumDec ;
+   private boolean n493ForPreMtr ;
+   private boolean n492ForPreKgm ;
+   private boolean n491ForPreDef ;
+   private boolean n1521RecValFin ;
+   private boolean n1520RecValIni ;
+   private boolean n1522RecCanRec ;
+   private boolean n596LimUni ;
+   private boolean n675PorRec ;
+   private boolean n92ArtPreKgm ;
+   private boolean n93ArtPreMtr ;
+   private boolean n91ArtPreDef ;
+   private boolean n586IntPreKgm ;
+   private boolean n587IntPreMtr ;
+   private boolean n585IntPreDef ;
+   private boolean n4323RecIImp ;
+   private String[] aP8 ;
+   private java.math.BigDecimal[] aP4 ;
+   private java.math.BigDecimal[] aP5 ;
+   private byte[] aP6 ;
+   private java.math.BigDecimal[] aP7 ;
+   private IDataStoreProvider pr_default ;
+   private byte[] P04OX2_A132BarCodReo ;
+   private String[] P04OX2_A130BarCodPar ;
+   private int[] P04OX2_A129BarCod ;
+   private String[] P04OX2_A396EmprCod ;
+   private java.util.Date[] P04OX2_A161BarFecSal ;
+   private int[] P04OX2_A252CliCod ;
+   private boolean[] P04OX2_n252CliCod ;
+   private String[] P04OX2_A212BarSer ;
+   private String[] P04OX2_A135BarColNom ;
+   private int[] P04OX2_A136BarColNum ;
+   private byte[] P04OX2_A218BarTipCol ;
+   private String[] P04OX2_A2010BarTipDis ;
+   private short[] P04OX2_A1909BarGraAca ;
+   private int[] P04OX2_A361DisCod ;
+   private String[] P04OX2_A228BarUniMed ;
+   private String[] P04OX2_A120BarAgrEst ;
+   private byte[] P04OX2_A193BarOpeEsp ;
+   private byte[] P04OX2_A148BarEstReo ;
+   private String[] P04OX2_A5253BarAcc ;
+   private java.math.BigDecimal[] P04OX4_A184BarMtr ;
+   private java.math.BigDecimal[] P04OX4_A166BarKgm ;
+   private byte[] P04OX6_A831TipColCod ;
+   private int[] P04OX6_A483ForColNum ;
+   private String[] P04OX6_A482ForColNom ;
+   private String[] P04OX6_A494ForSer ;
+   private int[] P04OX6_A252CliCod ;
+   private boolean[] P04OX6_n252CliCod ;
+   private String[] P04OX6_A396EmprCod ;
+   private byte[] P04OX6_A3915EmpNumDec ;
+   private boolean[] P04OX6_n3915EmpNumDec ;
+   private byte[] P04OX6_A583IntCod ;
+   private java.math.BigDecimal[] P04OX6_A493ForPreMtr ;
+   private boolean[] P04OX6_n493ForPreMtr ;
+   private java.math.BigDecimal[] P04OX6_A492ForPreKgm ;
+   private boolean[] P04OX6_n492ForPreKgm ;
+   private String[] P04OX6_A491ForPreDef ;
+   private boolean[] P04OX6_n491ForPreDef ;
+   private String[] P04OX7_A396EmprCod ;
+   private int[] P04OX7_A252CliCod ;
+   private boolean[] P04OX7_n252CliCod ;
+   private String[] P04OX7_A494ForSer ;
+   private String[] P04OX7_A482ForColNom ;
+   private int[] P04OX7_A483ForColNum ;
+   private byte[] P04OX7_A831TipColCod ;
+   private int[] P04OX7_A1521RecValFin ;
+   private boolean[] P04OX7_n1521RecValFin ;
+   private int[] P04OX7_A1520RecValIni ;
+   private boolean[] P04OX7_n1520RecValIni ;
+   private java.math.BigDecimal[] P04OX7_A1522RecCanRec ;
+   private boolean[] P04OX7_n1522RecCanRec ;
+   private byte[] P04OX7_A1519RecCorLin ;
+   private int[] P04OX8_A596LimUni ;
+   private boolean[] P04OX8_n596LimUni ;
+   private String[] P04OX8_A65ArtCod ;
+   private int[] P04OX8_A252CliCod ;
+   private boolean[] P04OX8_n252CliCod ;
+   private String[] P04OX8_A396EmprCod ;
+   private java.math.BigDecimal[] P04OX8_A675PorRec ;
+   private boolean[] P04OX8_n675PorRec ;
+   private byte[] P04OX8_A598LinRec ;
+   private String[] P04OX9_A65ArtCod ;
+   private int[] P04OX9_A252CliCod ;
+   private boolean[] P04OX9_n252CliCod ;
+   private String[] P04OX9_A396EmprCod ;
+   private java.math.BigDecimal[] P04OX9_A92ArtPreKgm ;
+   private boolean[] P04OX9_n92ArtPreKgm ;
+   private java.math.BigDecimal[] P04OX9_A93ArtPreMtr ;
+   private boolean[] P04OX9_n93ArtPreMtr ;
+   private String[] P04OX9_A91ArtPreDef ;
+   private boolean[] P04OX9_n91ArtPreDef ;
+   private byte[] P04OX9_A3915EmpNumDec ;
+   private boolean[] P04OX9_n3915EmpNumDec ;
+   private String[] P04OX10_A396EmprCod ;
+   private int[] P04OX10_A252CliCod ;
+   private boolean[] P04OX10_n252CliCod ;
+   private String[] P04OX10_A65ArtCod ;
+   private byte[] P04OX10_A583IntCod ;
+   private byte[] P04OX10_A831TipColCod ;
+   private java.math.BigDecimal[] P04OX10_A586IntPreKgm ;
+   private boolean[] P04OX10_n586IntPreKgm ;
+   private java.math.BigDecimal[] P04OX10_A587IntPreMtr ;
+   private boolean[] P04OX10_n587IntPreMtr ;
+   private String[] P04OX10_A585IntPreDef ;
+   private boolean[] P04OX10_n585IntPreDef ;
+   private String[] P04OX11_A396EmprCod ;
+   private int[] P04OX11_A252CliCod ;
+   private boolean[] P04OX11_n252CliCod ;
+   private String[] P04OX11_A65ArtCod ;
+   private int[] P04OX11_A596LimUni ;
+   private boolean[] P04OX11_n596LimUni ;
+   private java.math.BigDecimal[] P04OX11_A675PorRec ;
+   private boolean[] P04OX11_n675PorRec ;
+   private byte[] P04OX11_A598LinRec ;
+   private short[] P04OX12_A4322Limite5 ;
+   private byte[] P04OX12_A583IntCod ;
+   private byte[] P04OX12_A831TipColCod ;
+   private String[] P04OX12_A65ArtCod ;
+   private int[] P04OX12_A252CliCod ;
+   private boolean[] P04OX12_n252CliCod ;
+   private String[] P04OX12_A396EmprCod ;
+   private java.math.BigDecimal[] P04OX12_A4323RecIImp ;
+   private boolean[] P04OX12_n4323RecIImp ;
+   private int[] P04OX13_A361DisCod ;
+   private java.math.BigDecimal[] P04OX13_A388DisPreKgm ;
+   private java.math.BigDecimal[] P04OX13_A389DisPreMtr ;
+   private String[] P04OX13_A396EmprCod ;
+}
+
+final  class pbuspre4__default extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+          new ForEachCursor("P04OX2", "SELECT BarCodReo, BarCodPar, BarCod, EmprCod, BarFecSal, CliCod, BarSer, BarColNom, BarColNum, BarTipCol, BarTipDis, BarGraAca, DisCod, BarUniMed, BarAgrEst, BarOpeEsp, BarEstReo, BarAcc FROM TXPBARCAD WHERE (EmprCod = ? AND BarCod = ? AND BarCodReo = ? AND BarCodPar = ?) AND (EmprCod = ? and BarCod = ? and BarCodReo = ? and BarCodPar = ?)  FOR UPDATE OF BarFecSal NOWAIT",true, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("P04OX4", "SELECT COALESCE( T1.BarMtr, 0) AS BarMtr, COALESCE( T1.BarKgm, 0) AS BarKgm FROM (SELECT SUM(BarPieMet) AS BarMtr, EmprCod, BarCod, BarCodReo, BarCodPar, SUM(BarPieKil) AS BarKgm FROM TXPBARPIE GROUP BY EmprCod, BarCod, BarCodReo, BarCodPar ) T1 WHERE T1.EmprCod = ? AND T1.BarCod = ? AND T1.BarCodReo = ? AND T1.BarCodPar = ? ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new UpdateCursor("P04OX5", "UPDATE TXPBARCAD SET BarFecSal=?  WHERE EmprCod = ? AND BarCod = ? AND BarCodReo = ? AND BarCodPar = ?", GX_NOMASK + GX_MASKLOOPLOCK, "TXPBARCAD")
+         ,new ForEachCursor("P04OX6", "SELECT T1.TipColCod, T1.ForColNum, T1.ForColNom, T1.ForSer, T1.CliCod, T1.EmprCod, T2.EmpNumDec, T1.IntCod, T1.ForPreMtr, T1.ForPreKgm, T1.ForPreDef FROM (TXPCFORMU T1 INNER JOIN TXPEMPRES T2 ON T2.EmprCod = T1.EmprCod) WHERE T1.EmprCod = ? and T1.CliCod = ? and T1.ForSer = ? and T1.ForColNom = ? and T1.ForColNum = ? and T1.TipColCod = ? ORDER BY T1.EmprCod, T1.CliCod, T1.ForSer, T1.ForColNom, T1.ForColNum, T1.TipColCod ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("P04OX7", "SELECT EmprCod, CliCod, ForSer, ForColNom, ForColNum, TipColCod, RecValFin, RecValIni, RecCanRec, RecCorLin FROM TXPRECCOR WHERE EmprCod = ? and CliCod = ? and ForSer = ? and ForColNom = ? and ForColNum = ? and TipColCod = ? ORDER BY EmprCod, CliCod, ForSer, ForColNom, ForColNum, TipColCod, RecCorLin ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("P04OX8", "SELECT * FROM (SELECT LimUni, ArtCod, CliCod, EmprCod, PorRec, LinRec FROM TXPRECARG WHERE (EmprCod = ? and CliCod = ? and ArtCod = ?) AND (? < LimUni) ORDER BY EmprCod, CliCod, ArtCod) WHERE rownum <= 1 ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("P04OX9", "SELECT T1.ArtCod, T1.CliCod, T1.EmprCod, T1.ArtPreKgm, T1.ArtPreMtr, T1.ArtPreDef, T2.EmpNumDec FROM (TXPARTICU T1 INNER JOIN TXPEMPRES T2 ON T2.EmprCod = T1.EmprCod) WHERE T1.EmprCod = ? and T1.CliCod = ? and T1.ArtCod = ? ORDER BY T1.EmprCod, T1.CliCod, T1.ArtCod ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("P04OX10", "SELECT EmprCod, CliCod, ArtCod, IntCod, TipColCod, IntPreKgm, IntPreMtr, IntPreDef FROM TXPPRETIN WHERE EmprCod = ? and CliCod = ? and ArtCod = ? and TipColCod = ? and IntCod = ? ORDER BY EmprCod, CliCod, ArtCod, TipColCod, IntCod ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("P04OX11", "SELECT * FROM (SELECT EmprCod, CliCod, ArtCod, LimUni, PorRec, LinRec FROM TXPRECARG WHERE (EmprCod = ? and CliCod = ? and ArtCod = ?) AND (? < LimUni) ORDER BY EmprCod, CliCod, ArtCod, LinRec) WHERE rownum <= 1 ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("P04OX12", "SELECT * FROM (SELECT Limite5, IntCod, TipColCod, ArtCod, CliCod, EmprCod, RecIImp FROM TXPRecInt WHERE EmprCod = ? and CliCod = ? and ArtCod = ? and TipColCod = ? and IntCod = ? and Limite5 > ? ORDER BY EmprCod, CliCod, ArtCod, TipColCod, IntCod) WHERE rownum <= 1 ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("P04OX13", "SELECT DisCod, DisPreKgm, DisPreMtr, EmprCod FROM TXPDISPOS WHERE DisCod = ? ORDER BY EmprCod, DisCod ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               ((byte[]) buf[0])[0] = rslt.getByte(1);
+               ((String[]) buf[1])[0] = rslt.getString(2, 1);
+               ((int[]) buf[2])[0] = rslt.getInt(3);
+               ((String[]) buf[3])[0] = rslt.getString(4, 3);
+               ((java.util.Date[]) buf[4])[0] = rslt.getGXDate(5);
+               ((int[]) buf[5])[0] = rslt.getInt(6);
+               ((boolean[]) buf[6])[0] = rslt.wasNull();
+               ((String[]) buf[7])[0] = rslt.getString(7, 16);
+               ((String[]) buf[8])[0] = rslt.getString(8, 13);
+               ((int[]) buf[9])[0] = rslt.getInt(9);
+               ((byte[]) buf[10])[0] = rslt.getByte(10);
+               ((String[]) buf[11])[0] = rslt.getString(11, 1);
+               ((short[]) buf[12])[0] = rslt.getShort(12);
+               ((int[]) buf[13])[0] = rslt.getInt(13);
+               ((String[]) buf[14])[0] = rslt.getString(14, 1);
+               ((String[]) buf[15])[0] = rslt.getString(15, 1);
+               ((byte[]) buf[16])[0] = rslt.getByte(16);
+               ((byte[]) buf[17])[0] = rslt.getByte(17);
+               ((String[]) buf[18])[0] = rslt.getString(18, 1);
+               return;
+            case 1 :
+               ((java.math.BigDecimal[]) buf[0])[0] = rslt.getBigDecimal(1,2);
+               ((java.math.BigDecimal[]) buf[1])[0] = rslt.getBigDecimal(2,2);
+               return;
+            case 3 :
+               ((byte[]) buf[0])[0] = rslt.getByte(1);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((String[]) buf[2])[0] = rslt.getString(3, 13);
+               ((String[]) buf[3])[0] = rslt.getString(4, 16);
+               ((int[]) buf[4])[0] = rslt.getInt(5);
+               ((String[]) buf[5])[0] = rslt.getString(6, 3);
+               ((byte[]) buf[6])[0] = rslt.getByte(7);
+               ((boolean[]) buf[7])[0] = rslt.wasNull();
+               ((byte[]) buf[8])[0] = rslt.getByte(8);
+               ((java.math.BigDecimal[]) buf[9])[0] = rslt.getBigDecimal(9,5);
+               ((boolean[]) buf[10])[0] = rslt.wasNull();
+               ((java.math.BigDecimal[]) buf[11])[0] = rslt.getBigDecimal(10,5);
+               ((boolean[]) buf[12])[0] = rslt.wasNull();
+               ((String[]) buf[13])[0] = rslt.getString(11, 1);
+               ((boolean[]) buf[14])[0] = rslt.wasNull();
+               return;
+            case 4 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((String[]) buf[2])[0] = rslt.getString(3, 16);
+               ((String[]) buf[3])[0] = rslt.getString(4, 13);
+               ((int[]) buf[4])[0] = rslt.getInt(5);
+               ((byte[]) buf[5])[0] = rslt.getByte(6);
+               ((int[]) buf[6])[0] = rslt.getInt(7);
+               ((boolean[]) buf[7])[0] = rslt.wasNull();
+               ((int[]) buf[8])[0] = rslt.getInt(8);
+               ((boolean[]) buf[9])[0] = rslt.wasNull();
+               ((java.math.BigDecimal[]) buf[10])[0] = rslt.getBigDecimal(9,5);
+               ((boolean[]) buf[11])[0] = rslt.wasNull();
+               ((byte[]) buf[12])[0] = rslt.getByte(10);
+               return;
+            case 5 :
+               ((int[]) buf[0])[0] = rslt.getInt(1);
+               ((boolean[]) buf[1])[0] = rslt.wasNull();
+               ((String[]) buf[2])[0] = rslt.getString(2, 16);
+               ((int[]) buf[3])[0] = rslt.getInt(3);
+               ((String[]) buf[4])[0] = rslt.getString(4, 3);
+               ((java.math.BigDecimal[]) buf[5])[0] = rslt.getBigDecimal(5,2);
+               ((boolean[]) buf[6])[0] = rslt.wasNull();
+               ((byte[]) buf[7])[0] = rslt.getByte(6);
+               return;
+            case 6 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 16);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((String[]) buf[2])[0] = rslt.getString(3, 3);
+               ((java.math.BigDecimal[]) buf[3])[0] = rslt.getBigDecimal(4,5);
+               ((boolean[]) buf[4])[0] = rslt.wasNull();
+               ((java.math.BigDecimal[]) buf[5])[0] = rslt.getBigDecimal(5,5);
+               ((boolean[]) buf[6])[0] = rslt.wasNull();
+               ((String[]) buf[7])[0] = rslt.getString(6, 1);
+               ((boolean[]) buf[8])[0] = rslt.wasNull();
+               ((byte[]) buf[9])[0] = rslt.getByte(7);
+               ((boolean[]) buf[10])[0] = rslt.wasNull();
+               return;
+            case 7 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((String[]) buf[2])[0] = rslt.getString(3, 16);
+               ((byte[]) buf[3])[0] = rslt.getByte(4);
+               ((byte[]) buf[4])[0] = rslt.getByte(5);
+               ((java.math.BigDecimal[]) buf[5])[0] = rslt.getBigDecimal(6,5);
+               ((boolean[]) buf[6])[0] = rslt.wasNull();
+               ((java.math.BigDecimal[]) buf[7])[0] = rslt.getBigDecimal(7,5);
+               ((boolean[]) buf[8])[0] = rslt.wasNull();
+               ((String[]) buf[9])[0] = rslt.getString(8, 1);
+               ((boolean[]) buf[10])[0] = rslt.wasNull();
+               return;
+            case 8 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((String[]) buf[2])[0] = rslt.getString(3, 16);
+               ((int[]) buf[3])[0] = rslt.getInt(4);
+               ((boolean[]) buf[4])[0] = rslt.wasNull();
+               ((java.math.BigDecimal[]) buf[5])[0] = rslt.getBigDecimal(5,2);
+               ((boolean[]) buf[6])[0] = rslt.wasNull();
+               ((byte[]) buf[7])[0] = rslt.getByte(6);
+               return;
+            case 9 :
+               ((short[]) buf[0])[0] = rslt.getShort(1);
+               ((byte[]) buf[1])[0] = rslt.getByte(2);
+               ((byte[]) buf[2])[0] = rslt.getByte(3);
+               ((String[]) buf[3])[0] = rslt.getString(4, 16);
+               ((int[]) buf[4])[0] = rslt.getInt(5);
+               ((String[]) buf[5])[0] = rslt.getString(6, 3);
+               ((java.math.BigDecimal[]) buf[6])[0] = rslt.getBigDecimal(7,5);
+               ((boolean[]) buf[7])[0] = rslt.wasNull();
+               return;
+            case 10 :
+               ((int[]) buf[0])[0] = rslt.getInt(1);
+               ((java.math.BigDecimal[]) buf[1])[0] = rslt.getBigDecimal(2,2);
+               ((java.math.BigDecimal[]) buf[2])[0] = rslt.getBigDecimal(3,2);
+               ((String[]) buf[3])[0] = rslt.getString(4, 3);
+               return;
+      }
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setByte(3, ((Number) parms[2]).byteValue());
+               stmt.setString(4, (String)parms[3], 1);
+               stmt.setString(5, (String)parms[4], 3);
+               stmt.setInt(6, ((Number) parms[5]).intValue());
+               stmt.setByte(7, ((Number) parms[6]).byteValue());
+               stmt.setString(8, (String)parms[7], 1);
+               return;
+            case 1 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setByte(3, ((Number) parms[2]).byteValue());
+               stmt.setString(4, (String)parms[3], 1);
+               return;
+            case 2 :
+               stmt.setDate(1, (java.util.Date)parms[0]);
+               stmt.setString(2, (String)parms[1], 3);
+               stmt.setInt(3, ((Number) parms[2]).intValue());
+               stmt.setByte(4, ((Number) parms[3]).byteValue());
+               stmt.setString(5, (String)parms[4], 1);
+               return;
+            case 3 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setString(3, (String)parms[2], 16);
+               stmt.setString(4, (String)parms[3], 13);
+               stmt.setInt(5, ((Number) parms[4]).intValue());
+               stmt.setByte(6, ((Number) parms[5]).byteValue());
+               return;
+            case 4 :
+               stmt.setString(1, (String)parms[0], 3);
+               if ( ((Boolean) parms[1]).booleanValue() )
+               {
+                  stmt.setNull( 2 , Types.NUMERIC );
+               }
+               else
+               {
+                  stmt.setInt(2, ((Number) parms[2]).intValue());
+               }
+               stmt.setString(3, (String)parms[3], 16);
+               stmt.setString(4, (String)parms[4], 13);
+               stmt.setInt(5, ((Number) parms[5]).intValue());
+               stmt.setByte(6, ((Number) parms[6]).byteValue());
+               return;
+            case 5 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setString(3, (String)parms[2], 16);
+               stmt.setInt(4, ((Number) parms[3]).intValue());
+               return;
+            case 6 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setString(3, (String)parms[2], 16);
+               return;
+            case 7 :
+               stmt.setString(1, (String)parms[0], 3);
+               if ( ((Boolean) parms[1]).booleanValue() )
+               {
+                  stmt.setNull( 2 , Types.NUMERIC );
+               }
+               else
+               {
+                  stmt.setInt(2, ((Number) parms[2]).intValue());
+               }
+               stmt.setString(3, (String)parms[3], 16);
+               stmt.setByte(4, ((Number) parms[4]).byteValue());
+               stmt.setByte(5, ((Number) parms[5]).byteValue());
+               return;
+            case 8 :
+               stmt.setString(1, (String)parms[0], 3);
+               if ( ((Boolean) parms[1]).booleanValue() )
+               {
+                  stmt.setNull( 2 , Types.NUMERIC );
+               }
+               else
+               {
+                  stmt.setInt(2, ((Number) parms[2]).intValue());
+               }
+               stmt.setString(3, (String)parms[3], 16);
+               stmt.setInt(4, ((Number) parms[4]).intValue());
+               return;
+            case 9 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setString(3, (String)parms[2], 16);
+               stmt.setByte(4, ((Number) parms[3]).byteValue());
+               stmt.setByte(5, ((Number) parms[4]).byteValue());
+               stmt.setInt(6, ((Number) parms[5]).intValue());
+               return;
+            case 10 :
+               stmt.setInt(1, ((Number) parms[0]).intValue());
+               return;
+      }
+   }
+
+}
+

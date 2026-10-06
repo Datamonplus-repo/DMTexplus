@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="0e4e9316-04eb-4f7d-acb0-7d836c980097" name="DPProduccionMaquinas" description="DPProduccion Maquinas" namespace="app">
+  <Signature name="par">
+    <Parameter name="Emprcod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>3</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="MaqCodInicial">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>6</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="MaqCodFinal">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>6</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="Hisprodti">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>DateTime</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>8</Value>
+          </Property>
+          <Property>
+            <Name>Decimals</Name>
+            <Value>8</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="HisProdtf">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>DateTime</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>8</Value>
+          </Property>
+          <Property>
+            <Name>Decimals</Name>
+            <Value>8</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ReturnValue" accessor="out" collection="true">
+      <Field name="SDTMaquinas" description="SDTMaquinas">
+        <Fields>
+          <Field name="MaqCod" description="Código Máquina">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>6</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="MaqDsc" description="Descripcion Maquina">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>16</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="KilosProduccion" description="Kilos">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>9</Value>
+              </Property>
+              <Property>
+                <Name>Decimals</Name>
+                <Value>2</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZZZZ9.99</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="MetrosProduccion" description="Metros">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>9</Value>
+              </Property>
+              <Property>
+                <Name>Decimals</Name>
+                <Value>2</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZZZZ9.99</Value>
+              </Property>
+            </Properties>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

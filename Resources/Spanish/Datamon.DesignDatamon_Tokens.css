@@ -1,0 +1,20 @@
+:root
+{
+	--colors_Base : #b80545;
+	--colors_Text : #2a3143;
+	--colors_Border : #efefef;
+	--colors_Background : #f9f9f9;
+	--colors_RecentLink : #3d434f;
+	--colors_Dominant : #ffa7c0;
+	--colors_ReadOnlyText : #eaeaea;
+	--colors_WarningColor : #ff8000;
+	--colors_DarkBase : #930437;
+	--colors_DarkBorder : #b7b7b7;
+	--colors_MessageBackground : #fffebc;
+	--colors_LightMessageBackground : #ffffe1;
+	--colors_SecondaryAction : #E10707;
+	--colors_Action : #0da53b;
+	--colors_InputFocusColor : #F10101;
+	--custom_BounceOut : bounceOut;
+	--custom_FadeInDown : fadeInDown;
+}

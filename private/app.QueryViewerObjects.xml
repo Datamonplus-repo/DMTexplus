@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Objects xmlns="qv">
+  <Object name="WWPBaseObjects.GetHomeSampleData" id="1" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="WWPBaseObjects.GetHomeSampleNameValueData" id="2" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="WWPBaseObjects.GetNotificationSamples" id="3" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="WWPBaseObjects.GetHomeModulesSample" id="4" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="WWPBaseObjects.GetMainHomeModulesSample" id="5" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="WWPBaseObjects.GetSomeHomeModulesSample" id="6" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="WWPBaseObjects.GetHomeSampleDataService" id="7" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="WWPBaseObjects.MenuOptionsData" id="8" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPConsultaMaquinas" id="10" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPALbRef" id="13" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPHdrsporMaquina" id="14" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPMaquina" id="15" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="dpProduccionMaquina" id="16" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="dpProduccionMaquinaDetalle" id="17" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPLhipro" id="18" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPLhiproCopy1" id="19" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPMaquinas" id="21" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPFases" id="22" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DpTipoColor" id="23" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPForColNom" id="24" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPOperarios" id="25" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPtblLhipro" id="26" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPReoperados" id="27" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPDefectos" id="28" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPClientesDefectosMaquinas" id="29" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPClientes" id="30" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPMaquinasR" id="31" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPHdrsaReoperar" id="34" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DpAlbaranSalida" id="35" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPPiezasaReoperar" id="36" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPIncidencias" id="37" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPClientesDefectos" id="38" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPProduccionLector" id="39" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPProduccionMaquinasFases" id="40" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPProduccionMaquinasTurnos" id="41" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPClienteArticuloResumenEntradas" id="42" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPClienteResumenEntradas" id="43" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPDetalleEntradas" id="44" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPDistribuciondeUnidades" id="45" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPProduccionParosResumen" id="46" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPProduccionParos" id="47" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPProduccionOperarios" id="48" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPProduccionMaquinas" id="49" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DpTipoArticulo" id="50" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPEntregasResumenCliente" id="52" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPMaquinaConHDR" id="53" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPInformeComprasMes" id="54" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPProduccionReoperadosTipoColorantes" id="55" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPProduccionReoperadosMaquinas" id="56" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPProduccionReoperadosTipoArticulos" id="57" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPProduccionReoperadosGrupoOperarios" id="58" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="ExpedicionesAutomatizadas.DP_SDT_Operario" id="60" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="ExpedicionesAutomatizadas.DP_SDT_Maquina" id="61" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPHistoricoReoperadosResumenCliente" id="62" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPHistoricoReoperadosResumenMaquina" id="63" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPHistoricoReoperadosResumenTipoDefecto" id="64" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPHistoricoReoperadosporCliente" id="65" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPHistoricoReoperadosMaquina" id="66" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPHistoricoReoperadosTipoDefecto" id="67" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPInformeAlmacenTejidoCrudo_Cliente_Referencia" id="68" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPInformeAlmacenTejidoCrudo_Cliente" id="69" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPInformeAlmacenTejidoCrudo_Detalle" id="70" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPInformeAlmacenTejidoCrudoDistribucion" id="72" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPHdrSituacion" id="73" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="ExpedicionesAutomatizadas.DP_SDT_MaquinaFase" id="74" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Pedidos.DisObs_DP" id="77" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Calprd_DP" id="84" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Obsalb_DP" id="85" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="ImpresionHDRsCv_DP" id="86" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="CuentaCorrienteProductos_DP" id="87" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="CuentaCorrienteProductos2_DP" id="88" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="GestionLaboratorio.TiempoMedioEntrega_LAB_DP" id="89" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="StocksQuimicos.SalidasManualesProductos_Cabecera_DP" id="90" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="StocksQuimicos.SalidasManualesProductos_Detalle_DP" id="91" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="ControlProductossinMovimientos_DP" id="92" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="ExpedicionesAutomatizadas.DP_SDT_Hdr" id="93" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="FormulacionTinte.AnalisisCostesHistoricosRecetas_DP" id="96" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="StocksQuimicos.SeleccionRecuento_DP" id="97" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="WWPBaseObjects.MenuOptionsDataModa21" id="98" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="TFORPAG_DP" id="99" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="StocksQuimicos.UPQ_CuentaCorriente_DP" id="100" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.In_AlertasAnalisis_DP" id="101" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.In_AlestasAnalisis_DP" id="102" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.In_TimeLine_DP" id="103" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.in_Data1" id="104" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.ChartDP" id="105" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="WWPBaseObjects.MenuOptionsDataIng" id="106" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPInputMask" id="107" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="PedidosPendientes_DP" id="108" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="FormulacionTinte.EliminaciondeFormulasTinte_DP" id="109" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="FormulacionTinte.EliminaciondeFormulasTinteProvisionales_DP" id="110" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPCompraProductoQuimico" id="111" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="ProduccionResumenTurno_DP" id="112" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="FormulacionTinte.EliminaciondeFormulasTinteNoFecha_DP" id="113" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.FacturacionManual_Producciones__DP" id="114" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.FacturacionManual_Comercial_DP" id="115" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Pedidos.TiposdePresentacion_DP" id="117" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.ConfirmacionPrecioDocumento_Producciones_DP" id="118" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Produccion.DPInformeProduccionResumenMaquina" id="119" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Produccion.DPInformeProduccionResumenTipoArticulo" id="120" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Produccion.DPInformeProduccionResumenOperario" id="121" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Produccion.DPInformeProduccionResumenTipoColorante" id="122" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Produccion.DPInformeProduccionResumenFases" id="123" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.PrecioporColor_DP" id="124" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.PrecioporColor_Cliente_DP" id="125" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Produccion.DPInformeProduccionResumenHDR" id="126" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="InformeOperariosCodebar_DP" id="127" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="InformeMaquinasCodebar_DP" id="128" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="InformeParosCodebar_DP" id="129" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="FicherosBasicos.LoadEventsSampleDP" id="130" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="FicherosBasicos.DPDuplicacionSerie" id="131" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="GeneracionHDRs_DP" id="132" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.Penalizaciones_DP" id="133" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.Precios_cliente_DP" id="134" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.Precios_cliente_mail_DP" id="135" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.Precios_cliente_informe__DP" id="136" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.SAFT1041_DP" id="137" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPGridMaquinas" id="138" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPProcessos" id="139" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="WWPBaseObjects.WWP_LoadTreeViewSampleData" id="140" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.ResumenFacturacion_DP" id="141" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Produccion.ConsultadeProduccion_DP" id="143" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.DiariodeFacturacion_DP" id="144" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.DiariodeFacturacion_lineas_DP" id="145" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.DataProvider1" id="147" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="FicherosBasicos.DuplicarArticulos_DP" id="148" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DTProduccionDiaria" id="149" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPConsultaProduccion" id="150" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="FicherosBasicos.TraspasarArticulosTods_DP" id="151" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPConpro" id="152" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="GestionLaboratorio.NoAceptacionEnsayo_DP" id="153" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="GestionLaboratorio.ImpresionLabDipEnviados_y_o_Aceptados_DP" id="154" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="TrabajosExternos.TrabajoExterno_Fases_n_DP" id="155" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="TrabajosExternos.TrabajoExterno_ImpresionDocumentos_DP" id="156" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Datamon.DPMenu" id="157" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Datamon.DPProfile" id="158" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Datamon.DPUser" id="159" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Datamon.DPProfileMenu" id="160" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Datamon.DPSystem" id="161" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Datamon.GetMenu" id="162" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="GestionLaboratorio.EntradaEnsayoLaboratorio_Productos_DP" id="163" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="GestionLaboratorio.EnviodeEnsayoaCliente_DP" id="164" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="EntradaRecuentos_DP" id="165" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="GestionLaboratorio.RecepcionEnsayoCliente_DP" id="166" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="TrabajosExternos.TrabajoExterno__Impresion_DP" id="167" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="AEAT.CFAVEN_ALTA_AEAT_JSON" id="168" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="DPEmail" id="169" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.TraspasarPrecioFases_DP" id="170" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Facturacion.ListadoPrecios_DP" id="171" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="ControlCalidadHTD.Wccaud_DP" id="172" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="ControlCalidadHTD.ControlesdeCalidad_DP" id="173" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="QVConsultaMaquinas" id="1" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypeTable" xmlns="qv" />
+  </Object>
+  <Object name="QVConsultaMaquinasChart" id="2" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypeChartPie3D" xmlns="qv" />
+  </Object>
+  <Object name="Query1" id="3" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MEnv_QV" id="4" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypeCard" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_Alerta_TimeLine_QV" id="5" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypeTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_Datos_QV" id="8" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypeTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_Analisis_Top10_HDR_QV" id="9" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_Analisis_Top10_MaqCod_QV" id="10" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_Analisis_Top10_FasCod_QV" id="11" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_Analisis_Top10_MPRecPLC_QV" id="12" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_Analisis_Top10_CliCod_QV" id="13" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_Analisis_Top10_ArtCod_QV" id="14" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Dashboard_Filter2" id="0" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypeTable" xmlns="qv" />
+  </Object>
+  <Object name="Dashboard_Filter3" id="0" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypeTable" xmlns="qv" />
+  </Object>
+  <Object name="Dashboard_Filter4" id="0" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypeTable" xmlns="qv" />
+  </Object>
+  <Object name="Dashboard_Filter5" id="0" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypeTable" xmlns="qv" />
+  </Object>
+  <Object name="StocksQuimicos.InventarioAT_DP" id="174" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="ControlCalidadHTD.ControlCalidad_ValoresEstandars_CCsta_DP" id="175" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="ControlCalidadHTD.DP_CCtarc" id="176" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="PonteWay.DPListArtico" id="177" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Produccion.InformeProduccionResumen_DetalleHdrs_DP" id="178" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="AnticipacionErrores.MAnt_Defecto_Dp" id="179" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="AnticipacionErrores.MAnt_ErroresClienteArticuloColorDP" id="180" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="AnticipacionErrores.MAnt_ErroresClienteArticuloDP" id="181" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="AnticipacionErrores.MAnt_ErroresClienteDP" id="182" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="AnticipacionErrores.MAnt_ErroresDP" id="183" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_AnalisisDP" id="184" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_AlertaDP" id="185" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_AnalisisDetalleDP" id="186" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_AnalisisDetalleGraficaDP" id="187" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_AlertaGraficaDP" id="188" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_AnalisisDatosDP" id="189" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_AnalisisGraficaDP" id="190" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_Alerta_TimeLine_QV1" id="15" type="Query" xmlns="qv">
+    <DefaultOutput type="OutputTypeTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_AlertaMaquinaDP" id="191" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_AnalisisDP_v2" id="192" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+  <Object name="Ingenieria.MRec_AlertaMaquinaDP_v2" id="193" type="DataProvider" xmlns="qv">
+    <DefaultOutput type="OutputTypePivotTable" xmlns="qv" />
+  </Object>
+</Objects>

@@ -1,0 +1,15 @@
+{ 
+    "Resources" : [ { 
+        "Language" : "English",
+        "Theme" : "SimpleAndroid",
+        "ResourceFile" : "Images_English_SimpleAndroid.json"
+    }, { 
+        "Language" : "Portuguese",
+        "Theme" : "SimpleAndroid",
+        "ResourceFile" : "Images_Portuguese_SimpleAndroid.json"
+    }, { 
+        "Language" : "Spanish",
+        "Theme" : "SimpleAndroid",
+        "ResourceFile" : "Images_Spanish_SimpleAndroid.json"
+    } ]
+}

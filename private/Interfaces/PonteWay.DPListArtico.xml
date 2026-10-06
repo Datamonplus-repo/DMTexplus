@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="7ed79d21-741b-42e5-b7f4-f648c92527d2" name="PonteWay.DPListArtico" description="Listado de Artico" namespace="app">
+  <Signature name="par">
+    <Parameter name="EmprCod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>3</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="CliCod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Numeric</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>6</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ArtCod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>16</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ReturnValue" accessor="out">
+      <Field name="ListValues" description="List Values" collection="true">
+        <Fields>
+          <Field name="key" description="key">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>VarChar</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>100</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="value" description="value">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>VarChar</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>100</Value>
+              </Property>
+            </Properties>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

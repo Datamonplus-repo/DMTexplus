@@ -1,0 +1,2200 @@
+package app.controlcalidadhtd ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.webpanels.*;
+import java.sql.*;
+import com.genexus.search.*;
+
+public final  class wccreateo_wp_impl extends GXDataArea
+{
+   public wccreateo_wp_impl( com.genexus.internet.HttpContext context )
+   {
+      super(context);
+   }
+
+   public wccreateo_wp_impl( int remoteHandle )
+   {
+      super( remoteHandle , new ModelContext( wccreateo_wp_impl.class ));
+   }
+
+   public wccreateo_wp_impl( int remoteHandle ,
+                             ModelContext context )
+   {
+      super( remoteHandle , context);
+   }
+
+   protected void createObjects( )
+   {
+   }
+
+   public void initweb( )
+   {
+      initialize_properties( ) ;
+      if ( nGotPars == 0 )
+      {
+         entryPointCalled = false ;
+         gxfirstwebparm = httpContext.GetNextPar( ) ;
+         gxfirstwebparm_bkp = gxfirstwebparm ;
+         gxfirstwebparm = httpContext.DecryptAjaxCall( gxfirstwebparm) ;
+         toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+         if ( httpContext.isSpaRequest( ) )
+         {
+            httpContext.disableJsOutput();
+         }
+         if ( GXutil.strcmp(gxfirstwebparm, "dyncall") == 0 )
+         {
+            httpContext.setAjaxCallMode();
+            if ( ! httpContext.IsValidAjaxCall( true) )
+            {
+               GxWebError = (byte)(1) ;
+               return  ;
+            }
+            dyncall( httpContext.GetNextPar( )) ;
+            return  ;
+         }
+         else if ( GXutil.strcmp(gxfirstwebparm, "gxajaxEvt") == 0 )
+         {
+            httpContext.setAjaxEventMode();
+            if ( ! httpContext.IsValidAjaxCall( true) )
+            {
+               GxWebError = (byte)(1) ;
+               return  ;
+            }
+            gxfirstwebparm = httpContext.GetNextPar( ) ;
+         }
+         else if ( GXutil.strcmp(gxfirstwebparm, "gxfullajaxEvt") == 0 )
+         {
+            if ( ! httpContext.IsValidAjaxCall( true) )
+            {
+               GxWebError = (byte)(1) ;
+               return  ;
+            }
+            gxfirstwebparm = httpContext.GetNextPar( ) ;
+         }
+         else
+         {
+            if ( ! httpContext.IsValidAjaxCall( false) )
+            {
+               GxWebError = (byte)(1) ;
+               return  ;
+            }
+            gxfirstwebparm = gxfirstwebparm_bkp ;
+         }
+         if ( toggleJsOutput )
+         {
+            if ( httpContext.isSpaRequest( ) )
+            {
+               httpContext.enableJsOutput();
+            }
+         }
+      }
+      if ( ! httpContext.isLocalStorageSupported( ) )
+      {
+         httpContext.pushCurrentUrl();
+      }
+   }
+
+   public void webExecute( )
+   {
+      initweb( ) ;
+      if ( ! isAjaxCallMode( ) )
+      {
+         MasterPageObj= createMasterPage(remoteHandle, "app.wwpbaseobjects.workwithplusmasterpage");
+         MasterPageObj.setDataArea(this,false);
+         validateSpaRequest();
+         MasterPageObj.webExecute();
+         if ( ( GxWebError == 0 ) && httpContext.isAjaxRequest( ) )
+         {
+            httpContext.enableOutput();
+            if ( ! httpContext.isAjaxRequest( ) )
+            {
+               httpContext.GX_webresponse.addHeader("Cache-Control", "no-store");
+            }
+            if ( ! httpContext.willRedirect( ) )
+            {
+               addString( httpContext.getJSONResponse( )) ;
+            }
+            else
+            {
+               if ( httpContext.isAjaxRequest( ) )
+               {
+                  httpContext.disableOutput();
+               }
+               renderHtmlHeaders( ) ;
+               httpContext.redirect( httpContext.wjLoc );
+               httpContext.dispatchAjaxCommands();
+            }
+         }
+      }
+      if ( isAjaxCallMode( ) )
+      {
+         cleanup();
+      }
+   }
+
+   public byte executeStartEvent( )
+   {
+      pa2C12( ) ;
+      gxajaxcallmode = (byte)((isAjaxCallMode( ) ? 1 : 0)) ;
+      if ( ( gxajaxcallmode == 0 ) && ( GxWebError == 0 ) )
+      {
+         start2C12( ) ;
+      }
+      return gxajaxcallmode ;
+   }
+
+   public void renderHtmlHeaders( )
+   {
+      app.GxWebStd.gx_html_headers( httpContext, 0, "", "", Form.getMeta(), Form.getMetaequiv(), true);
+   }
+
+   public void renderHtmlOpenForm( )
+   {
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      httpContext.writeText( "<title>") ;
+      httpContext.writeValue( Form.getCaption()) ;
+      httpContext.writeTextNL( "</title>") ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      if ( GXutil.len( sDynURL) > 0 )
+      {
+         httpContext.writeText( "<BASE href=\""+sDynURL+"\" />") ;
+      }
+      define_styles( ) ;
+      if ( nGXWrapped != 1 )
+      {
+         MasterPageObj.master_styles();
+      }
+      if ( ( ( httpContext.getBrowserType( ) == 1 ) || ( httpContext.getBrowserType( ) == 5 ) ) && ( GXutil.strcmp(httpContext.getBrowserVersion( ), "7.0") == 0 ) )
+      {
+         httpContext.AddJavascriptSource("json2.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      }
+      httpContext.AddJavascriptSource("jquery.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("gxgral.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("gxcfg.js", "?"+httpContext.getCacheInvalidationToken( ), false, true);
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      httpContext.AddJavascriptSource("calendar.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("calendar-setup.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("calendar-"+GXutil.substring( httpContext.getLanguageProperty( "culture"), 1, 2)+".js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/DropDownOptions/BootstrapDropDownOptionsRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/DropDownOptions/BootstrapDropDownOptionsRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/DropDownOptions/BootstrapDropDownOptionsRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/DropDownOptions/BootstrapDropDownOptionsRender.js", "", false, true);
+      httpContext.AddJavascriptSource("GXProgressIndicator/javascript/bootstrap-progressbar.js", "", false, true);
+      httpContext.AddJavascriptSource("GXProgressIndicator/GXProgressIndicatorRender.js", "", false, true);
+      httpContext.AddJavascriptSource("UserControls/DatamonJSRender.js", "", false, true);
+      httpContext.writeText( Form.getHeaderrawhtml()) ;
+      httpContext.closeHtmlHeader();
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      FormProcess = " data-HasEnter=\"true\" data-Skiponenter=\"false\"" ;
+      httpContext.writeText( "<body ") ;
+      bodyStyle = "" + "background-color:" + WebUtils.getHTMLColor( Form.getIBackground()) + ";color:" + WebUtils.getHTMLColor( Form.getTextcolor()) + ";" ;
+      if ( nGXWrapped == 0 )
+      {
+         bodyStyle += "-moz-opacity:0;opacity:0;" ;
+      }
+      if ( ! ( (GXutil.strcmp("", Form.getBackground())==0) ) )
+      {
+         bodyStyle += " background-image:url(" + httpContext.convertURL( Form.getBackground()) + ")" ;
+      }
+      httpContext.writeText( " "+"class=\"form-horizontal Form\""+" "+ "style='"+bodyStyle+"'") ;
+      httpContext.writeText( FormProcess+">") ;
+      httpContext.skipLines( 1 );
+      httpContext.writeTextNL( "<form id=\"MAINFORM\" autocomplete=\"off\" name=\"MAINFORM\" method=\"post\" tabindex=-1  class=\"form-horizontal Form\" data-gx-class=\"form-horizontal Form\" novalidate action=\""+formatLink("app.controlcalidadhtd.wccreateo_wp", new String[] {}, new String[] {}) +"\">") ;
+      app.GxWebStd.gx_hidden_field( httpContext, "_EventName", "");
+      app.GxWebStd.gx_hidden_field( httpContext, "_EventGridId", "");
+      app.GxWebStd.gx_hidden_field( httpContext, "_EventRowId", "");
+      httpContext.writeText( "<input type=\"submit\" title=\"submit\" style=\"display:block;height:0;border:0;padding:0\" disabled>") ;
+      httpContext.ajax_rsp_assign_prop("", false, "FORM", "Class", "form-horizontal Form", true);
+      toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableJsOutput();
+      }
+   }
+
+   public void send_integrity_footer_hashes( )
+   {
+      GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+   }
+
+   public void sendCloseFormHiddens( )
+   {
+      /* Send hidden variables. */
+      /* Send saved values. */
+      send_integrity_footer_hashes( ) ;
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vDDO_TITLESETTINGSICONS", AV18DDO_TitleSettingsIcons);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vDDO_TITLESETTINGSICONS", AV18DDO_TitleSettingsIcons);
+      }
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vCLIINI_DATA", AV21CliIni_Data);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vCLIINI_DATA", AV21CliIni_Data);
+      }
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vCLIFIN_DATA", AV22CliFin_Data);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vCLIFIN_DATA", AV22CliFin_Data);
+      }
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vCCTINI_DATA", AV17CCTIni_Data);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vCCTINI_DATA", AV17CCTIni_Data);
+      }
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vCCTFIN_DATA", AV20CCTFin_Data);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vCCTFIN_DATA", AV20CCTFin_Data);
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "EMPRCOD", GXutil.rtrim( A396EmprCod));
+      app.GxWebStd.gx_hidden_field( httpContext, "vNIVINI", GXutil.rtrim( AV24NivIni));
+      app.GxWebStd.gx_hidden_field( httpContext, "vNIVFIN", GXutil.rtrim( AV25NivFin));
+      app.GxWebStd.gx_hidden_field( httpContext, "vDET", GXutil.rtrim( AV23Det));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CLIINI_Cls", GXutil.rtrim( Combo_cliini_Cls));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CLIINI_Selectedvalue_set", GXutil.rtrim( Combo_cliini_Selectedvalue_set));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CLIINI_Emptyitemtext", GXutil.rtrim( Combo_cliini_Emptyitemtext));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CLIFIN_Cls", GXutil.rtrim( Combo_clifin_Cls));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CLIFIN_Selectedvalue_set", GXutil.rtrim( Combo_clifin_Selectedvalue_set));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CLIFIN_Emptyitemtext", GXutil.rtrim( Combo_clifin_Emptyitemtext));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CCTINI_Cls", GXutil.rtrim( Combo_cctini_Cls));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CCTINI_Selectedvalue_set", GXutil.rtrim( Combo_cctini_Selectedvalue_set));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CCTINI_Emptyitemtext", GXutil.rtrim( Combo_cctini_Emptyitemtext));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CCTFIN_Cls", GXutil.rtrim( Combo_cctfin_Cls));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CCTFIN_Selectedvalue_set", GXutil.rtrim( Combo_cctfin_Selectedvalue_set));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CCTFIN_Emptyitemtext", GXutil.rtrim( Combo_cctfin_Emptyitemtext));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Width", GXutil.rtrim( Dvpanel_panel_filtrosgenerales_Width));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Autowidth", GXutil.booltostr( Dvpanel_panel_filtrosgenerales_Autowidth));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Autoheight", GXutil.booltostr( Dvpanel_panel_filtrosgenerales_Autoheight));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Cls", GXutil.rtrim( Dvpanel_panel_filtrosgenerales_Cls));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Title", GXutil.rtrim( Dvpanel_panel_filtrosgenerales_Title));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Collapsible", GXutil.booltostr( Dvpanel_panel_filtrosgenerales_Collapsible));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Collapsed", GXutil.booltostr( Dvpanel_panel_filtrosgenerales_Collapsed));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Showcollapseicon", GXutil.booltostr( Dvpanel_panel_filtrosgenerales_Showcollapseicon));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Iconposition", GXutil.rtrim( Dvpanel_panel_filtrosgenerales_Iconposition));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROSGENERALES_Autoscroll", GXutil.booltostr( Dvpanel_panel_filtrosgenerales_Autoscroll));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Width", GXutil.rtrim( Dvpanel_panel_filtros_Width));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Autowidth", GXutil.booltostr( Dvpanel_panel_filtros_Autowidth));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Autoheight", GXutil.booltostr( Dvpanel_panel_filtros_Autoheight));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Cls", GXutil.rtrim( Dvpanel_panel_filtros_Cls));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Title", GXutil.rtrim( Dvpanel_panel_filtros_Title));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Collapsible", GXutil.booltostr( Dvpanel_panel_filtros_Collapsible));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Collapsed", GXutil.booltostr( Dvpanel_panel_filtros_Collapsed));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Showcollapseicon", GXutil.booltostr( Dvpanel_panel_filtros_Showcollapseicon));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Iconposition", GXutil.rtrim( Dvpanel_panel_filtros_Iconposition));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_PANEL_FILTROS_Autoscroll", GXutil.booltostr( Dvpanel_panel_filtros_Autoscroll));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CCTFIN_Selectedvalue_get", GXutil.rtrim( Combo_cctfin_Selectedvalue_get));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CCTINI_Selectedvalue_get", GXutil.rtrim( Combo_cctini_Selectedvalue_get));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CLIFIN_Selectedvalue_get", GXutil.rtrim( Combo_clifin_Selectedvalue_get));
+      app.GxWebStd.gx_hidden_field( httpContext, "COMBO_CLIINI_Selectedvalue_get", GXutil.rtrim( Combo_cliini_Selectedvalue_get));
+   }
+
+   public void renderHtmlCloseForm( )
+   {
+      sendCloseFormHiddens( ) ;
+      app.GxWebStd.gx_hidden_field( httpContext, "GX_FocusControl", GX_FocusControl);
+      httpContext.SendAjaxEncryptionKey();
+      sendSecurityToken(sPrefix);
+      httpContext.SendComponentObjects();
+      httpContext.SendServerCommands();
+      httpContext.SendState();
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      httpContext.writeTextNL( "</form>") ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      include_jscripts( ) ;
+      httpContext.writeText( "<script type=\"text/javascript\">") ;
+      httpContext.writeText( "gx.setLanguageCode(\""+httpContext.getLanguageProperty( "code")+"\");") ;
+      if ( ! httpContext.isSpaRequest( ) )
+      {
+         httpContext.writeText( "gx.setDateFormat(\""+httpContext.getLanguageProperty( "date_fmt")+"\");") ;
+         httpContext.writeText( "gx.setTimeFormat("+httpContext.getLanguageProperty( "time_fmt")+");") ;
+         httpContext.writeText( "gx.setCenturyFirstYear("+40+");") ;
+         httpContext.writeText( "gx.setDecimalPoint(\""+httpContext.getLanguageProperty( "decimal_point")+"\");") ;
+         httpContext.writeText( "gx.setThousandSeparator(\""+httpContext.getLanguageProperty( "thousand_sep")+"\");") ;
+         httpContext.writeText( "gx.StorageTimeZone = "+2+";") ;
+      }
+      httpContext.writeText( "</script>") ;
+   }
+
+   public void renderHtmlContent( )
+   {
+      gxajaxcallmode = (byte)((isAjaxCallMode( ) ? 1 : 0)) ;
+      if ( ( gxajaxcallmode == 0 ) && ( GxWebError == 0 ) )
+      {
+         httpContext.writeText( "<div") ;
+         app.GxWebStd.classAttribute( httpContext, "gx-ct-body"+" "+((GXutil.strcmp("", Form.getThemeClass())==0) ? "form-horizontal Form" : Form.getThemeClass())+"-fx");
+         httpContext.writeText( ">") ;
+         we2C12( ) ;
+         httpContext.writeText( "</div>") ;
+      }
+   }
+
+   public void dispatchEvents( )
+   {
+      evt2C12( ) ;
+   }
+
+   public boolean hasEnterEvent( )
+   {
+      return true ;
+   }
+
+   public com.genexus.webpanels.GXWebForm getForm( )
+   {
+      return Form ;
+   }
+
+   public String getSelfLink( )
+   {
+      return formatLink("app.controlcalidadhtd.wccreateo_wp", new String[] {}, new String[] {})  ;
+   }
+
+   public String getPgmname( )
+   {
+      return "ControlCalidadHTD.WCCReaTeo_WP" ;
+   }
+
+   public String getPgmdesc( )
+   {
+      return httpContext.getMessage( "Comparación Real / Teórico", "") ;
+   }
+
+   public void wb2C10( )
+   {
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      if ( ! wbLoad )
+      {
+         if ( nGXWrapped == 1 )
+         {
+            renderHtmlHeaders( ) ;
+            renderHtmlOpenForm( ) ;
+         }
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "Section", "left", "top", " "+"data-gx-base-lib=\"bootstrapv3\""+" "+"data-abstract-form"+" ", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divLayoutmaintable_Internalname, 1, 0, "px", 0, "px", "Table", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTablemain_Internalname, 1, 0, "px", 0, "px", "TableMain", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         ClassString = "ErrorViewer" ;
+         StyleString = "" ;
+         app.GxWebStd.gx_msg_list( httpContext, "", httpContext.GX_msglist.getDisplaymode(), StyleString, ClassString, "", "false");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTablecontent_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucDvpanel_panel_filtros.setProperty("Width", Dvpanel_panel_filtros_Width);
+         ucDvpanel_panel_filtros.setProperty("AutoWidth", Dvpanel_panel_filtros_Autowidth);
+         ucDvpanel_panel_filtros.setProperty("AutoHeight", Dvpanel_panel_filtros_Autoheight);
+         ucDvpanel_panel_filtros.setProperty("Cls", Dvpanel_panel_filtros_Cls);
+         ucDvpanel_panel_filtros.setProperty("Title", Dvpanel_panel_filtros_Title);
+         ucDvpanel_panel_filtros.setProperty("Collapsible", Dvpanel_panel_filtros_Collapsible);
+         ucDvpanel_panel_filtros.setProperty("Collapsed", Dvpanel_panel_filtros_Collapsed);
+         ucDvpanel_panel_filtros.setProperty("ShowCollapseIcon", Dvpanel_panel_filtros_Showcollapseicon);
+         ucDvpanel_panel_filtros.setProperty("IconPosition", Dvpanel_panel_filtros_Iconposition);
+         ucDvpanel_panel_filtros.setProperty("AutoScroll", Dvpanel_panel_filtros_Autoscroll);
+         ucDvpanel_panel_filtros.render(context, "dvelop.gxbootstrap.panel_al", Dvpanel_panel_filtros_Internalname, "DVPANEL_PANEL_FILTROSContainer");
+         httpContext.writeText( "<div class=\"gx_usercontrol_child\" id=\""+"DVPANEL_PANEL_FILTROSContainer"+"Panel_Filtros"+"\" style=\"display:none;\">") ;
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divPanel_filtros_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucDvpanel_panel_filtrosgenerales.setProperty("Width", Dvpanel_panel_filtrosgenerales_Width);
+         ucDvpanel_panel_filtrosgenerales.setProperty("AutoWidth", Dvpanel_panel_filtrosgenerales_Autowidth);
+         ucDvpanel_panel_filtrosgenerales.setProperty("AutoHeight", Dvpanel_panel_filtrosgenerales_Autoheight);
+         ucDvpanel_panel_filtrosgenerales.setProperty("Cls", Dvpanel_panel_filtrosgenerales_Cls);
+         ucDvpanel_panel_filtrosgenerales.setProperty("Title", Dvpanel_panel_filtrosgenerales_Title);
+         ucDvpanel_panel_filtrosgenerales.setProperty("Collapsible", Dvpanel_panel_filtrosgenerales_Collapsible);
+         ucDvpanel_panel_filtrosgenerales.setProperty("Collapsed", Dvpanel_panel_filtrosgenerales_Collapsed);
+         ucDvpanel_panel_filtrosgenerales.setProperty("ShowCollapseIcon", Dvpanel_panel_filtrosgenerales_Showcollapseicon);
+         ucDvpanel_panel_filtrosgenerales.setProperty("IconPosition", Dvpanel_panel_filtrosgenerales_Iconposition);
+         ucDvpanel_panel_filtrosgenerales.setProperty("AutoScroll", Dvpanel_panel_filtrosgenerales_Autoscroll);
+         ucDvpanel_panel_filtrosgenerales.render(context, "dvelop.gxbootstrap.panel_al", Dvpanel_panel_filtrosgenerales_Internalname, "DVPANEL_PANEL_FILTROSGENERALESContainer");
+         httpContext.writeText( "<div class=\"gx_usercontrol_child\" id=\""+"DVPANEL_PANEL_FILTROSGENERALESContainer"+"Panel_FiltrosGenerales"+"\" style=\"display:none;\">") ;
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divPanel_filtrosgenerales_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTable_filtrosgenerales_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divUnnamedtable1_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-2 DscTop", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavBarini_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavBarini_Internalname, httpContext.getMessage( "Nº Hdr Inicial", ""), " AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", " gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 33,'',false,'',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavBarini_Internalname, GXutil.ltrim( localUtil.ntoc( AV11BarIni, (byte)(8), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtavBarini_Enabled!=0) ? localUtil.format( DecimalUtil.doubleToDec(AV11BarIni), "ZZZZZZZ9") : localUtil.format( DecimalUtil.doubleToDec(AV11BarIni), "ZZZZZZZ9"))), " inputmode=\"numeric\" pattern=\"[0-9]*\""+TempTags+" onchange=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onblur(this,33);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavBarini_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavBarini_Enabled, 0, "text", "1", 8, "chr", 1, "row", 8, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-2 DscTop", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavReoini_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavReoini_Internalname, httpContext.getMessage( "R", ""), " AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", " gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 37,'',false,'',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavReoini_Internalname, GXutil.ltrim( localUtil.ntoc( AV12ReoIni, (byte)(1), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtavReoini_Enabled!=0) ? localUtil.format( DecimalUtil.doubleToDec(AV12ReoIni), "9") : localUtil.format( DecimalUtil.doubleToDec(AV12ReoIni), "9"))), " inputmode=\"numeric\" pattern=\"[0-9]*\""+TempTags+" onchange=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onblur(this,37);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", httpContext.getMessage( "R", ""), edtavReoini_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavReoini_Enabled, 0, "text", "1", 1, "chr", 1, "row", 1, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-2 DscTop", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavParini_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavParini_Internalname, httpContext.getMessage( "P", ""), " AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", " gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 41,'',false,'',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavParini_Internalname, GXutil.rtrim( AV13ParIni), GXutil.rtrim( localUtil.format( AV13ParIni, "")), TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,41);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", httpContext.getMessage( "P", ""), edtavParini_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavParini_Enabled, 0, "text", "", 1, "chr", 1, "row", 1, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-2 DscTop", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavBarfin_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavBarfin_Internalname, httpContext.getMessage( "Nº Hdr Final", ""), " AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", " gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 45,'',false,'',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavBarfin_Internalname, GXutil.ltrim( localUtil.ntoc( AV14BarFin, (byte)(8), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtavBarfin_Enabled!=0) ? localUtil.format( DecimalUtil.doubleToDec(AV14BarFin), "ZZZZZZZ9") : localUtil.format( DecimalUtil.doubleToDec(AV14BarFin), "ZZZZZZZ9"))), " inputmode=\"numeric\" pattern=\"[0-9]*\""+TempTags+" onchange=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onblur(this,45);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavBarfin_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavBarfin_Enabled, 0, "text", "1", 8, "chr", 1, "row", 8, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-2 DscTop", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavReofin_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavReofin_Internalname, httpContext.getMessage( "R", ""), " AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", " gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 49,'',false,'',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavReofin_Internalname, GXutil.ltrim( localUtil.ntoc( AV15ReoFin, (byte)(1), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtavReofin_Enabled!=0) ? localUtil.format( DecimalUtil.doubleToDec(AV15ReoFin), "9") : localUtil.format( DecimalUtil.doubleToDec(AV15ReoFin), "9"))), " inputmode=\"numeric\" pattern=\"[0-9]*\""+TempTags+" onchange=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onblur(this,49);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", httpContext.getMessage( "R", ""), edtavReofin_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavReofin_Enabled, 0, "text", "1", 1, "chr", 1, "row", 1, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-2 DscTop", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavParfin_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavParfin_Internalname, httpContext.getMessage( "P", ""), " AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", " gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 53,'',false,'',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavParfin_Internalname, GXutil.rtrim( AV16ParFin), GXutil.rtrim( localUtil.format( AV16ParFin, "")), TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,53);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", httpContext.getMessage( "P", ""), edtavParfin_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavParfin_Enabled, 0, "text", "", 1, "chr", 1, "row", 1, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divUnnamedtable2_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-6 DscTop ExtendedComboCell", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTablesplittedcliini_Internalname, 1, 0, "px", 0, "px", "Table", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 MergeLabelCell", "left", "top", "", "", "div");
+         /* Text block */
+         app.GxWebStd.gx_label_ctrl( httpContext, lblTextblockcombo_cliini_Internalname, httpContext.getMessage( "Cliente Inicial", ""), "", "", lblTextblockcombo_cliini_Jsonclick, "'"+""+"'"+",false,"+"'"+""+"'", "", "Label", 0, "", 1, 1, 0, (short)(0), "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucCombo_cliini.setProperty("Caption", Combo_cliini_Caption);
+         ucCombo_cliini.setProperty("Cls", Combo_cliini_Cls);
+         ucCombo_cliini.setProperty("EmptyItemText", Combo_cliini_Emptyitemtext);
+         ucCombo_cliini.setProperty("DropDownOptionsTitleSettingsIcons", AV18DDO_TitleSettingsIcons);
+         ucCombo_cliini.setProperty("DropDownOptionsData", AV21CliIni_Data);
+         ucCombo_cliini.render(context, "dvelop.gxbootstrap.ddoextendedcombo", Combo_cliini_Internalname, "COMBO_CLIINIContainer");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-6 DscTop ExtendedComboCell", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTablesplittedclifin_Internalname, 1, 0, "px", 0, "px", "Table", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 MergeLabelCell", "left", "top", "", "", "div");
+         /* Text block */
+         app.GxWebStd.gx_label_ctrl( httpContext, lblTextblockcombo_clifin_Internalname, httpContext.getMessage( "Cliente Final", ""), "", "", lblTextblockcombo_clifin_Jsonclick, "'"+""+"'"+",false,"+"'"+""+"'", "", "Label", 0, "", 1, 1, 0, (short)(0), "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucCombo_clifin.setProperty("Caption", Combo_clifin_Caption);
+         ucCombo_clifin.setProperty("Cls", Combo_clifin_Cls);
+         ucCombo_clifin.setProperty("EmptyItemText", Combo_clifin_Emptyitemtext);
+         ucCombo_clifin.setProperty("DropDownOptionsTitleSettingsIcons", AV18DDO_TitleSettingsIcons);
+         ucCombo_clifin.setProperty("DropDownOptionsData", AV22CliFin_Data);
+         ucCombo_clifin.render(context, "dvelop.gxbootstrap.ddoextendedcombo", Combo_clifin_Internalname, "COMBO_CLIFINContainer");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divUnnamedtable3_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-6 DscTop ExtendedComboCell", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTablesplittedcctini_Internalname, 1, 0, "px", 0, "px", "Table", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 MergeLabelCell", "left", "top", "", "", "div");
+         /* Text block */
+         app.GxWebStd.gx_label_ctrl( httpContext, lblTextblockcombo_cctini_Internalname, httpContext.getMessage( "C.C Inicial", ""), "", "", lblTextblockcombo_cctini_Jsonclick, "'"+""+"'"+",false,"+"'"+""+"'", "", "Label", 0, "", 1, 1, 0, (short)(0), "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucCombo_cctini.setProperty("Caption", Combo_cctini_Caption);
+         ucCombo_cctini.setProperty("Cls", Combo_cctini_Cls);
+         ucCombo_cctini.setProperty("EmptyItemText", Combo_cctini_Emptyitemtext);
+         ucCombo_cctini.setProperty("DropDownOptionsTitleSettingsIcons", AV18DDO_TitleSettingsIcons);
+         ucCombo_cctini.setProperty("DropDownOptionsData", AV17CCTIni_Data);
+         ucCombo_cctini.render(context, "dvelop.gxbootstrap.ddoextendedcombo", Combo_cctini_Internalname, "COMBO_CCTINIContainer");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-6 DscTop ExtendedComboCell", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTablesplittedcctfin_Internalname, 1, 0, "px", 0, "px", "Table", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 MergeLabelCell", "left", "top", "", "", "div");
+         /* Text block */
+         app.GxWebStd.gx_label_ctrl( httpContext, lblTextblockcombo_cctfin_Internalname, httpContext.getMessage( "C.C Final", ""), "", "", lblTextblockcombo_cctfin_Jsonclick, "'"+""+"'"+",false,"+"'"+""+"'", "", "Label", 0, "", 1, 1, 0, (short)(0), "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucCombo_cctfin.setProperty("Caption", Combo_cctfin_Caption);
+         ucCombo_cctfin.setProperty("Cls", Combo_cctfin_Cls);
+         ucCombo_cctfin.setProperty("EmptyItemText", Combo_cctfin_Emptyitemtext);
+         ucCombo_cctfin.setProperty("DropDownOptionsTitleSettingsIcons", AV18DDO_TitleSettingsIcons);
+         ucCombo_cctfin.setProperty("DropDownOptionsData", AV20CCTFin_Data);
+         ucCombo_cctfin.render(context, "dvelop.gxbootstrap.ddoextendedcombo", Combo_cctfin_Internalname, "COMBO_CCTFINContainer");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divUnnamedtable4_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-6 DscTop", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavFchini_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavFchini_Internalname, httpContext.getMessage( "Fecha Inicial", ""), " AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", " gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 97,'',false,'',0)\"" ;
+         httpContext.writeText( "<div id=\""+edtavFchini_Internalname+"_dp_container\" class=\"dp_container\" style=\"white-space:nowrap;display:inline;\">") ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavFchini_Internalname, localUtil.format(AV5FchIni, "99/99/99"), localUtil.format( AV5FchIni, "99/99/99"), TempTags+" onchange=\""+"gx.date.valid_date(this, 8,'"+httpContext.getLanguageProperty( "date_fmt")+"',0,"+httpContext.getLanguageProperty( "time_fmt")+",'"+httpContext.getLanguageProperty( "code")+"',false,0);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.date.valid_date(this, 8,'"+httpContext.getLanguageProperty( "date_fmt")+"',0,"+httpContext.getLanguageProperty( "time_fmt")+",'"+httpContext.getLanguageProperty( "code")+"',false,0);"+";gx.evt.onblur(this,97);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavFchini_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavFchini_Enabled, 0, "text", "", 8, "chr", 1, "row", 8, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_bitmap( httpContext, edtavFchini_Internalname+"_dp_trigger", context.getHttpContext().getImagePath( "61b9b5d3-dff6-4d59-9b00-da61bc2cbe93", "", context.getHttpContext().getTheme( )), "", "", "", "", ((1==0)||(edtavFchini_Enabled==0) ? 0 : 1), 0, "Date selector", "Date selector", 0, 1, 0, "", 0, "", 0, 0, 0, "", "", "cursor: pointer;", "", "", "", "", "", "", "", "", 1, false, false, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         httpContext.writeTextNL( "</div>") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-6 DscTop", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavFchfin_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavFchfin_Internalname, httpContext.getMessage( "Fecha Final", ""), " AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", " gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 101,'',false,'',0)\"" ;
+         httpContext.writeText( "<div id=\""+edtavFchfin_Internalname+"_dp_container\" class=\"dp_container\" style=\"white-space:nowrap;display:inline;\">") ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavFchfin_Internalname, localUtil.format(AV6FchFin, "99/99/99"), localUtil.format( AV6FchFin, "99/99/99"), TempTags+" onchange=\""+"gx.date.valid_date(this, 8,'"+httpContext.getLanguageProperty( "date_fmt")+"',0,"+httpContext.getLanguageProperty( "time_fmt")+",'"+httpContext.getLanguageProperty( "code")+"',false,0);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.date.valid_date(this, 8,'"+httpContext.getLanguageProperty( "date_fmt")+"',0,"+httpContext.getLanguageProperty( "time_fmt")+",'"+httpContext.getLanguageProperty( "code")+"',false,0);"+";gx.evt.onblur(this,101);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavFchfin_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavFchfin_Enabled, 0, "text", "", 8, "chr", 1, "row", 8, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_bitmap( httpContext, edtavFchfin_Internalname+"_dp_trigger", context.getHttpContext().getImagePath( "61b9b5d3-dff6-4d59-9b00-da61bc2cbe93", "", context.getHttpContext().getTheme( )), "", "", "", "", ((1==0)||(edtavFchfin_Enabled==0) ? 0 : 1), 0, "Date selector", "Date selector", 0, 1, 0, "", 0, "", 0, 0, 0, "", "", "cursor: pointer;", "", "", "", "", "", "", "", "", 1, false, false, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         httpContext.writeTextNL( "</div>") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         httpContext.writeText( "</div>") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 CellMarginTop", "Center", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTable_acciones_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-action-group ActionGroup", "left", "top", " "+"data-gx-actiongroup-type=\"toolbar\""+" ", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 109,'',false,'',0)\"" ;
+         ClassString = "Button" ;
+         StyleString = "" ;
+         app.GxWebStd.gx_button_ctrl( httpContext, bttBtnenter_Internalname, "", httpContext.getMessage( "Confirmar", ""), bttBtnenter_Jsonclick, 5, httpContext.getMessage( "GX_BtnEnter", ""), "", StyleString, ClassString, 1, 1, "standard", "'"+""+"'"+",false,"+"'"+"EENTER."+"'", TempTags, "", httpContext.getButtonType( ), "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 111,'',false,'',0)\"" ;
+         ClassString = "Button" ;
+         StyleString = "" ;
+         app.GxWebStd.gx_button_ctrl( httpContext, bttBtncerrar_Internalname, "", httpContext.getMessage( "Cerrar", ""), bttBtncerrar_Jsonclick, 5, httpContext.getMessage( "Cerrar", ""), "", StyleString, ClassString, 1, 1, "standard", "'"+""+"'"+",false,"+"'"+"E\\'DOCERRAR\\'."+"'", TempTags, "", httpContext.getButtonType( ), "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "Center", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         httpContext.writeText( "</div>") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTable_progress_Internalname, 1, 0, "px", 0, "px", "Table_ProgressBar", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucProgressbar.render(context, "gxprogressindicator", Progressbar_Internalname, "PROGRESSBARContainer");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 CellMarginTop10 CellMarginBottom10", "Right", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", " gx-attribute", "left", "top", "", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavPgmname_Internalname, httpContext.getMessage( "pgmname", ""), "col-sm-3 AttributeLabel", 0, true, "");
+         /* Single line edit */
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavPgmname_Internalname, GXutil.rtrim( AV33Pgmname), GXutil.rtrim( localUtil.format( AV33Pgmname, "")), "", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavPgmname_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtavPgmname_Enabled, 0, "text", "", 80, "chr", 1, "row", 129, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "Right", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucDatamonjs.render(context, "datamonjs", Datamonjs_Internalname, "DATAMONJSContainer");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divHtml_bottomauxiliarcontrols_Internalname, 1, 0, "px", 0, "px", "Section", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 128,'',false,'',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavCliini_Internalname, GXutil.ltrim( localUtil.ntoc( AV9CliIni, (byte)(6), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( localUtil.format( DecimalUtil.doubleToDec(AV9CliIni), "ZZZZZ9")), " inputmode=\"numeric\" pattern=\"[0-9]*\""+TempTags+" onchange=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onblur(this,128);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavCliini_Jsonclick, 0, "Attribute", "", "", "", "", edtavCliini_Visible, 1, 0, "text", "1", 6, "chr", 1, "row", 6, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 129,'',false,'',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavClifin_Internalname, GXutil.ltrim( localUtil.ntoc( AV10CliFin, (byte)(6), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( localUtil.format( DecimalUtil.doubleToDec(AV10CliFin), "ZZZZZ9")), " inputmode=\"numeric\" pattern=\"[0-9]*\""+TempTags+" onchange=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onblur(this,129);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavClifin_Jsonclick, 0, "Attribute", "", "", "", "", edtavClifin_Visible, 1, 0, "text", "1", 6, "chr", 1, "row", 6, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 130,'',false,'',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavCctini_Internalname, GXutil.ltrim( localUtil.ntoc( AV7CCTIni, (byte)(6), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( localUtil.format( DecimalUtil.doubleToDec(AV7CCTIni), "ZZZZZ9")), " inputmode=\"numeric\" pattern=\"[0-9]*\""+TempTags+" onchange=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onblur(this,130);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavCctini_Jsonclick, 0, "Attribute", "", "", "", "", edtavCctini_Visible, 1, 0, "text", "1", 6, "chr", 1, "row", 6, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 131,'',false,'',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavCctfin_Internalname, GXutil.ltrim( localUtil.ntoc( AV8CCTFin, (byte)(6), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( localUtil.format( DecimalUtil.doubleToDec(AV8CCTFin), "ZZZZZ9")), " inputmode=\"numeric\" pattern=\"[0-9]*\""+TempTags+" onchange=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onblur(this,131);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavCctfin_Jsonclick, 0, "Attribute", "", "", "", "", edtavCctfin_Visible, 1, 0, "text", "1", 6, "chr", 1, "row", 6, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\WCCReaTeo_WP.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      }
+      wbLoad = true ;
+   }
+
+   public void start2C12( )
+   {
+      wbLoad = false ;
+      wbEnd = 0 ;
+      wbStart = 0 ;
+      if ( ! httpContext.isSpaRequest( ) )
+      {
+         if ( httpContext.exposeMetadata( ) )
+         {
+            Form.getMeta().addItem("generator", "GeneXus Java 17_0_11-163677", (short)(0)) ;
+         }
+         Form.getMeta().addItem("description", httpContext.getMessage( "Comparación Real / Teórico", ""), (short)(0)) ;
+      }
+      httpContext.wjLoc = "" ;
+      httpContext.nUserReturn = (byte)(0) ;
+      httpContext.wbHandled = (byte)(0) ;
+      if ( GXutil.strcmp(httpContext.getRequestMethod( ), "POST") == 0 )
+      {
+      }
+      wbErr = false ;
+      strup2C10( ) ;
+   }
+
+   public void ws2C12( )
+   {
+      start2C12( ) ;
+      evt2C12( ) ;
+   }
+
+   public void evt2C12( )
+   {
+      if ( GXutil.strcmp(httpContext.getRequestMethod( ), "POST") == 0 )
+      {
+         if ( ! httpContext.willRedirect( ) && ( httpContext.nUserReturn != 1 ) && ! wbErr )
+         {
+            /* Read Web Panel buttons. */
+            sEvt = httpContext.cgiGet( "_EventName") ;
+            EvtGridId = httpContext.cgiGet( "_EventGridId") ;
+            EvtRowId = httpContext.cgiGet( "_EventRowId") ;
+            if ( GXutil.len( sEvt) > 0 )
+            {
+               sEvtType = GXutil.left( sEvt, 1) ;
+               sEvt = GXutil.right( sEvt, GXutil.len( sEvt)-1) ;
+               if ( GXutil.strcmp(sEvtType, "M") != 0 )
+               {
+                  if ( GXutil.strcmp(sEvtType, "E") == 0 )
+                  {
+                     sEvtType = GXutil.right( sEvt, 1) ;
+                     if ( GXutil.strcmp(sEvtType, ".") == 0 )
+                     {
+                        sEvt = GXutil.left( sEvt, GXutil.len( sEvt)-1) ;
+                        if ( GXutil.strcmp(sEvt, "RFR") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                        }
+                        else if ( GXutil.strcmp(sEvt, "START") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                           /* Execute user event: Start */
+                           e112C12 ();
+                        }
+                        else if ( GXutil.strcmp(sEvt, "'DOCERRAR'") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                           /* Execute user event: 'DoCerrar' */
+                           e122C12 ();
+                        }
+                        else if ( GXutil.strcmp(sEvt, "ENTER") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           if ( ! wbErr )
+                           {
+                              Rfr0gs = false ;
+                              if ( ! Rfr0gs )
+                              {
+                                 /* Execute user event: Enter */
+                                 e132C12 ();
+                              }
+                              dynload_actions( ) ;
+                           }
+                        }
+                        else if ( GXutil.strcmp(sEvt, "LOAD") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                           /* Execute user event: Load */
+                           e142C12 ();
+                           /* No code required for Cancel button. It is implemented as the Reset button. */
+                        }
+                        else if ( GXutil.strcmp(sEvt, "LSCR") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                           dynload_actions( ) ;
+                        }
+                     }
+                     else
+                     {
+                     }
+                  }
+                  httpContext.wbHandled = (byte)(1) ;
+               }
+            }
+         }
+      }
+   }
+
+   public void we2C12( )
+   {
+      if ( ! app.GxWebStd.gx_redirect( httpContext) )
+      {
+         Rfr0gs = true ;
+         refresh( ) ;
+         if ( ! app.GxWebStd.gx_redirect( httpContext) )
+         {
+            if ( nGXWrapped == 1 )
+            {
+               renderHtmlCloseForm( ) ;
+            }
+         }
+      }
+   }
+
+   public void pa2C12( )
+   {
+      if ( nDonePA == 0 )
+      {
+         if ( (GXutil.strcmp("", httpContext.getCookie( "GX_SESSION_ID"))==0) )
+         {
+            gxcookieaux = httpContext.setCookie( "GX_SESSION_ID", httpContext.encrypt64( com.genexus.util.Encryption.getNewKey( ), context.getServerKey( )), "", GXutil.nullDate(), "", (short)(httpContext.getHttpSecure( ))) ;
+         }
+         GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+         toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+         if ( httpContext.isSpaRequest( ) )
+         {
+            httpContext.disableJsOutput();
+         }
+         init_web_controls( ) ;
+         if ( toggleJsOutput )
+         {
+            if ( httpContext.isSpaRequest( ) )
+            {
+               httpContext.enableJsOutput();
+            }
+         }
+         if ( ! httpContext.isAjaxRequest( ) )
+         {
+            GX_FocusControl = edtavBarini_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+         }
+         nDonePA = (byte)(1) ;
+      }
+   }
+
+   public void dynload_actions( )
+   {
+      /* End function dynload_actions */
+   }
+
+   public void send_integrity_hashes( )
+   {
+   }
+
+   public void clear_multi_value_controls( )
+   {
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         dynload_actions( ) ;
+         before_start_formulas( ) ;
+      }
+   }
+
+   public void fix_multi_value_controls( )
+   {
+   }
+
+   public void refresh( )
+   {
+      send_integrity_hashes( ) ;
+      rf2C12( ) ;
+      if ( isFullAjaxMode( ) )
+      {
+         send_integrity_footer_hashes( ) ;
+      }
+      /* End function Refresh */
+   }
+
+   public void initialize_formulas( )
+   {
+      /* GeneXus formulas. */
+      AV33Pgmname = "ControlCalidadHTD.WCCReaTeo_WP" ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV33Pgmname", AV33Pgmname);
+      Gx_err = (short)(0) ;
+      edtavPgmname_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavPgmname_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavPgmname_Enabled), 5, 0), true);
+   }
+
+   public void rf2C12( )
+   {
+      initialize_formulas( ) ;
+      clear_multi_value_controls( ) ;
+      gxdyncontrolsrefreshing = true ;
+      fix_multi_value_controls( ) ;
+      gxdyncontrolsrefreshing = false ;
+      if ( ! httpContext.willRedirect( ) && ( httpContext.nUserReturn != 1 ) )
+      {
+         /* Using cursor H02C12 */
+         pr_default.execute(0);
+         while ( (pr_default.getStatus(0) != 101) )
+         {
+            A396EmprCod = H02C12_A396EmprCod[0] ;
+            /* Execute user event: Load */
+            e142C12 ();
+            pr_default.readNext(0);
+         }
+         pr_default.close(0);
+         wb2C10( ) ;
+      }
+   }
+
+   public void send_integrity_lvl_hashes2C12( )
+   {
+   }
+
+   public void before_start_formulas( )
+   {
+      AV33Pgmname = "ControlCalidadHTD.WCCReaTeo_WP" ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV33Pgmname", AV33Pgmname);
+      Gx_err = (short)(0) ;
+      edtavPgmname_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavPgmname_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavPgmname_Enabled), 5, 0), true);
+      fix_multi_value_controls( ) ;
+   }
+
+   public void strup2C10( )
+   {
+      /* Before Start, stand alone formulas. */
+      before_start_formulas( ) ;
+      /* Execute Start event if defined. */
+      httpContext.wbGlbDoneStart = (byte)(0) ;
+      /* Execute user event: Start */
+      e112C12 ();
+      httpContext.wbGlbDoneStart = (byte)(1) ;
+      /* After Start, stand alone formulas. */
+      if ( GXutil.strcmp(httpContext.getRequestMethod( ), "POST") == 0 )
+      {
+         /* Read saved SDTs. */
+         httpContext.ajax_req_read_hidden_sdt(httpContext.cgiGet( "vDDO_TITLESETTINGSICONS"), AV18DDO_TitleSettingsIcons);
+         httpContext.ajax_req_read_hidden_sdt(httpContext.cgiGet( "vCLIINI_DATA"), AV21CliIni_Data);
+         httpContext.ajax_req_read_hidden_sdt(httpContext.cgiGet( "vCLIFIN_DATA"), AV22CliFin_Data);
+         httpContext.ajax_req_read_hidden_sdt(httpContext.cgiGet( "vCCTINI_DATA"), AV17CCTIni_Data);
+         httpContext.ajax_req_read_hidden_sdt(httpContext.cgiGet( "vCCTFIN_DATA"), AV20CCTFin_Data);
+         /* Read saved values. */
+         Combo_cliini_Cls = httpContext.cgiGet( "COMBO_CLIINI_Cls") ;
+         Combo_cliini_Selectedvalue_set = httpContext.cgiGet( "COMBO_CLIINI_Selectedvalue_set") ;
+         Combo_cliini_Emptyitemtext = httpContext.cgiGet( "COMBO_CLIINI_Emptyitemtext") ;
+         Combo_clifin_Cls = httpContext.cgiGet( "COMBO_CLIFIN_Cls") ;
+         Combo_clifin_Selectedvalue_set = httpContext.cgiGet( "COMBO_CLIFIN_Selectedvalue_set") ;
+         Combo_clifin_Emptyitemtext = httpContext.cgiGet( "COMBO_CLIFIN_Emptyitemtext") ;
+         Combo_cctini_Cls = httpContext.cgiGet( "COMBO_CCTINI_Cls") ;
+         Combo_cctini_Selectedvalue_set = httpContext.cgiGet( "COMBO_CCTINI_Selectedvalue_set") ;
+         Combo_cctini_Emptyitemtext = httpContext.cgiGet( "COMBO_CCTINI_Emptyitemtext") ;
+         Combo_cctfin_Cls = httpContext.cgiGet( "COMBO_CCTFIN_Cls") ;
+         Combo_cctfin_Selectedvalue_set = httpContext.cgiGet( "COMBO_CCTFIN_Selectedvalue_set") ;
+         Combo_cctfin_Emptyitemtext = httpContext.cgiGet( "COMBO_CCTFIN_Emptyitemtext") ;
+         Dvpanel_panel_filtrosgenerales_Width = httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Width") ;
+         Dvpanel_panel_filtrosgenerales_Autowidth = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Autowidth")) ;
+         Dvpanel_panel_filtrosgenerales_Autoheight = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Autoheight")) ;
+         Dvpanel_panel_filtrosgenerales_Cls = httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Cls") ;
+         Dvpanel_panel_filtrosgenerales_Title = httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Title") ;
+         Dvpanel_panel_filtrosgenerales_Collapsible = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Collapsible")) ;
+         Dvpanel_panel_filtrosgenerales_Collapsed = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Collapsed")) ;
+         Dvpanel_panel_filtrosgenerales_Showcollapseicon = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Showcollapseicon")) ;
+         Dvpanel_panel_filtrosgenerales_Iconposition = httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Iconposition") ;
+         Dvpanel_panel_filtrosgenerales_Autoscroll = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROSGENERALES_Autoscroll")) ;
+         Dvpanel_panel_filtros_Width = httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Width") ;
+         Dvpanel_panel_filtros_Autowidth = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Autowidth")) ;
+         Dvpanel_panel_filtros_Autoheight = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Autoheight")) ;
+         Dvpanel_panel_filtros_Cls = httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Cls") ;
+         Dvpanel_panel_filtros_Title = httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Title") ;
+         Dvpanel_panel_filtros_Collapsible = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Collapsible")) ;
+         Dvpanel_panel_filtros_Collapsed = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Collapsed")) ;
+         Dvpanel_panel_filtros_Showcollapseicon = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Showcollapseicon")) ;
+         Dvpanel_panel_filtros_Iconposition = httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Iconposition") ;
+         Dvpanel_panel_filtros_Autoscroll = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_PANEL_FILTROS_Autoscroll")) ;
+         /* Read variables values. */
+         if ( ( ( localUtil.ctol( httpContext.cgiGet( edtavBarini_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) < 0 ) ) || ( ( localUtil.ctol( httpContext.cgiGet( edtavBarini_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) > 99999999 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "vBARINI");
+            GX_FocusControl = edtavBarini_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV11BarIni = 0 ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV11BarIni", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV11BarIni), 8, 0));
+         }
+         else
+         {
+            AV11BarIni = (int)(localUtil.ctol( httpContext.cgiGet( edtavBarini_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV11BarIni", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV11BarIni), 8, 0));
+         }
+         if ( ( ( localUtil.ctol( httpContext.cgiGet( edtavReoini_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) < 0 ) ) || ( ( localUtil.ctol( httpContext.cgiGet( edtavReoini_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) > 9 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "vREOINI");
+            GX_FocusControl = edtavReoini_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV12ReoIni = (byte)(0) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV12ReoIni", GXutil.str( AV12ReoIni, 1, 0));
+         }
+         else
+         {
+            AV12ReoIni = (byte)(localUtil.ctol( httpContext.cgiGet( edtavReoini_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV12ReoIni", GXutil.str( AV12ReoIni, 1, 0));
+         }
+         AV13ParIni = httpContext.cgiGet( edtavParini_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV13ParIni", AV13ParIni);
+         if ( ( ( localUtil.ctol( httpContext.cgiGet( edtavBarfin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) < 0 ) ) || ( ( localUtil.ctol( httpContext.cgiGet( edtavBarfin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) > 99999999 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "vBARFIN");
+            GX_FocusControl = edtavBarfin_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV14BarFin = 0 ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV14BarFin", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV14BarFin), 8, 0));
+         }
+         else
+         {
+            AV14BarFin = (int)(localUtil.ctol( httpContext.cgiGet( edtavBarfin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV14BarFin", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV14BarFin), 8, 0));
+         }
+         if ( ( ( localUtil.ctol( httpContext.cgiGet( edtavReofin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) < 0 ) ) || ( ( localUtil.ctol( httpContext.cgiGet( edtavReofin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) > 9 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "vREOFIN");
+            GX_FocusControl = edtavReofin_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV15ReoFin = (byte)(0) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV15ReoFin", GXutil.str( AV15ReoFin, 1, 0));
+         }
+         else
+         {
+            AV15ReoFin = (byte)(localUtil.ctol( httpContext.cgiGet( edtavReofin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV15ReoFin", GXutil.str( AV15ReoFin, 1, 0));
+         }
+         AV16ParFin = httpContext.cgiGet( edtavParfin_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV16ParFin", AV16ParFin);
+         if ( localUtil.vcdate( httpContext.cgiGet( edtavFchini_Internalname), (byte)(localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt")))) == 0 )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_faildate", new Object[] {}), 1, "vFCHINI");
+            GX_FocusControl = edtavFchini_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV5FchIni = GXutil.nullDate() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV5FchIni", localUtil.format(AV5FchIni, "99/99/99"));
+         }
+         else
+         {
+            AV5FchIni = localUtil.ctod( httpContext.cgiGet( edtavFchini_Internalname), localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV5FchIni", localUtil.format(AV5FchIni, "99/99/99"));
+         }
+         if ( localUtil.vcdate( httpContext.cgiGet( edtavFchfin_Internalname), (byte)(localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt")))) == 0 )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_faildate", new Object[] {}), 1, "vFCHFIN");
+            GX_FocusControl = edtavFchfin_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV6FchFin = GXutil.nullDate() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV6FchFin", localUtil.format(AV6FchFin, "99/99/99"));
+         }
+         else
+         {
+            AV6FchFin = localUtil.ctod( httpContext.cgiGet( edtavFchfin_Internalname), localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV6FchFin", localUtil.format(AV6FchFin, "99/99/99"));
+         }
+         AV33Pgmname = httpContext.cgiGet( edtavPgmname_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV33Pgmname", AV33Pgmname);
+         if ( ( ( localUtil.ctol( httpContext.cgiGet( edtavCliini_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) < 0 ) ) || ( ( localUtil.ctol( httpContext.cgiGet( edtavCliini_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) > 999999 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "vCLIINI");
+            GX_FocusControl = edtavCliini_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV9CliIni = 0 ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV9CliIni", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV9CliIni), 6, 0));
+         }
+         else
+         {
+            AV9CliIni = (int)(localUtil.ctol( httpContext.cgiGet( edtavCliini_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV9CliIni", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV9CliIni), 6, 0));
+         }
+         if ( ( ( localUtil.ctol( httpContext.cgiGet( edtavClifin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) < 0 ) ) || ( ( localUtil.ctol( httpContext.cgiGet( edtavClifin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) > 999999 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "vCLIFIN");
+            GX_FocusControl = edtavClifin_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV10CliFin = 0 ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV10CliFin", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV10CliFin), 6, 0));
+         }
+         else
+         {
+            AV10CliFin = (int)(localUtil.ctol( httpContext.cgiGet( edtavClifin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV10CliFin", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV10CliFin), 6, 0));
+         }
+         if ( ( ( localUtil.ctol( httpContext.cgiGet( edtavCctini_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) < 0 ) ) || ( ( localUtil.ctol( httpContext.cgiGet( edtavCctini_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) > 999999 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "vCCTINI");
+            GX_FocusControl = edtavCctini_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV7CCTIni = 0 ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV7CCTIni", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV7CCTIni), 6, 0));
+         }
+         else
+         {
+            AV7CCTIni = (int)(localUtil.ctol( httpContext.cgiGet( edtavCctini_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV7CCTIni", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV7CCTIni), 6, 0));
+         }
+         if ( ( ( localUtil.ctol( httpContext.cgiGet( edtavCctfin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) < 0 ) ) || ( ( localUtil.ctol( httpContext.cgiGet( edtavCctfin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) > 999999 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "vCCTFIN");
+            GX_FocusControl = edtavCctfin_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV8CCTFin = 0 ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV8CCTFin", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV8CCTFin), 6, 0));
+         }
+         else
+         {
+            AV8CCTFin = (int)(localUtil.ctol( httpContext.cgiGet( edtavCctfin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV8CCTFin", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV8CCTFin), 6, 0));
+         }
+         /* Read subfile selected row values. */
+         /* Read hidden variables. */
+         GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+      }
+      else
+      {
+         dynload_actions( ) ;
+      }
+   }
+
+   protected void GXStart( )
+   {
+      /* Execute user event: Start */
+      e112C12 ();
+      if (returnInSub) return;
+   }
+
+   public void e112C12( )
+   {
+      /* Start Routine */
+      returnInSub = false ;
+      GXt_char1 = AV27Station ;
+      GXv_char2[0] = GXt_char1 ;
+      new app.obtenerwrkst(remoteHandle, context).execute( GXv_char2) ;
+      wccreateo_wp_impl.this.GXt_char1 = GXv_char2[0] ;
+      AV27Station = GXt_char1 ;
+      GXv_char2[0] = AV28EmprCod ;
+      GXv_char3[0] = AV29EmprNom ;
+      GXv_char4[0] = AV30UsurCod ;
+      new app.pbusemp(remoteHandle, context).execute( AV27Station, GXv_char2, GXv_char3, GXv_char4) ;
+      wccreateo_wp_impl.this.AV28EmprCod = GXv_char2[0] ;
+      wccreateo_wp_impl.this.AV29EmprNom = GXv_char3[0] ;
+      wccreateo_wp_impl.this.AV30UsurCod = GXv_char4[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV28EmprCod", AV28EmprCod);
+      GXt_SdtDVB_SDTDropDownOptionsTitleSettingsIcons5 = AV18DDO_TitleSettingsIcons;
+      GXv_SdtDVB_SDTDropDownOptionsTitleSettingsIcons6[0] = GXt_SdtDVB_SDTDropDownOptionsTitleSettingsIcons5;
+      new app.wwpbaseobjects.getwwptitlesettingsicons(remoteHandle, context).execute( GXv_SdtDVB_SDTDropDownOptionsTitleSettingsIcons6) ;
+      GXt_SdtDVB_SDTDropDownOptionsTitleSettingsIcons5 = GXv_SdtDVB_SDTDropDownOptionsTitleSettingsIcons6[0] ;
+      AV18DDO_TitleSettingsIcons = GXt_SdtDVB_SDTDropDownOptionsTitleSettingsIcons5;
+      edtavCctfin_Visible = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavCctfin_Internalname, "Visible", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavCctfin_Visible), 5, 0), true);
+      edtavCctini_Visible = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavCctini_Internalname, "Visible", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavCctini_Visible), 5, 0), true);
+      edtavClifin_Visible = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavClifin_Internalname, "Visible", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavClifin_Visible), 5, 0), true);
+      edtavCliini_Visible = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavCliini_Internalname, "Visible", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavCliini_Visible), 5, 0), true);
+      /* Execute user subroutine: 'LOADCOMBOCLIINI' */
+      S112 ();
+      if (returnInSub) return;
+      /* Execute user subroutine: 'LOADCOMBOCLIFIN' */
+      S122 ();
+      if (returnInSub) return;
+      /* Execute user subroutine: 'LOADCOMBOCCTINI' */
+      S132 ();
+      if (returnInSub) return;
+      /* Execute user subroutine: 'LOADCOMBOCCTFIN' */
+      S142 ();
+      if (returnInSub) return;
+      AV23Det = "N" ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV23Det", AV23Det);
+      AV24NivIni = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV24NivIni", AV24NivIni);
+      AV25NivFin = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV25NivFin", AV25NivFin);
+      AV26CCTipctr = (short)(0) ;
+   }
+
+   public void e122C12( )
+   {
+      /* 'DoCerrar' Routine */
+      returnInSub = false ;
+      httpContext.setWebReturnParms(new Object[] {});
+      httpContext.setWebReturnParmsMetadata(new Object[] {});
+      httpContext.wjLocDisableFrm = (byte)(1) ;
+      httpContext.nUserReturn = (byte)(1) ;
+      returnInSub = true;
+      if (true) return;
+   }
+
+   public void S142( )
+   {
+      /* 'LOADCOMBOCCTFIN' Routine */
+      returnInSub = false ;
+      AV20CCTFin_Data.clear();
+      /* Using cursor H02C13 */
+      pr_default.execute(1, new Object[] {AV28EmprCod});
+      while ( (pr_default.getStatus(1) != 101) )
+      {
+         A396EmprCod = H02C13_A396EmprCod[0] ;
+         A4036CCTDsc = H02C13_A4036CCTDsc[0] ;
+         A4031CCTCod = H02C13_A4031CCTCod[0] ;
+         AV19Combo_DataItem = (app.wwpbaseobjects.SdtDVB_SDTComboData_Item)new app.wwpbaseobjects.SdtDVB_SDTComboData_Item(remoteHandle, context);
+         AV19Combo_DataItem.setgxTv_SdtDVB_SDTComboData_Item_Id( GXutil.trim( GXutil.str( A4031CCTCod, 6, 0)) );
+         AV19Combo_DataItem.setgxTv_SdtDVB_SDTComboData_Item_Title( GXutil.trim( GXutil.str( A4031CCTCod, 6, 0))+"-"+GXutil.trim( A4036CCTDsc) );
+         AV20CCTFin_Data.add(AV19Combo_DataItem, 0);
+         pr_default.readNext(1);
+      }
+      pr_default.close(1);
+      AV20CCTFin_Data.sort("Title");
+      Combo_cctfin_Selectedvalue_set = ((0==AV8CCTFin) ? "" : GXutil.trim( GXutil.str( AV8CCTFin, 6, 0))) ;
+      ucCombo_cctfin.sendProperty(context, "", false, Combo_cctfin_Internalname, "SelectedValue_set", Combo_cctfin_Selectedvalue_set);
+   }
+
+   public void S132( )
+   {
+      /* 'LOADCOMBOCCTINI' Routine */
+      returnInSub = false ;
+      AV17CCTIni_Data.clear();
+      /* Using cursor H02C14 */
+      pr_default.execute(2, new Object[] {AV28EmprCod});
+      while ( (pr_default.getStatus(2) != 101) )
+      {
+         A396EmprCod = H02C14_A396EmprCod[0] ;
+         A4036CCTDsc = H02C14_A4036CCTDsc[0] ;
+         A4031CCTCod = H02C14_A4031CCTCod[0] ;
+         AV19Combo_DataItem = (app.wwpbaseobjects.SdtDVB_SDTComboData_Item)new app.wwpbaseobjects.SdtDVB_SDTComboData_Item(remoteHandle, context);
+         AV19Combo_DataItem.setgxTv_SdtDVB_SDTComboData_Item_Id( GXutil.trim( GXutil.str( A4031CCTCod, 6, 0)) );
+         AV19Combo_DataItem.setgxTv_SdtDVB_SDTComboData_Item_Title( GXutil.trim( GXutil.str( A4031CCTCod, 6, 0))+"-"+GXutil.trim( A4036CCTDsc) );
+         AV17CCTIni_Data.add(AV19Combo_DataItem, 0);
+         pr_default.readNext(2);
+      }
+      pr_default.close(2);
+      AV17CCTIni_Data.sort("Title");
+      Combo_cctini_Selectedvalue_set = ((0==AV7CCTIni) ? "" : GXutil.trim( GXutil.str( AV7CCTIni, 6, 0))) ;
+      ucCombo_cctini.sendProperty(context, "", false, Combo_cctini_Internalname, "SelectedValue_set", Combo_cctini_Selectedvalue_set);
+   }
+
+   public void S122( )
+   {
+      /* 'LOADCOMBOCLIFIN' Routine */
+      returnInSub = false ;
+      AV22CliFin_Data.clear();
+      /* Using cursor H02C15 */
+      pr_default.execute(3, new Object[] {AV28EmprCod});
+      while ( (pr_default.getStatus(3) != 101) )
+      {
+         A10045CliAct = H02C15_A10045CliAct[0] ;
+         A396EmprCod = H02C15_A396EmprCod[0] ;
+         A279CliNom = H02C15_A279CliNom[0] ;
+         A252CliCod = H02C15_A252CliCod[0] ;
+         A13735CliCNom = GXutil.trim( GXutil.str( A252CliCod, 6, 0)) + "-" + GXutil.trim( A279CliNom) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A13735CliCNom", A13735CliCNom);
+         AV19Combo_DataItem = (app.wwpbaseobjects.SdtDVB_SDTComboData_Item)new app.wwpbaseobjects.SdtDVB_SDTComboData_Item(remoteHandle, context);
+         AV19Combo_DataItem.setgxTv_SdtDVB_SDTComboData_Item_Id( GXutil.trim( GXutil.str( A252CliCod, 6, 0)) );
+         AV19Combo_DataItem.setgxTv_SdtDVB_SDTComboData_Item_Title( A13735CliCNom );
+         AV22CliFin_Data.add(AV19Combo_DataItem, 0);
+         pr_default.readNext(3);
+      }
+      pr_default.close(3);
+      AV22CliFin_Data.sort("Title");
+      Combo_clifin_Selectedvalue_set = ((0==AV10CliFin) ? "" : GXutil.trim( GXutil.str( AV10CliFin, 6, 0))) ;
+      ucCombo_clifin.sendProperty(context, "", false, Combo_clifin_Internalname, "SelectedValue_set", Combo_clifin_Selectedvalue_set);
+   }
+
+   public void S112( )
+   {
+      /* 'LOADCOMBOCLIINI' Routine */
+      returnInSub = false ;
+      AV21CliIni_Data.clear();
+      /* Using cursor H02C16 */
+      pr_default.execute(4, new Object[] {AV28EmprCod});
+      while ( (pr_default.getStatus(4) != 101) )
+      {
+         A10045CliAct = H02C16_A10045CliAct[0] ;
+         A396EmprCod = H02C16_A396EmprCod[0] ;
+         A279CliNom = H02C16_A279CliNom[0] ;
+         A252CliCod = H02C16_A252CliCod[0] ;
+         A13735CliCNom = GXutil.trim( GXutil.str( A252CliCod, 6, 0)) + "-" + GXutil.trim( A279CliNom) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A13735CliCNom", A13735CliCNom);
+         AV19Combo_DataItem = (app.wwpbaseobjects.SdtDVB_SDTComboData_Item)new app.wwpbaseobjects.SdtDVB_SDTComboData_Item(remoteHandle, context);
+         AV19Combo_DataItem.setgxTv_SdtDVB_SDTComboData_Item_Id( GXutil.trim( GXutil.str( A252CliCod, 6, 0)) );
+         AV19Combo_DataItem.setgxTv_SdtDVB_SDTComboData_Item_Title( A13735CliCNom );
+         AV21CliIni_Data.add(AV19Combo_DataItem, 0);
+         pr_default.readNext(4);
+      }
+      pr_default.close(4);
+      AV21CliIni_Data.sort("Title");
+      Combo_cliini_Selectedvalue_set = ((0==AV9CliIni) ? "" : GXutil.trim( GXutil.str( AV9CliIni, 6, 0))) ;
+      ucCombo_cliini.sendProperty(context, "", false, Combo_cliini_Internalname, "SelectedValue_set", Combo_cliini_Selectedvalue_set);
+   }
+
+   public void GXEnter( )
+   {
+      /* Execute user event: Enter */
+      e132C12 ();
+      if (returnInSub) return;
+   }
+
+   public void e132C12( )
+   {
+      /* Enter Routine */
+      returnInSub = false ;
+      httpContext.popup(formatLink("app.controlcalidadhtd.rccreateo", new String[] {GXutil.URLEncode(GXutil.rtrim(A396EmprCod)),GXutil.URLEncode(GXutil.ltrimstr(AV11BarIni,8,0)),GXutil.URLEncode(GXutil.ltrimstr(AV14BarFin,8,0)),GXutil.URLEncode(GXutil.ltrimstr(AV12ReoIni,1,0)),GXutil.URLEncode(GXutil.ltrimstr(AV15ReoFin,1,0)),GXutil.URLEncode(GXutil.rtrim(AV13ParIni)),GXutil.URLEncode(GXutil.rtrim(AV16ParFin)),GXutil.URLEncode(GXutil.ltrimstr(AV9CliIni,6,0)),GXutil.URLEncode(GXutil.ltrimstr(AV10CliFin,6,0)),GXutil.URLEncode(GXutil.ltrimstr(AV7CCTIni,6,0)),GXutil.URLEncode(GXutil.ltrimstr(AV8CCTFin,6,0)),GXutil.URLEncode(GXutil.formatDateParm(AV5FchIni)),GXutil.URLEncode(GXutil.formatDateParm(AV6FchFin)),GXutil.URLEncode(GXutil.rtrim(AV24NivIni)),GXutil.URLEncode(GXutil.rtrim(AV25NivFin)),GXutil.URLEncode(GXutil.rtrim(AV23Det))}, new String[] {"EmprCod","BarIni","BarFin","ReoIni","ReoFin","ParIni","ParFin","CliIni","CliFin","CCTIni","CCTFin","FchIni","FchFin","NivIni","NivFin","Det"}) , new Object[] {"A396EmprCod","AV11BarIni","AV14BarFin","AV12ReoIni","AV15ReoFin","AV13ParIni","AV16ParFin","AV9CliIni","AV10CliFin","AV7CCTIni","AV8CCTFin","AV5FchIni","AV6FchFin","AV24NivIni","AV25NivFin","AV23Det"});
+      /*  Sending Event outputs  */
+   }
+
+   protected void nextLoad( )
+   {
+   }
+
+   protected void e142C12( )
+   {
+      /* Load Routine */
+      returnInSub = false ;
+   }
+
+   @SuppressWarnings("unchecked")
+   public void setparameters( Object[] obj )
+   {
+   }
+
+   public String getresponse( String sGXDynURL )
+   {
+      initialize_properties( ) ;
+      BackMsgLst = httpContext.GX_msglist ;
+      httpContext.GX_msglist = LclMsgLst ;
+      sDynURL = sGXDynURL ;
+      nGotPars = 1 ;
+      nGXWrapped = 1 ;
+      httpContext.setWrapped(true);
+      pa2C12( ) ;
+      ws2C12( ) ;
+      we2C12( ) ;
+      if ( isAjaxCallMode( ) )
+      {
+         cleanup();
+      }
+      httpContext.setWrapped(false);
+      httpContext.GX_msglist = BackMsgLst ;
+      String response = "";
+      try
+      {
+         response = ((java.io.ByteArrayOutputStream) httpContext.getOutputStream()).toString("UTF8");
+      }
+      catch (java.io.UnsupportedEncodingException e)
+      {
+         Application.printWarning(e.getMessage(), e);
+      }
+      finally
+      {
+         httpContext.closeOutputStream();
+      }
+      return response;
+   }
+
+   public void responsestatic( String sGXDynURL )
+   {
+   }
+
+   public void define_styles( )
+   {
+      httpContext.AddStyleSheetFile("GXProgressIndicator/css/bootstrap-progressbar-3.0.1.css", "");
+      httpContext.AddStyleSheetFile("calendar-system.css", "");
+      httpContext.AddThemeStyleSheetFile("", context.getHttpContext().getTheme( )+".css", "?"+httpContext.getCacheInvalidationToken( ));
+      boolean outputEnabled = httpContext.isOutputEnabled( );
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      idxLst = 1 ;
+      while ( idxLst <= Form.getJscriptsrc().getCount() )
+      {
+         httpContext.AddJavascriptSource(GXutil.rtrim( Form.getJscriptsrc().item(idxLst)), "?202682415132711", true, true);
+         idxLst = (int)(idxLst+1) ;
+      }
+      if ( ! outputEnabled )
+      {
+         if ( httpContext.isSpaRequest( ) )
+         {
+            httpContext.disableOutput();
+         }
+      }
+      /* End function define_styles */
+   }
+
+   public void include_jscripts( )
+   {
+      httpContext.AddJavascriptSource("messages."+httpContext.getLanguageProperty( "code")+".js", "?"+httpContext.getCacheInvalidationToken( ), false, true);
+      httpContext.AddJavascriptSource("controlcalidadhtd/wccreateo_wp.js", "?202682415132711", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/DropDownOptions/BootstrapDropDownOptionsRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/DropDownOptions/BootstrapDropDownOptionsRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/DropDownOptions/BootstrapDropDownOptionsRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/DropDownOptions/BootstrapDropDownOptionsRender.js", "", false, true);
+      httpContext.AddJavascriptSource("GXProgressIndicator/javascript/bootstrap-progressbar.js", "", false, true);
+      httpContext.AddJavascriptSource("GXProgressIndicator/GXProgressIndicatorRender.js", "", false, true);
+      httpContext.AddJavascriptSource("UserControls/DatamonJSRender.js", "", false, true);
+      /* End function include_jscripts */
+   }
+
+   public void init_default_properties( )
+   {
+      edtavBarini_Internalname = "vBARINI" ;
+      edtavReoini_Internalname = "vREOINI" ;
+      edtavParini_Internalname = "vPARINI" ;
+      edtavBarfin_Internalname = "vBARFIN" ;
+      edtavReofin_Internalname = "vREOFIN" ;
+      edtavParfin_Internalname = "vPARFIN" ;
+      divUnnamedtable1_Internalname = "UNNAMEDTABLE1" ;
+      lblTextblockcombo_cliini_Internalname = "TEXTBLOCKCOMBO_CLIINI" ;
+      Combo_cliini_Internalname = "COMBO_CLIINI" ;
+      divTablesplittedcliini_Internalname = "TABLESPLITTEDCLIINI" ;
+      lblTextblockcombo_clifin_Internalname = "TEXTBLOCKCOMBO_CLIFIN" ;
+      Combo_clifin_Internalname = "COMBO_CLIFIN" ;
+      divTablesplittedclifin_Internalname = "TABLESPLITTEDCLIFIN" ;
+      divUnnamedtable2_Internalname = "UNNAMEDTABLE2" ;
+      lblTextblockcombo_cctini_Internalname = "TEXTBLOCKCOMBO_CCTINI" ;
+      Combo_cctini_Internalname = "COMBO_CCTINI" ;
+      divTablesplittedcctini_Internalname = "TABLESPLITTEDCCTINI" ;
+      lblTextblockcombo_cctfin_Internalname = "TEXTBLOCKCOMBO_CCTFIN" ;
+      Combo_cctfin_Internalname = "COMBO_CCTFIN" ;
+      divTablesplittedcctfin_Internalname = "TABLESPLITTEDCCTFIN" ;
+      divUnnamedtable3_Internalname = "UNNAMEDTABLE3" ;
+      edtavFchini_Internalname = "vFCHINI" ;
+      edtavFchfin_Internalname = "vFCHFIN" ;
+      divUnnamedtable4_Internalname = "UNNAMEDTABLE4" ;
+      divTable_filtrosgenerales_Internalname = "TABLE_FILTROSGENERALES" ;
+      divPanel_filtrosgenerales_Internalname = "PANEL_FILTROSGENERALES" ;
+      Dvpanel_panel_filtrosgenerales_Internalname = "DVPANEL_PANEL_FILTROSGENERALES" ;
+      bttBtnenter_Internalname = "BTNENTER" ;
+      bttBtncerrar_Internalname = "BTNCERRAR" ;
+      divTable_acciones_Internalname = "TABLE_ACCIONES" ;
+      divPanel_filtros_Internalname = "PANEL_FILTROS" ;
+      Dvpanel_panel_filtros_Internalname = "DVPANEL_PANEL_FILTROS" ;
+      Progressbar_Internalname = "PROGRESSBAR" ;
+      divTable_progress_Internalname = "TABLE_PROGRESS" ;
+      divTablecontent_Internalname = "TABLECONTENT" ;
+      edtavPgmname_Internalname = "vPGMNAME" ;
+      Datamonjs_Internalname = "DATAMONJS" ;
+      divTablemain_Internalname = "TABLEMAIN" ;
+      edtavCliini_Internalname = "vCLIINI" ;
+      edtavClifin_Internalname = "vCLIFIN" ;
+      edtavCctini_Internalname = "vCCTINI" ;
+      edtavCctfin_Internalname = "vCCTFIN" ;
+      divHtml_bottomauxiliarcontrols_Internalname = "HTML_BOTTOMAUXILIARCONTROLS" ;
+      divLayoutmaintable_Internalname = "LAYOUTMAINTABLE" ;
+      Form.setInternalname( "FORM" );
+   }
+
+   public void initialize_properties( )
+   {
+      httpContext.setAjaxOnSessionTimeout(ajaxOnSessionTimeout());
+      httpContext.setDefaultTheme("WorkWithPlusThemeDS");
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableJsOutput();
+      }
+      init_default_properties( ) ;
+      edtavCctfin_Jsonclick = "" ;
+      edtavCctfin_Visible = 1 ;
+      edtavCctini_Jsonclick = "" ;
+      edtavCctini_Visible = 1 ;
+      edtavClifin_Jsonclick = "" ;
+      edtavClifin_Visible = 1 ;
+      edtavCliini_Jsonclick = "" ;
+      edtavCliini_Visible = 1 ;
+      edtavPgmname_Jsonclick = "" ;
+      edtavPgmname_Enabled = 0 ;
+      edtavFchfin_Jsonclick = "" ;
+      edtavFchfin_Enabled = 1 ;
+      edtavFchini_Jsonclick = "" ;
+      edtavFchini_Enabled = 1 ;
+      Combo_cctfin_Caption = "" ;
+      Combo_cctini_Caption = "" ;
+      Combo_clifin_Caption = "" ;
+      Combo_cliini_Caption = "" ;
+      edtavParfin_Jsonclick = "" ;
+      edtavParfin_Enabled = 1 ;
+      edtavReofin_Jsonclick = "" ;
+      edtavReofin_Enabled = 1 ;
+      edtavBarfin_Jsonclick = "" ;
+      edtavBarfin_Enabled = 1 ;
+      edtavParini_Jsonclick = "" ;
+      edtavParini_Enabled = 1 ;
+      edtavReoini_Jsonclick = "" ;
+      edtavReoini_Enabled = 1 ;
+      edtavBarini_Jsonclick = "" ;
+      edtavBarini_Enabled = 1 ;
+      Dvpanel_panel_filtros_Autoscroll = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtros_Iconposition = "Right" ;
+      Dvpanel_panel_filtros_Showcollapseicon = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtros_Collapsed = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtros_Collapsible = GXutil.toBoolean( -1) ;
+      Dvpanel_panel_filtros_Title = httpContext.getMessage( "<i class=\"fas fa-filter\"></i> Filtros", "") ;
+      Dvpanel_panel_filtros_Cls = "PanelCard_GrayTitle" ;
+      Dvpanel_panel_filtros_Autoheight = GXutil.toBoolean( -1) ;
+      Dvpanel_panel_filtros_Autowidth = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtros_Width = "100%" ;
+      Dvpanel_panel_filtrosgenerales_Autoscroll = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtrosgenerales_Iconposition = "Right" ;
+      Dvpanel_panel_filtrosgenerales_Showcollapseicon = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtrosgenerales_Collapsed = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtrosgenerales_Collapsible = GXutil.toBoolean( -1) ;
+      Dvpanel_panel_filtrosgenerales_Title = httpContext.getMessage( "Generales", "") ;
+      Dvpanel_panel_filtrosgenerales_Cls = "PanelCard_GrayTitle" ;
+      Dvpanel_panel_filtrosgenerales_Autoheight = GXutil.toBoolean( -1) ;
+      Dvpanel_panel_filtrosgenerales_Autowidth = GXutil.toBoolean( 0) ;
+      Dvpanel_panel_filtrosgenerales_Width = "100%" ;
+      Combo_cctfin_Emptyitemtext = "Todos" ;
+      Combo_cctfin_Cls = "ExtendedCombo AttributeFL" ;
+      Combo_cctini_Emptyitemtext = "Todos" ;
+      Combo_cctini_Cls = "ExtendedCombo AttributeFL" ;
+      Combo_clifin_Emptyitemtext = "Todos" ;
+      Combo_clifin_Cls = "ExtendedCombo AttributeFL" ;
+      Combo_cliini_Emptyitemtext = "Todos" ;
+      Combo_cliini_Cls = "ExtendedCombo AttributeFL" ;
+      Form.setHeaderrawhtml( "" );
+      Form.setBackground( "" );
+      Form.setTextcolor( 0 );
+      Form.setIBackground( (int)(0xFFFFFF) );
+      Form.setCaption( httpContext.getMessage( "Comparación Real / Teórico", "") );
+      httpContext.GX_msglist.setDisplaymode( (short)(1) );
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableJsOutput();
+      }
+   }
+
+   public void init_web_controls( )
+   {
+      /* End function init_web_controls */
+   }
+
+   public boolean supportAjaxEvent( )
+   {
+      return true ;
+   }
+
+   public String ajaxOnSessionTimeout( )
+   {
+      httpContext.setAjaxOnSessionTimeout("Warn");
+      return "Warn" ;
+   }
+
+   public void initializeDynEvents( )
+   {
+      setEventMetadata("REFRESH","{handler:'refresh',iparms:[]");
+      setEventMetadata("REFRESH",",oparms:[]}");
+      setEventMetadata("'DOCERRAR'","{handler:'e122C12',iparms:[]");
+      setEventMetadata("'DOCERRAR'",",oparms:[]}");
+      setEventMetadata("ENTER","{handler:'e132C12',iparms:[{av:'A396EmprCod',fld:'EMPRCOD',pic:'@!'},{av:'AV11BarIni',fld:'vBARINI',pic:'ZZZZZZZ9'},{av:'AV14BarFin',fld:'vBARFIN',pic:'ZZZZZZZ9'},{av:'AV12ReoIni',fld:'vREOINI',pic:'9'},{av:'AV15ReoFin',fld:'vREOFIN',pic:'9'},{av:'AV13ParIni',fld:'vPARINI',pic:''},{av:'AV16ParFin',fld:'vPARFIN',pic:''},{av:'AV9CliIni',fld:'vCLIINI',pic:'ZZZZZ9'},{av:'AV10CliFin',fld:'vCLIFIN',pic:'ZZZZZ9'},{av:'AV7CCTIni',fld:'vCCTINI',pic:'ZZZZZ9'},{av:'AV8CCTFin',fld:'vCCTFIN',pic:'ZZZZZ9'},{av:'AV5FchIni',fld:'vFCHINI',pic:''},{av:'AV6FchFin',fld:'vFCHFIN',pic:''},{av:'AV24NivIni',fld:'vNIVINI',pic:''},{av:'AV25NivFin',fld:'vNIVFIN',pic:''},{av:'AV23Det',fld:'vDET',pic:''}]");
+      setEventMetadata("ENTER",",oparms:[{av:'AV23Det',fld:'vDET',pic:''},{av:'AV25NivFin',fld:'vNIVFIN',pic:''},{av:'AV24NivIni',fld:'vNIVINI',pic:''},{av:'AV6FchFin',fld:'vFCHFIN',pic:''},{av:'AV5FchIni',fld:'vFCHINI',pic:''},{av:'AV8CCTFin',fld:'vCCTFIN',pic:'ZZZZZ9'},{av:'AV7CCTIni',fld:'vCCTINI',pic:'ZZZZZ9'},{av:'AV10CliFin',fld:'vCLIFIN',pic:'ZZZZZ9'},{av:'AV9CliIni',fld:'vCLIINI',pic:'ZZZZZ9'},{av:'AV16ParFin',fld:'vPARFIN',pic:''},{av:'AV13ParIni',fld:'vPARINI',pic:''},{av:'AV15ReoFin',fld:'vREOFIN',pic:'9'},{av:'AV12ReoIni',fld:'vREOINI',pic:'9'},{av:'AV14BarFin',fld:'vBARFIN',pic:'ZZZZZZZ9'},{av:'AV11BarIni',fld:'vBARINI',pic:'ZZZZZZZ9'},{av:'A396EmprCod',fld:'EMPRCOD',pic:'@!'}]}");
+   }
+
+   protected boolean IntegratedSecurityEnabled( )
+   {
+      return false;
+   }
+
+   protected int IntegratedSecurityLevel( )
+   {
+      return 0;
+   }
+
+   protected String IntegratedSecurityPermissionPrefix( )
+   {
+      return "";
+   }
+
+   protected String EncryptURLParameters( )
+   {
+      return "NO";
+   }
+
+   protected void cleanup( )
+   {
+      super.cleanup();
+      CloseOpenCursors();
+   }
+
+   protected void CloseOpenCursors( )
+   {
+   }
+
+   /* Aggregate/select formulas */
+   public void initialize( )
+   {
+      Combo_cctfin_Selectedvalue_get = "" ;
+      Combo_cctini_Selectedvalue_get = "" ;
+      Combo_clifin_Selectedvalue_get = "" ;
+      Combo_cliini_Selectedvalue_get = "" ;
+      gxfirstwebparm = "" ;
+      gxfirstwebparm_bkp = "" ;
+      Form = new com.genexus.webpanels.GXWebForm();
+      sDynURL = "" ;
+      FormProcess = "" ;
+      bodyStyle = "" ;
+      GXKey = "" ;
+      AV18DDO_TitleSettingsIcons = new app.wwpbaseobjects.SdtDVB_SDTDropDownOptionsTitleSettingsIcons(remoteHandle, context);
+      AV21CliIni_Data = new GXBaseCollection<app.wwpbaseobjects.SdtDVB_SDTComboData_Item>(app.wwpbaseobjects.SdtDVB_SDTComboData_Item.class, "Item", "", remoteHandle);
+      AV22CliFin_Data = new GXBaseCollection<app.wwpbaseobjects.SdtDVB_SDTComboData_Item>(app.wwpbaseobjects.SdtDVB_SDTComboData_Item.class, "Item", "", remoteHandle);
+      AV17CCTIni_Data = new GXBaseCollection<app.wwpbaseobjects.SdtDVB_SDTComboData_Item>(app.wwpbaseobjects.SdtDVB_SDTComboData_Item.class, "Item", "", remoteHandle);
+      AV20CCTFin_Data = new GXBaseCollection<app.wwpbaseobjects.SdtDVB_SDTComboData_Item>(app.wwpbaseobjects.SdtDVB_SDTComboData_Item.class, "Item", "", remoteHandle);
+      A396EmprCod = "" ;
+      AV24NivIni = "" ;
+      AV25NivFin = "" ;
+      AV23Det = "" ;
+      Combo_cliini_Selectedvalue_set = "" ;
+      Combo_clifin_Selectedvalue_set = "" ;
+      Combo_cctini_Selectedvalue_set = "" ;
+      Combo_cctfin_Selectedvalue_set = "" ;
+      GX_FocusControl = "" ;
+      sPrefix = "" ;
+      ClassString = "" ;
+      StyleString = "" ;
+      ucDvpanel_panel_filtros = new com.genexus.webpanels.GXUserControl();
+      ucDvpanel_panel_filtrosgenerales = new com.genexus.webpanels.GXUserControl();
+      TempTags = "" ;
+      AV13ParIni = "" ;
+      AV16ParFin = "" ;
+      lblTextblockcombo_cliini_Jsonclick = "" ;
+      ucCombo_cliini = new com.genexus.webpanels.GXUserControl();
+      lblTextblockcombo_clifin_Jsonclick = "" ;
+      ucCombo_clifin = new com.genexus.webpanels.GXUserControl();
+      lblTextblockcombo_cctini_Jsonclick = "" ;
+      ucCombo_cctini = new com.genexus.webpanels.GXUserControl();
+      lblTextblockcombo_cctfin_Jsonclick = "" ;
+      ucCombo_cctfin = new com.genexus.webpanels.GXUserControl();
+      AV5FchIni = GXutil.nullDate() ;
+      AV6FchFin = GXutil.nullDate() ;
+      bttBtnenter_Jsonclick = "" ;
+      bttBtncerrar_Jsonclick = "" ;
+      ucProgressbar = new com.genexus.webpanels.GXUserControl();
+      AV33Pgmname = "" ;
+      ucDatamonjs = new com.genexus.webpanels.GXUserControl();
+      sEvt = "" ;
+      EvtGridId = "" ;
+      EvtRowId = "" ;
+      sEvtType = "" ;
+      scmdbuf = "" ;
+      H02C12_A396EmprCod = new String[] {""} ;
+      AV27Station = "" ;
+      GXt_char1 = "" ;
+      AV28EmprCod = "" ;
+      GXv_char2 = new String[1] ;
+      AV29EmprNom = "" ;
+      GXv_char3 = new String[1] ;
+      AV30UsurCod = "" ;
+      GXv_char4 = new String[1] ;
+      GXt_SdtDVB_SDTDropDownOptionsTitleSettingsIcons5 = new app.wwpbaseobjects.SdtDVB_SDTDropDownOptionsTitleSettingsIcons(remoteHandle, context);
+      GXv_SdtDVB_SDTDropDownOptionsTitleSettingsIcons6 = new app.wwpbaseobjects.SdtDVB_SDTDropDownOptionsTitleSettingsIcons[1] ;
+      H02C13_A396EmprCod = new String[] {""} ;
+      H02C13_A4036CCTDsc = new String[] {""} ;
+      H02C13_A4031CCTCod = new int[1] ;
+      A4036CCTDsc = "" ;
+      AV19Combo_DataItem = new app.wwpbaseobjects.SdtDVB_SDTComboData_Item(remoteHandle, context);
+      H02C14_A396EmprCod = new String[] {""} ;
+      H02C14_A4036CCTDsc = new String[] {""} ;
+      H02C14_A4031CCTCod = new int[1] ;
+      H02C15_A10045CliAct = new String[] {""} ;
+      H02C15_A396EmprCod = new String[] {""} ;
+      H02C15_A279CliNom = new String[] {""} ;
+      H02C15_A252CliCod = new int[1] ;
+      A10045CliAct = "" ;
+      A279CliNom = "" ;
+      A13735CliCNom = "" ;
+      H02C16_A10045CliAct = new String[] {""} ;
+      H02C16_A396EmprCod = new String[] {""} ;
+      H02C16_A279CliNom = new String[] {""} ;
+      H02C16_A252CliCod = new int[1] ;
+      BackMsgLst = new com.genexus.internet.MsgList();
+      LclMsgLst = new com.genexus.internet.MsgList();
+      pr_default = new DataStoreProvider(context, remoteHandle, new app.controlcalidadhtd.wccreateo_wp__default(),
+         new Object[] {
+             new Object[] {
+            H02C12_A396EmprCod
+            }
+            , new Object[] {
+            H02C13_A396EmprCod, H02C13_A4036CCTDsc, H02C13_A4031CCTCod
+            }
+            , new Object[] {
+            H02C14_A396EmprCod, H02C14_A4036CCTDsc, H02C14_A4031CCTCod
+            }
+            , new Object[] {
+            H02C15_A10045CliAct, H02C15_A396EmprCod, H02C15_A279CliNom, H02C15_A252CliCod
+            }
+            , new Object[] {
+            H02C16_A10045CliAct, H02C16_A396EmprCod, H02C16_A279CliNom, H02C16_A252CliCod
+            }
+         }
+      );
+      AV33Pgmname = "ControlCalidadHTD.WCCReaTeo_WP" ;
+      /* GeneXus formulas. */
+      AV33Pgmname = "ControlCalidadHTD.WCCReaTeo_WP" ;
+      Gx_err = (short)(0) ;
+      edtavPgmname_Enabled = 0 ;
+   }
+
+   private byte nGotPars ;
+   private byte GxWebError ;
+   private byte gxajaxcallmode ;
+   private byte AV12ReoIni ;
+   private byte AV15ReoFin ;
+   private byte nDonePA ;
+   private byte nGXWrapped ;
+   private short nRcdExists_6 ;
+   private short nIsMod_6 ;
+   private short nRcdExists_5 ;
+   private short nIsMod_5 ;
+   private short nRcdExists_4 ;
+   private short nIsMod_4 ;
+   private short nRcdExists_3 ;
+   private short nIsMod_3 ;
+   private short wbEnd ;
+   private short wbStart ;
+   private short gxcookieaux ;
+   private short Gx_err ;
+   private short AV26CCTipctr ;
+   private int AV11BarIni ;
+   private int edtavBarini_Enabled ;
+   private int edtavReoini_Enabled ;
+   private int edtavParini_Enabled ;
+   private int AV14BarFin ;
+   private int edtavBarfin_Enabled ;
+   private int edtavReofin_Enabled ;
+   private int edtavParfin_Enabled ;
+   private int edtavFchini_Enabled ;
+   private int edtavFchfin_Enabled ;
+   private int edtavPgmname_Enabled ;
+   private int AV9CliIni ;
+   private int edtavCliini_Visible ;
+   private int AV10CliFin ;
+   private int edtavClifin_Visible ;
+   private int AV7CCTIni ;
+   private int edtavCctini_Visible ;
+   private int AV8CCTFin ;
+   private int edtavCctfin_Visible ;
+   private int A4031CCTCod ;
+   private int A252CliCod ;
+   private int idxLst ;
+   private String Combo_cctfin_Selectedvalue_get ;
+   private String Combo_cctini_Selectedvalue_get ;
+   private String Combo_clifin_Selectedvalue_get ;
+   private String Combo_cliini_Selectedvalue_get ;
+   private String gxfirstwebparm ;
+   private String gxfirstwebparm_bkp ;
+   private String sDynURL ;
+   private String FormProcess ;
+   private String bodyStyle ;
+   private String GXKey ;
+   private String A396EmprCod ;
+   private String AV24NivIni ;
+   private String AV25NivFin ;
+   private String AV23Det ;
+   private String Combo_cliini_Cls ;
+   private String Combo_cliini_Selectedvalue_set ;
+   private String Combo_cliini_Emptyitemtext ;
+   private String Combo_clifin_Cls ;
+   private String Combo_clifin_Selectedvalue_set ;
+   private String Combo_clifin_Emptyitemtext ;
+   private String Combo_cctini_Cls ;
+   private String Combo_cctini_Selectedvalue_set ;
+   private String Combo_cctini_Emptyitemtext ;
+   private String Combo_cctfin_Cls ;
+   private String Combo_cctfin_Selectedvalue_set ;
+   private String Combo_cctfin_Emptyitemtext ;
+   private String Dvpanel_panel_filtrosgenerales_Width ;
+   private String Dvpanel_panel_filtrosgenerales_Cls ;
+   private String Dvpanel_panel_filtrosgenerales_Title ;
+   private String Dvpanel_panel_filtrosgenerales_Iconposition ;
+   private String Dvpanel_panel_filtros_Width ;
+   private String Dvpanel_panel_filtros_Cls ;
+   private String Dvpanel_panel_filtros_Title ;
+   private String Dvpanel_panel_filtros_Iconposition ;
+   private String GX_FocusControl ;
+   private String sPrefix ;
+   private String divLayoutmaintable_Internalname ;
+   private String divTablemain_Internalname ;
+   private String ClassString ;
+   private String StyleString ;
+   private String divTablecontent_Internalname ;
+   private String Dvpanel_panel_filtros_Internalname ;
+   private String divPanel_filtros_Internalname ;
+   private String Dvpanel_panel_filtrosgenerales_Internalname ;
+   private String divPanel_filtrosgenerales_Internalname ;
+   private String divTable_filtrosgenerales_Internalname ;
+   private String divUnnamedtable1_Internalname ;
+   private String edtavBarini_Internalname ;
+   private String TempTags ;
+   private String edtavBarini_Jsonclick ;
+   private String edtavReoini_Internalname ;
+   private String edtavReoini_Jsonclick ;
+   private String edtavParini_Internalname ;
+   private String AV13ParIni ;
+   private String edtavParini_Jsonclick ;
+   private String edtavBarfin_Internalname ;
+   private String edtavBarfin_Jsonclick ;
+   private String edtavReofin_Internalname ;
+   private String edtavReofin_Jsonclick ;
+   private String edtavParfin_Internalname ;
+   private String AV16ParFin ;
+   private String edtavParfin_Jsonclick ;
+   private String divUnnamedtable2_Internalname ;
+   private String divTablesplittedcliini_Internalname ;
+   private String lblTextblockcombo_cliini_Internalname ;
+   private String lblTextblockcombo_cliini_Jsonclick ;
+   private String Combo_cliini_Caption ;
+   private String Combo_cliini_Internalname ;
+   private String divTablesplittedclifin_Internalname ;
+   private String lblTextblockcombo_clifin_Internalname ;
+   private String lblTextblockcombo_clifin_Jsonclick ;
+   private String Combo_clifin_Caption ;
+   private String Combo_clifin_Internalname ;
+   private String divUnnamedtable3_Internalname ;
+   private String divTablesplittedcctini_Internalname ;
+   private String lblTextblockcombo_cctini_Internalname ;
+   private String lblTextblockcombo_cctini_Jsonclick ;
+   private String Combo_cctini_Caption ;
+   private String Combo_cctini_Internalname ;
+   private String divTablesplittedcctfin_Internalname ;
+   private String lblTextblockcombo_cctfin_Internalname ;
+   private String lblTextblockcombo_cctfin_Jsonclick ;
+   private String Combo_cctfin_Caption ;
+   private String Combo_cctfin_Internalname ;
+   private String divUnnamedtable4_Internalname ;
+   private String edtavFchini_Internalname ;
+   private String edtavFchini_Jsonclick ;
+   private String edtavFchfin_Internalname ;
+   private String edtavFchfin_Jsonclick ;
+   private String divTable_acciones_Internalname ;
+   private String bttBtnenter_Internalname ;
+   private String bttBtnenter_Jsonclick ;
+   private String bttBtncerrar_Internalname ;
+   private String bttBtncerrar_Jsonclick ;
+   private String divTable_progress_Internalname ;
+   private String Progressbar_Internalname ;
+   private String edtavPgmname_Internalname ;
+   private String AV33Pgmname ;
+   private String edtavPgmname_Jsonclick ;
+   private String Datamonjs_Internalname ;
+   private String divHtml_bottomauxiliarcontrols_Internalname ;
+   private String edtavCliini_Internalname ;
+   private String edtavCliini_Jsonclick ;
+   private String edtavClifin_Internalname ;
+   private String edtavClifin_Jsonclick ;
+   private String edtavCctini_Internalname ;
+   private String edtavCctini_Jsonclick ;
+   private String edtavCctfin_Internalname ;
+   private String edtavCctfin_Jsonclick ;
+   private String sEvt ;
+   private String EvtGridId ;
+   private String EvtRowId ;
+   private String sEvtType ;
+   private String scmdbuf ;
+   private String AV27Station ;
+   private String GXt_char1 ;
+   private String AV28EmprCod ;
+   private String GXv_char2[] ;
+   private String AV29EmprNom ;
+   private String GXv_char3[] ;
+   private String AV30UsurCod ;
+   private String GXv_char4[] ;
+   private String A4036CCTDsc ;
+   private String A10045CliAct ;
+   private String A279CliNom ;
+   private java.util.Date AV5FchIni ;
+   private java.util.Date AV6FchFin ;
+   private boolean entryPointCalled ;
+   private boolean toggleJsOutput ;
+   private boolean Dvpanel_panel_filtrosgenerales_Autowidth ;
+   private boolean Dvpanel_panel_filtrosgenerales_Autoheight ;
+   private boolean Dvpanel_panel_filtrosgenerales_Collapsible ;
+   private boolean Dvpanel_panel_filtrosgenerales_Collapsed ;
+   private boolean Dvpanel_panel_filtrosgenerales_Showcollapseicon ;
+   private boolean Dvpanel_panel_filtrosgenerales_Autoscroll ;
+   private boolean Dvpanel_panel_filtros_Autowidth ;
+   private boolean Dvpanel_panel_filtros_Autoheight ;
+   private boolean Dvpanel_panel_filtros_Collapsible ;
+   private boolean Dvpanel_panel_filtros_Collapsed ;
+   private boolean Dvpanel_panel_filtros_Showcollapseicon ;
+   private boolean Dvpanel_panel_filtros_Autoscroll ;
+   private boolean wbLoad ;
+   private boolean Rfr0gs ;
+   private boolean wbErr ;
+   private boolean gxdyncontrolsrefreshing ;
+   private boolean returnInSub ;
+   private String A13735CliCNom ;
+   private com.genexus.internet.MsgList BackMsgLst ;
+   private com.genexus.internet.MsgList LclMsgLst ;
+   private com.genexus.webpanels.GXUserControl ucDvpanel_panel_filtros ;
+   private com.genexus.webpanels.GXUserControl ucDvpanel_panel_filtrosgenerales ;
+   private com.genexus.webpanels.GXUserControl ucCombo_cliini ;
+   private com.genexus.webpanels.GXUserControl ucCombo_clifin ;
+   private com.genexus.webpanels.GXUserControl ucCombo_cctini ;
+   private com.genexus.webpanels.GXUserControl ucCombo_cctfin ;
+   private com.genexus.webpanels.GXUserControl ucProgressbar ;
+   private com.genexus.webpanels.GXUserControl ucDatamonjs ;
+   private IDataStoreProvider pr_default ;
+   private String[] H02C12_A396EmprCod ;
+   private String[] H02C13_A396EmprCod ;
+   private String[] H02C13_A4036CCTDsc ;
+   private int[] H02C13_A4031CCTCod ;
+   private String[] H02C14_A396EmprCod ;
+   private String[] H02C14_A4036CCTDsc ;
+   private int[] H02C14_A4031CCTCod ;
+   private String[] H02C15_A10045CliAct ;
+   private String[] H02C15_A396EmprCod ;
+   private String[] H02C15_A279CliNom ;
+   private int[] H02C15_A252CliCod ;
+   private String[] H02C16_A10045CliAct ;
+   private String[] H02C16_A396EmprCod ;
+   private String[] H02C16_A279CliNom ;
+   private int[] H02C16_A252CliCod ;
+   private com.genexus.webpanels.GXWebForm Form ;
+   private GXBaseCollection<app.wwpbaseobjects.SdtDVB_SDTComboData_Item> AV21CliIni_Data ;
+   private GXBaseCollection<app.wwpbaseobjects.SdtDVB_SDTComboData_Item> AV22CliFin_Data ;
+   private GXBaseCollection<app.wwpbaseobjects.SdtDVB_SDTComboData_Item> AV17CCTIni_Data ;
+   private GXBaseCollection<app.wwpbaseobjects.SdtDVB_SDTComboData_Item> AV20CCTFin_Data ;
+   private app.wwpbaseobjects.SdtDVB_SDTComboData_Item AV19Combo_DataItem ;
+   private app.wwpbaseobjects.SdtDVB_SDTDropDownOptionsTitleSettingsIcons AV18DDO_TitleSettingsIcons ;
+   private app.wwpbaseobjects.SdtDVB_SDTDropDownOptionsTitleSettingsIcons GXt_SdtDVB_SDTDropDownOptionsTitleSettingsIcons5 ;
+   private app.wwpbaseobjects.SdtDVB_SDTDropDownOptionsTitleSettingsIcons GXv_SdtDVB_SDTDropDownOptionsTitleSettingsIcons6[] ;
+}
+
+final  class wccreateo_wp__default extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+          new ForEachCursor("H02C12", "SELECT EmprCod FROM TXPEMPRES ORDER BY EmprCod ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("H02C13", "SELECT EmprCod, CCTDsc, CCTCod FROM TXPCCDef WHERE EmprCod = ? ORDER BY EmprCod, CCTCod ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("H02C14", "SELECT EmprCod, CCTDsc, CCTCod FROM TXPCCDef WHERE EmprCod = ? ORDER BY EmprCod, CCTCod ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("H02C15", "SELECT CliAct, EmprCod, CliNom, CliCod FROM TXPCLIENT WHERE (EmprCod = ?) AND (CliAct = 'S') ORDER BY EmprCod, CliCod ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("H02C16", "SELECT CliAct, EmprCod, CliNom, CliCod FROM TXPCLIENT WHERE (EmprCod = ?) AND (CliAct = 'S') ORDER BY EmprCod, CliCod ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               return;
+            case 1 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((String[]) buf[1])[0] = rslt.getString(2, 30);
+               ((int[]) buf[2])[0] = rslt.getInt(3);
+               return;
+            case 2 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((String[]) buf[1])[0] = rslt.getString(2, 30);
+               ((int[]) buf[2])[0] = rslt.getInt(3);
+               return;
+            case 3 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 1);
+               ((String[]) buf[1])[0] = rslt.getString(2, 3);
+               ((String[]) buf[2])[0] = rslt.getString(3, 30);
+               ((int[]) buf[3])[0] = rslt.getInt(4);
+               return;
+            case 4 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 1);
+               ((String[]) buf[1])[0] = rslt.getString(2, 3);
+               ((String[]) buf[2])[0] = rslt.getString(3, 30);
+               ((int[]) buf[3])[0] = rslt.getInt(4);
+               return;
+      }
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 1 :
+               stmt.setString(1, (String)parms[0], 3);
+               return;
+            case 2 :
+               stmt.setString(1, (String)parms[0], 3);
+               return;
+            case 3 :
+               stmt.setString(1, (String)parms[0], 3);
+               return;
+            case 4 :
+               stmt.setString(1, (String)parms[0], 3);
+               return;
+      }
+   }
+
+}
+

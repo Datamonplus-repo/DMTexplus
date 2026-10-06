@@ -1,0 +1,64 @@
+package app.ficherosbasicos ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.webpanels.*;
+import java.sql.*;
+import com.genexus.search.*;
+
+@jakarta.servlet.annotation.WebServlet(urlPatterns = {"/servlet/app.ficherosbasicos.ttipmaqwwexportreport", "/app.ficherosbasicos.ttipmaqwwexportreport"})
+@jakarta.servlet.annotation.MultipartConfig
+public final  class ttipmaqwwexportreport extends GXWebObjectStub
+{
+   public ttipmaqwwexportreport( )
+   {
+   }
+
+   public ttipmaqwwexportreport( int remoteHandle )
+   {
+      super(remoteHandle, new ModelContext( ttipmaqwwexportreport.class ));
+   }
+
+   public ttipmaqwwexportreport( int remoteHandle ,
+                                 ModelContext context )
+   {
+      super(remoteHandle, context);
+   }
+
+   protected void doExecute( com.genexus.internet.HttpContext context ) throws Exception
+   {
+      new ttipmaqwwexportreport_impl(context).doExecute();
+   }
+
+   protected void init( com.genexus.internet.HttpContext context )
+   {
+      new ttipmaqwwexportreport_impl(context).cleanup();
+   }
+
+   public String getServletInfo( )
+   {
+      return "Listado Tipo Maquina";
+   }
+
+   protected boolean IntegratedSecurityEnabled( )
+   {
+      return false;
+   }
+
+   protected int IntegratedSecurityLevel( )
+   {
+      return 0;
+   }
+
+   protected String IntegratedSecurityPermissionPrefix( )
+   {
+      return "";
+   }
+
+   protected String EncryptURLParameters( )
+   {
+      return "NO";
+   }
+
+}
+

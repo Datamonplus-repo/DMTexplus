@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="a6faa86d-5747-4ea4-b2c8-28b1046355fd" name="DPConsultaMaquinas" description="DPConsulta Maquinas" namespace="app">
+  <Signature name="Par">
+    <Parameter name="EmprCod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>3</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ReturnValue" accessor="out" collection="true">
+      <Field name="SDTConsultaMaquina" description="SDTConsulta Maquina">
+        <Fields>
+          <Field name="OMMaqCod" description="Cod Maquina Orden de Mantto">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>6</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="OMDscMqPla" description="Dsc Mq Planificar">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>16</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="MinimaOMFchCre" description="Fecha Mínima">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>DateTime</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>8</Value>
+              </Property>
+              <Property>
+                <Name>Decimals</Name>
+                <Value>5</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>99/99/99 99:99</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="MaximaOMFchCre" description="Fecha Máxima">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>DateTime</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>8</Value>
+              </Property>
+              <Property>
+                <Name>Decimals</Name>
+                <Value>5</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>99/99/99 99:99</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="TotalOrdenes" description="Total Orden de Mantto">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>18</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZZZZZZZZZZZZZZZZ9</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="Ordenes" description="Ordenes" collection="true">
+            <Fields>
+              <Field name="Id" description="ID Registro">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>Numeric</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>15</Value>
+                  </Property>
+                  <Property>
+                    <Name>Picture</Name>
+                    <Value>ZZZZZZZZZZZZZZ9</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="OMCod" description="Cod de Orden de Mantto">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>Numeric</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>8</Value>
+                  </Property>
+                  <Property>
+                    <Name>Picture</Name>
+                    <Value>ZZZZZZZ9</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="OMFchCre" description="Fecha de Creación">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>DateTime</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>8</Value>
+                  </Property>
+                  <Property>
+                    <Name>Decimals</Name>
+                    <Value>5</Value>
+                  </Property>
+                  <Property>
+                    <Name>Picture</Name>
+                    <Value>99/99/99 99:99</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="OMDuracion" description="Duracion">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>40</Value>
+                  </Property>
+                </Properties>
+              </Field>
+            </Fields>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

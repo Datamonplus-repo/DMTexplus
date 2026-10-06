@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="07d8f378-c66d-4964-a7bb-f64a113f4fc1" name="AEAT.CFAVEN_ALTA_AEAT_JSON" description="CFAVEN_AEAT_JSON" namespace="app">
+  <Signature name="Par">
+    <Parameter name="EmprCod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>3</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="FacCod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Numeric</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>8</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ReturnValue" accessor="out">
+      <Field name="RegistroFacturacionAlta" description="Registro Facturacion Alta">
+        <Fields>
+          <Field name="Cabecera" description="Cabecera">
+            <Fields>
+              <Field name="Version" description="Version">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="Emisor" description="Emisor">
+                <Fields>
+                  <Field name="NIF" description="NIF">
+                    <Properties>
+                      <Property>
+                        <Name>Type</Name>
+                        <Value>VarChar</Value>
+                      </Property>
+                      <Property>
+                        <Name>Length</Name>
+                        <Value>100</Value>
+                      </Property>
+                    </Properties>
+                  </Field>
+                  <Field name="NombreRazon" description="Nombre Razon">
+                    <Properties>
+                      <Property>
+                        <Name>Type</Name>
+                        <Value>VarChar</Value>
+                      </Property>
+                      <Property>
+                        <Name>Length</Name>
+                        <Value>100</Value>
+                      </Property>
+                    </Properties>
+                  </Field>
+                </Fields>
+              </Field>
+              <Field name="FechaEnvio" description="Fecha Envio">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+            </Fields>
+          </Field>
+          <Field name="Registro" description="Registro" collection="true">
+            <Fields>
+              <Field name="CabeceraFactura" description="Cabecera Factura">
+                <Fields>
+                  <Field name="NumeroSerieFacturaEmisor" description="Numero Serie Factura Emisor">
+                    <Properties>
+                      <Property>
+                        <Name>Type</Name>
+                        <Value>VarChar</Value>
+                      </Property>
+                      <Property>
+                        <Name>Length</Name>
+                        <Value>100</Value>
+                      </Property>
+                    </Properties>
+                  </Field>
+                  <Field name="FechaExpedicionFacturaEmisor" description="Fecha Expedicion Factura Emisor">
+                    <Properties>
+                      <Property>
+                        <Name>Type</Name>
+                        <Value>VarChar</Value>
+                      </Property>
+                      <Property>
+                        <Name>Length</Name>
+                        <Value>100</Value>
+                      </Property>
+                    </Properties>
+                  </Field>
+                  <Field name="TipoFactura" description="Tipo Factura">
+                    <Properties>
+                      <Property>
+                        <Name>Type</Name>
+                        <Value>VarChar</Value>
+                      </Property>
+                      <Property>
+                        <Name>Length</Name>
+                        <Value>100</Value>
+                      </Property>
+                    </Properties>
+                  </Field>
+                  <Field name="ClaveRegimenFactura" description="Clave Regimen Factura">
+                    <Properties>
+                      <Property>
+                        <Name>Type</Name>
+                        <Value>VarChar</Value>
+                      </Property>
+                      <Property>
+                        <Name>Length</Name>
+                        <Value>100</Value>
+                      </Property>
+                    </Properties>
+                  </Field>
+                </Fields>
+              </Field>
+              <Field name="DatosFactura" description="Datos Factura">
+                <Fields>
+                  <Field name="DescripcionOperacion" description="Descripcion Operacion">
+                    <Properties>
+                      <Property>
+                        <Name>Type</Name>
+                        <Value>VarChar</Value>
+                      </Property>
+                      <Property>
+                        <Name>Length</Name>
+                        <Value>100</Value>
+                      </Property>
+                    </Properties>
+                  </Field>
+                  <Field name="ImporteTotal" description="Importe Total">
+                    <Properties>
+                      <Property>
+                        <Name>Type</Name>
+                        <Value>VarChar</Value>
+                      </Property>
+                      <Property>
+                        <Name>Length</Name>
+                        <Value>100</Value>
+                      </Property>
+                      <Property>
+                        <Name>Decimals</Name>
+                        <Value>2</Value>
+                      </Property>
+                    </Properties>
+                  </Field>
+                  <Field name="Impuestos" description="Impuestos">
+                    <Fields>
+                      <Field name="IVA" description="IVA">
+                        <Fields>
+                          <Field name="Tipo" description="Tipo">
+                            <Properties>
+                              <Property>
+                                <Name>Type</Name>
+                                <Value>VarChar</Value>
+                              </Property>
+                              <Property>
+                                <Name>Length</Name>
+                                <Value>100</Value>
+                              </Property>
+                            </Properties>
+                          </Field>
+                          <Field name="BaseImponible" description="Base Imponible">
+                            <Properties>
+                              <Property>
+                                <Name>Type</Name>
+                                <Value>VarChar</Value>
+                              </Property>
+                              <Property>
+                                <Name>Length</Name>
+                                <Value>100</Value>
+                              </Property>
+                              <Property>
+                                <Name>Decimals</Name>
+                                <Value>2</Value>
+                              </Property>
+                            </Properties>
+                          </Field>
+                          <Field name="Cuota" description="Cuota">
+                            <Properties>
+                              <Property>
+                                <Name>Type</Name>
+                                <Value>VarChar</Value>
+                              </Property>
+                              <Property>
+                                <Name>Length</Name>
+                                <Value>100</Value>
+                              </Property>
+                              <Property>
+                                <Name>Decimals</Name>
+                                <Value>2</Value>
+                              </Property>
+                            </Properties>
+                          </Field>
+                        </Fields>
+                      </Field>
+                    </Fields>
+                  </Field>
+                </Fields>
+              </Field>
+              <Field name="Receptor" description="Receptor">
+                <Fields>
+                  <Field name="NIF" description="NIF">
+                    <Properties>
+                      <Property>
+                        <Name>Type</Name>
+                        <Value>VarChar</Value>
+                      </Property>
+                      <Property>
+                        <Name>Length</Name>
+                        <Value>100</Value>
+                      </Property>
+                    </Properties>
+                  </Field>
+                  <Field name="NombreRazon" description="Nombre Razon">
+                    <Properties>
+                      <Property>
+                        <Name>Type</Name>
+                        <Value>VarChar</Value>
+                      </Property>
+                      <Property>
+                        <Name>Length</Name>
+                        <Value>100</Value>
+                      </Property>
+                    </Properties>
+                  </Field>
+                </Fields>
+              </Field>
+              <Field name="HuellaFacturaAnterior" description="Huella Factura Anterior">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="HuellaFactura" description="Huella Factura">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+            </Fields>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

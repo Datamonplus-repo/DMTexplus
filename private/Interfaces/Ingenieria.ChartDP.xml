@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="906a100f-103e-407c-9a83-aa8a09c21376" name="Ingenieria.ChartDP" description="Chart" namespace="app">
+  <Signature name="par">
+    <Parameter name="EjeX">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>VarChar</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>40</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="DatosJson">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>LongVarChar</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>2097152</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ReturnValue" accessor="out">
+      <Field name="ChartSDT" description="Chart SDT" collection="true">
+        <Fields>
+          <Field name="Dato" description="Dato">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>VarChar</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>100</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="Valor" description="Valor">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>12</Value>
+              </Property>
+              <Property>
+                <Name>Signed</Name>
+                <Value>True</Value>
+              </Property>
+              <Property>
+                <Name>Decimals</Name>
+                <Value>2</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZZZZZZZ9.99</Value>
+              </Property>
+            </Properties>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

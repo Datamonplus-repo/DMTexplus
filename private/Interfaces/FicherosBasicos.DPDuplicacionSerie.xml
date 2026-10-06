@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="62967c17-07df-485f-b72d-a1d104d9e069" name="FicherosBasicos.DPDuplicacionSerie" description="DPDuplicacion Serie" namespace="app">
+  <Signature name="par">
+    <Parameter name="EmprCod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>3</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="CliCodOri">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Numeric</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>4</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ReturnValue" accessor="out">
+      <Field name="SDTDuplicaccionSerie" description="SDTDuplicaccion Serie" collection="true">
+        <Fields>
+          <Field name="selected" description="selected">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Boolean</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="ArtCodOri" description="Código Artículo">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>16</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="ArtDscDes" description="Artículo">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>26</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="EmprCod" description="Código Empresa">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>3</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>@!</Value>
+              </Property>
+            </Properties>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

@@ -1,0 +1,17 @@
+{
+"ObjectType":"ServiceGroup",
+"Name":"AsyncBatch\\AsyncBatchAPI",
+"BasePath":"AsyncBatch/AsyncBatchAPI",
+"Mappings":
+[
+{
+"Verb":"POST",
+"Name":"setparameters__post",
+"Bodystyle":"Wrapped",
+"VariableAlias": [],
+"ServiceMethod":"gxep_setparameters__post",
+"Implementation":"AsyncBatch\\SetParameter",
+"PathRegexp":"setparameters",
+"Path":"setparameters"
+
+}]}

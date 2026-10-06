@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="94d6fff9-08d4-4566-ba10-d3291152fa9c" name="StocksQuimicos.SalidasManualesProductos_Cabecera_DP" description="Salidas Manuales Productos" namespace="app">
+  <Signature name="par">
+    <Parameter name="Emprcod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>3</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="CumCodCont">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Numeric</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>8</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ReturnValue" accessor="out">
+      <Field name="SalidasManualesProductos_Cabecera_SDT" description="Salidas Manuales Productos_Cabecera_SDT">
+        <Fields>
+          <Field name="EmprCod" description="Código Empresa">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>3</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>@!</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="CumCodCont" description="Nº Documento">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>8</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZZZZZZ9</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="EmprNom" description="Nombre Empresa">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>30</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="CumConFec" description="Fecha Salida">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Date</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>8</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>99/99/99</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="CcoCod" description="Codigo Centro Coste">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>3</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZ9</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="CumCCos" description="Centro Coste">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>3</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>ZZ9</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="CumCCosD" description="Descripcion">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>30</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="CumConTipo" description="Tipo de Salida (0=AlmGral / 1=CColres)">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>2</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>Z9</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="CC_AlmCd" description="Codigo Almacen">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Numeric</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>2</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>Z9</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="CC_AlmDc" description="Almacen">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Character</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>40</Value>
+              </Property>
+            </Properties>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="3e5a2f7e-ceae-4226-bdd7-7b8af0066ef6" name="StocksQuimicos.SeleccionRecuento_DP" description="Seleccion Recuento_DP" namespace="app">
+  <Signature name="par">
+    <Parameter name="EmprCod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>3</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ReturnValue" accessor="out">
+      <Field name="SeleccionRecuento_SDT" description="Seleccion Recuento_SDT" collection="true">
+        <Fields>
+          <Field name="RecFec" description="Fecha Recuento">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>Date</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>8</Value>
+              </Property>
+              <Property>
+                <Name>Picture</Name>
+                <Value>99/99/99</Value>
+              </Property>
+            </Properties>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

@@ -1,0 +1,103 @@
+package app ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.search.*;
+import java.sql.*;
+
+public final  class GxFullTextSearchReindexer
+{
+   public static int Reindex( int remoteHandle )
+   {
+      GxSilentTrnSdt obj;
+      IGxSilentTrn trn;
+      boolean result;
+      obj = new app.SdtTMENUNIVEL1(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.wwpbaseobjects.SdtUserCustom(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.asyncbatch.SdtJOB(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.asyncbatch.SdtJOBITEM(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtObsalb_TRN(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtTUSUARI(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.ponteway.v1.SdtOgGuiaImport(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtTTIPART(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtTUNIEST(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.stocksquimicos.SdtEntradadeProductosAlmacen_TRN(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.produccion.SdtCONPRODUC(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtTARTICU(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.ficherosbasicos.SdtTTIPPRE(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtTTERPES(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.mantenimientomaquina.SdtTMRCom(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtTTERMIN(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtTNORMAS(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtTBCPROD(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtTDevPieCopy1(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtTDevPie1(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtTDevPie2(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtCalprd_TRN(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.stocksquimicos.SdtSalidasManualesProductos_Cabecera(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.stocksquimicos.SdtPRODUC(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.stocksquimicos.SdtSalidasManualesProductos_Detalle(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.pedidosclientesindetalle.SdtPedido(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.ficherosbasicos.SdtTTRM(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      obj = new app.SdtBC_ALBREC(remoteHandle);
+      trn = obj.getTransaction() ;
+      result = trn.Reindex() ;
+      return 1 ;
+   }
+
+}
+

@@ -1,0 +1,670 @@
+package app ;
+import app.*;
+import java.sql.*;
+import com.genexus.db.*;
+import com.genexus.*;
+import com.genexus.search.*;
+
+public final  class prptabcdyes extends GXProcedure
+{
+   public prptabcdyes( int remoteHandle )
+   {
+      super( remoteHandle , new ModelContext( prptabcdyes.class ), "" );
+   }
+
+   public prptabcdyes( int remoteHandle ,
+                       ModelContext context )
+   {
+      super( remoteHandle , context, "" );
+   }
+
+   @SuppressWarnings("unchecked")
+   public String executeUdp( String[] aP0 ,
+                             String[] aP1 ,
+                             String[] aP2 ,
+                             String[] aP3 ,
+                             short[] aP4 ,
+                             byte[] aP5 ,
+                             byte[] aP6 ,
+                             String[] aP7 )
+   {
+      prptabcdyes.this.aP8 = new String[] {""};
+      execute_int(aP0, aP1, aP2, aP3, aP4, aP5, aP6, aP7, aP8);
+      return aP8[0];
+   }
+
+   public void execute( String[] aP0 ,
+                        String[] aP1 ,
+                        String[] aP2 ,
+                        String[] aP3 ,
+                        short[] aP4 ,
+                        byte[] aP5 ,
+                        byte[] aP6 ,
+                        String[] aP7 ,
+                        String[] aP8 )
+   {
+      execute_int(aP0, aP1, aP2, aP3, aP4, aP5, aP6, aP7, aP8);
+   }
+
+   private void execute_int( String[] aP0 ,
+                             String[] aP1 ,
+                             String[] aP2 ,
+                             String[] aP3 ,
+                             short[] aP4 ,
+                             byte[] aP5 ,
+                             byte[] aP6 ,
+                             String[] aP7 ,
+                             String[] aP8 )
+   {
+      prptabcdyes.this.A396EmprCod = aP0[0];
+      this.aP0 = aP0;
+      prptabcdyes.this.AV198ImpCod = aP1[0];
+      this.aP1 = aP1;
+      prptabcdyes.this.AV234Pdigito = aP2[0];
+      this.aP2 = aP2;
+      prptabcdyes.this.AV235Udigito = aP3[0];
+      this.aP3 = aP3;
+      prptabcdyes.this.AV193Any = aP4[0];
+      this.aP4 = aP4;
+      prptabcdyes.this.AV220Mesi = aP5[0];
+      this.aP5 = aP5;
+      prptabcdyes.this.AV219MesF = aP6[0];
+      this.aP6 = aP6;
+      prptabcdyes.this.aP7 = aP7;
+      prptabcdyes.this.aP8 = aP8;
+      initialize();
+      /* GeneXus formulas */
+      /* Output device settings */
+      privateExecute();
+   }
+
+   private void privateExecute( )
+   {
+      GXt_char1 = AV171Lit2 ;
+      GXv_char2[0] = GXt_char1 ;
+      new app.core.pobtlit(remoteHandle, context).execute( httpContext.getMessage( "WGEN755_", ""), (byte)(99), GXv_char2) ;
+      prptabcdyes.this.GXt_char1 = GXv_char2[0] ;
+      AV171Lit2 = GXt_char1 ;
+      GXt_char1 = AV211Lit4 ;
+      GXv_char2[0] = GXt_char1 ;
+      new app.core.pobtlit(remoteHandle, context).execute( httpContext.getMessage( "WGEN2471_", ""), (byte)(99), GXv_char2) ;
+      prptabcdyes.this.GXt_char1 = GXv_char2[0] ;
+      AV211Lit4 = GXt_char1 ;
+      GXt_char1 = AV204Lit13 ;
+      GXv_char2[0] = GXt_char1 ;
+      new app.core.pobtlit(remoteHandle, context).execute( httpContext.getMessage( "WGEN2487_", ""), (byte)(99), GXv_char2) ;
+      prptabcdyes.this.GXt_char1 = GXv_char2[0] ;
+      AV204Lit13 = GXt_char1 ;
+      GXt_char1 = AV205Lit14 ;
+      GXv_char2[0] = GXt_char1 ;
+      new app.core.pobtlit(remoteHandle, context).execute( httpContext.getMessage( "WGEN2488_", ""), (byte)(99), GXv_char2) ;
+      prptabcdyes.this.GXt_char1 = GXv_char2[0] ;
+      AV205Lit14 = GXt_char1 ;
+      GXt_char1 = AV206Lit15 ;
+      GXv_char2[0] = GXt_char1 ;
+      new app.core.pobtlit(remoteHandle, context).execute( httpContext.getMessage( "WGEN2489_", ""), (byte)(99), GXv_char2) ;
+      prptabcdyes.this.GXt_char1 = GXv_char2[0] ;
+      AV206Lit15 = GXt_char1 ;
+      GXt_char1 = AV208Lit17 ;
+      GXv_char2[0] = GXt_char1 ;
+      new app.core.pobtlit(remoteHandle, context).execute( httpContext.getMessage( "WLIT139_", ""), (byte)(99), GXv_char2) ;
+      prptabcdyes.this.GXt_char1 = GXv_char2[0] ;
+      AV208Lit17 = GXt_char1 ;
+      GXt_char1 = AV209Lit18 ;
+      GXv_char2[0] = GXt_char1 ;
+      new app.core.pobtlit(remoteHandle, context).execute( httpContext.getMessage( "WGEN112_", ""), (byte)(99), GXv_char2) ;
+      prptabcdyes.this.GXt_char1 = GXv_char2[0] ;
+      AV209Lit18 = GXt_char1 ;
+      /* Execute user subroutine: 'OPENDOCUMENT' */
+      S111 ();
+      if ( returnInSub )
+      {
+         returnInSub = true;
+         cleanup();
+         if (true) return;
+      }
+      /* Execute user subroutine: 'WRITECOLUMNTITLES' */
+      S141 ();
+      if ( returnInSub )
+      {
+         returnInSub = true;
+         cleanup();
+         if (true) return;
+      }
+      GXv_char2[0] = A396EmprCod ;
+      GXv_int3[0] = AV193Any ;
+      GXv_int4[0] = AV220Mesi ;
+      GXv_int5[0] = AV219MesF ;
+      new app.pordprd1(remoteHandle, context).execute( GXv_char2, GXv_int3, GXv_int4, GXv_int5) ;
+      prptabcdyes.this.A396EmprCod = GXv_char2[0] ;
+      prptabcdyes.this.AV193Any = GXv_int3[0] ;
+      prptabcdyes.this.AV220Mesi = GXv_int4[0] ;
+      prptabcdyes.this.AV219MesF = GXv_int5[0] ;
+      AV224Porcen = DecimalUtil.doubleToDec(0) ;
+      AV223PorAcu = DecimalUtil.doubleToDec(0) ;
+      AV225PorcGrp = DecimalUtil.doubleToDec(0) ;
+      AV230TotGrp = DecimalUtil.doubleToDec(0) ;
+      AV231TotInf = DecimalUtil.doubleToDec(0) ;
+      AV196Flag = (byte)(1) ;
+      AV228TotCoN = DecimalUtil.doubleToDec(0) ;
+      AV195Fila = (byte)(3) ;
+      /* Using cursor P04L92 */
+      pr_default.execute(0, new Object[] {A396EmprCod, AV234Pdigito, AV235Udigito, Short.valueOf(AV193Any)});
+      while ( (pr_default.getStatus(0) != 101) )
+      {
+         A681PrdAny = P04L92_A681PrdAny[0] ;
+         A719PrdNum = P04L92_A719PrdNum[0] ;
+         A331DifValConA = P04L92_A331DifValConA[0] ;
+         n331DifValConA = P04L92_n331DifValConA[0] ;
+         /* Using cursor P04L93 */
+         pr_default.execute(1, new Object[] {A396EmprCod, A719PrdNum, Short.valueOf(A681PrdAny), Byte.valueOf(AV220Mesi), Byte.valueOf(AV219MesF)});
+         while ( (pr_default.getStatus(1) != 101) )
+         {
+            A720PrdNumMes = P04L93_A720PrdNumMes[0] ;
+            A747PrdValConM = P04L93_A747PrdValConM[0] ;
+            A744PrdUniConM = P04L93_A744PrdUniConM[0] ;
+            if ( ( A744PrdUniConM.doubleValue() != 0 ) && ( A747PrdValConM.doubleValue() != 0 ) )
+            {
+               AV228TotCoN = AV228TotCoN.add(A747PrdValConM) ;
+            }
+            pr_default.readNext(1);
+         }
+         pr_default.close(1);
+         pr_default.readNext(0);
+      }
+      pr_default.close(0);
+      /* Using cursor P04L94 */
+      pr_default.execute(2, new Object[] {A396EmprCod, AV234Pdigito, AV235Udigito, Short.valueOf(AV193Any)});
+      while ( (pr_default.getStatus(2) != 101) )
+      {
+         A681PrdAny = P04L94_A681PrdAny[0] ;
+         A719PrdNum = P04L94_A719PrdNum[0] ;
+         A4693PrdNum2 = P04L94_A4693PrdNum2[0] ;
+         A718PrdNom = P04L94_A718PrdNom[0] ;
+         A331DifValConA = P04L94_A331DifValConA[0] ;
+         n331DifValConA = P04L94_n331DifValConA[0] ;
+         A4693PrdNum2 = P04L94_A4693PrdNum2[0] ;
+         A718PrdNom = P04L94_A718PrdNom[0] ;
+         /* Using cursor P04L95 */
+         pr_default.execute(3, new Object[] {A396EmprCod, A719PrdNum, Short.valueOf(A681PrdAny), Byte.valueOf(AV220Mesi), Byte.valueOf(AV219MesF)});
+         while ( (pr_default.getStatus(3) != 101) )
+         {
+            brk4L95 = false ;
+            A744PrdUniConM = P04L95_A744PrdUniConM[0] ;
+            A747PrdValConM = P04L95_A747PrdValConM[0] ;
+            A720PrdNumMes = P04L95_A720PrdNumMes[0] ;
+            if ( ( A744PrdUniConM.doubleValue() != 0 ) && ( A747PrdValConM.doubleValue() != 0 ) )
+            {
+               AV224Porcen = DecimalUtil.doubleToDec(0) ;
+               if ( AV196Flag == 3 )
+               {
+                  AV196Flag = (byte)(4) ;
+               }
+               AV226PrdUniConM = DecimalUtil.doubleToDec(0) ;
+               AV227PrdValConM = DecimalUtil.doubleToDec(0) ;
+               while ( (pr_default.getStatus(3) != 101) && ( GXutil.strcmp(P04L95_A396EmprCod[0], A396EmprCod) == 0 ) && ( GXutil.strcmp(P04L95_A719PrdNum[0], A719PrdNum) == 0 ) && ( P04L95_A681PrdAny[0] == A681PrdAny ) )
+               {
+                  brk4L95 = false ;
+                  A744PrdUniConM = P04L95_A744PrdUniConM[0] ;
+                  A747PrdValConM = P04L95_A747PrdValConM[0] ;
+                  A720PrdNumMes = P04L95_A720PrdNumMes[0] ;
+                  AV226PrdUniConM = AV226PrdUniConM.add(A744PrdUniConM) ;
+                  AV227PrdValConM = AV227PrdValConM.add(A747PrdValConM) ;
+                  brk4L95 = true ;
+                  pr_default.readNext(3);
+               }
+               if ( AV228TotCoN.doubleValue() != 0 )
+               {
+                  AV224Porcen = AV227PrdValConM.multiply(DecimalUtil.doubleToDec(100)).divide(AV228TotCoN, 18, java.math.RoundingMode.DOWN) ;
+               }
+               else
+               {
+                  AV224Porcen = DecimalUtil.doubleToDec(0) ;
+               }
+               AV223PorAcu = AV223PorAcu.add(AV224Porcen) ;
+               AV231TotInf = AV231TotInf.add(AV227PrdValConM) ;
+               AV232TotInfC = AV232TotInfC.add(AV226PrdUniConM) ;
+               AV238ExcelDocument.Cells(AV195Fila, 1, 1, 1).setText( A719PrdNum );
+               AV238ExcelDocument.Cells(AV195Fila, 2, 1, 1).setText( A4693PrdNum2 );
+               AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setText( A718PrdNom );
+               AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV226PrdUniConM)) );
+               AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV227PrdValConM)) );
+               AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV224Porcen)) );
+               AV225PorcGrp = AV225PorcGrp.add(AV224Porcen) ;
+               AV230TotGrp = AV230TotGrp.add(AV227PrdValConM) ;
+               AV233TotUniC = AV233TotUniC.add(AV226PrdUniConM) ;
+               if ( ( AV223PorAcu.doubleValue() >= 80 ) && ( AV196Flag == 1 ) )
+               {
+                  AV195Fila = (byte)(AV195Fila+1) ;
+                  AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setText( AV204Lit13 );
+                  AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV233TotUniC)) );
+                  AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV230TotGrp)) );
+                  AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV225PorcGrp)) );
+                  AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setBold( (short)(1) );
+                  AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setBold( (short)(1) );
+                  AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setBold( (short)(1) );
+                  AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setBold( (short)(1) );
+                  AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setColor( 11 );
+                  AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setColor( 11 );
+                  AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setColor( 11 );
+                  AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setColor( 11 );
+                  AV225PorcGrp = DecimalUtil.doubleToDec(0) ;
+                  AV230TotGrp = DecimalUtil.doubleToDec(0) ;
+                  AV233TotUniC = DecimalUtil.doubleToDec(0) ;
+                  AV196Flag = (byte)(2) ;
+               }
+               if ( ( AV223PorAcu.doubleValue() > 95 ) && ( AV196Flag == 2 ) )
+               {
+                  AV195Fila = (byte)(AV195Fila+1) ;
+                  AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setText( AV205Lit14 );
+                  AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV233TotUniC)) );
+                  AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV230TotGrp)) );
+                  AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV225PorcGrp)) );
+                  AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setBold( (short)(1) );
+                  AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setBold( (short)(1) );
+                  AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setBold( (short)(1) );
+                  AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setBold( (short)(1) );
+                  AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setColor( 11 );
+                  AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setColor( 11 );
+                  AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setColor( 11 );
+                  AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setColor( 11 );
+                  AV225PorcGrp = DecimalUtil.doubleToDec(0) ;
+                  AV230TotGrp = DecimalUtil.doubleToDec(0) ;
+                  AV233TotUniC = DecimalUtil.doubleToDec(0) ;
+                  AV196Flag = (byte)(3) ;
+               }
+               AV195Fila = (byte)(AV195Fila+1) ;
+            }
+            if ( ! brk4L95 )
+            {
+               brk4L95 = true ;
+               pr_default.readNext(3);
+            }
+         }
+         pr_default.close(3);
+         pr_default.readNext(2);
+      }
+      pr_default.close(2);
+      if ( AV196Flag == 4 )
+      {
+         AV195Fila = (byte)(AV195Fila+1) ;
+         AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setText( AV206Lit15 );
+         AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV233TotUniC)) );
+         AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV230TotGrp)) );
+         AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV225PorcGrp)) );
+         AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setBold( (short)(1) );
+         AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setBold( (short)(1) );
+         AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setBold( (short)(1) );
+         AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setBold( (short)(1) );
+         AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setColor( 11 );
+         AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setColor( 11 );
+         AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setColor( 11 );
+         AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setColor( 11 );
+      }
+      AV195Fila = (byte)(AV195Fila+1) ;
+      AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setText( AV207Lit16 );
+      AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV232TotInfC)) );
+      AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV231TotInf)) );
+      AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setNumber( (double)(DecimalUtil.decToDouble(AV223PorAcu)) );
+      AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setBold( (short)(1) );
+      AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setBold( (short)(1) );
+      AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setBold( (short)(1) );
+      AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setBold( (short)(1) );
+      AV238ExcelDocument.Cells(AV195Fila, 3, 1, 1).setColor( 11 );
+      AV238ExcelDocument.Cells(AV195Fila, 4, 1, 1).setColor( 11 );
+      AV238ExcelDocument.Cells(AV195Fila, 5, 1, 1).setColor( 11 );
+      AV238ExcelDocument.Cells(AV195Fila, 6, 1, 1).setColor( 11 );
+      /* Execute user subroutine: 'CLOSEDOCUMENT' */
+      S131 ();
+      if ( returnInSub )
+      {
+      }
+      cleanup();
+   }
+
+   public void S111( )
+   {
+      /* 'OPENDOCUMENT' Routine */
+      returnInSub = false ;
+      AV236Random = (int)(GXutil.random( )*10000) ;
+      AV237Filename = "ABC_Consumos_ColorantesExport-" + GXutil.trim( GXutil.str( AV236Random, 8, 0)) + ".xlsx" ;
+      AV238ExcelDocument.Open(AV237Filename);
+      /* Execute user subroutine: 'CHECKSTATUS' */
+      S121 ();
+      if (returnInSub) return;
+      AV238ExcelDocument.Clear();
+   }
+
+   public void S121( )
+   {
+      /* 'CHECKSTATUS' Routine */
+      returnInSub = false ;
+      if ( AV238ExcelDocument.getErrCode() != 0 )
+      {
+         AV237Filename = "" ;
+         AV239ErrorMessage = AV238ExcelDocument.getErrDescription() ;
+         AV238ExcelDocument.Close();
+         returnInSub = true;
+         if (true) return;
+      }
+   }
+
+   public void S131( )
+   {
+      /* 'CLOSEDOCUMENT' Routine */
+      returnInSub = false ;
+      AV238ExcelDocument.Save();
+      /* Execute user subroutine: 'CHECKSTATUS' */
+      S121 ();
+      if (returnInSub) return;
+      AV238ExcelDocument.Close();
+   }
+
+   public void S141( )
+   {
+      /* 'WRITECOLUMNTITLES' Routine */
+      returnInSub = false ;
+      AV238ExcelDocument.Cells(1, 1, 1, 1).setText( httpContext.getMessage( "Año", "") );
+      AV238ExcelDocument.Cells(1, 2, 1, 1).setNumber( AV193Any );
+      AV238ExcelDocument.Cells(1, 3, 1, 1).setText( httpContext.getMessage( "Meses", "") );
+      AV238ExcelDocument.Cells(1, 4, 1, 1).setNumber( AV220Mesi );
+      AV238ExcelDocument.Cells(1, 5, 1, 1).setNumber( AV219MesF );
+      AV238ExcelDocument.Cells(1, 1, 1, 1).setBold( (short)(1) );
+      AV238ExcelDocument.Cells(1, 3, 1, 1).setBold( (short)(1) );
+      AV238ExcelDocument.Cells(1, 1, 1, 1).setColor( 11 );
+      AV238ExcelDocument.Cells(1, 3, 1, 1).setColor( 11 );
+      AV238ExcelDocument.Cells(2, 1, 1, 1).setText( httpContext.getMessage( "Producto", "") );
+      AV238ExcelDocument.Cells(2, 2, 1, 1).setText( httpContext.getMessage( "Producto Ext.", "") );
+      AV238ExcelDocument.Cells(2, 3, 1, 1).setText( httpContext.getMessage( "Descripcion.", "") );
+      AV238ExcelDocument.Cells(2, 4, 1, 1).setText( httpContext.getMessage( "Unidades Consumo Acumuladas", "") );
+      AV238ExcelDocument.Cells(2, 5, 1, 1).setText( httpContext.getMessage( "Valor", "") );
+      AV238ExcelDocument.Cells(2, 6, 1, 1).setText( httpContext.getMessage( "% Total", "") );
+      AV238ExcelDocument.Cells(2, 1, 1, 1).setBold( (short)(1) );
+      AV238ExcelDocument.Cells(2, 2, 1, 1).setBold( (short)(1) );
+      AV238ExcelDocument.Cells(2, 3, 1, 1).setBold( (short)(1) );
+      AV238ExcelDocument.Cells(2, 4, 1, 1).setBold( (short)(1) );
+      AV238ExcelDocument.Cells(2, 5, 1, 1).setBold( (short)(1) );
+      AV238ExcelDocument.Cells(2, 6, 1, 1).setBold( (short)(1) );
+      AV238ExcelDocument.Cells(2, 1, 1, 1).setColor( 11 );
+      AV238ExcelDocument.Cells(2, 2, 1, 1).setColor( 11 );
+      AV238ExcelDocument.Cells(2, 3, 1, 1).setColor( 11 );
+      AV238ExcelDocument.Cells(2, 4, 1, 1).setColor( 11 );
+      AV238ExcelDocument.Cells(2, 5, 1, 1).setColor( 11 );
+      AV238ExcelDocument.Cells(2, 6, 1, 1).setColor( 11 );
+   }
+
+   protected void cleanup( )
+   {
+      this.aP0[0] = prptabcdyes.this.A396EmprCod;
+      this.aP1[0] = prptabcdyes.this.AV198ImpCod;
+      this.aP2[0] = prptabcdyes.this.AV234Pdigito;
+      this.aP3[0] = prptabcdyes.this.AV235Udigito;
+      this.aP4[0] = prptabcdyes.this.AV193Any;
+      this.aP5[0] = prptabcdyes.this.AV220Mesi;
+      this.aP6[0] = prptabcdyes.this.AV219MesF;
+      this.aP7[0] = prptabcdyes.this.AV237Filename;
+      this.aP8[0] = prptabcdyes.this.AV239ErrorMessage;
+      CloseOpenCursors();
+      AV238ExcelDocument.cleanup();
+      exitApp();
+   }
+
+   protected void CloseOpenCursors( )
+   {
+   }
+
+   /* Aggregate/select formulas */
+   public void initialize( )
+   {
+      AV237Filename = "" ;
+      AV239ErrorMessage = "" ;
+      AV171Lit2 = "" ;
+      AV211Lit4 = "" ;
+      AV204Lit13 = "" ;
+      AV205Lit14 = "" ;
+      AV206Lit15 = "" ;
+      AV208Lit17 = "" ;
+      AV209Lit18 = "" ;
+      GXt_char1 = "" ;
+      GXv_char2 = new String[1] ;
+      GXv_int3 = new short[1] ;
+      GXv_int4 = new byte[1] ;
+      GXv_int5 = new byte[1] ;
+      AV224Porcen = DecimalUtil.ZERO ;
+      AV223PorAcu = DecimalUtil.ZERO ;
+      AV225PorcGrp = DecimalUtil.ZERO ;
+      AV230TotGrp = DecimalUtil.ZERO ;
+      AV231TotInf = DecimalUtil.ZERO ;
+      AV228TotCoN = DecimalUtil.ZERO ;
+      scmdbuf = "" ;
+      P04L92_A396EmprCod = new String[] {""} ;
+      P04L92_A681PrdAny = new short[1] ;
+      P04L92_A719PrdNum = new String[] {""} ;
+      P04L92_A331DifValConA = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04L92_n331DifValConA = new boolean[] {false} ;
+      A719PrdNum = "" ;
+      A331DifValConA = DecimalUtil.ZERO ;
+      P04L93_A396EmprCod = new String[] {""} ;
+      P04L93_A719PrdNum = new String[] {""} ;
+      P04L93_A681PrdAny = new short[1] ;
+      P04L93_A720PrdNumMes = new byte[1] ;
+      P04L93_A747PrdValConM = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04L93_A744PrdUniConM = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      A747PrdValConM = DecimalUtil.ZERO ;
+      A744PrdUniConM = DecimalUtil.ZERO ;
+      P04L94_A396EmprCod = new String[] {""} ;
+      P04L94_A681PrdAny = new short[1] ;
+      P04L94_A719PrdNum = new String[] {""} ;
+      P04L94_A4693PrdNum2 = new String[] {""} ;
+      P04L94_A718PrdNom = new String[] {""} ;
+      P04L94_A331DifValConA = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04L94_n331DifValConA = new boolean[] {false} ;
+      A4693PrdNum2 = "" ;
+      A718PrdNom = "" ;
+      P04L95_A396EmprCod = new String[] {""} ;
+      P04L95_A719PrdNum = new String[] {""} ;
+      P04L95_A681PrdAny = new short[1] ;
+      P04L95_A744PrdUniConM = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04L95_A747PrdValConM = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04L95_A720PrdNumMes = new byte[1] ;
+      AV226PrdUniConM = DecimalUtil.ZERO ;
+      AV227PrdValConM = DecimalUtil.ZERO ;
+      AV232TotInfC = DecimalUtil.ZERO ;
+      AV238ExcelDocument = new com.genexus.gxoffice.ExcelDoc();
+      AV233TotUniC = DecimalUtil.ZERO ;
+      AV207Lit16 = "" ;
+      pr_default = new DataStoreProvider(context, remoteHandle, new app.prptabcdyes__default(),
+         new Object[] {
+             new Object[] {
+            P04L92_A396EmprCod, P04L92_A681PrdAny, P04L92_A719PrdNum, P04L92_A331DifValConA, P04L92_n331DifValConA
+            }
+            , new Object[] {
+            P04L93_A396EmprCod, P04L93_A719PrdNum, P04L93_A681PrdAny, P04L93_A720PrdNumMes, P04L93_A747PrdValConM, P04L93_A744PrdUniConM
+            }
+            , new Object[] {
+            P04L94_A396EmprCod, P04L94_A681PrdAny, P04L94_A719PrdNum, P04L94_A4693PrdNum2, P04L94_A718PrdNom, P04L94_A331DifValConA, P04L94_n331DifValConA
+            }
+            , new Object[] {
+            P04L95_A396EmprCod, P04L95_A719PrdNum, P04L95_A681PrdAny, P04L95_A744PrdUniConM, P04L95_A747PrdValConM, P04L95_A720PrdNumMes
+            }
+         }
+      );
+      /* GeneXus formulas. */
+      Gx_err = (short)(0) ;
+   }
+
+   private byte AV220Mesi ;
+   private byte AV219MesF ;
+   private byte GXv_int4[] ;
+   private byte GXv_int5[] ;
+   private byte AV196Flag ;
+   private byte AV195Fila ;
+   private byte A720PrdNumMes ;
+   private short AV193Any ;
+   private short GXv_int3[] ;
+   private short A681PrdAny ;
+   private short Gx_err ;
+   private int AV236Random ;
+   private java.math.BigDecimal AV224Porcen ;
+   private java.math.BigDecimal AV223PorAcu ;
+   private java.math.BigDecimal AV225PorcGrp ;
+   private java.math.BigDecimal AV230TotGrp ;
+   private java.math.BigDecimal AV231TotInf ;
+   private java.math.BigDecimal AV228TotCoN ;
+   private java.math.BigDecimal A331DifValConA ;
+   private java.math.BigDecimal A747PrdValConM ;
+   private java.math.BigDecimal A744PrdUniConM ;
+   private java.math.BigDecimal AV226PrdUniConM ;
+   private java.math.BigDecimal AV227PrdValConM ;
+   private java.math.BigDecimal AV232TotInfC ;
+   private java.math.BigDecimal AV233TotUniC ;
+   private String A396EmprCod ;
+   private String AV198ImpCod ;
+   private String AV234Pdigito ;
+   private String AV235Udigito ;
+   private String AV171Lit2 ;
+   private String AV211Lit4 ;
+   private String AV204Lit13 ;
+   private String AV205Lit14 ;
+   private String AV206Lit15 ;
+   private String AV208Lit17 ;
+   private String AV209Lit18 ;
+   private String GXt_char1 ;
+   private String GXv_char2[] ;
+   private String scmdbuf ;
+   private String A719PrdNum ;
+   private String A4693PrdNum2 ;
+   private String A718PrdNom ;
+   private String AV207Lit16 ;
+   private boolean returnInSub ;
+   private boolean n331DifValConA ;
+   private boolean brk4L95 ;
+   private String AV237Filename ;
+   private String AV239ErrorMessage ;
+   private String[] aP8 ;
+   private String[] aP0 ;
+   private String[] aP1 ;
+   private String[] aP2 ;
+   private String[] aP3 ;
+   private short[] aP4 ;
+   private byte[] aP5 ;
+   private byte[] aP6 ;
+   private String[] aP7 ;
+   private IDataStoreProvider pr_default ;
+   private String[] P04L92_A396EmprCod ;
+   private short[] P04L92_A681PrdAny ;
+   private String[] P04L92_A719PrdNum ;
+   private java.math.BigDecimal[] P04L92_A331DifValConA ;
+   private boolean[] P04L92_n331DifValConA ;
+   private String[] P04L93_A396EmprCod ;
+   private String[] P04L93_A719PrdNum ;
+   private short[] P04L93_A681PrdAny ;
+   private byte[] P04L93_A720PrdNumMes ;
+   private java.math.BigDecimal[] P04L93_A747PrdValConM ;
+   private java.math.BigDecimal[] P04L93_A744PrdUniConM ;
+   private String[] P04L94_A396EmprCod ;
+   private short[] P04L94_A681PrdAny ;
+   private String[] P04L94_A719PrdNum ;
+   private String[] P04L94_A4693PrdNum2 ;
+   private String[] P04L94_A718PrdNom ;
+   private java.math.BigDecimal[] P04L94_A331DifValConA ;
+   private boolean[] P04L94_n331DifValConA ;
+   private String[] P04L95_A396EmprCod ;
+   private String[] P04L95_A719PrdNum ;
+   private short[] P04L95_A681PrdAny ;
+   private java.math.BigDecimal[] P04L95_A744PrdUniConM ;
+   private java.math.BigDecimal[] P04L95_A747PrdValConM ;
+   private byte[] P04L95_A720PrdNumMes ;
+   private com.genexus.gxoffice.ExcelDoc AV238ExcelDocument ;
+}
+
+final  class prptabcdyes__default extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+          new ForEachCursor("P04L92", "SELECT EmprCod, PrdAny, PrdNum, DifValConA FROM TXPCPRDES WHERE (EmprCod = ?) AND (SUBSTR(PrdNum, 1, 1) >= ?) AND (SUBSTR(PrdNum, 1, 1) <= ?) AND (PrdAny = ?) ORDER BY EmprCod, DifValConA ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("P04L93", "SELECT EmprCod, PrdNum, PrdAny, PrdNumMes, PrdValConM, PrdUniConM FROM TXPLPRDES WHERE (EmprCod = ? and PrdNum = ? and PrdAny = ? and PrdNumMes >= ?) AND (PrdNumMes <= ?) ORDER BY EmprCod, PrdNum, PrdAny ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("P04L94", "SELECT T1.EmprCod, T1.PrdAny, T1.PrdNum, T2.PrdNum2, T2.PrdNom, T1.DifValConA FROM (TXPCPRDES T1 INNER JOIN TXPPRODUC T2 ON T2.EmprCod = T1.EmprCod AND T2.PrdNum = T1.PrdNum) WHERE (T1.EmprCod = ?) AND (SUBSTR(T1.PrdNum, 1, 1) >= ?) AND (SUBSTR(T1.PrdNum, 1, 1) <= ?) AND (T1.PrdAny = ?) ORDER BY T1.EmprCod, T1.DifValConA ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("P04L95", "SELECT EmprCod, PrdNum, PrdAny, PrdUniConM, PrdValConM, PrdNumMes FROM TXPLPRDES WHERE (EmprCod = ? and PrdNum = ? and PrdAny = ? and PrdNumMes >= ?) AND (PrdNumMes <= ?) ORDER BY EmprCod, PrdNum, PrdAny ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((short[]) buf[1])[0] = rslt.getShort(2);
+               ((String[]) buf[2])[0] = rslt.getString(3, 6);
+               ((java.math.BigDecimal[]) buf[3])[0] = rslt.getBigDecimal(4,2);
+               ((boolean[]) buf[4])[0] = rslt.wasNull();
+               return;
+            case 1 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((String[]) buf[1])[0] = rslt.getString(2, 6);
+               ((short[]) buf[2])[0] = rslt.getShort(3);
+               ((byte[]) buf[3])[0] = rslt.getByte(4);
+               ((java.math.BigDecimal[]) buf[4])[0] = rslt.getBigDecimal(5,2);
+               ((java.math.BigDecimal[]) buf[5])[0] = rslt.getBigDecimal(6,4);
+               return;
+            case 2 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((short[]) buf[1])[0] = rslt.getShort(2);
+               ((String[]) buf[2])[0] = rslt.getString(3, 6);
+               ((String[]) buf[3])[0] = rslt.getString(4, 16);
+               ((String[]) buf[4])[0] = rslt.getString(5, 26);
+               ((java.math.BigDecimal[]) buf[5])[0] = rslt.getBigDecimal(6,2);
+               ((boolean[]) buf[6])[0] = rslt.wasNull();
+               return;
+            case 3 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((String[]) buf[1])[0] = rslt.getString(2, 6);
+               ((short[]) buf[2])[0] = rslt.getShort(3);
+               ((java.math.BigDecimal[]) buf[3])[0] = rslt.getBigDecimal(4,4);
+               ((java.math.BigDecimal[]) buf[4])[0] = rslt.getBigDecimal(5,2);
+               ((byte[]) buf[5])[0] = rslt.getByte(6);
+               return;
+      }
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setString(2, (String)parms[1], 1);
+               stmt.setString(3, (String)parms[2], 1);
+               stmt.setShort(4, ((Number) parms[3]).shortValue());
+               return;
+            case 1 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setString(2, (String)parms[1], 6);
+               stmt.setShort(3, ((Number) parms[2]).shortValue());
+               stmt.setByte(4, ((Number) parms[3]).byteValue());
+               stmt.setByte(5, ((Number) parms[4]).byteValue());
+               return;
+            case 2 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setString(2, (String)parms[1], 1);
+               stmt.setString(3, (String)parms[2], 1);
+               stmt.setShort(4, ((Number) parms[3]).shortValue());
+               return;
+            case 3 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setString(2, (String)parms[1], 6);
+               stmt.setShort(3, ((Number) parms[2]).shortValue());
+               stmt.setByte(4, ((Number) parms[3]).byteValue());
+               stmt.setByte(5, ((Number) parms[4]).byteValue());
+               return;
+      }
+   }
+
+}
+

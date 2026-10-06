@@ -1,0 +1,468 @@
+package app.produccion ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.webpanels.*;
+import java.sql.*;
+import com.genexus.search.*;
+
+public final  class informeproduccionresumentipoarticulo__wcexportreport_impl extends GXWebReport
+{
+   public informeproduccionresumentipoarticulo__wcexportreport_impl( com.genexus.internet.HttpContext context )
+   {
+      super(context);
+   }
+
+   public void webExecute( )
+   {
+      if ( (GXutil.strcmp("", httpContext.getCookie( "GX_SESSION_ID"))==0) )
+      {
+         gxcookieaux = httpContext.setCookie( "GX_SESSION_ID", httpContext.encrypt64( com.genexus.util.Encryption.getNewKey( ), context.getServerKey( )), "", GXutil.nullDate(), "", (short)(httpContext.getHttpSecure( ))) ;
+      }
+      GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+      entryPointCalled = false ;
+      gxfirstwebparm = httpContext.GetNextPar( ) ;
+      toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+      if ( toggleJsOutput )
+      {
+      }
+      /* GeneXus formulas */
+      /* Output device settings */
+      privateExecute();
+   }
+
+   private void privateExecute( )
+   {
+      httpContext.setDefaultTheme("WorkWithPlusThemeDS");
+      M_top = 0 ;
+      M_bot = 6 ;
+      P_lines = (int)(66-M_bot) ;
+      getPrinter().GxClearAttris() ;
+      add_metrics( ) ;
+      lineHeight = 15 ;
+      PrtOffset = 0 ;
+      gxXPage = 100 ;
+      gxYPage = 100 ;
+      getPrinter().GxSetDocName("") ;
+      try
+      {
+         Gx_out = "FIL" ;
+         if (!initPrinter (Gx_out, gxXPage, gxYPage, "GXPRN.INI", "", "", 2, 1, 1, 15840, 12240, 0, 1, 1, 0, 1, 1) )
+         {
+            cleanup();
+            return;
+         }
+         getPrinter().setModal(true) ;
+         P_lines = (int)(gxYPage-(lineHeight*6)) ;
+         Gx_line = (int)(P_lines+1) ;
+         getPrinter().setPageLines(P_lines);
+         getPrinter().setLineHeight(lineHeight);
+         getPrinter().setM_top(M_top);
+         getPrinter().setM_bot(M_bot);
+         GXv_SdtWWPContext1[0] = AV9WWPContext;
+         new app.wwpbaseobjects.loadwwpcontext(remoteHandle, context).execute( GXv_SdtWWPContext1) ;
+         AV9WWPContext = GXv_SdtWWPContext1[0] ;
+         /* Execute user subroutine: 'LOADGRIDSTATE' */
+         S151 ();
+         if ( returnInSub )
+         {
+            getPrinter().GxEndPage() ;
+            /* Close printer file */
+            getPrinter().GxEndDocument() ;
+            endPrinter();
+            returnInSub = true;
+            cleanup();
+            if (true) return;
+         }
+         AV33Title = httpContext.getMessage( "Lista de Informe Produccion Resumen Tipo Articulo", "") ;
+         /* Execute user subroutine: 'PRINTFILTERS' */
+         S111 ();
+         if ( returnInSub )
+         {
+            getPrinter().GxEndPage() ;
+            /* Close printer file */
+            getPrinter().GxEndDocument() ;
+            endPrinter();
+            returnInSub = true;
+            cleanup();
+            if (true) return;
+         }
+         /* Execute user subroutine: 'PRINTCOLUMNTITLES' */
+         S121 ();
+         if ( returnInSub )
+         {
+            getPrinter().GxEndPage() ;
+            /* Close printer file */
+            getPrinter().GxEndDocument() ;
+            endPrinter();
+            returnInSub = true;
+            cleanup();
+            if (true) return;
+         }
+         /* Execute user subroutine: 'PRINTDATA' */
+         S131 ();
+         if ( returnInSub )
+         {
+            getPrinter().GxEndPage() ;
+            /* Close printer file */
+            getPrinter().GxEndDocument() ;
+            endPrinter();
+            returnInSub = true;
+            cleanup();
+            if (true) return;
+         }
+         /* Execute user subroutine: 'PRINTFOOTER' */
+         S171 ();
+         if ( returnInSub )
+         {
+         }
+         /* Print footer for last page */
+         ToSkip = (int)(P_lines+1) ;
+         hAU40( true, 0) ;
+         /* Close printer file */
+         getPrinter().GxEndDocument() ;
+         endPrinter();
+      }
+      catch ( ProcessInterruptedException e )
+      {
+      }
+      if ( httpContext.willRedirect( ) )
+      {
+         httpContext.redirect( httpContext.wjLoc );
+         httpContext.wjLoc = "" ;
+      }
+      cleanup();
+   }
+
+   public void S111( ) throws ProcessInterruptedException
+   {
+      /* 'PRINTFILTERS' Routine */
+      returnInSub = false ;
+      if ( ! (GXutil.strcmp("", AV12FilterFullText)==0) )
+      {
+         hAU40( false, 20) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 169, 169, 169, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(httpContext.getMessage( "Filter", ""), 25, Gx_line+0, 55, Gx_line+15, 0, 0, 0, 0) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 0, 0, 0, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV12FilterFullText, "")), 55, Gx_line+0, 789, Gx_line+15, 0, 0, 0, 0) ;
+         Gx_OldLine = Gx_line ;
+         Gx_line = (int)(Gx_line+20) ;
+      }
+   }
+
+   public void S121( ) throws ProcessInterruptedException
+   {
+      /* 'PRINTCOLUMNTITLES' Routine */
+      returnInSub = false ;
+      hAU40( false, 22) ;
+      getPrinter().GxDrawLine(25, Gx_line+21, 789, Gx_line+21, 2, 149, 0, 0, 0) ;
+      Gx_OldLine = Gx_line ;
+      Gx_line = (int)(Gx_line+22) ;
+      hAU40( false, 37) ;
+      getPrinter().GxAttris("Microsoft Sans Serif", 9, false, false, false, false, 0, 149, 0, 0, 0, 255, 255, 255) ;
+      getPrinter().GxDrawText(httpContext.getMessage( "Tipo Articulo", ""), 30, Gx_line+10, 152, Gx_line+27, 0, 0, 0, 0) ;
+      getPrinter().GxDrawText(httpContext.getMessage( "Descripcion", ""), 156, Gx_line+10, 279, Gx_line+27, 0, 0, 0, 0) ;
+      getPrinter().GxDrawText(httpContext.getMessage( "Kilos", ""), 283, Gx_line+10, 406, Gx_line+27, 0, 0, 0, 0) ;
+      getPrinter().GxDrawText("%", 410, Gx_line+10, 533, Gx_line+27, 0, 0, 0, 0) ;
+      getPrinter().GxDrawText(httpContext.getMessage( "Metros", ""), 537, Gx_line+10, 660, Gx_line+27, 0, 0, 0, 0) ;
+      getPrinter().GxDrawText("%", 664, Gx_line+10, 787, Gx_line+27, 0, 0, 0, 0) ;
+      Gx_OldLine = Gx_line ;
+      Gx_line = (int)(Gx_line+37) ;
+   }
+
+   public void S131( ) throws ProcessInterruptedException
+   {
+      /* 'PRINTDATA' Routine */
+      returnInSub = false ;
+      AV48GXV1 = 1 ;
+      while ( AV48GXV1 <= AV11InformeProduccionResumenTipoArticulo_SDT.size() )
+      {
+         AV10InformeProduccionResumenTipoArticulo_SDTItem = (app.produccion.SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem)((app.produccion.SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem)AV11InformeProduccionResumenTipoArticulo_SDT.elementAt(-1+AV48GXV1));
+         AV13InformeProduccionResumenTipoArticulo_SDTItem_TipArtcod = AV10InformeProduccionResumenTipoArticulo_SDTItem.getgxTv_SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem_Tipartcod() ;
+         AV14InformeProduccionResumenTipoArticulo_SDTItem_TipArtdsc = AV10InformeProduccionResumenTipoArticulo_SDTItem.getgxTv_SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem_Tipartdsc() ;
+         AV15InformeProduccionResumenTipoArticulo_SDTItem_Kilos = AV10InformeProduccionResumenTipoArticulo_SDTItem.getgxTv_SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem_Kilos() ;
+         AV16InformeProduccionResumenTipoArticulo_SDTItem_Porkilos = AV10InformeProduccionResumenTipoArticulo_SDTItem.getgxTv_SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem_Porkilos() ;
+         AV17InformeProduccionResumenTipoArticulo_SDTItem_Metros = AV10InformeProduccionResumenTipoArticulo_SDTItem.getgxTv_SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem_Metros() ;
+         AV18InformeProduccionResumenTipoArticulo_SDTItem_Pormetros = AV10InformeProduccionResumenTipoArticulo_SDTItem.getgxTv_SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem_Pormetros() ;
+         /* Execute user subroutine: 'BEFOREPRINTLINE' */
+         S141 ();
+         if (returnInSub) return;
+         hAU40( false, 36) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 0, 0, 0, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(GXutil.ltrim( localUtil.format( DecimalUtil.doubleToDec(AV13InformeProduccionResumenTipoArticulo_SDTItem_TipArtcod), "ZZZ9")), 30, Gx_line+10, 152, Gx_line+25, 0, 0, 0, 0) ;
+         getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV14InformeProduccionResumenTipoArticulo_SDTItem_TipArtdsc, "")), 156, Gx_line+10, 279, Gx_line+25, 0, 0, 0, 0) ;
+         getPrinter().GxDrawText(GXutil.ltrim( localUtil.format( AV15InformeProduccionResumenTipoArticulo_SDTItem_Kilos, "ZZZZZ9.99")), 283, Gx_line+10, 406, Gx_line+25, 0, 0, 0, 0) ;
+         getPrinter().GxDrawText(GXutil.ltrim( localUtil.format( AV16InformeProduccionResumenTipoArticulo_SDTItem_Porkilos, "ZZ9.99")), 410, Gx_line+10, 533, Gx_line+25, 0, 0, 0, 0) ;
+         getPrinter().GxDrawText(GXutil.ltrim( localUtil.format( AV17InformeProduccionResumenTipoArticulo_SDTItem_Metros, "ZZZZZ9.99")), 537, Gx_line+10, 660, Gx_line+25, 0, 0, 0, 0) ;
+         getPrinter().GxDrawText(GXutil.ltrim( localUtil.format( AV18InformeProduccionResumenTipoArticulo_SDTItem_Pormetros, "ZZ9.99")), 664, Gx_line+10, 787, Gx_line+25, 0, 0, 0, 0) ;
+         getPrinter().GxDrawLine(28, Gx_line+35, 789, Gx_line+35, 1, 220, 220, 220, 0) ;
+         Gx_OldLine = Gx_line ;
+         Gx_line = (int)(Gx_line+36) ;
+         /* Execute user subroutine: 'AFTERPRINTLINE' */
+         S161 ();
+         if (returnInSub) return;
+         AV48GXV1 = (int)(AV48GXV1+1) ;
+      }
+   }
+
+   public void S151( ) throws ProcessInterruptedException
+   {
+      /* 'LOADGRIDSTATE' Routine */
+      returnInSub = false ;
+      if ( GXutil.strcmp(AV19Session.getValue("Produccion.InformeProduccionResumenTipoArticulo__WCGridState"), "") == 0 )
+      {
+         AV21GridState.fromxml(new app.wwpbaseobjects.loadgridstate(remoteHandle, context).executeUdp( "Produccion.InformeProduccionResumenTipoArticulo__WCGridState"), null, null);
+      }
+      else
+      {
+         AV21GridState.fromxml(AV19Session.getValue("Produccion.InformeProduccionResumenTipoArticulo__WCGridState"), null, null);
+      }
+      AV49GXV2 = 1 ;
+      while ( AV49GXV2 <= AV21GridState.getgxTv_SdtWWPGridState_Filtervalues().size() )
+      {
+         AV22GridStateFilterValue = (app.wwpbaseobjects.SdtWWPGridState_FilterValue)((app.wwpbaseobjects.SdtWWPGridState_FilterValue)AV21GridState.getgxTv_SdtWWPGridState_Filtervalues().elementAt(-1+AV49GXV2));
+         if ( GXutil.strcmp(AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "FILTERFULLTEXT") == 0 )
+         {
+            AV12FilterFullText = AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+         }
+         else if ( GXutil.strcmp(AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&EMPRCOD") == 0 )
+         {
+            AV35EmprCod = AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+         }
+         else if ( GXutil.strcmp(AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&HISPRODTI") == 0 )
+         {
+            AV37HisProdti = localUtil.ctot( AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value(), localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt"))) ;
+         }
+         else if ( GXutil.strcmp(AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&HISPRODTF") == 0 )
+         {
+            AV36HisProdtF = localUtil.ctot( AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value(), localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt"))) ;
+         }
+         else if ( GXutil.strcmp(AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&MAQCOD1") == 0 )
+         {
+            AV38Maqcod1 = AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+         }
+         else if ( GXutil.strcmp(AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&MAQCOD2") == 0 )
+         {
+            AV39Maqcod2 = AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+         }
+         else if ( GXutil.strcmp(AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&POPER") == 0 )
+         {
+            AV41Poper = (short)(GXutil.lval( AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         else if ( GXutil.strcmp(AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&UOPER") == 0 )
+         {
+            AV42Uoper = (short)(GXutil.lval( AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         else if ( GXutil.strcmp(AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&HISESTREO") == 0 )
+         {
+            AV40HisEstReo = (byte)(GXutil.lval( AV22GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         AV49GXV2 = (int)(AV49GXV2+1) ;
+      }
+   }
+
+   public void S141( ) throws ProcessInterruptedException
+   {
+      /* 'BEFOREPRINTLINE' Routine */
+      returnInSub = false ;
+   }
+
+   public void S161( ) throws ProcessInterruptedException
+   {
+      /* 'AFTERPRINTLINE' Routine */
+      returnInSub = false ;
+   }
+
+   public void S171( ) throws ProcessInterruptedException
+   {
+      /* 'PRINTFOOTER' Routine */
+      returnInSub = false ;
+   }
+
+   public void hAU40( boolean bFoot ,
+                      int Inc )
+   {
+      /* Skip the required number of lines */
+      while ( ( ToSkip > 0 ) || ( Gx_line + Inc > P_lines ) )
+      {
+         if ( Gx_line + Inc >= P_lines )
+         {
+            if ( Gx_page > 0 )
+            {
+               /* Print footers */
+               Gx_line = P_lines ;
+               AV31PageInfo = httpContext.getMessage( "Page: ", "") + GXutil.trim( GXutil.str( Gx_page, 6, 0)) ;
+               AV28DateInfo = httpContext.getMessage( "Date: ", "") + localUtil.format( Gx_date, "99/99/99") ;
+               getPrinter().GxDrawRect(0, Gx_line+5, 819, Gx_line+40, 1, 0, 0, 0, 1, 149, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0) ;
+               getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 255, 255, 255, 0, 255, 255, 255) ;
+               getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV31PageInfo, "")), 30, Gx_line+15, 409, Gx_line+30, 0, 0, 0, 0) ;
+               getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV28DateInfo, "")), 409, Gx_line+15, 789, Gx_line+30, 2, 0, 0, 0) ;
+               Gx_OldLine = Gx_line ;
+               Gx_line = (int)(Gx_line+40) ;
+               getPrinter().GxEndPage() ;
+               if ( bFoot )
+               {
+                  return  ;
+               }
+            }
+            ToSkip = 0 ;
+            Gx_line = 0 ;
+            Gx_page = (int)(Gx_page+1) ;
+            /* Skip Margin Top Lines */
+            Gx_line = (int)(Gx_line+(M_top*lineHeight)) ;
+            /* Print headers */
+            getPrinter().GxStartPage() ;
+            getPrinter().setPage(Gx_page);
+            AV33Title = AV45Pgmdesc ;
+            getPrinter().GxDrawRect(0, Gx_line+0, 819, Gx_line+108, 1, 0, 0, 0, 1, 149, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0) ;
+            getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 255, 255, 255, 0, 255, 255, 255) ;
+            getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV26AppName, "")), 30, Gx_line+30, 789, Gx_line+45, 0, 0, 0, 0) ;
+            getPrinter().GxAttris("Microsoft Sans Serif", 20, false, false, false, false, 0, 255, 255, 255, 0, 255, 255, 255) ;
+            getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV33Title, "")), 30, Gx_line+45, 789, Gx_line+78, 0, 0, 0, 0) ;
+            Gx_OldLine = Gx_line ;
+            Gx_line = (int)(Gx_line+128) ;
+            if (true) break;
+         }
+         else
+         {
+            PrtOffset = 0 ;
+            Gx_line = (int)(Gx_line+1) ;
+         }
+         ToSkip = (int)(ToSkip-1) ;
+      }
+      getPrinter().setPage(Gx_page);
+   }
+
+   public void add_metrics( )
+   {
+      add_metrics0( ) ;
+   }
+
+   public void add_metrics0( )
+   {
+      getPrinter().setMetrics("Microsoft Sans Serif", false, false, 58, 14, 72, 171,  new int[] {48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 18, 20, 23, 36, 36, 57, 43, 12, 21, 21, 25, 37, 18, 21, 18, 18, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 18, 18, 37, 37, 37, 36, 65, 43, 43, 46, 46, 43, 39, 50, 46, 18, 32, 43, 36, 53, 46, 50, 43, 50, 46, 43, 40, 46, 43, 64, 41, 42, 39, 18, 18, 18, 27, 36, 21, 36, 36, 32, 36, 36, 18, 36, 36, 14, 15, 33, 14, 55, 36, 36, 36, 36, 21, 32, 18, 36, 33, 47, 31, 31, 31, 21, 17, 21, 37, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 18, 20, 36, 36, 36, 36, 17, 36, 21, 47, 24, 36, 37, 21, 47, 35, 26, 35, 21, 21, 21, 37, 34, 21, 21, 21, 23, 36, 53, 53, 53, 39, 43, 43, 43, 43, 43, 43, 64, 46, 43, 43, 43, 43, 18, 18, 18, 18, 46, 46, 50, 50, 50, 50, 50, 37, 50, 46, 46, 46, 46, 43, 43, 39, 36, 36, 36, 36, 36, 36, 57, 32, 36, 36, 36, 36, 18, 18, 18, 18, 36, 36, 36, 36, 36, 36, 36, 35, 39, 36, 36, 36, 36, 32, 36, 32}) ;
+   }
+
+   protected int getOutputType( )
+   {
+      return OUTPUT_PDF;
+   }
+
+   protected java.io.OutputStream getOutputStream( )
+   {
+      return httpContext.getOutputStream();
+   }
+
+   protected boolean IntegratedSecurityEnabled( )
+   {
+      return false;
+   }
+
+   protected int IntegratedSecurityLevel( )
+   {
+      return 0;
+   }
+
+   protected String IntegratedSecurityPermissionPrefix( )
+   {
+      return "";
+   }
+
+   protected String EncryptURLParameters( )
+   {
+      return "NO";
+   }
+
+   protected void cleanup( )
+   {
+      CloseOpenCursors();
+      super.cleanup();
+   }
+
+   protected void CloseOpenCursors( )
+   {
+   }
+
+   /* Aggregate/select formulas */
+   public void initialize( )
+   {
+      GXKey = "" ;
+      gxfirstwebparm = "" ;
+      AV9WWPContext = new app.wwpbaseobjects.SdtWWPContext(remoteHandle, context);
+      GXv_SdtWWPContext1 = new app.wwpbaseobjects.SdtWWPContext[1] ;
+      AV33Title = "" ;
+      AV12FilterFullText = "" ;
+      AV11InformeProduccionResumenTipoArticulo_SDT = new GXBaseCollection<app.produccion.SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem>(app.produccion.SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem.class, "InformeProduccionResumenTipoArticulo_SDTItem", "TexplusNET", remoteHandle);
+      AV10InformeProduccionResumenTipoArticulo_SDTItem = new app.produccion.SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem(remoteHandle, context);
+      AV14InformeProduccionResumenTipoArticulo_SDTItem_TipArtdsc = "" ;
+      AV15InformeProduccionResumenTipoArticulo_SDTItem_Kilos = DecimalUtil.ZERO ;
+      AV16InformeProduccionResumenTipoArticulo_SDTItem_Porkilos = DecimalUtil.ZERO ;
+      AV17InformeProduccionResumenTipoArticulo_SDTItem_Metros = DecimalUtil.ZERO ;
+      AV18InformeProduccionResumenTipoArticulo_SDTItem_Pormetros = DecimalUtil.ZERO ;
+      AV19Session = httpContext.getWebSession();
+      AV21GridState = new app.wwpbaseobjects.SdtWWPGridState(remoteHandle, context);
+      AV22GridStateFilterValue = new app.wwpbaseobjects.SdtWWPGridState_FilterValue(remoteHandle, context);
+      AV35EmprCod = "" ;
+      AV37HisProdti = GXutil.resetTime( GXutil.nullDate() );
+      AV36HisProdtF = GXutil.resetTime( GXutil.nullDate() );
+      AV38Maqcod1 = "" ;
+      AV39Maqcod2 = "" ;
+      AV31PageInfo = "" ;
+      AV28DateInfo = "" ;
+      Gx_date = GXutil.nullDate() ;
+      AV45Pgmdesc = "" ;
+      AV26AppName = "" ;
+      Gx_date = GXutil.today( ) ;
+      AV45Pgmdesc = httpContext.getMessage( "Informe Produccion Resumen Tipo Articulo__WCExport Report", "") ;
+      /* GeneXus formulas. */
+      Gx_line = 0 ;
+      Gx_date = GXutil.today( ) ;
+      AV45Pgmdesc = httpContext.getMessage( "Informe Produccion Resumen Tipo Articulo__WCExport Report", "") ;
+      Gx_err = (short)(0) ;
+   }
+
+   private byte AV40HisEstReo ;
+   private short gxcookieaux ;
+   private short AV13InformeProduccionResumenTipoArticulo_SDTItem_TipArtcod ;
+   private short AV41Poper ;
+   private short AV42Uoper ;
+   private short Gx_err ;
+   private int M_top ;
+   private int M_bot ;
+   private int Line ;
+   private int ToSkip ;
+   private int PrtOffset ;
+   private int Gx_OldLine ;
+   private int AV48GXV1 ;
+   private int AV49GXV2 ;
+   private java.math.BigDecimal AV15InformeProduccionResumenTipoArticulo_SDTItem_Kilos ;
+   private java.math.BigDecimal AV16InformeProduccionResumenTipoArticulo_SDTItem_Porkilos ;
+   private java.math.BigDecimal AV17InformeProduccionResumenTipoArticulo_SDTItem_Metros ;
+   private java.math.BigDecimal AV18InformeProduccionResumenTipoArticulo_SDTItem_Pormetros ;
+   private String GXKey ;
+   private String gxfirstwebparm ;
+   private String AV14InformeProduccionResumenTipoArticulo_SDTItem_TipArtdsc ;
+   private String AV35EmprCod ;
+   private String AV38Maqcod1 ;
+   private String AV39Maqcod2 ;
+   private String AV45Pgmdesc ;
+   private java.util.Date AV37HisProdti ;
+   private java.util.Date AV36HisProdtF ;
+   private java.util.Date Gx_date ;
+   private boolean entryPointCalled ;
+   private boolean toggleJsOutput ;
+   private boolean returnInSub ;
+   private String AV33Title ;
+   private String AV12FilterFullText ;
+   private String AV31PageInfo ;
+   private String AV28DateInfo ;
+   private String AV26AppName ;
+   private com.genexus.webpanels.WebSession AV19Session ;
+   private GXBaseCollection<app.produccion.SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem> AV11InformeProduccionResumenTipoArticulo_SDT ;
+   private app.wwpbaseobjects.SdtWWPContext AV9WWPContext ;
+   private app.wwpbaseobjects.SdtWWPContext GXv_SdtWWPContext1[] ;
+   private app.produccion.SdtInformeProduccionResumenTipoArticulo_SDT_InformeProduccionResumenTipoArticulo_SDTItem AV10InformeProduccionResumenTipoArticulo_SDTItem ;
+   private app.wwpbaseobjects.SdtWWPGridState AV21GridState ;
+   private app.wwpbaseobjects.SdtWWPGridState_FilterValue AV22GridStateFilterValue ;
+}
+

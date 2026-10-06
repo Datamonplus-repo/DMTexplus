@@ -1,0 +1,66 @@
+{ 
+    "Resources" : [ { 
+        "IsDefault" : true,
+        "ResourceFile" : "Images_DEFAULT.json"
+    }, { 
+        "Language" : "English",
+        "Theme" : "SimpleAndroid",
+        "ResourceFile" : "Images_English_SimpleAndroid.json"
+    }, { 
+        "Language" : "Portuguese",
+        "Theme" : "SimpleAndroid",
+        "ResourceFile" : "Images_Portuguese_SimpleAndroid.json"
+    }, { 
+        "Language" : "Spanish",
+        "Theme" : "SimpleAndroid",
+        "ResourceFile" : "Images_Spanish_SimpleAndroid.json"
+    }, { 
+        "Language" : "English",
+        "Theme" : "Datamon.DesignDatamon",
+        "ResourceFile" : "Images_English_Datamon_DesignDatamon.json"
+    }, { 
+        "Language" : "Portuguese",
+        "Theme" : "Datamon.DesignDatamon",
+        "ResourceFile" : "Images_Portuguese_Datamon_DesignDatamon.json"
+    }, { 
+        "Language" : "Spanish",
+        "Theme" : "Datamon.DesignDatamon",
+        "ResourceFile" : "Images_Spanish_Datamon_DesignDatamon.json"
+    }, { 
+        "Language" : "English",
+        "Theme" : "WorkWithPlusThemeDS",
+        "ResourceFile" : "Images_English_WorkWithPlusThemeDS.json"
+    }, { 
+        "Language" : "Portuguese",
+        "Theme" : "WorkWithPlusThemeDS",
+        "ResourceFile" : "Images_Portuguese_WorkWithPlusThemeDS.json"
+    }, { 
+        "Language" : "Spanish",
+        "Theme" : "WorkWithPlusThemeDS",
+        "ResourceFile" : "Images_Spanish_WorkWithPlusThemeDS.json"
+    }, { 
+        "Language" : "English",
+        "Theme" : "WWPBaseObjects.WorkWithPlusBaseDS",
+        "ResourceFile" : "Images_English_WWPBaseObjects_WorkWithPlusBaseDS.json"
+    }, { 
+        "Language" : "Portuguese",
+        "Theme" : "WWPBaseObjects.WorkWithPlusBaseDS",
+        "ResourceFile" : "Images_Portuguese_WWPBaseObjects_WorkWithPlusBaseDS.json"
+    }, { 
+        "Language" : "Spanish",
+        "Theme" : "WWPBaseObjects.WorkWithPlusBaseDS",
+        "ResourceFile" : "Images_Spanish_WWPBaseObjects_WorkWithPlusBaseDS.json"
+    }, { 
+        "Language" : "English",
+        "Theme" : "DatamonDS",
+        "ResourceFile" : "Images_English_DatamonDS.json"
+    }, { 
+        "Language" : "Portuguese",
+        "Theme" : "DatamonDS",
+        "ResourceFile" : "Images_Portuguese_DatamonDS.json"
+    }, { 
+        "Language" : "Spanish",
+        "Theme" : "DatamonDS",
+        "ResourceFile" : "Images_Spanish_DatamonDS.json"
+    } ]
+}

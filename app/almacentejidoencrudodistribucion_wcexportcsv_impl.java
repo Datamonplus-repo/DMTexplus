@@ -1,0 +1,634 @@
+package app ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.webpanels.*;
+import java.sql.*;
+import com.genexus.search.*;
+
+public final  class almacentejidoencrudodistribucion_wcexportcsv_impl extends GXWebProcedure
+{
+   public almacentejidoencrudodistribucion_wcexportcsv_impl( com.genexus.internet.HttpContext context )
+   {
+      super(context);
+   }
+
+   public void webExecute( )
+   {
+      if ( (GXutil.strcmp("", httpContext.getCookie( "GX_SESSION_ID"))==0) )
+      {
+         gxcookieaux = httpContext.setCookie( "GX_SESSION_ID", httpContext.encrypt64( com.genexus.util.Encryption.getNewKey( ), context.getServerKey( )), "", GXutil.nullDate(), "", (short)(httpContext.getHttpSecure( ))) ;
+      }
+      GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+      entryPointCalled = false ;
+      gxfirstwebparm = httpContext.GetNextPar( ) ;
+      toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+      if ( toggleJsOutput )
+      {
+      }
+      /* GeneXus formulas */
+      /* Output device settings */
+      privateExecute();
+   }
+
+   private void privateExecute( )
+   {
+      AV48AlmacenTejidoencrudoDistribucion_SDTJson = AV49websession.getValue(httpContext.getMessage( "&AlmacenTejidoencrudoDistribucion_SDT", "")) ;
+      AV30AlmacenTejidoencrudoDistribucion_SDT.fromJSonString(AV48AlmacenTejidoencrudoDistribucion_SDTJson, null);
+      AV49websession.remove(httpContext.getMessage( "&AlmacenTejidoencrudoDistribucion_SDT", ""));
+      GXv_SdtWWPContext1[0] = AV9WWPContext;
+      new app.wwpbaseobjects.loadwwpcontext(remoteHandle, context).execute( GXv_SdtWWPContext1) ;
+      AV9WWPContext = GXv_SdtWWPContext1[0] ;
+      /* Execute user subroutine: 'OPENDOCUMENT' */
+      S111 ();
+      if ( returnInSub )
+      {
+         returnInSub = true;
+         cleanup();
+         if (true) return;
+      }
+      /* Execute user subroutine: 'LOADGRIDSTATE' */
+      S191 ();
+      if ( returnInSub )
+      {
+         returnInSub = true;
+         cleanup();
+         if (true) return;
+      }
+      /* Execute user subroutine: 'WRITECOLUMNTITLES' */
+      S131 ();
+      if ( returnInSub )
+      {
+         returnInSub = true;
+         cleanup();
+         if (true) return;
+      }
+      /* Execute user subroutine: 'WRITEDATA' */
+      S151 ();
+      if ( returnInSub )
+      {
+         returnInSub = true;
+         cleanup();
+         if (true) return;
+      }
+      /* Execute user subroutine: 'CLOSEDOCUMENT' */
+      S181 ();
+      if ( returnInSub )
+      {
+      }
+      if ( httpContext.willRedirect( ) )
+      {
+         httpContext.redirect( httpContext.wjLoc );
+         httpContext.wjLoc = "" ;
+      }
+      cleanup();
+   }
+
+   public void S111( )
+   {
+      /* 'OPENDOCUMENT' Routine */
+      returnInSub = false ;
+      AV14Random = (int)(GXutil.random( )*10000) ;
+      AV12Filename = "./PrivateTempStorage/" + "AlmacenTejidoencrudoDistribucion_WCExportCSV-" + GXutil.trim( GXutil.str( AV14Random, 8, 0)) + ".csv" ;
+      AV11TextFile.setSource( AV12Filename );
+      AV11TextFile.create();
+      /* Execute user subroutine: 'CHECKSTATUS' */
+      S121 ();
+      if (returnInSub) return;
+      AV11TextFile.openWrite("");
+      /* Execute user subroutine: 'CHECKSTATUS' */
+      S121 ();
+      if (returnInSub) return;
+   }
+
+   public void S131( )
+   {
+      /* 'WRITECOLUMNTITLES' Routine */
+      returnInSub = false ;
+      AV15TextFileLine = "" ;
+      if ( GXutil.strcmp(AV20Session.getValue("AlmacenTejidoencrudoDistribucion_WCColumnsSelector"), "") != 0 )
+      {
+         AV19ColumnsSelectorXML = AV20Session.getValue("AlmacenTejidoencrudoDistribucion_WCColumnsSelector") ;
+         AV16ColumnsSelector.fromxml(AV19ColumnsSelectorXML, null, null);
+      }
+      else
+      {
+         /* Execute user subroutine: 'INITIALIZECOLUMNSSELECTOR' */
+         S141 ();
+         if (returnInSub) return;
+      }
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+1)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Cliente", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+2)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Nombre", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+3)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "N Recepcion", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+4)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Fecha Entrada", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+5)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Nº Albaran", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+6)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Unidad", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+7)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Unds. Ent.", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+8)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Pzs. Ent.", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+9)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "N Hdr", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+10)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Articulo", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+11)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Color", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+12)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Numero", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+13)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "TC", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+14)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Kilos", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+15)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Metros", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+16)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Piezas", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+17)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Albaran", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+18)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Fecha", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+19)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Kilos Sal.", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+20)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Metros Sal.", "") : "") ;
+      AV15TextFileLine += ((((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+21)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible()) ? ";"+httpContext.getMessage( "Piezas Sal.", "") : "") ;
+      if ( GXutil.len( AV15TextFileLine) > 0 )
+      {
+         AV11TextFile.writeLine(GXutil.substring( AV15TextFileLine, 2, -1));
+      }
+   }
+
+   public void S151( )
+   {
+      /* 'WRITEDATA' Routine */
+      returnInSub = false ;
+      AV52GXV1 = 1 ;
+      while ( AV52GXV1 <= AV30AlmacenTejidoencrudoDistribucion_SDT.size() )
+      {
+         AV10AlmacenTejidoencrudoDistribucion_SDTItem = (app.SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem)((app.SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem)AV30AlmacenTejidoencrudoDistribucion_SDT.elementAt(-1+AV52GXV1));
+         AV15TextFileLine = "" ;
+         /* Execute user subroutine: 'BEFOREWRITELINE' */
+         S161 ();
+         if (returnInSub) return;
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+1)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Clicod(), 6, 0) ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+2)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            GXt_char2 = AV15TextFileLine ;
+            GXv_char3[0] = GXt_char2 ;
+            new app.wwpbaseobjects.wwp_export_securetext(remoteHandle, context).execute( GXutil.strReplace( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Clinom(), ";", ","), GXv_char3) ;
+            almacentejidoencrudodistribucion_wcexportcsv_impl.this.GXt_char2 = GXv_char3[0] ;
+            AV15TextFileLine += GXt_char2 ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+3)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Albreccod(), 8, 0) ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+4)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += localUtil.dtoc( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Albrfen(), localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt")), "/") ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+5)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            GXt_char2 = AV15TextFileLine ;
+            GXv_char3[0] = GXt_char2 ;
+            new app.wwpbaseobjects.wwp_export_securetext(remoteHandle, context).execute( GXutil.strReplace( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Albrent2(), ";", ","), GXv_char3) ;
+            almacentejidoencrudodistribucion_wcexportcsv_impl.this.GXt_char2 = GXv_char3[0] ;
+            AV15TextFileLine += GXt_char2 ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+6)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            if ( GXutil.strcmp(GXutil.trim( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Albruni()), "K") == 0 )
+            {
+               AV15TextFileLine += httpContext.getMessage( "K", "") ;
+            }
+            else if ( GXutil.strcmp(GXutil.trim( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Albruni()), "M") == 0 )
+            {
+               AV15TextFileLine += httpContext.getMessage( "M", "") ;
+            }
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+7)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Albrunient(), 9, 2) ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+8)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Albrpieent(), 6, 0) ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+9)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            GXt_char2 = AV15TextFileLine ;
+            GXv_char3[0] = GXt_char2 ;
+            new app.wwpbaseobjects.wwp_export_securetext(remoteHandle, context).execute( GXutil.strReplace( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Barnhdr(), ";", ","), GXv_char3) ;
+            almacentejidoencrudodistribucion_wcexportcsv_impl.this.GXt_char2 = GXv_char3[0] ;
+            AV15TextFileLine += GXt_char2 ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+10)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            GXt_char2 = AV15TextFileLine ;
+            GXv_char3[0] = GXt_char2 ;
+            new app.wwpbaseobjects.wwp_export_securetext(remoteHandle, context).execute( GXutil.strReplace( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Barser(), ";", ","), GXv_char3) ;
+            almacentejidoencrudodistribucion_wcexportcsv_impl.this.GXt_char2 = GXv_char3[0] ;
+            AV15TextFileLine += GXt_char2 ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+11)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            GXt_char2 = AV15TextFileLine ;
+            GXv_char3[0] = GXt_char2 ;
+            new app.wwpbaseobjects.wwp_export_securetext(remoteHandle, context).execute( GXutil.strReplace( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Barcolnom(), ";", ","), GXv_char3) ;
+            almacentejidoencrudodistribucion_wcexportcsv_impl.this.GXt_char2 = GXv_char3[0] ;
+            AV15TextFileLine += GXt_char2 ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+12)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Barcolnum(), 6, 0) ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+13)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Bartipcol(), 2, 0) ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+14)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Barpiekil(), 9, 2) ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+15)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Barpiemet(), 9, 2) ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+16)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Barpiepie(), 6, 0) ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+17)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Albprocod(), 10, 0) ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+18)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += localUtil.dtoc( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Albprofch(), localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt")), "/") ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+19)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Baralbkgm(), 9, 2) ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+20)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Baralbmtr(), 9, 2) ;
+         }
+         if ( ((app.wwpbaseobjects.SdtWWPColumnsSelector_Column)AV16ColumnsSelector.getgxTv_SdtWWPColumnsSelector_Columns().elementAt(-1+21)).getgxTv_SdtWWPColumnsSelector_Column_Isvisible() )
+         {
+            AV15TextFileLine += ";" ;
+            AV15TextFileLine += GXutil.str( AV10AlmacenTejidoencrudoDistribucion_SDTItem.getgxTv_SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem_Baralbpie(), 6, 0) ;
+         }
+         /* Execute user subroutine: 'AFTERWRITELINE' */
+         S171 ();
+         if (returnInSub) return;
+         if ( GXutil.len( AV15TextFileLine) > 0 )
+         {
+            AV11TextFile.writeLine(GXutil.substring( AV15TextFileLine, 2, -1));
+         }
+         AV52GXV1 = (int)(AV52GXV1+1) ;
+      }
+   }
+
+   public void S181( )
+   {
+      /* 'CLOSEDOCUMENT' Routine */
+      returnInSub = false ;
+      AV11TextFile.close();
+      /* Execute user subroutine: 'CHECKSTATUS' */
+      S121 ();
+      if (returnInSub) return;
+      if ( AV11TextFile.getErrCode() == 0 )
+      {
+         if ( ! httpContext.isAjaxRequest( ) )
+         {
+            AV28HttpResponse.addHeader("Content-Type", "text/csv");
+         }
+         if ( ! httpContext.isAjaxRequest( ) )
+         {
+            AV28HttpResponse.addHeader("Content-Disposition", "attachment;filename=AlmacenTejidoencrudoDistribucion_WCExportCSV.csv");
+         }
+         AV28HttpResponse.addFile(AV11TextFile.getAbsoluteName());
+      }
+   }
+
+   public void S121( )
+   {
+      /* 'CHECKSTATUS' Routine */
+      returnInSub = false ;
+      if ( AV11TextFile.getErrCode() != 0 )
+      {
+         AV12Filename = "" ;
+         AV13ErrorMessage = AV11TextFile.getErrDescription() ;
+         AV11TextFile.close();
+         AV28HttpResponse.addString(AV13ErrorMessage);
+         httpContext.nUserReturn = (byte)(1) ;
+         if ( httpContext.willRedirect( ) )
+         {
+            httpContext.redirect( httpContext.wjLoc );
+            httpContext.wjLoc = "" ;
+         }
+         returnInSub = true;
+         if (true) return;
+      }
+   }
+
+   public void S141( )
+   {
+      /* 'INITIALIZECOLUMNSSELECTOR' Routine */
+      returnInSub = false ;
+      AV16ColumnsSelector = (app.wwpbaseobjects.SdtWWPColumnsSelector)new app.wwpbaseobjects.SdtWWPColumnsSelector(remoteHandle, context);
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__Clicod", "", "Cliente", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__CliNom", "", "Nombre", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__albreccod", "", "N Recepcion", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__albrfen", "", "Fecha Entrada", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__albrent2", "", "Nº Albaran", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__albruni", "", "Unidad", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__albrunient", "", "Unds. Ent.", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__albrpieent", "", "Pzs. Ent.", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__Barnhdr", "", "N Hdr", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__Barser", "", "Articulo", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__Barcolnom", "", "Color", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__Barcolnum", "", "Numero", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__bartipcol", "", "TC", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__Barpiekil", "", "Kilos", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__barpiemet", "", "Metros", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__barpiepie", "", "Piezas", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__albprocod", "", "Albaran", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__albprofch", "", "Fecha", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__BarAlbKgm", "", "Kilos Sal.", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__BarAlbMtr", "", "Metros Sal.", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXv_SdtWWPColumnsSelector4[0] = AV16ColumnsSelector;
+      new app.wwpbaseobjects.wwp_columnsselector_add(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, "AlmacenTejidoencrudoDistribucion_SDT__BarAlbPie", "", "Piezas Sal.", true, "") ;
+      AV16ColumnsSelector = GXv_SdtWWPColumnsSelector4[0] ;
+      GXt_char2 = AV21UserCustomValue ;
+      GXv_char3[0] = GXt_char2 ;
+      new app.wwpbaseobjects.loadcolumnsselectorstate(remoteHandle, context).execute( "AlmacenTejidoencrudoDistribucion_WCColumnsSelector", GXv_char3) ;
+      almacentejidoencrudodistribucion_wcexportcsv_impl.this.GXt_char2 = GXv_char3[0] ;
+      AV21UserCustomValue = GXt_char2 ;
+      if ( ! ( (GXutil.strcmp("", AV21UserCustomValue)==0) ) )
+      {
+         AV17ColumnsSelectorAux.fromxml(AV21UserCustomValue, null, null);
+         GXv_SdtWWPColumnsSelector4[0] = AV17ColumnsSelectorAux;
+         GXv_SdtWWPColumnsSelector5[0] = AV16ColumnsSelector;
+         new app.wwpbaseobjects.wwp_columnselector_updatecolumns(remoteHandle, context).execute( GXv_SdtWWPColumnsSelector4, GXv_SdtWWPColumnsSelector5) ;
+         AV17ColumnsSelectorAux = GXv_SdtWWPColumnsSelector4[0] ;
+         AV16ColumnsSelector = GXv_SdtWWPColumnsSelector5[0] ;
+      }
+   }
+
+   public void S191( )
+   {
+      /* 'LOADGRIDSTATE' Routine */
+      returnInSub = false ;
+      if ( GXutil.strcmp(AV20Session.getValue("AlmacenTejidoencrudoDistribucion_WCGridState"), "") == 0 )
+      {
+         AV32GridState.fromxml(new app.wwpbaseobjects.loadgridstate(remoteHandle, context).executeUdp( "AlmacenTejidoencrudoDistribucion_WCGridState"), null, null);
+      }
+      else
+      {
+         AV32GridState.fromxml(AV20Session.getValue("AlmacenTejidoencrudoDistribucion_WCGridState"), null, null);
+      }
+      AV53GXV2 = 1 ;
+      while ( AV53GXV2 <= AV32GridState.getgxTv_SdtWWPGridState_Filtervalues().size() )
+      {
+         AV33GridStateFilterValue = (app.wwpbaseobjects.SdtWWPGridState_FilterValue)((app.wwpbaseobjects.SdtWWPGridState_FilterValue)AV32GridState.getgxTv_SdtWWPGridState_Filtervalues().elementAt(-1+AV53GXV2));
+         if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "FILTERFULLTEXT") == 0 )
+         {
+            AV29FilterFullText = AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&EMPRCOD") == 0 )
+         {
+            AV34EmprCod = AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&PCLIENTE") == 0 )
+         {
+            AV35PCliente = (int)(GXutil.lval( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&UCLIENTE") == 0 )
+         {
+            AV36UCliente = (int)(GXutil.lval( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&PFECHA") == 0 )
+         {
+            AV37PFecha = localUtil.ctod( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value(), localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt"))) ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&UFECHA") == 0 )
+         {
+            AV38UFecha = localUtil.ctod( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value(), localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt"))) ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&ALBREF_I") == 0 )
+         {
+            AV39ALbRef_i = (short)(GXutil.lval( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&ALBREF_F") == 0 )
+         {
+            AV40AlbRef_f = (short)(GXutil.lval( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&ALBRENTI") == 0 )
+         {
+            AV41Albrenti = (short)(GXutil.lval( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&ALBRENTF") == 0 )
+         {
+            AV42Albrentf = (short)(GXutil.lval( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&TIPENTCODI") == 0 )
+         {
+            AV43Tipentcodi = (short)(GXutil.lval( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&TIPARTCOD1") == 0 )
+         {
+            AV44Tipartcod1 = (short)(GXutil.lval( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&TIPARTCOD2") == 0 )
+         {
+            AV45Tipartcod2 = (short)(GXutil.lval( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&ESTADO_A") == 0 )
+         {
+            AV46Estado_a = (short)(GXutil.lval( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         else if ( GXutil.strcmp(AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "PARM_&ALBRECCOD") == 0 )
+         {
+            AV47AlbRecCod = (int)(GXutil.lval( AV33GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value())) ;
+         }
+         AV53GXV2 = (int)(AV53GXV2+1) ;
+      }
+   }
+
+   public void S161( )
+   {
+      /* 'BEFOREWRITELINE' Routine */
+      returnInSub = false ;
+   }
+
+   public void S171( )
+   {
+      /* 'AFTERWRITELINE' Routine */
+      returnInSub = false ;
+   }
+
+   protected boolean IntegratedSecurityEnabled( )
+   {
+      return false;
+   }
+
+   protected int IntegratedSecurityLevel( )
+   {
+      return 0;
+   }
+
+   protected String IntegratedSecurityPermissionPrefix( )
+   {
+      return "";
+   }
+
+   protected String EncryptURLParameters( )
+   {
+      return "NO";
+   }
+
+   protected void cleanup( )
+   {
+      CloseOpenCursors();
+      super.cleanup();
+   }
+
+   protected void CloseOpenCursors( )
+   {
+   }
+
+   /* Aggregate/select formulas */
+   public void initialize( )
+   {
+      GXKey = "" ;
+      gxfirstwebparm = "" ;
+      AV48AlmacenTejidoencrudoDistribucion_SDTJson = "" ;
+      AV49websession = httpContext.getWebSession();
+      AV30AlmacenTejidoencrudoDistribucion_SDT = new GXBaseCollection<app.SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem>(app.SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem.class, "AlmacenTejidoencrudoDistribucion_SDTItem", "TexplusNET", remoteHandle);
+      AV9WWPContext = new app.wwpbaseobjects.SdtWWPContext(remoteHandle, context);
+      GXv_SdtWWPContext1 = new app.wwpbaseobjects.SdtWWPContext[1] ;
+      AV12Filename = "" ;
+      AV11TextFile = new com.genexus.util.GXFile();
+      AV15TextFileLine = "" ;
+      AV20Session = httpContext.getWebSession();
+      AV19ColumnsSelectorXML = "" ;
+      AV16ColumnsSelector = new app.wwpbaseobjects.SdtWWPColumnsSelector(remoteHandle, context);
+      AV10AlmacenTejidoencrudoDistribucion_SDTItem = new app.SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem(remoteHandle, context);
+      AV28HttpResponse = httpContext.getHttpResponse();
+      AV13ErrorMessage = "" ;
+      AV21UserCustomValue = "" ;
+      GXt_char2 = "" ;
+      GXv_char3 = new String[1] ;
+      AV17ColumnsSelectorAux = new app.wwpbaseobjects.SdtWWPColumnsSelector(remoteHandle, context);
+      GXv_SdtWWPColumnsSelector4 = new app.wwpbaseobjects.SdtWWPColumnsSelector[1] ;
+      GXv_SdtWWPColumnsSelector5 = new app.wwpbaseobjects.SdtWWPColumnsSelector[1] ;
+      AV32GridState = new app.wwpbaseobjects.SdtWWPGridState(remoteHandle, context);
+      AV33GridStateFilterValue = new app.wwpbaseobjects.SdtWWPGridState_FilterValue(remoteHandle, context);
+      AV29FilterFullText = "" ;
+      AV34EmprCod = "" ;
+      AV37PFecha = GXutil.nullDate() ;
+      AV38UFecha = GXutil.nullDate() ;
+      /* GeneXus formulas. */
+      Gx_err = (short)(0) ;
+   }
+
+   private short gxcookieaux ;
+   private short AV39ALbRef_i ;
+   private short AV40AlbRef_f ;
+   private short AV41Albrenti ;
+   private short AV42Albrentf ;
+   private short AV43Tipentcodi ;
+   private short AV44Tipartcod1 ;
+   private short AV45Tipartcod2 ;
+   private short AV46Estado_a ;
+   private short Gx_err ;
+   private int AV14Random ;
+   private int AV52GXV1 ;
+   private int AV53GXV2 ;
+   private int AV35PCliente ;
+   private int AV36UCliente ;
+   private int AV47AlbRecCod ;
+   private String GXKey ;
+   private String gxfirstwebparm ;
+   private String GXt_char2 ;
+   private String GXv_char3[] ;
+   private String AV34EmprCod ;
+   private java.util.Date AV37PFecha ;
+   private java.util.Date AV38UFecha ;
+   private boolean entryPointCalled ;
+   private boolean toggleJsOutput ;
+   private boolean returnInSub ;
+   private String AV48AlmacenTejidoencrudoDistribucion_SDTJson ;
+   private String AV15TextFileLine ;
+   private String AV19ColumnsSelectorXML ;
+   private String AV21UserCustomValue ;
+   private String AV12Filename ;
+   private String AV13ErrorMessage ;
+   private String AV29FilterFullText ;
+   private com.genexus.webpanels.WebSession AV49websession ;
+   private com.genexus.webpanels.WebSession AV20Session ;
+   private com.genexus.util.GXFile AV11TextFile ;
+   private com.genexus.internet.HttpResponse AV28HttpResponse ;
+   private GXBaseCollection<app.SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem> AV30AlmacenTejidoencrudoDistribucion_SDT ;
+   private app.wwpbaseobjects.SdtWWPContext AV9WWPContext ;
+   private app.wwpbaseobjects.SdtWWPContext GXv_SdtWWPContext1[] ;
+   private app.SdtAlmacenTejidoencrudoDistribucion_SDT_AlmacenTejidoencrudoDistribucion_SDTItem AV10AlmacenTejidoencrudoDistribucion_SDTItem ;
+   private app.wwpbaseobjects.SdtWWPColumnsSelector AV16ColumnsSelector ;
+   private app.wwpbaseobjects.SdtWWPColumnsSelector AV17ColumnsSelectorAux ;
+   private app.wwpbaseobjects.SdtWWPColumnsSelector GXv_SdtWWPColumnsSelector4[] ;
+   private app.wwpbaseobjects.SdtWWPColumnsSelector GXv_SdtWWPColumnsSelector5[] ;
+   private app.wwpbaseobjects.SdtWWPGridState AV32GridState ;
+   private app.wwpbaseobjects.SdtWWPGridState_FilterValue AV33GridStateFilterValue ;
+}
+

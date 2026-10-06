@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CallableObject guid="7daa00d3-444f-43d0-9cee-be3872f7edad" name="DPEmail" description="DPEmail" namespace="app">
+  <Signature name="par">
+    <Parameter name="EmprCod">
+      <Field>
+        <Properties>
+          <Property>
+            <Name>Type</Name>
+            <Value>Character</Value>
+          </Property>
+          <Property>
+            <Name>Length</Name>
+            <Value>3</Value>
+          </Property>
+        </Properties>
+      </Field>
+    </Parameter>
+    <Parameter name="ReturnValue" accessor="out">
+      <Field name="Emails" description="Emails">
+        <Fields>
+          <Field name="Title" description="Title">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>VarChar</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>100</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="Subject" description="Subject">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>VarChar</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>100</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="HTMLText" description="HTMLText">
+            <Properties>
+              <Property>
+                <Name>Type</Name>
+                <Value>LongVarChar</Value>
+              </Property>
+              <Property>
+                <Name>Length</Name>
+                <Value>8388608</Value>
+              </Property>
+            </Properties>
+          </Field>
+          <Field name="TO" description="TO" collection="true">
+            <Fields>
+              <Field name="Email" description="Email">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="Name" description="Name">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+            </Fields>
+          </Field>
+          <Field name="CC" description="CC" collection="true">
+            <Fields>
+              <Field name="Email" description="Email">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="Name" description="Name">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+            </Fields>
+          </Field>
+          <Field name="CCO" description="CCO" collection="true">
+            <Fields>
+              <Field name="Email" description="Email">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="Name" description="Name">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+            </Fields>
+          </Field>
+          <Field name="Attached" description="Attached" collection="true">
+            <Fields>
+              <Field name="Path" description="Path">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+            </Fields>
+          </Field>
+          <Field name="Config" description="Config">
+            <Fields>
+              <Field name="User" description="User">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="Password" description="Password">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="Authentication" description="Authentication">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>Boolean</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="Security" description="Security">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>Boolean</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="Port" description="Port">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>Numeric</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>4</Value>
+                  </Property>
+                  <Property>
+                    <Name>Picture</Name>
+                    <Value>ZZZ9</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="Email" description="Email">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+              <Field name="Smtp" description="Smtp">
+                <Properties>
+                  <Property>
+                    <Name>Type</Name>
+                    <Value>VarChar</Value>
+                  </Property>
+                  <Property>
+                    <Name>Length</Name>
+                    <Value>100</Value>
+                  </Property>
+                </Properties>
+              </Field>
+            </Fields>
+          </Field>
+        </Fields>
+      </Field>
+    </Parameter>
+  </Signature>
+</CallableObject>

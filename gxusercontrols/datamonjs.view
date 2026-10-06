@@ -1,0 +1,29 @@
+<div class="rows">
+    <div class="modal right fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content-ret">
+                
+                <div class="modal-header-ret">                    
+                    <div class="rows">
+                        <i style="position: relative;cursor: pointer;float: left;top: 8px;" id="myModalIcon" class="fas fa-arrow-left"></i>
+                        <h4 style="position:relative;cursor:pointer;width:100px;" class="modal-title-ret" id="myModalLabel">empty</h4>
+                    </div>                    
+                </div>
+
+                <div class="modal-body">
+                    <div class="row" style="position: relative; text-align: center;">			  
+
+				<div id="spinner" style="display: none;">
+            			<img src="./Resources/app.Loader.gif" alt="Carregando..." style="width: 100px; height: 100px; margin: 50px auto; transform: translate(-50%, -50%);display: block;"> 
+        			</div>
+
+                        <iframe class="foo" id="modaliframe" width="99.9%" src="" frameborder="0" scrolling="yes" style="display: none;"></iframe>
+
+                    </div>
+                </div>
+                
+            </div>            
+        </div>        
+    </div>
+</div>
+

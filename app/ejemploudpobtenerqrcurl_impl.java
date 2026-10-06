@@ -1,0 +1,346 @@
+package app ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.webpanels.*;
+import java.sql.*;
+import com.genexus.search.*;
+
+public final  class ejemploudpobtenerqrcurl_impl extends GXWebReport
+{
+   public ejemploudpobtenerqrcurl_impl( com.genexus.internet.HttpContext context )
+   {
+      super(context);
+   }
+
+   public void webExecute( )
+   {
+      if ( (GXutil.strcmp("", httpContext.getCookie( "GX_SESSION_ID"))==0) )
+      {
+         gxcookieaux = httpContext.setCookie( "GX_SESSION_ID", httpContext.encrypt64( com.genexus.util.Encryption.getNewKey( ), context.getServerKey( )), "", GXutil.nullDate(), "", (short)(httpContext.getHttpSecure( ))) ;
+      }
+      GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+      entryPointCalled = false ;
+      gxfirstwebparm = httpContext.GetNextPar( ) ;
+      toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+      if ( toggleJsOutput )
+      {
+      }
+      /* GeneXus formulas */
+      /* Output device settings */
+      privateExecute();
+   }
+
+   private void privateExecute( )
+   {
+      httpContext.setDefaultTheme("WorkWithPlusThemeDS");
+      M_top = 0 ;
+      M_bot = 6 ;
+      P_lines = (int)(66-M_bot) ;
+      getPrinter().GxClearAttris() ;
+      add_metrics( ) ;
+      lineHeight = 15 ;
+      PrtOffset = 0 ;
+      gxXPage = 100 ;
+      gxYPage = 100 ;
+      getPrinter().GxSetDocName("") ;
+      try
+      {
+         Gx_out = "FIL" ;
+         if (!initPrinter (Gx_out, gxXPage, gxYPage, "GXPRN.INI", "", "", 2, 1, 256, 16834, 11909, 0, 1, 1, 0, 1, 1) )
+         {
+            cleanup();
+            return;
+         }
+         getPrinter().setModal(true) ;
+         P_lines = (int)(gxYPage-(lineHeight*6)) ;
+         Gx_line = (int)(P_lines+1) ;
+         getPrinter().setPageLines(P_lines);
+         getPrinter().setLineHeight(lineHeight);
+         getPrinter().setM_top(M_top);
+         getPrinter().setM_bot(M_bot);
+         AV11QrcTexto = httpContext.getMessage( "A:123456789*B:999999990*C:PT*D:FT*E:N*F:20191231*G:FTAB2019/0035*H:CSDF7T5H0035*I1:PT*I2:12000.00*I3:15000.00*I4:900.00*I5:50000.00*I6:6500.00*I7:80000.00*I8:18400.00*J1:PTAC*J2:10000.00*J3:25000.56*J4:1000.02*J5:75000.00*J6:6750.00*J7:100000.00*J8:18000.00*K1:PTMA*K2:5000.00*K3:12500.00*K4:625.00*K5:25000.00*K6:3000.00*K7:40000.00*K8:8800.00*L:100.00*M:25.00*N:64000.02*O:513600.58*P:100.00*Q:kLp0*R:9999*S:TB;PT00000000000000000000000;513500.58", "") ;
+         /* Using cursor P085U2 */
+         pr_default.execute(0, new Object[] {AV11QrcTexto});
+         while ( (pr_default.getStatus(0) != 101) )
+         {
+            A13692QrcTexto = P085U2_A13692QrcTexto[0] ;
+            n13692QrcTexto = P085U2_n13692QrcTexto[0] ;
+            A40000QrcImagen_ = P085U2_A40000QrcImagen_[0] ;
+            n40000QrcImagen_ = P085U2_n40000QrcImagen_[0] ;
+            A13688QrcID = P085U2_A13688QrcID[0] ;
+            A13691QrcImagen = P085U2_A13691QrcImagen[0] ;
+            n13691QrcImagen = P085U2_n13691QrcImagen[0] ;
+            AV12QrcId = A13688QrcID ;
+            AV8iMAGEN = A13691QrcImagen ;
+            AV17Imagen_GXI = A40000QrcImagen_ ;
+            pr_default.readNext(0);
+         }
+         pr_default.close(0);
+         if ( (0==AV12QrcId) )
+         {
+            GXt_char1 = AV13QrcURL ;
+            GXv_char2[0] = GXt_char1 ;
+            new app.obtenerqrcurl(remoteHandle, context).execute( AV11QrcTexto, GXv_char2) ;
+            ejemploudpobtenerqrcurl_impl.this.GXt_char1 = GXv_char2[0] ;
+            AV13QrcURL = GXt_char1 ;
+            if ( ! (GXutil.strcmp("", AV13QrcURL)==0) )
+            {
+               AV8iMAGEN = AV13QrcURL ;
+               AV17Imagen_GXI = GXDbFile.pathToUrl( AV13QrcURL, context.getHttpContext()) ;
+            }
+         }
+         AV9K = (short)(GXutil.len( AV11QrcTexto)) ;
+         AV10Mensaje = httpContext.getMessage( "5.1. Exemplo 1 – Fatura", "") ;
+         AV10Mensaje += httpContext.getMessage( "<br>Mensagem com os elementos da tabela acima, com indicação do IBAN e", "") ;
+         AV10Mensaje += httpContext.getMessage( "<br>valores de IVA nos espaços fiscais PT, PT-AC e PT-MA:", "") ;
+         AV10Mensaje += httpContext.getMessage( "<br>", "") ;
+         AV10Mensaje += httpContext.getMessage( "<br>", "") ;
+         AV10Mensaje += AV11QrcTexto ;
+         AV10Mensaje += httpContext.getMessage( "<br>", "") ;
+         AV10Mensaje += httpContext.getMessage( "<br>", "") ;
+         AV10Mensaje += httpContext.getMessage( "Largo Total: ", "") + GXutil.trim( GXutil.str( AV9K, 4, 0)) ;
+         if ( ! (GXutil.strcmp("", AV13QrcURL)==0) )
+         {
+            AV10Mensaje += httpContext.getMessage( "<br>URL -> ", "") + AV13QrcURL ;
+         }
+         else if ( ! (0==AV12QrcId) )
+         {
+            AV10Mensaje += httpContext.getMessage( "<br>Base Datos Tabla BARCODES Id: -> ", "") + GXutil.trim( GXutil.str( AV12QrcId, 18, 0)) ;
+         }
+         else
+         {
+            AV10Mensaje += httpContext.getMessage( "<br>Falla del Procedure ObtenerQrcURL", "") ;
+         }
+         h85U0( false, 640) ;
+         sImgUrl = ((GXutil.strcmp("", AV8iMAGEN)==0) ? AV17Imagen_GXI : AV8iMAGEN) ;
+         getPrinter().GxDrawBitMap(sImgUrl, 17, Gx_line+17, 227, Gx_line+227) ;
+         getPrinter().GxAttris("Microsoft Sans Serif", 8, false, false, false, false, 0, 0, 0, 0, 0, 255, 255, 255) ;
+         getPrinter().GxDrawText(GXutil.rtrim( localUtil.format( AV10Mensaje, "")), 242, Gx_line+17, 782, Gx_line+617, 0, 1, 0, 0) ;
+         Gx_OldLine = Gx_line ;
+         Gx_line = (int)(Gx_line+640) ;
+         /* Print footer for last page */
+         ToSkip = (int)(P_lines+1) ;
+         h85U0( true, 0) ;
+         /* Close printer file */
+         getPrinter().GxEndDocument() ;
+         endPrinter();
+      }
+      catch ( ProcessInterruptedException e )
+      {
+      }
+      if ( httpContext.willRedirect( ) )
+      {
+         httpContext.redirect( httpContext.wjLoc );
+         httpContext.wjLoc = "" ;
+      }
+      cleanup();
+   }
+
+   public void h85U0( boolean bFoot ,
+                      int Inc )
+   {
+      /* Skip the required number of lines */
+      while ( ( ToSkip > 0 ) || ( Gx_line + Inc > P_lines ) )
+      {
+         if ( Gx_line + Inc >= P_lines )
+         {
+            if ( Gx_page > 0 )
+            {
+               /* Print footers */
+               Gx_line = P_lines ;
+               getPrinter().GxEndPage() ;
+               if ( bFoot )
+               {
+                  return  ;
+               }
+            }
+            ToSkip = 0 ;
+            Gx_line = 0 ;
+            Gx_page = (int)(Gx_page+1) ;
+            /* Skip Margin Top Lines */
+            Gx_line = (int)(Gx_line+(M_top*lineHeight)) ;
+            /* Print headers */
+            getPrinter().GxStartPage() ;
+            getPrinter().setPage(Gx_page);
+            if (true) break;
+         }
+         else
+         {
+            PrtOffset = 0 ;
+            Gx_line = (int)(Gx_line+1) ;
+         }
+         ToSkip = (int)(ToSkip-1) ;
+      }
+      getPrinter().setPage(Gx_page);
+   }
+
+   public void add_metrics( )
+   {
+      add_metrics0( ) ;
+   }
+
+   public void add_metrics0( )
+   {
+      getPrinter().setMetrics("Microsoft Sans Serif", false, false, 58, 14, 72, 171,  new int[] {48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 18, 20, 23, 36, 36, 57, 43, 12, 21, 21, 25, 37, 18, 21, 18, 18, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 18, 18, 37, 37, 37, 36, 65, 43, 43, 46, 46, 43, 39, 50, 46, 18, 32, 43, 36, 53, 46, 50, 43, 50, 46, 43, 40, 46, 43, 64, 41, 42, 39, 18, 18, 18, 27, 36, 21, 36, 36, 32, 36, 36, 18, 36, 36, 14, 15, 33, 14, 55, 36, 36, 36, 36, 21, 32, 18, 36, 33, 47, 31, 31, 31, 21, 17, 21, 37, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 18, 20, 36, 36, 36, 36, 17, 36, 21, 47, 24, 36, 37, 21, 47, 35, 26, 35, 21, 21, 21, 37, 34, 21, 21, 21, 23, 36, 53, 53, 53, 39, 43, 43, 43, 43, 43, 43, 64, 46, 43, 43, 43, 43, 18, 18, 18, 18, 46, 46, 50, 50, 50, 50, 50, 37, 50, 46, 46, 46, 46, 43, 43, 39, 36, 36, 36, 36, 36, 36, 57, 32, 36, 36, 36, 36, 18, 18, 18, 18, 36, 36, 36, 36, 36, 36, 36, 35, 39, 36, 36, 36, 36, 32, 36, 32}) ;
+   }
+
+   protected int getOutputType( )
+   {
+      return OUTPUT_PDF;
+   }
+
+   protected java.io.OutputStream getOutputStream( )
+   {
+      return httpContext.getOutputStream();
+   }
+
+   protected boolean IntegratedSecurityEnabled( )
+   {
+      return false;
+   }
+
+   protected int IntegratedSecurityLevel( )
+   {
+      return 0;
+   }
+
+   protected String IntegratedSecurityPermissionPrefix( )
+   {
+      return "";
+   }
+
+   protected String EncryptURLParameters( )
+   {
+      return "NO";
+   }
+
+   protected void cleanup( )
+   {
+      CloseOpenCursors();
+      super.cleanup();
+   }
+
+   protected void CloseOpenCursors( )
+   {
+   }
+
+   /* Aggregate/select formulas */
+   public void initialize( )
+   {
+      GXKey = "" ;
+      gxfirstwebparm = "" ;
+      AV11QrcTexto = "" ;
+      scmdbuf = "" ;
+      P085U2_A13692QrcTexto = new String[] {""} ;
+      P085U2_n13692QrcTexto = new boolean[] {false} ;
+      P085U2_A40000QrcImagen_ = new String[] {""} ;
+      P085U2_n40000QrcImagen_ = new boolean[] {false} ;
+      P085U2_A13688QrcID = new long[1] ;
+      P085U2_A13691QrcImagen = new String[] {""} ;
+      P085U2_n13691QrcImagen = new boolean[] {false} ;
+      A13692QrcTexto = "" ;
+      A40000QrcImagen_ = "" ;
+      A13691QrcImagen = "" ;
+      AV8iMAGEN = "" ;
+      AV17Imagen_GXI = "" ;
+      AV13QrcURL = "" ;
+      GXt_char1 = "" ;
+      GXv_char2 = new String[1] ;
+      AV10Mensaje = "" ;
+      AV8iMAGEN = "" ;
+      sImgUrl = "" ;
+      pr_default = new DataStoreProvider(context, remoteHandle, new app.ejemploudpobtenerqrcurl__default(),
+         new Object[] {
+             new Object[] {
+            P085U2_A13692QrcTexto, P085U2_n13692QrcTexto, P085U2_A40000QrcImagen_, P085U2_n40000QrcImagen_, P085U2_A13688QrcID, P085U2_A13691QrcImagen, P085U2_n13691QrcImagen
+            }
+         }
+      );
+      /* GeneXus formulas. */
+      Gx_line = 0 ;
+      Gx_err = (short)(0) ;
+   }
+
+   private short gxcookieaux ;
+   private short AV9K ;
+   private short Gx_err ;
+   private int M_top ;
+   private int M_bot ;
+   private int Line ;
+   private int ToSkip ;
+   private int PrtOffset ;
+   private int Gx_OldLine ;
+   private long A13688QrcID ;
+   private long AV12QrcId ;
+   private String GXKey ;
+   private String gxfirstwebparm ;
+   private String scmdbuf ;
+   private String GXt_char1 ;
+   private String GXv_char2[] ;
+   private String sImgUrl ;
+   private boolean entryPointCalled ;
+   private boolean toggleJsOutput ;
+   private boolean n13692QrcTexto ;
+   private boolean n40000QrcImagen_ ;
+   private boolean n13691QrcImagen ;
+   private String AV11QrcTexto ;
+   private String A13692QrcTexto ;
+   private String A40000QrcImagen_ ;
+   private String AV17Imagen_GXI ;
+   private String AV13QrcURL ;
+   private String AV10Mensaje ;
+   private String A13691QrcImagen ;
+   private String AV8iMAGEN ;
+   private String Imagen ;
+   private IDataStoreProvider pr_default ;
+   private String[] P085U2_A13692QrcTexto ;
+   private boolean[] P085U2_n13692QrcTexto ;
+   private String[] P085U2_A40000QrcImagen_ ;
+   private boolean[] P085U2_n40000QrcImagen_ ;
+   private long[] P085U2_A13688QrcID ;
+   private String[] P085U2_A13691QrcImagen ;
+   private boolean[] P085U2_n13691QrcImagen ;
+}
+
+final  class ejemploudpobtenerqrcurl__default extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+          new ForEachCursor("P085U2", "SELECT QrcTexto, QrcImagen_, QrcID, QrcImagen FROM QRCodes WHERE QrcTexto = ? ORDER BY QrcID ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,100, GxCacheFrequency.OFF,false )
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               ((String[]) buf[0])[0] = rslt.getVarchar(1);
+               ((boolean[]) buf[1])[0] = rslt.wasNull();
+               ((String[]) buf[2])[0] = rslt.getMultimediaUri(2);
+               ((boolean[]) buf[3])[0] = rslt.wasNull();
+               ((long[]) buf[4])[0] = rslt.getLong(3);
+               ((String[]) buf[5])[0] = rslt.getMultimediaFile(4, rslt.getVarchar(2));
+               ((boolean[]) buf[6])[0] = rslt.wasNull();
+               return;
+      }
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               stmt.setVarchar(1, (String)parms[0], 2048);
+               return;
+      }
+   }
+
+}
+

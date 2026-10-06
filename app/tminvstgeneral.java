@@ -1,0 +1,64 @@
+package app ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.webpanels.*;
+import java.sql.*;
+import com.genexus.search.*;
+
+@jakarta.servlet.annotation.WebServlet(urlPatterns = {"/servlet/app.tminvstgeneral", "/app.tminvstgeneral"})
+@jakarta.servlet.annotation.MultipartConfig
+public final  class tminvstgeneral extends GXWebObjectStub
+{
+   public tminvstgeneral( )
+   {
+   }
+
+   public tminvstgeneral( int remoteHandle )
+   {
+      super(remoteHandle, new ModelContext( tminvstgeneral.class ));
+   }
+
+   public tminvstgeneral( int remoteHandle ,
+                          ModelContext context )
+   {
+      super(remoteHandle, context);
+   }
+
+   protected void doExecute( com.genexus.internet.HttpContext context ) throws Exception
+   {
+      new tminvstgeneral_impl(context).doExecute();
+   }
+
+   protected void init( com.genexus.internet.HttpContext context )
+   {
+      new tminvstgeneral_impl(context).cleanup();
+   }
+
+   public String getServletInfo( )
+   {
+      return "TMInv St General";
+   }
+
+   protected boolean IntegratedSecurityEnabled( )
+   {
+      return false;
+   }
+
+   protected int IntegratedSecurityLevel( )
+   {
+      return 0;
+   }
+
+   protected String IntegratedSecurityPermissionPrefix( )
+   {
+      return "";
+   }
+
+   protected String EncryptURLParameters( )
+   {
+      return "NO";
+   }
+
+}
+

@@ -1,0 +1,64 @@
+package app.calidad ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.webpanels.*;
+import java.sql.*;
+import com.genexus.search.*;
+
+@jakarta.servlet.annotation.WebServlet(urlPatterns = {"/servlet/app.calidad.wwimprimirnctipodecto", "/app.calidad.wwimprimirnctipodecto"})
+@jakarta.servlet.annotation.MultipartConfig
+public final  class wwimprimirnctipodecto extends GXWebObjectStub
+{
+   public wwimprimirnctipodecto( )
+   {
+   }
+
+   public wwimprimirnctipodecto( int remoteHandle )
+   {
+      super(remoteHandle, new ModelContext( wwimprimirnctipodecto.class ));
+   }
+
+   public wwimprimirnctipodecto( int remoteHandle ,
+                                 ModelContext context )
+   {
+      super(remoteHandle, context);
+   }
+
+   protected void doExecute( com.genexus.internet.HttpContext context ) throws Exception
+   {
+      new wwimprimirnctipodecto_impl(context).doExecute();
+   }
+
+   protected void init( com.genexus.internet.HttpContext context )
+   {
+      new wwimprimirnctipodecto_impl(context).cleanup();
+   }
+
+   public String getServletInfo( )
+   {
+      return "Reclamaciones y no conformidades - NC tipo defeito";
+   }
+
+   protected boolean IntegratedSecurityEnabled( )
+   {
+      return false;
+   }
+
+   protected int IntegratedSecurityLevel( )
+   {
+      return 0;
+   }
+
+   protected String IntegratedSecurityPermissionPrefix( )
+   {
+      return "";
+   }
+
+   protected String EncryptURLParameters( )
+   {
+      return "NO";
+   }
+
+}
+

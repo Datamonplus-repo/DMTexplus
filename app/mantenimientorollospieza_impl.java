@@ -1,0 +1,5175 @@
+package app ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.webpanels.*;
+import java.sql.*;
+import com.genexus.search.*;
+
+public final  class mantenimientorollospieza_impl extends GXDataArea
+{
+   public mantenimientorollospieza_impl( com.genexus.internet.HttpContext context )
+   {
+      super(context);
+   }
+
+   public mantenimientorollospieza_impl( int remoteHandle )
+   {
+      super( remoteHandle , new ModelContext( mantenimientorollospieza_impl.class ));
+   }
+
+   public mantenimientorollospieza_impl( int remoteHandle ,
+                                         ModelContext context )
+   {
+      super( remoteHandle , context);
+   }
+
+   protected void createObjects( )
+   {
+      chkavSelected = UIFactory.getCheckbox(this);
+   }
+
+   public void initweb( )
+   {
+      initialize_properties( ) ;
+      if ( nGotPars == 0 )
+      {
+         entryPointCalled = false ;
+         gxfirstwebparm = httpContext.GetFirstPar( "emprcod") ;
+         gxfirstwebparm_bkp = gxfirstwebparm ;
+         gxfirstwebparm = httpContext.DecryptAjaxCall( gxfirstwebparm) ;
+         toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+         if ( httpContext.isSpaRequest( ) )
+         {
+            httpContext.disableJsOutput();
+         }
+         if ( GXutil.strcmp(gxfirstwebparm, "dyncall") == 0 )
+         {
+            httpContext.setAjaxCallMode();
+            if ( ! httpContext.IsValidAjaxCall( true) )
+            {
+               GxWebError = (byte)(1) ;
+               return  ;
+            }
+            dyncall( httpContext.GetNextPar( )) ;
+            return  ;
+         }
+         else if ( GXutil.strcmp(gxfirstwebparm, "gxajaxEvt") == 0 )
+         {
+            httpContext.setAjaxEventMode();
+            if ( ! httpContext.IsValidAjaxCall( true) )
+            {
+               GxWebError = (byte)(1) ;
+               return  ;
+            }
+            gxfirstwebparm = httpContext.GetFirstPar( "emprcod") ;
+         }
+         else if ( GXutil.strcmp(gxfirstwebparm, "gxfullajaxEvt") == 0 )
+         {
+            if ( ! httpContext.IsValidAjaxCall( true) )
+            {
+               GxWebError = (byte)(1) ;
+               return  ;
+            }
+            gxfirstwebparm = httpContext.GetFirstPar( "emprcod") ;
+         }
+         else if ( GXutil.strcmp(gxfirstwebparm, "gxajaxNewRow_"+"Grid") == 0 )
+         {
+            gxnrgrid_newrow_invoke( ) ;
+            return  ;
+         }
+         else if ( GXutil.strcmp(gxfirstwebparm, "gxajaxGridRefresh_"+"Grid") == 0 )
+         {
+            gxgrgrid_refresh_invoke( ) ;
+            return  ;
+         }
+         else
+         {
+            if ( ! httpContext.IsValidAjaxCall( false) )
+            {
+               GxWebError = (byte)(1) ;
+               return  ;
+            }
+            gxfirstwebparm = gxfirstwebparm_bkp ;
+         }
+         if ( ! entryPointCalled && ! ( isAjaxCallMode( ) || isFullAjaxMode( ) ) )
+         {
+            AV8emprcod = gxfirstwebparm ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV8emprcod", AV8emprcod);
+            if ( GXutil.strcmp(gxfirstwebparm, "viewer") != 0 )
+            {
+               AV5BarCod = (int)(GXutil.lval( httpContext.GetPar( "BarCod"))) ;
+               httpContext.ajax_rsp_assign_attri("", false, "AV5BarCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV5BarCod), 8, 0));
+               AV7BarCodReo = (byte)(GXutil.lval( httpContext.GetPar( "BarCodReo"))) ;
+               httpContext.ajax_rsp_assign_attri("", false, "AV7BarCodReo", GXutil.str( AV7BarCodReo, 1, 0));
+               AV6BarCodPar = httpContext.GetPar( "BarCodPar") ;
+               httpContext.ajax_rsp_assign_attri("", false, "AV6BarCodPar", AV6BarCodPar);
+               AV99flag = (byte)(GXutil.lval( httpContext.GetPar( "flag"))) ;
+               httpContext.ajax_rsp_assign_attri("", false, "AV99flag", GXutil.str( AV99flag, 1, 0));
+            }
+         }
+         if ( toggleJsOutput )
+         {
+            if ( httpContext.isSpaRequest( ) )
+            {
+               httpContext.enableJsOutput();
+            }
+         }
+      }
+      if ( ! httpContext.isLocalStorageSupported( ) )
+      {
+         httpContext.pushCurrentUrl();
+      }
+   }
+
+   public void gxnrgrid_newrow_invoke( )
+   {
+      nRC_GXsfl_67 = (int)(GXutil.lval( httpContext.GetPar( "nRC_GXsfl_67"))) ;
+      nGXsfl_67_idx = (int)(GXutil.lval( httpContext.GetPar( "nGXsfl_67_idx"))) ;
+      sGXsfl_67_idx = httpContext.GetPar( "sGXsfl_67_idx") ;
+      httpContext.setAjaxCallMode();
+      if ( ! httpContext.IsValidAjaxCall( true) )
+      {
+         GxWebError = (byte)(1) ;
+         return  ;
+      }
+      gxnrgrid_newrow( ) ;
+      /* End function gxnrGrid_newrow_invoke */
+   }
+
+   public void gxgrgrid_refresh_invoke( )
+   {
+      subGrid_Rows = (int)(GXutil.lval( httpContext.GetPar( "subGrid_Rows"))) ;
+      AV8emprcod = httpContext.GetPar( "emprcod") ;
+      AV5BarCod = (int)(GXutil.lval( httpContext.GetPar( "BarCod"))) ;
+      AV7BarCodReo = (byte)(GXutil.lval( httpContext.GetPar( "BarCodReo"))) ;
+      AV6BarCodPar = httpContext.GetPar( "BarCodPar") ;
+      AV106EmprCodJson = httpContext.GetPar( "EmprCodJson") ;
+      AV110BarCodJson = httpContext.GetPar( "BarCodJson") ;
+      AV114BarCodReoJson = httpContext.GetPar( "BarCodReoJson") ;
+      AV118BarCodParJson = httpContext.GetPar( "BarCodParJson") ;
+      AV122ProCodJson = httpContext.GetPar( "ProCodJson") ;
+      AV126BarOrdLinJson = httpContext.GetPar( "BarOrdLinJson") ;
+      AV88TFProCod = httpContext.GetPar( "TFProCod") ;
+      AV89TFProCod_Sel = httpContext.GetPar( "TFProCod_Sel") ;
+      AV76TFBarNHdr = httpContext.GetPar( "TFBarNHdr") ;
+      AV77TFBarNHdr_Sel = httpContext.GetPar( "TFBarNHdr_Sel") ;
+      AV82TFFasCod = httpContext.GetPar( "TFFasCod") ;
+      AV83TFFasCod_Sel = httpContext.GetPar( "TFFasCod_Sel") ;
+      AV84TFFasDsc = httpContext.GetPar( "TFFasDsc") ;
+      AV85TFFasDsc_Sel = httpContext.GetPar( "TFFasDsc_Sel") ;
+      AV86TFMaqCodBis = httpContext.GetPar( "TFMaqCodBis") ;
+      AV87TFMaqCodBis_Sel = httpContext.GetPar( "TFMaqCodBis_Sel") ;
+      AV71TFBarFasKgm = CommonUtil.decimalVal( httpContext.GetPar( "TFBarFasKgm"), ".") ;
+      AV72TFBarFasKgm_To = CommonUtil.decimalVal( httpContext.GetPar( "TFBarFasKgm_To"), ".") ;
+      AV73TFBarFasMtr = CommonUtil.decimalVal( httpContext.GetPar( "TFBarFasMtr"), ".") ;
+      AV74TFBarFasMtr_To = CommonUtil.decimalVal( httpContext.GetPar( "TFBarFasMtr_To"), ".") ;
+      AV80TFBarTieRea = CommonUtil.decimalVal( httpContext.GetPar( "TFBarTieRea"), ".") ;
+      AV81TFBarTieRea_To = CommonUtil.decimalVal( httpContext.GetPar( "TFBarTieRea_To"), ".") ;
+      AV75TFBarFecRea = localUtil.parseDateParm( httpContext.GetPar( "TFBarFecRea")) ;
+      AV135Pgmname = httpContext.GetPar( "Pgmname") ;
+      AV58OrderedBy = (short)(GXutil.lval( httpContext.GetPar( "OrderedBy"))) ;
+      AV59OrderedDsc = GXutil.strtobool( httpContext.GetPar( "OrderedDsc")) ;
+      AV39i = GXutil.lval( httpContext.GetPar( "i")) ;
+      httpContext.ajax_req_read_hidden_sdt(httpContext.GetNextPar( ), AV105EmprCodCol);
+      AV108EmprCodToFind = httpContext.GetPar( "EmprCodToFind") ;
+      httpContext.ajax_req_read_hidden_sdt(httpContext.GetNextPar( ), AV109BarCodCol);
+      AV112BarCodToFind = (int)(GXutil.lval( httpContext.GetPar( "BarCodToFind"))) ;
+      httpContext.ajax_req_read_hidden_sdt(httpContext.GetNextPar( ), AV113BarCodReoCol);
+      AV116BarCodReoToFind = (byte)(GXutil.lval( httpContext.GetPar( "BarCodReoToFind"))) ;
+      httpContext.ajax_req_read_hidden_sdt(httpContext.GetNextPar( ), AV117BarCodParCol);
+      AV120BarCodParToFind = httpContext.GetPar( "BarCodParToFind") ;
+      httpContext.ajax_req_read_hidden_sdt(httpContext.GetNextPar( ), AV121ProCodCol);
+      AV124ProCodToFind = httpContext.GetPar( "ProCodToFind") ;
+      httpContext.ajax_req_read_hidden_sdt(httpContext.GetNextPar( ), AV125BarOrdLinCol);
+      AV128BarOrdLinToFind = (short)(GXutil.lval( httpContext.GetPar( "BarOrdLinToFind"))) ;
+      httpContext.ajax_req_read_hidden_sdt(httpContext.GetNextPar( ), AV130MantenimientoRollosPiezaSDT);
+      AV55NumPzsFs = (short)(GXutil.lval( httpContext.GetPar( "NumPzsFs"))) ;
+      AV56NumPzsFs2 = (short)(GXutil.lval( httpContext.GetPar( "NumPzsFs2"))) ;
+      AV53Moda21 = (short)(GXutil.lval( httpContext.GetPar( "Moda21"))) ;
+      AV27Const = CommonUtil.decimalVal( httpContext.GetPar( "Const"), ".") ;
+      AV46MetPieDCP = httpContext.GetPar( "MetPieDCP") ;
+      httpContext.setAjaxCallMode();
+      if ( ! httpContext.IsValidAjaxCall( true) )
+      {
+         GxWebError = (byte)(1) ;
+         return  ;
+      }
+      gxgrgrid_refresh( subGrid_Rows, AV8emprcod, AV5BarCod, AV7BarCodReo, AV6BarCodPar, AV106EmprCodJson, AV110BarCodJson, AV114BarCodReoJson, AV118BarCodParJson, AV122ProCodJson, AV126BarOrdLinJson, AV88TFProCod, AV89TFProCod_Sel, AV76TFBarNHdr, AV77TFBarNHdr_Sel, AV82TFFasCod, AV83TFFasCod_Sel, AV84TFFasDsc, AV85TFFasDsc_Sel, AV86TFMaqCodBis, AV87TFMaqCodBis_Sel, AV71TFBarFasKgm, AV72TFBarFasKgm_To, AV73TFBarFasMtr, AV74TFBarFasMtr_To, AV80TFBarTieRea, AV81TFBarTieRea_To, AV75TFBarFecRea, AV135Pgmname, AV58OrderedBy, AV59OrderedDsc, AV39i, AV105EmprCodCol, AV108EmprCodToFind, AV109BarCodCol, AV112BarCodToFind, AV113BarCodReoCol, AV116BarCodReoToFind, AV117BarCodParCol, AV120BarCodParToFind, AV121ProCodCol, AV124ProCodToFind, AV125BarOrdLinCol, AV128BarOrdLinToFind, AV130MantenimientoRollosPiezaSDT, AV55NumPzsFs, AV56NumPzsFs2, AV53Moda21, AV27Const, AV46MetPieDCP) ;
+      addString( httpContext.getJSONResponse( )) ;
+      /* End function gxgrGrid_refresh_invoke */
+   }
+
+   public void webExecute( )
+   {
+      initweb( ) ;
+      if ( ! isAjaxCallMode( ) )
+      {
+         MasterPageObj= createMasterPage(remoteHandle, "app.wwpbaseobjects.workwithplusmasterpage");
+         MasterPageObj.setDataArea(this,false);
+         validateSpaRequest();
+         MasterPageObj.webExecute();
+         if ( ( GxWebError == 0 ) && httpContext.isAjaxRequest( ) )
+         {
+            httpContext.enableOutput();
+            if ( ! httpContext.isAjaxRequest( ) )
+            {
+               httpContext.GX_webresponse.addHeader("Cache-Control", "no-store");
+            }
+            if ( ! httpContext.willRedirect( ) )
+            {
+               addString( httpContext.getJSONResponse( )) ;
+            }
+            else
+            {
+               if ( httpContext.isAjaxRequest( ) )
+               {
+                  httpContext.disableOutput();
+               }
+               renderHtmlHeaders( ) ;
+               httpContext.redirect( httpContext.wjLoc );
+               httpContext.dispatchAjaxCommands();
+            }
+         }
+      }
+      if ( isAjaxCallMode( ) )
+      {
+         cleanup();
+      }
+   }
+
+   public byte executeStartEvent( )
+   {
+      pa26Q2( ) ;
+      gxajaxcallmode = (byte)((isAjaxCallMode( ) ? 1 : 0)) ;
+      if ( ( gxajaxcallmode == 0 ) && ( GxWebError == 0 ) )
+      {
+         start26Q2( ) ;
+      }
+      return gxajaxcallmode ;
+   }
+
+   public void renderHtmlHeaders( )
+   {
+      app.GxWebStd.gx_html_headers( httpContext, 0, "", "", Form.getMeta(), Form.getMetaequiv(), true);
+   }
+
+   public void renderHtmlOpenForm( )
+   {
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      httpContext.writeText( "<title>") ;
+      httpContext.writeValue( Form.getCaption()) ;
+      httpContext.writeTextNL( "</title>") ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      if ( GXutil.len( sDynURL) > 0 )
+      {
+         httpContext.writeText( "<BASE href=\""+sDynURL+"\" />") ;
+      }
+      define_styles( ) ;
+      if ( nGXWrapped != 1 )
+      {
+         MasterPageObj.master_styles();
+      }
+      if ( ( ( httpContext.getBrowserType( ) == 1 ) || ( httpContext.getBrowserType( ) == 5 ) ) && ( GXutil.strcmp(httpContext.getBrowserVersion( ), "7.0") == 0 ) )
+      {
+         httpContext.AddJavascriptSource("json2.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      }
+      httpContext.AddJavascriptSource("jquery.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("gxgral.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("gxcfg.js", "?"+httpContext.getCacheInvalidationToken( ), false, true);
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      httpContext.AddJavascriptSource("calendar.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("calendar-setup.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("calendar-"+GXutil.substring( httpContext.getLanguageProperty( "culture"), 1, 2)+".js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("UserControls/DatamonJSRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/DropDownOptions/BootstrapDropDownOptionsRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/ConfirmPanel/BootstrapConfirmPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/GridEmpowerer/GridEmpowererRender.js", "", false, true);
+      httpContext.writeText( Form.getHeaderrawhtml()) ;
+      httpContext.closeHtmlHeader();
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      FormProcess = " data-HasEnter=\"false\" data-Skiponenter=\"false\"" ;
+      httpContext.writeText( "<body ") ;
+      bodyStyle = "" + "background-color:" + WebUtils.getHTMLColor( Form.getIBackground()) + ";color:" + WebUtils.getHTMLColor( Form.getTextcolor()) + ";" ;
+      if ( nGXWrapped == 0 )
+      {
+         bodyStyle += "-moz-opacity:0;opacity:0;" ;
+      }
+      if ( ! ( (GXutil.strcmp("", Form.getBackground())==0) ) )
+      {
+         bodyStyle += " background-image:url(" + httpContext.convertURL( Form.getBackground()) + ")" ;
+      }
+      httpContext.writeText( " "+"class=\"form-horizontal Form\""+" "+ "style='"+bodyStyle+"'") ;
+      httpContext.writeText( FormProcess+">") ;
+      httpContext.skipLines( 1 );
+      httpContext.writeTextNL( "<form id=\"MAINFORM\" autocomplete=\"off\" name=\"MAINFORM\" method=\"post\" tabindex=-1  class=\"form-horizontal Form\" data-gx-class=\"form-horizontal Form\" novalidate action=\""+formatLink("app.mantenimientorollospieza", new String[] {GXutil.URLEncode(GXutil.rtrim(AV8emprcod)),GXutil.URLEncode(GXutil.ltrimstr(AV5BarCod,8,0)),GXutil.URLEncode(GXutil.ltrimstr(AV7BarCodReo,1,0)),GXutil.URLEncode(GXutil.rtrim(AV6BarCodPar)),GXutil.URLEncode(GXutil.ltrimstr(AV99flag,1,0))}, new String[] {"emprcod","BarCod","BarCodReo","BarCodPar","flag"}) +"\">") ;
+      app.GxWebStd.gx_hidden_field( httpContext, "_EventName", "");
+      app.GxWebStd.gx_hidden_field( httpContext, "_EventGridId", "");
+      app.GxWebStd.gx_hidden_field( httpContext, "_EventRowId", "");
+      httpContext.writeText( "<input type=\"submit\" title=\"submit\" style=\"display:block;height:0;border:0;padding:0\" disabled>") ;
+      httpContext.ajax_rsp_assign_prop("", false, "FORM", "Class", "form-horizontal Form", true);
+      toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableJsOutput();
+      }
+   }
+
+   public void send_integrity_footer_hashes( )
+   {
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vMANTENIMIENTOROLLOSPIEZASDT", getSecureSignedToken( "", AV130MantenimientoRollosPiezaSDT));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vNUMPZSFS", getSecureSignedToken( "", localUtil.format( DecimalUtil.doubleToDec(AV55NumPzsFs), "ZZZ9")));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vNUMPZSFS2", getSecureSignedToken( "", localUtil.format( DecimalUtil.doubleToDec(AV56NumPzsFs2), "ZZZ9")));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vMODA21", getSecureSignedToken( "", localUtil.format( DecimalUtil.doubleToDec(AV53Moda21), "ZZZ9")));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vCONST", getSecureSignedToken( "", localUtil.format( AV27Const, "ZZ9.99")));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vMETPIEDCP", getSecureSignedToken( "", GXutil.rtrim( localUtil.format( AV46MetPieDCP, "@!"))));
+      GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+      forbiddenHiddens = new com.genexus.util.GXProperties() ;
+      forbiddenHiddens.add("hshsalt", "hsh"+"MantenimientoRollosPieza");
+      forbiddenHiddens.add("Pgmname", GXutil.rtrim( localUtil.format( AV135Pgmname, "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "hsh", httpContext.getEncryptedSignature( forbiddenHiddens.toString(), GXKey));
+      GXutil.writeLogInfo("mantenimientorollospieza:[ SendSecurityCheck value for]"+forbiddenHiddens.toJSonString());
+   }
+
+   public void sendCloseFormHiddens( )
+   {
+      /* Send hidden variables. */
+      /* Send saved values. */
+      send_integrity_footer_hashes( ) ;
+      app.GxWebStd.gx_hidden_field( httpContext, "nRC_GXsfl_67", GXutil.ltrim( localUtil.ntoc( nRC_GXsfl_67, (byte)(8), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vDDO_TITLESETTINGSICONS", AV29DDO_TitleSettingsIcons);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vDDO_TITLESETTINGSICONS", AV29DDO_TitleSettingsIcons);
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "vEMPRCODJSON", AV106EmprCodJson);
+      app.GxWebStd.gx_hidden_field( httpContext, "vBARCODJSON", AV110BarCodJson);
+      app.GxWebStd.gx_hidden_field( httpContext, "vBARCODREOJSON", AV114BarCodReoJson);
+      app.GxWebStd.gx_hidden_field( httpContext, "vBARCODPARJSON", AV118BarCodParJson);
+      app.GxWebStd.gx_hidden_field( httpContext, "vPROCODJSON", AV122ProCodJson);
+      app.GxWebStd.gx_hidden_field( httpContext, "vBARORDLINJSON", AV126BarOrdLinJson);
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFPROCOD", GXutil.rtrim( AV88TFProCod));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFPROCOD_SEL", GXutil.rtrim( AV89TFProCod_Sel));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFBARNHDR", GXutil.rtrim( AV76TFBarNHdr));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFBARNHDR_SEL", GXutil.rtrim( AV77TFBarNHdr_Sel));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFFASCOD", GXutil.rtrim( AV82TFFasCod));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFFASCOD_SEL", GXutil.rtrim( AV83TFFasCod_Sel));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFFASDSC", GXutil.rtrim( AV84TFFasDsc));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFFASDSC_SEL", GXutil.rtrim( AV85TFFasDsc_Sel));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFMAQCODBIS", GXutil.rtrim( AV86TFMaqCodBis));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFMAQCODBIS_SEL", GXutil.rtrim( AV87TFMaqCodBis_Sel));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFBARFASKGM", GXutil.ltrim( localUtil.ntoc( AV71TFBarFasKgm, (byte)(9), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFBARFASKGM_TO", GXutil.ltrim( localUtil.ntoc( AV72TFBarFasKgm_To, (byte)(9), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFBARFASMTR", GXutil.ltrim( localUtil.ntoc( AV73TFBarFasMtr, (byte)(9), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFBARFASMTR_TO", GXutil.ltrim( localUtil.ntoc( AV74TFBarFasMtr_To, (byte)(9), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFBARTIEREA", GXutil.ltrim( localUtil.ntoc( AV80TFBarTieRea, (byte)(5), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFBARTIEREA_TO", GXutil.ltrim( localUtil.ntoc( AV81TFBarTieRea_To, (byte)(5), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vTFBARFECREA", localUtil.dtoc( AV75TFBarFecRea, 0, "/"));
+      app.GxWebStd.gx_hidden_field( httpContext, "vORDEREDBY", GXutil.ltrim( localUtil.ntoc( AV58OrderedBy, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_boolean_hidden_field( httpContext, "vORDEREDDSC", AV59OrderedDsc);
+      app.GxWebStd.gx_hidden_field( httpContext, "vI", GXutil.ltrim( localUtil.ntoc( AV39i, (byte)(10), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vEMPRCODCOL", AV105EmprCodCol);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vEMPRCODCOL", AV105EmprCodCol);
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "vEMPRCODTOFIND", GXutil.rtrim( AV108EmprCodToFind));
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vBARCODCOL", AV109BarCodCol);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vBARCODCOL", AV109BarCodCol);
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "vBARCODTOFIND", GXutil.ltrim( localUtil.ntoc( AV112BarCodToFind, (byte)(8), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vBARCODREOCOL", AV113BarCodReoCol);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vBARCODREOCOL", AV113BarCodReoCol);
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "vBARCODREOTOFIND", GXutil.ltrim( localUtil.ntoc( AV116BarCodReoToFind, (byte)(1), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vBARCODPARCOL", AV117BarCodParCol);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vBARCODPARCOL", AV117BarCodParCol);
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "vBARCODPARTOFIND", GXutil.rtrim( AV120BarCodParToFind));
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vPROCODCOL", AV121ProCodCol);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vPROCODCOL", AV121ProCodCol);
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "vPROCODTOFIND", GXutil.rtrim( AV124ProCodToFind));
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vBARORDLINCOL", AV125BarOrdLinCol);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vBARORDLINCOL", AV125BarOrdLinCol);
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "vBARORDLINTOFIND", GXutil.ltrim( localUtil.ntoc( AV128BarOrdLinToFind, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vSELECTEDROWS", AV103SelectedRows);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vSELECTEDROWS", AV103SelectedRows);
+      }
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vMANTENIMIENTOROLLOSPIEZASDT", AV130MantenimientoRollosPiezaSDT);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vMANTENIMIENTOROLLOSPIEZASDT", AV130MantenimientoRollosPiezaSDT);
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vMANTENIMIENTOROLLOSPIEZASDT", getSecureSignedToken( "", AV130MantenimientoRollosPiezaSDT));
+      app.GxWebStd.gx_hidden_field( httpContext, "vNUMPZSFS", GXutil.ltrim( localUtil.ntoc( AV55NumPzsFs, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vNUMPZSFS", getSecureSignedToken( "", localUtil.format( DecimalUtil.doubleToDec(AV55NumPzsFs), "ZZZ9")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vNUMPZSFS2", GXutil.ltrim( localUtil.ntoc( AV56NumPzsFs2, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vNUMPZSFS2", getSecureSignedToken( "", localUtil.format( DecimalUtil.doubleToDec(AV56NumPzsFs2), "ZZZ9")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vEMPRCOD", GXutil.rtrim( AV8emprcod));
+      app.GxWebStd.gx_hidden_field( httpContext, "vPROCOD", GXutil.rtrim( AV61Procod));
+      app.GxWebStd.gx_hidden_field( httpContext, "vBARORDLIN", GXutil.ltrim( localUtil.ntoc( AV132BarOrdLin, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vNUM_PZ", GXutil.ltrim( localUtil.ntoc( AV54Num_pz, (byte)(5), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vMODA21", GXutil.ltrim( localUtil.ntoc( AV53Moda21, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vMODA21", getSecureSignedToken( "", localUtil.format( DecimalUtil.doubleToDec(AV53Moda21), "ZZZ9")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vCONST", GXutil.ltrim( localUtil.ntoc( AV27Const, (byte)(6), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vCONST", getSecureSignedToken( "", localUtil.format( AV27Const, "ZZ9.99")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vMETPIEDCP", GXutil.rtrim( AV46MetPieDCP));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vMETPIEDCP", getSecureSignedToken( "", GXutil.rtrim( localUtil.format( AV46MetPieDCP, "@!"))));
+      app.GxWebStd.gx_hidden_field( httpContext, "vSTATION", GXutil.rtrim( AV64Station));
+      app.GxWebStd.gx_hidden_field( httpContext, "vALBRECCOD", GXutil.ltrim( localUtil.ntoc( AV11Albreccod, (byte)(8), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vOPECOD", GXutil.ltrim( localUtil.ntoc( AV57OpeCod, (byte)(6), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vHISPROTUR", GXutil.ltrim( localUtil.ntoc( AV37Hisprotur, (byte)(1), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vMETPIELOC", GXutil.rtrim( AV48MetPieLoc));
+      app.GxWebStd.gx_hidden_field( httpContext, "vFLAG", GXutil.ltrim( localUtil.ntoc( AV99flag, (byte)(1), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vFASDSC", GXutil.rtrim( AV31FasDsc));
+      app.GxWebStd.gx_hidden_field( httpContext, "vFASCOD", GXutil.rtrim( AV30FasCod));
+      app.GxWebStd.gx_hidden_field( httpContext, "vMAQCODBIS", GXutil.rtrim( AV44MaqCodBis));
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_nFirstRecordOnPage", GXutil.ltrim( localUtil.ntoc( GRID_nFirstRecordOnPage, (byte)(15), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_nEOF", GXutil.ltrim( localUtil.ntoc( GRID_nEOF, (byte)(1), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_Rows", GXutil.ltrim( localUtil.ntoc( subGrid_Rows, (byte)(6), (byte)(0), ".", "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_TABLEHEADER_Width", GXutil.rtrim( Dvpanel_tableheader_Width));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_TABLEHEADER_Autowidth", GXutil.booltostr( Dvpanel_tableheader_Autowidth));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_TABLEHEADER_Autoheight", GXutil.booltostr( Dvpanel_tableheader_Autoheight));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_TABLEHEADER_Cls", GXutil.rtrim( Dvpanel_tableheader_Cls));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_TABLEHEADER_Title", GXutil.rtrim( Dvpanel_tableheader_Title));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_TABLEHEADER_Collapsible", GXutil.booltostr( Dvpanel_tableheader_Collapsible));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_TABLEHEADER_Collapsed", GXutil.booltostr( Dvpanel_tableheader_Collapsed));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_TABLEHEADER_Showcollapseicon", GXutil.booltostr( Dvpanel_tableheader_Showcollapseicon));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_TABLEHEADER_Iconposition", GXutil.rtrim( Dvpanel_tableheader_Iconposition));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_TABLEHEADER_Autoscroll", GXutil.booltostr( Dvpanel_tableheader_Autoscroll));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_UNNAMEDTABLE1_Width", GXutil.rtrim( Dvpanel_unnamedtable1_Width));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_UNNAMEDTABLE1_Autowidth", GXutil.booltostr( Dvpanel_unnamedtable1_Autowidth));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_UNNAMEDTABLE1_Autoheight", GXutil.booltostr( Dvpanel_unnamedtable1_Autoheight));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_UNNAMEDTABLE1_Cls", GXutil.rtrim( Dvpanel_unnamedtable1_Cls));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_UNNAMEDTABLE1_Title", GXutil.rtrim( Dvpanel_unnamedtable1_Title));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_UNNAMEDTABLE1_Collapsible", GXutil.booltostr( Dvpanel_unnamedtable1_Collapsible));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_UNNAMEDTABLE1_Collapsed", GXutil.booltostr( Dvpanel_unnamedtable1_Collapsed));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_UNNAMEDTABLE1_Showcollapseicon", GXutil.booltostr( Dvpanel_unnamedtable1_Showcollapseicon));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_UNNAMEDTABLE1_Iconposition", GXutil.rtrim( Dvpanel_unnamedtable1_Iconposition));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVPANEL_UNNAMEDTABLE1_Autoscroll", GXutil.booltostr( Dvpanel_unnamedtable1_Autoscroll));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Caption", GXutil.rtrim( Ddo_grid_Caption));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Filteredtext_set", GXutil.rtrim( Ddo_grid_Filteredtext_set));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Filteredtextto_set", GXutil.rtrim( Ddo_grid_Filteredtextto_set));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Selectedvalue_set", GXutil.rtrim( Ddo_grid_Selectedvalue_set));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Gridinternalname", GXutil.rtrim( Ddo_grid_Gridinternalname));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Columnids", GXutil.rtrim( Ddo_grid_Columnids));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Columnssortvalues", GXutil.rtrim( Ddo_grid_Columnssortvalues));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Includesortasc", GXutil.rtrim( Ddo_grid_Includesortasc));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Sortedstatus", GXutil.rtrim( Ddo_grid_Sortedstatus));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Includefilter", GXutil.rtrim( Ddo_grid_Includefilter));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Filtertype", GXutil.rtrim( Ddo_grid_Filtertype));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Filterisrange", GXutil.rtrim( Ddo_grid_Filterisrange));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Includedatalist", GXutil.rtrim( Ddo_grid_Includedatalist));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Datalisttype", GXutil.rtrim( Ddo_grid_Datalisttype));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Datalistproc", GXutil.rtrim( Ddo_grid_Datalistproc));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVELOP_CONFIRMPANEL_CONFIRMAR_Title", GXutil.rtrim( Dvelop_confirmpanel_confirmar_Title));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVELOP_CONFIRMPANEL_CONFIRMAR_Confirmationtext", GXutil.rtrim( Dvelop_confirmpanel_confirmar_Confirmationtext));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVELOP_CONFIRMPANEL_CONFIRMAR_Yesbuttoncaption", GXutil.rtrim( Dvelop_confirmpanel_confirmar_Yesbuttoncaption));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVELOP_CONFIRMPANEL_CONFIRMAR_Nobuttoncaption", GXutil.rtrim( Dvelop_confirmpanel_confirmar_Nobuttoncaption));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVELOP_CONFIRMPANEL_CONFIRMAR_Cancelbuttoncaption", GXutil.rtrim( Dvelop_confirmpanel_confirmar_Cancelbuttoncaption));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVELOP_CONFIRMPANEL_CONFIRMAR_Yesbuttonposition", GXutil.rtrim( Dvelop_confirmpanel_confirmar_Yesbuttonposition));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVELOP_CONFIRMPANEL_CONFIRMAR_Confirmtype", GXutil.rtrim( Dvelop_confirmpanel_confirmar_Confirmtype));
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_EMPOWERER_Gridinternalname", GXutil.rtrim( Grid_empowerer_Gridinternalname));
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_EMPOWERER_Hastitlesettings", GXutil.booltostr( Grid_empowerer_Hastitlesettings));
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_Rows", GXutil.ltrim( localUtil.ntoc( subGrid_Rows, (byte)(6), (byte)(0), ".", "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Activeeventkey", GXutil.rtrim( Ddo_grid_Activeeventkey));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Selectedvalue_get", GXutil.rtrim( Ddo_grid_Selectedvalue_get));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Filteredtextto_get", GXutil.rtrim( Ddo_grid_Filteredtextto_get));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Filteredtext_get", GXutil.rtrim( Ddo_grid_Filteredtext_get));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Selectedcolumn", GXutil.rtrim( Ddo_grid_Selectedcolumn));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVELOP_CONFIRMPANEL_CONFIRMAR_Result", GXutil.rtrim( Dvelop_confirmpanel_confirmar_Result));
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_Rows", GXutil.ltrim( localUtil.ntoc( subGrid_Rows, (byte)(6), (byte)(0), ".", "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Activeeventkey", GXutil.rtrim( Ddo_grid_Activeeventkey));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Selectedvalue_get", GXutil.rtrim( Ddo_grid_Selectedvalue_get));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Filteredtextto_get", GXutil.rtrim( Ddo_grid_Filteredtextto_get));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Filteredtext_get", GXutil.rtrim( Ddo_grid_Filteredtext_get));
+      app.GxWebStd.gx_hidden_field( httpContext, "DDO_GRID_Selectedcolumn", GXutil.rtrim( Ddo_grid_Selectedcolumn));
+      app.GxWebStd.gx_hidden_field( httpContext, "DVELOP_CONFIRMPANEL_CONFIRMAR_Result", GXutil.rtrim( Dvelop_confirmpanel_confirmar_Result));
+   }
+
+   public void renderHtmlCloseForm( )
+   {
+      sendCloseFormHiddens( ) ;
+      app.GxWebStd.gx_hidden_field( httpContext, "GX_FocusControl", GX_FocusControl);
+      httpContext.SendAjaxEncryptionKey();
+      sendSecurityToken(sPrefix);
+      httpContext.SendComponentObjects();
+      httpContext.SendServerCommands();
+      httpContext.SendState();
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      httpContext.writeTextNL( "</form>") ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      include_jscripts( ) ;
+      httpContext.writeText( "<script type=\"text/javascript\">") ;
+      httpContext.writeText( "gx.setLanguageCode(\""+httpContext.getLanguageProperty( "code")+"\");") ;
+      if ( ! httpContext.isSpaRequest( ) )
+      {
+         httpContext.writeText( "gx.setDateFormat(\""+httpContext.getLanguageProperty( "date_fmt")+"\");") ;
+         httpContext.writeText( "gx.setTimeFormat("+httpContext.getLanguageProperty( "time_fmt")+");") ;
+         httpContext.writeText( "gx.setCenturyFirstYear("+40+");") ;
+         httpContext.writeText( "gx.setDecimalPoint(\""+httpContext.getLanguageProperty( "decimal_point")+"\");") ;
+         httpContext.writeText( "gx.setThousandSeparator(\""+httpContext.getLanguageProperty( "thousand_sep")+"\");") ;
+         httpContext.writeText( "gx.StorageTimeZone = "+2+";") ;
+      }
+      httpContext.writeText( "</script>") ;
+   }
+
+   public void renderHtmlContent( )
+   {
+      gxajaxcallmode = (byte)((isAjaxCallMode( ) ? 1 : 0)) ;
+      if ( ( gxajaxcallmode == 0 ) && ( GxWebError == 0 ) )
+      {
+         httpContext.writeText( "<div") ;
+         app.GxWebStd.classAttribute( httpContext, "gx-ct-body"+" "+((GXutil.strcmp("", Form.getThemeClass())==0) ? "form-horizontal Form" : Form.getThemeClass())+"-fx");
+         httpContext.writeText( ">") ;
+         we26Q2( ) ;
+         httpContext.writeText( "</div>") ;
+      }
+   }
+
+   public void dispatchEvents( )
+   {
+      evt26Q2( ) ;
+   }
+
+   public boolean hasEnterEvent( )
+   {
+      return false ;
+   }
+
+   public com.genexus.webpanels.GXWebForm getForm( )
+   {
+      return Form ;
+   }
+
+   public String getSelfLink( )
+   {
+      return formatLink("app.mantenimientorollospieza", new String[] {GXutil.URLEncode(GXutil.rtrim(AV8emprcod)),GXutil.URLEncode(GXutil.ltrimstr(AV5BarCod,8,0)),GXutil.URLEncode(GXutil.ltrimstr(AV7BarCodReo,1,0)),GXutil.URLEncode(GXutil.rtrim(AV6BarCodPar)),GXutil.URLEncode(GXutil.ltrimstr(AV99flag,1,0))}, new String[] {"emprcod","BarCod","BarCodReo","BarCodPar","flag"})  ;
+   }
+
+   public String getPgmname( )
+   {
+      return "MantenimientoRollosPieza" ;
+   }
+
+   public String getPgmdesc( )
+   {
+      return httpContext.getMessage( " Fases de Produccion HDR", "") ;
+   }
+
+   public void wb26Q0( )
+   {
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      if ( ! wbLoad )
+      {
+         if ( nGXWrapped == 1 )
+         {
+            renderHtmlHeaders( ) ;
+            renderHtmlOpenForm( ) ;
+         }
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "Section", "left", "top", " "+"data-gx-base-lib=\"bootstrapv3\""+" "+"data-abstract-form"+" ", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divLayoutmaintable_Internalname, 1, 0, "px", 0, "px", divLayoutmaintable_Class, "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTablemain_Internalname, 1, 0, "px", 0, "px", "TableMain", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 WWFiltersCell", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucDvpanel_tableheader.setProperty("Width", Dvpanel_tableheader_Width);
+         ucDvpanel_tableheader.setProperty("AutoWidth", Dvpanel_tableheader_Autowidth);
+         ucDvpanel_tableheader.setProperty("AutoHeight", Dvpanel_tableheader_Autoheight);
+         ucDvpanel_tableheader.setProperty("Cls", Dvpanel_tableheader_Cls);
+         ucDvpanel_tableheader.setProperty("Title", Dvpanel_tableheader_Title);
+         ucDvpanel_tableheader.setProperty("Collapsible", Dvpanel_tableheader_Collapsible);
+         ucDvpanel_tableheader.setProperty("Collapsed", Dvpanel_tableheader_Collapsed);
+         ucDvpanel_tableheader.setProperty("ShowCollapseIcon", Dvpanel_tableheader_Showcollapseicon);
+         ucDvpanel_tableheader.setProperty("IconPosition", Dvpanel_tableheader_Iconposition);
+         ucDvpanel_tableheader.setProperty("AutoScroll", Dvpanel_tableheader_Autoscroll);
+         ucDvpanel_tableheader.render(context, "dvelop.gxbootstrap.panel_al", Dvpanel_tableheader_Internalname, "DVPANEL_TABLEHEADERContainer");
+         httpContext.writeText( "<div class=\"gx_usercontrol_child\" id=\""+"DVPANEL_TABLEHEADERContainer"+"TableHeader"+"\" style=\"display:none;\">") ;
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divTableheader_Internalname, 1, 0, "px", 0, "px", "Flex", "left", "top", " "+"data-gx-flex"+" ", "flex-wrap:wrap;", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "", "left", "top", "", "flex-grow:1;", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divUnnamedtable4_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-2", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavBarcod_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavBarcod_Internalname, httpContext.getMessage( "Nº Hdr", ""), "col-sm-3 AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavBarcod_Internalname, GXutil.ltrim( localUtil.ntoc( AV5BarCod, (byte)(8), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtavBarcod_Enabled!=0) ? localUtil.format( DecimalUtil.doubleToDec(AV5BarCod), "ZZZZZZZ9") : localUtil.format( DecimalUtil.doubleToDec(AV5BarCod), "ZZZZZZZ9"))), " inputmode=\"numeric\" pattern=\"[0-9]*\""+"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavBarcod_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavBarcod_Enabled, 0, "text", "1", 8, "chr", 1, "row", 8, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_MantenimientoRollosPieza.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-1", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavBarcodreo_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavBarcodreo_Internalname, httpContext.getMessage( "R", ""), "col-sm-3 AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavBarcodreo_Internalname, GXutil.ltrim( localUtil.ntoc( AV7BarCodReo, (byte)(1), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtavBarcodreo_Enabled!=0) ? localUtil.format( DecimalUtil.doubleToDec(AV7BarCodReo), "9") : localUtil.format( DecimalUtil.doubleToDec(AV7BarCodReo), "9"))), " inputmode=\"numeric\" pattern=\"[0-9]*\""+"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavBarcodreo_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavBarcodreo_Enabled, 0, "text", "1", 1, "chr", 1, "row", 1, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_MantenimientoRollosPieza.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-1", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavBarcodpar_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavBarcodpar_Internalname, httpContext.getMessage( "P", ""), "col-sm-3 AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavBarcodpar_Internalname, GXutil.rtrim( AV6BarCodPar), GXutil.rtrim( localUtil.format( AV6BarCodPar, "")), "", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavBarcodpar_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavBarcodpar_Enabled, 0, "text", "", 1, "chr", 1, "row", 1, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_MantenimientoRollosPieza.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         wb_table1_28_26Q2( true) ;
+      }
+      else
+      {
+         wb_table1_28_26Q2( false) ;
+      }
+      return  ;
+   }
+
+   public void wb_table1_28_26Q2e( boolean wbgen )
+   {
+      if ( wbgen )
+      {
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         httpContext.writeText( "</div>") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         ClassString = "ErrorViewer" ;
+         StyleString = "" ;
+         app.GxWebStd.gx_msg_list( httpContext, "", httpContext.GX_msglist.getDisplaymode(), StyleString, ClassString, "", "false");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucDvpanel_unnamedtable1.setProperty("Width", Dvpanel_unnamedtable1_Width);
+         ucDvpanel_unnamedtable1.setProperty("AutoWidth", Dvpanel_unnamedtable1_Autowidth);
+         ucDvpanel_unnamedtable1.setProperty("AutoHeight", Dvpanel_unnamedtable1_Autoheight);
+         ucDvpanel_unnamedtable1.setProperty("Cls", Dvpanel_unnamedtable1_Cls);
+         ucDvpanel_unnamedtable1.setProperty("Title", Dvpanel_unnamedtable1_Title);
+         ucDvpanel_unnamedtable1.setProperty("Collapsible", Dvpanel_unnamedtable1_Collapsible);
+         ucDvpanel_unnamedtable1.setProperty("Collapsed", Dvpanel_unnamedtable1_Collapsed);
+         ucDvpanel_unnamedtable1.setProperty("ShowCollapseIcon", Dvpanel_unnamedtable1_Showcollapseicon);
+         ucDvpanel_unnamedtable1.setProperty("IconPosition", Dvpanel_unnamedtable1_Iconposition);
+         ucDvpanel_unnamedtable1.setProperty("AutoScroll", Dvpanel_unnamedtable1_Autoscroll);
+         ucDvpanel_unnamedtable1.render(context, "dvelop.gxbootstrap.panel_al", Dvpanel_unnamedtable1_Internalname, "DVPANEL_UNNAMEDTABLE1Container");
+         httpContext.writeText( "<div class=\"gx_usercontrol_child\" id=\""+"DVPANEL_UNNAMEDTABLE1Container"+"UnnamedTable1"+"\" style=\"display:none;\">") ;
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divUnnamedtable1_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divUnnamedtable3_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-4", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavMetpiemet_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavMetpiemet_Internalname, httpContext.getMessage( "Metros", ""), "col-sm-3 AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 46,'',false,'" + sGXsfl_67_idx + "',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavMetpiemet_Internalname, GXutil.ltrim( localUtil.ntoc( AV49MetPiemet, (byte)(9), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtavMetpiemet_Enabled!=0) ? localUtil.format( AV49MetPiemet, "ZZZZZ9.99") : localUtil.format( AV49MetPiemet, "ZZZZZ9.99"))), TempTags+" onchange=\""+"gx.num.valid_decimal( this, gx.thousandSeparator,gx.decimalPoint,'2');"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_decimal( this, gx.thousandSeparator,gx.decimalPoint,'2');"+";gx.evt.onblur(this,46);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavMetpiemet_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavMetpiemet_Enabled, 0, "text", "", 9, "chr", 1, "row", 9, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_MantenimientoRollosPieza.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-4", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavMetpieanc_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavMetpieanc_Internalname, httpContext.getMessage( "Ancho", ""), "col-sm-3 AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 50,'',false,'" + sGXsfl_67_idx + "',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavMetpieanc_Internalname, GXutil.ltrim( localUtil.ntoc( AV45MetPieAnc, (byte)(3), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtavMetpieanc_Enabled!=0) ? localUtil.format( DecimalUtil.doubleToDec(AV45MetPieAnc), "ZZ9") : localUtil.format( DecimalUtil.doubleToDec(AV45MetPieAnc), "ZZ9"))), " inputmode=\"numeric\" pattern=\"[0-9]*\""+TempTags+" onchange=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onblur(this,50);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavMetpieanc_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavMetpieanc_Enabled, 0, "text", "1", 3, "chr", 1, "row", 3, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_MantenimientoRollosPieza.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-4", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtavMetpiemtd_Internalname+"\"", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavMetpiemtd_Internalname, httpContext.getMessage( "Grm2", ""), "col-sm-3 AttributeFLLabel", 1, true, "");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 54,'',false,'" + sGXsfl_67_idx + "',0)\"" ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavMetpiemtd_Internalname, GXutil.ltrim( localUtil.ntoc( AV50MetPieMtD, (byte)(8), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtavMetpiemtd_Enabled!=0) ? localUtil.format( AV50MetPieMtD, "ZZZZ9.99") : localUtil.format( AV50MetPieMtD, "ZZZZ9.99"))), TempTags+" onchange=\""+"gx.num.valid_decimal( this, gx.thousandSeparator,gx.decimalPoint,'2');"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_decimal( this, gx.thousandSeparator,gx.decimalPoint,'2');"+";gx.evt.onblur(this,54);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavMetpiemtd_Jsonclick, 0, "AttributeFL", "", "", "", "", 1, edtavMetpiemtd_Enabled, 0, "text", "", 8, "chr", 1, "row", 8, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_MantenimientoRollosPieza.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         httpContext.writeText( "</div>") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 CellMarginTop", "Center", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divUnnamedtable2_Internalname, 1, 0, "px", 0, "px", "", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-action-group ActionGroup", "left", "top", " "+"data-gx-actiongroup-type=\"toolbar\""+" ", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 62,'',false,'',0)\"" ;
+         ClassString = "Button WWPBtnNeedMultiRowSelection" ;
+         StyleString = "" ;
+         app.GxWebStd.gx_button_ctrl( httpContext, bttBtnconfirmar_Internalname, "gx.evt.setGridEvt("+GXutil.str( 67, 2, 0)+","+"null"+");", httpContext.getMessage( "Confirmar", ""), bttBtnconfirmar_Jsonclick, 7, httpContext.getMessage( "Confirmar", ""), "", StyleString, ClassString, 1, 1, "standard", "'"+""+"'"+",false,"+"'"+"e1126q1_client"+"'", TempTags, "", 2, "HLP_MantenimientoRollosPieza.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 64,'',false,'',0)\"" ;
+         ClassString = "Button" ;
+         StyleString = "" ;
+         app.GxWebStd.gx_button_ctrl( httpContext, bttBtncerrar_Internalname, "gx.evt.setGridEvt("+GXutil.str( 67, 2, 0)+","+"null"+");", httpContext.getMessage( "Cerrar", ""), bttBtncerrar_Jsonclick, 5, httpContext.getMessage( "Cerrar", ""), "", StyleString, ClassString, 1, 1, "standard", "'"+""+"'"+",false,"+"'"+"E\\'DOCERRAR\\'."+"'", TempTags, "", httpContext.getButtonType( ), "HLP_MantenimientoRollosPieza.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "Center", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 SectionGrid GridNoBorderCell CellMarginTop HasGridEmpowerer", "left", "top", "", "", "div");
+         /*  Grid Control  */
+         GridContainer.SetWrapped(nGXWrapped);
+         startgridcontrol67( ) ;
+      }
+      if ( wbEnd == 67 )
+      {
+         wbEnd = (short)(0) ;
+         nRC_GXsfl_67 = (int)(nGXsfl_67_idx-1) ;
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "</table>") ;
+            httpContext.writeText( "</div>") ;
+         }
+         else
+         {
+            GridContainer.AddObjectProperty("GRID_nEOF", GRID_nEOF);
+            GridContainer.AddObjectProperty("GRID_nFirstRecordOnPage", GRID_nFirstRecordOnPage);
+            sStyleString = "" ;
+            httpContext.writeText( "<div id=\""+"GridContainer"+"Div\" "+sStyleString+">"+"</div>") ;
+            httpContext.ajax_rsp_assign_grid("_"+"Grid", GridContainer, subGrid_Internalname);
+            if ( ! httpContext.isAjaxRequest( ) && ! httpContext.isSpaRequest( ) )
+            {
+               app.GxWebStd.gx_hidden_field( httpContext, "GridContainerData", GridContainer.ToJavascriptSource());
+            }
+            if ( httpContext.isAjaxRequest( ) || httpContext.isSpaRequest( ) )
+            {
+               app.GxWebStd.gx_hidden_field( httpContext, "GridContainerData"+"V", GridContainer.GridValuesHidden());
+            }
+            else
+            {
+               httpContext.writeText( "<input type=\"hidden\" "+"name=\""+"GridContainerData"+"V"+"\" value='"+GridContainer.GridValuesHidden()+"'/>") ;
+            }
+         }
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 CellMarginTop10 CellMarginBottom10", "Right", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", " gx-attribute", "left", "top", "", "", "div");
+         /* Attribute/Variable Label */
+         app.GxWebStd.gx_label_element( httpContext, edtavPgmname_Internalname, httpContext.getMessage( "pgmname", ""), "col-sm-3 AttributeLabel", 0, true, "");
+         /* Single line edit */
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavPgmname_Internalname, GXutil.rtrim( AV135Pgmname), GXutil.rtrim( localUtil.format( AV135Pgmname, "")), "", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavPgmname_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtavPgmname_Enabled, 0, "text", "", 80, "chr", 1, "row", 129, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_MantenimientoRollosPieza.htm");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "Right", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucDatamonjs.render(context, "datamonjs", Datamonjs_Internalname, "DATAMONJSContainer");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divHtml_bottomauxiliarcontrols_Internalname, 1, 0, "px", 0, "px", "Section", "left", "top", "", "", "div");
+         /* User Defined Control */
+         ucDdo_grid.setProperty("Caption", Ddo_grid_Caption);
+         ucDdo_grid.setProperty("ColumnIds", Ddo_grid_Columnids);
+         ucDdo_grid.setProperty("ColumnsSortValues", Ddo_grid_Columnssortvalues);
+         ucDdo_grid.setProperty("IncludeSortASC", Ddo_grid_Includesortasc);
+         ucDdo_grid.setProperty("IncludeFilter", Ddo_grid_Includefilter);
+         ucDdo_grid.setProperty("FilterType", Ddo_grid_Filtertype);
+         ucDdo_grid.setProperty("FilterIsRange", Ddo_grid_Filterisrange);
+         ucDdo_grid.setProperty("IncludeDataList", Ddo_grid_Includedatalist);
+         ucDdo_grid.setProperty("DataListType", Ddo_grid_Datalisttype);
+         ucDdo_grid.setProperty("DataListProc", Ddo_grid_Datalistproc);
+         ucDdo_grid.setProperty("DropDownOptionsTitleSettingsIcons", AV29DDO_TitleSettingsIcons);
+         ucDdo_grid.render(context, "dvelop.gxbootstrap.ddogridtitlesettingsm", Ddo_grid_Internalname, "DDO_GRIDContainer");
+         wb_table2_94_26Q2( true) ;
+      }
+      else
+      {
+         wb_table2_94_26Q2( false) ;
+      }
+      return  ;
+   }
+
+   public void wb_table2_94_26Q2e( boolean wbgen )
+   {
+      if ( wbgen )
+      {
+         /* User Defined Control */
+         ucGrid_empowerer.setProperty("HasTitleSettings", Grid_empowerer_Hastitlesettings);
+         ucGrid_empowerer.render(context, "wwp.gridempowerer", Grid_empowerer_Internalname, "GRID_EMPOWERERContainer");
+         /* Div Control */
+         app.GxWebStd.gx_div_start( httpContext, divDdo_barfecreaauxdates_Internalname, 1, 0, "px", 0, "px", "Invisible", "left", "top", "", "", "div");
+         /* Single line edit */
+         TempTags = "  onfocus=\"gx.evt.onfocus(this, 101,'',false,'" + sGXsfl_67_idx + "',0)\"" ;
+         httpContext.writeText( "<div id=\""+edtavDdo_barfecreaauxdate_Internalname+"_dp_container\" class=\"dp_container\" style=\"white-space:nowrap;display:inline;\">") ;
+         app.GxWebStd.gx_single_line_edit( httpContext, edtavDdo_barfecreaauxdate_Internalname, localUtil.format(AV28DDO_BarFecReaAuxDate, "99/99/99"), localUtil.format( AV28DDO_BarFecReaAuxDate, "99/99/99"), TempTags+" onchange=\""+"gx.date.valid_date(this, 8,'"+httpContext.getLanguageProperty( "date_fmt")+"',0,"+httpContext.getLanguageProperty( "time_fmt")+",'"+httpContext.getLanguageProperty( "code")+"',false,0);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.date.valid_date(this, 8,'"+httpContext.getLanguageProperty( "date_fmt")+"',0,"+httpContext.getLanguageProperty( "time_fmt")+",'"+httpContext.getLanguageProperty( "code")+"',false,0);"+";gx.evt.onblur(this,101);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtavDdo_barfecreaauxdate_Jsonclick, 0, "Attribute", "", "", "", "", 1, 1, 0, "text", "", 8, "chr", 1, "row", 8, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_MantenimientoRollosPieza.htm");
+         app.GxWebStd.gx_bitmap( httpContext, edtavDdo_barfecreaauxdate_Internalname+"_dp_trigger", context.getHttpContext().getImagePath( "61b9b5d3-dff6-4d59-9b00-da61bc2cbe93", "", context.getHttpContext().getTheme( )), "", "", "", "", ((1==0)||(1==0) ? 0 : 1), 0, "Date selector", "Date selector", 0, 1, 0, "", 0, "", 0, 0, 0, "", "", "cursor: pointer;", "", "", "", "", "", "", "", "", 1, false, false, "", "HLP_MantenimientoRollosPieza.htm");
+         httpContext.writeTextNL( "</div>") ;
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+         app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      }
+      if ( wbEnd == 67 )
+      {
+         wbEnd = (short)(0) ;
+         if ( isFullAjaxMode( ) )
+         {
+            if ( GridContainer.GetWrapped() == 1 )
+            {
+               httpContext.writeText( "</table>") ;
+               httpContext.writeText( "</div>") ;
+            }
+            else
+            {
+               GridContainer.AddObjectProperty("GRID_nEOF", GRID_nEOF);
+               GridContainer.AddObjectProperty("GRID_nFirstRecordOnPage", GRID_nFirstRecordOnPage);
+               sStyleString = "" ;
+               httpContext.writeText( "<div id=\""+"GridContainer"+"Div\" "+sStyleString+">"+"</div>") ;
+               httpContext.ajax_rsp_assign_grid("_"+"Grid", GridContainer, subGrid_Internalname);
+               if ( ! httpContext.isAjaxRequest( ) && ! httpContext.isSpaRequest( ) )
+               {
+                  app.GxWebStd.gx_hidden_field( httpContext, "GridContainerData", GridContainer.ToJavascriptSource());
+               }
+               if ( httpContext.isAjaxRequest( ) || httpContext.isSpaRequest( ) )
+               {
+                  app.GxWebStd.gx_hidden_field( httpContext, "GridContainerData"+"V", GridContainer.GridValuesHidden());
+               }
+               else
+               {
+                  httpContext.writeText( "<input type=\"hidden\" "+"name=\""+"GridContainerData"+"V"+"\" value='"+GridContainer.GridValuesHidden()+"'/>") ;
+               }
+            }
+         }
+      }
+      wbLoad = true ;
+   }
+
+   public void start26Q2( )
+   {
+      wbLoad = false ;
+      wbEnd = 0 ;
+      wbStart = 0 ;
+      if ( ! httpContext.isSpaRequest( ) )
+      {
+         if ( httpContext.exposeMetadata( ) )
+         {
+            Form.getMeta().addItem("generator", "GeneXus Java 17_0_11-163677", (short)(0)) ;
+         }
+         Form.getMeta().addItem("description", httpContext.getMessage( " Fases de Produccion HDR", ""), (short)(0)) ;
+      }
+      httpContext.wjLoc = "" ;
+      httpContext.nUserReturn = (byte)(0) ;
+      httpContext.wbHandled = (byte)(0) ;
+      if ( GXutil.strcmp(httpContext.getRequestMethod( ), "POST") == 0 )
+      {
+      }
+      wbErr = false ;
+      strup26Q0( ) ;
+   }
+
+   public void ws26Q2( )
+   {
+      start26Q2( ) ;
+      evt26Q2( ) ;
+   }
+
+   public void evt26Q2( )
+   {
+      if ( GXutil.strcmp(httpContext.getRequestMethod( ), "POST") == 0 )
+      {
+         if ( ! httpContext.willRedirect( ) && ( httpContext.nUserReturn != 1 ) && ! wbErr )
+         {
+            /* Read Web Panel buttons. */
+            sEvt = httpContext.cgiGet( "_EventName") ;
+            EvtGridId = httpContext.cgiGet( "_EventGridId") ;
+            EvtRowId = httpContext.cgiGet( "_EventRowId") ;
+            if ( GXutil.len( sEvt) > 0 )
+            {
+               sEvtType = GXutil.left( sEvt, 1) ;
+               sEvt = GXutil.right( sEvt, GXutil.len( sEvt)-1) ;
+               if ( GXutil.strcmp(sEvtType, "M") != 0 )
+               {
+                  if ( GXutil.strcmp(sEvtType, "E") == 0 )
+                  {
+                     sEvtType = GXutil.right( sEvt, 1) ;
+                     if ( GXutil.strcmp(sEvtType, ".") == 0 )
+                     {
+                        sEvt = GXutil.left( sEvt, GXutil.len( sEvt)-1) ;
+                        if ( GXutil.strcmp(sEvt, "RFR") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                        }
+                        else if ( GXutil.strcmp(sEvt, "DDO_GRID.ONOPTIONCLICKED") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                           e1226Q2 ();
+                        }
+                        else if ( GXutil.strcmp(sEvt, "DVELOP_CONFIRMPANEL_CONFIRMAR.CLOSE") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                           e1326Q2 ();
+                        }
+                        else if ( GXutil.strcmp(sEvt, "'DOCERRAR'") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                           /* Execute user event: 'DoCerrar' */
+                           e1426Q2 ();
+                        }
+                        else if ( GXutil.strcmp(sEvt, "LSCR") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           dynload_actions( ) ;
+                        }
+                        else if ( GXutil.strcmp(sEvt, "GRIDPAGING") == 0 )
+                        {
+                           httpContext.wbHandled = (byte)(1) ;
+                           AV136Mantenimientorollospiezads_1_tfprocod = AV88TFProCod ;
+                           AV137Mantenimientorollospiezads_2_tfprocod_sel = AV89TFProCod_Sel ;
+                           AV138Mantenimientorollospiezads_3_tfbarnhdr = AV76TFBarNHdr ;
+                           AV139Mantenimientorollospiezads_4_tfbarnhdr_sel = AV77TFBarNHdr_Sel ;
+                           AV140Mantenimientorollospiezads_5_tffascod = AV82TFFasCod ;
+                           AV141Mantenimientorollospiezads_6_tffascod_sel = AV83TFFasCod_Sel ;
+                           AV142Mantenimientorollospiezads_7_tffasdsc = AV84TFFasDsc ;
+                           AV143Mantenimientorollospiezads_8_tffasdsc_sel = AV85TFFasDsc_Sel ;
+                           AV144Mantenimientorollospiezads_9_tfmaqcodbis = AV86TFMaqCodBis ;
+                           AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel = AV87TFMaqCodBis_Sel ;
+                           AV146Mantenimientorollospiezads_11_tfbarfaskgm = AV71TFBarFasKgm ;
+                           AV147Mantenimientorollospiezads_12_tfbarfaskgm_to = AV72TFBarFasKgm_To ;
+                           AV148Mantenimientorollospiezads_13_tfbarfasmtr = AV73TFBarFasMtr ;
+                           AV149Mantenimientorollospiezads_14_tfbarfasmtr_to = AV74TFBarFasMtr_To ;
+                           AV150Mantenimientorollospiezads_15_tfbartierea = AV80TFBarTieRea ;
+                           AV151Mantenimientorollospiezads_16_tfbartierea_to = AV81TFBarTieRea_To ;
+                           AV152Mantenimientorollospiezads_17_tfbarfecrea = AV75TFBarFecRea ;
+                           sEvt = httpContext.cgiGet( "GRIDPAGING") ;
+                           if ( GXutil.strcmp(sEvt, "FIRST") == 0 )
+                           {
+                              subgrid_firstpage( ) ;
+                           }
+                           else if ( GXutil.strcmp(sEvt, "PREV") == 0 )
+                           {
+                              subgrid_previouspage( ) ;
+                           }
+                           else if ( GXutil.strcmp(sEvt, "NEXT") == 0 )
+                           {
+                              subgrid_nextpage( ) ;
+                           }
+                           else if ( GXutil.strcmp(sEvt, "LAST") == 0 )
+                           {
+                              subgrid_lastpage( ) ;
+                           }
+                           dynload_actions( ) ;
+                        }
+                     }
+                     else
+                     {
+                        sEvtType = GXutil.right( sEvt, 4) ;
+                        sEvt = GXutil.left( sEvt, GXutil.len( sEvt)-4) ;
+                        if ( ( GXutil.strcmp(GXutil.left( sEvt, 5), "START") == 0 ) || ( GXutil.strcmp(GXutil.left( sEvt, 7), "REFRESH") == 0 ) || ( GXutil.strcmp(GXutil.left( sEvt, 9), "GRID.LOAD") == 0 ) || ( GXutil.strcmp(GXutil.left( sEvt, 15), "VSELECTED.CLICK") == 0 ) || ( GXutil.strcmp(GXutil.left( sEvt, 5), "ENTER") == 0 ) || ( GXutil.strcmp(GXutil.left( sEvt, 6), "CANCEL") == 0 ) || ( GXutil.strcmp(GXutil.left( sEvt, 15), "VSELECTED.CLICK") == 0 ) )
+                        {
+                           nGXsfl_67_idx = (int)(GXutil.lval( sEvtType)) ;
+                           sGXsfl_67_idx = GXutil.padl( GXutil.ltrimstr( DecimalUtil.doubleToDec(nGXsfl_67_idx), 4, 0), (short)(4), "0") ;
+                           subsflControlProps_672( ) ;
+                           AV102Selected = GXutil.strtobool( httpContext.cgiGet( chkavSelected.getInternalname())) ;
+                           httpContext.ajax_rsp_assign_attri("", false, chkavSelected.getInternalname(), AV102Selected);
+                           A396EmprCod = GXutil.upper( httpContext.cgiGet( edtEmprCod_Internalname)) ;
+                           A129BarCod = (int)(localUtil.ctol( httpContext.cgiGet( edtBarCod_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+                           A132BarCodReo = (byte)(localUtil.ctol( httpContext.cgiGet( edtBarCodReo_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+                           A130BarCodPar = httpContext.cgiGet( edtBarCodPar_Internalname) ;
+                           A194BarOrdLin = (short)(localUtil.ctol( httpContext.cgiGet( edtBarOrdLin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+                           A758ProCod = httpContext.cgiGet( edtProCod_Internalname) ;
+                           A13696BarNHdr = httpContext.cgiGet( edtBarNHdr_Internalname) ;
+                           A457FasCod = GXutil.upper( httpContext.cgiGet( edtFasCod_Internalname)) ;
+                           A460FasDsc = httpContext.cgiGet( edtFasDsc_Internalname) ;
+                           A603MaqCodBis = httpContext.cgiGet( edtMaqCodBis_Internalname) ;
+                           A3837BarFasKgm = localUtil.ctond( httpContext.cgiGet( edtBarFasKgm_Internalname)) ;
+                           n3837BarFasKgm = false ;
+                           A3838BarFasMtr = localUtil.ctond( httpContext.cgiGet( edtBarFasMtr_Internalname)) ;
+                           n3838BarFasMtr = false ;
+                           A215BarTieRea = localUtil.ctond( httpContext.cgiGet( edtBarTieRea_Internalname)) ;
+                           A160BarFecRea = GXutil.resetTime(localUtil.ctot( httpContext.cgiGet( edtBarFecRea_Internalname), 0)) ;
+                           sEvtType = GXutil.right( sEvt, 1) ;
+                           if ( GXutil.strcmp(sEvtType, ".") == 0 )
+                           {
+                              sEvt = GXutil.left( sEvt, GXutil.len( sEvt)-1) ;
+                              if ( GXutil.strcmp(sEvt, "START") == 0 )
+                              {
+                                 httpContext.wbHandled = (byte)(1) ;
+                                 dynload_actions( ) ;
+                                 /* Execute user event: Start */
+                                 e1526Q2 ();
+                              }
+                              else if ( GXutil.strcmp(sEvt, "REFRESH") == 0 )
+                              {
+                                 httpContext.wbHandled = (byte)(1) ;
+                                 dynload_actions( ) ;
+                                 /* Execute user event: Refresh */
+                                 e1626Q2 ();
+                              }
+                              else if ( GXutil.strcmp(sEvt, "GRID.LOAD") == 0 )
+                              {
+                                 httpContext.wbHandled = (byte)(1) ;
+                                 dynload_actions( ) ;
+                                 e1726Q2 ();
+                              }
+                              else if ( GXutil.strcmp(sEvt, "VSELECTED.CLICK") == 0 )
+                              {
+                                 httpContext.wbHandled = (byte)(1) ;
+                                 dynload_actions( ) ;
+                                 e1826Q2 ();
+                              }
+                              else if ( GXutil.strcmp(sEvt, "ENTER") == 0 )
+                              {
+                                 httpContext.wbHandled = (byte)(1) ;
+                                 if ( ! wbErr )
+                                 {
+                                    Rfr0gs = false ;
+                                    if ( ! Rfr0gs )
+                                    {
+                                    }
+                                    dynload_actions( ) ;
+                                 }
+                                 /* No code required for Cancel button. It is implemented as the Reset button. */
+                              }
+                              else if ( GXutil.strcmp(sEvt, "LSCR") == 0 )
+                              {
+                                 httpContext.wbHandled = (byte)(1) ;
+                                 dynload_actions( ) ;
+                              }
+                           }
+                           else
+                           {
+                           }
+                        }
+                     }
+                  }
+                  httpContext.wbHandled = (byte)(1) ;
+               }
+            }
+         }
+      }
+   }
+
+   public void we26Q2( )
+   {
+      if ( ! app.GxWebStd.gx_redirect( httpContext) )
+      {
+         Rfr0gs = true ;
+         refresh( ) ;
+         if ( ! app.GxWebStd.gx_redirect( httpContext) )
+         {
+            if ( nGXWrapped == 1 )
+            {
+               renderHtmlCloseForm( ) ;
+            }
+         }
+      }
+   }
+
+   public void pa26Q2( )
+   {
+      if ( nDonePA == 0 )
+      {
+         if ( (GXutil.strcmp("", httpContext.getCookie( "GX_SESSION_ID"))==0) )
+         {
+            gxcookieaux = httpContext.setCookie( "GX_SESSION_ID", httpContext.encrypt64( com.genexus.util.Encryption.getNewKey( ), context.getServerKey( )), "", GXutil.nullDate(), "", (short)(httpContext.getHttpSecure( ))) ;
+         }
+         GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+         toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+         if ( httpContext.isSpaRequest( ) )
+         {
+            httpContext.disableJsOutput();
+         }
+         init_web_controls( ) ;
+         if ( toggleJsOutput )
+         {
+            if ( httpContext.isSpaRequest( ) )
+            {
+               httpContext.enableJsOutput();
+            }
+         }
+         if ( ! httpContext.isAjaxRequest( ) )
+         {
+            GX_FocusControl = edtavMetpiemet_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+         }
+         nDonePA = (byte)(1) ;
+      }
+   }
+
+   public void dynload_actions( )
+   {
+      /* End function dynload_actions */
+   }
+
+   public void gxnrgrid_newrow( )
+   {
+      app.GxWebStd.set_html_headers( httpContext, 0, "", "");
+      subsflControlProps_672( ) ;
+      while ( nGXsfl_67_idx <= nRC_GXsfl_67 )
+      {
+         sendrow_672( ) ;
+         nGXsfl_67_idx = ((subGrid_Islastpage==1)&&(nGXsfl_67_idx+1>subgrid_fnc_recordsperpage( )) ? 1 : nGXsfl_67_idx+1) ;
+         sGXsfl_67_idx = GXutil.padl( GXutil.ltrimstr( DecimalUtil.doubleToDec(nGXsfl_67_idx), 4, 0), (short)(4), "0") ;
+         subsflControlProps_672( ) ;
+      }
+      addString( httpContext.getJSONContainerResponse( GridContainer)) ;
+      /* End function gxnrGrid_newrow */
+   }
+
+   public void gxgrgrid_refresh( int subGrid_Rows ,
+                                 String AV8emprcod ,
+                                 int AV5BarCod ,
+                                 byte AV7BarCodReo ,
+                                 String AV6BarCodPar ,
+                                 String AV106EmprCodJson ,
+                                 String AV110BarCodJson ,
+                                 String AV114BarCodReoJson ,
+                                 String AV118BarCodParJson ,
+                                 String AV122ProCodJson ,
+                                 String AV126BarOrdLinJson ,
+                                 String AV88TFProCod ,
+                                 String AV89TFProCod_Sel ,
+                                 String AV76TFBarNHdr ,
+                                 String AV77TFBarNHdr_Sel ,
+                                 String AV82TFFasCod ,
+                                 String AV83TFFasCod_Sel ,
+                                 String AV84TFFasDsc ,
+                                 String AV85TFFasDsc_Sel ,
+                                 String AV86TFMaqCodBis ,
+                                 String AV87TFMaqCodBis_Sel ,
+                                 java.math.BigDecimal AV71TFBarFasKgm ,
+                                 java.math.BigDecimal AV72TFBarFasKgm_To ,
+                                 java.math.BigDecimal AV73TFBarFasMtr ,
+                                 java.math.BigDecimal AV74TFBarFasMtr_To ,
+                                 java.math.BigDecimal AV80TFBarTieRea ,
+                                 java.math.BigDecimal AV81TFBarTieRea_To ,
+                                 java.util.Date AV75TFBarFecRea ,
+                                 String AV135Pgmname ,
+                                 short AV58OrderedBy ,
+                                 boolean AV59OrderedDsc ,
+                                 long AV39i ,
+                                 GXSimpleCollection<String> AV105EmprCodCol ,
+                                 String AV108EmprCodToFind ,
+                                 GXSimpleCollection<Integer> AV109BarCodCol ,
+                                 int AV112BarCodToFind ,
+                                 GXSimpleCollection<Byte> AV113BarCodReoCol ,
+                                 byte AV116BarCodReoToFind ,
+                                 GXSimpleCollection<String> AV117BarCodParCol ,
+                                 String AV120BarCodParToFind ,
+                                 GXSimpleCollection<String> AV121ProCodCol ,
+                                 String AV124ProCodToFind ,
+                                 GXSimpleCollection<Short> AV125BarOrdLinCol ,
+                                 short AV128BarOrdLinToFind ,
+                                 GXBaseCollection<app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem> AV130MantenimientoRollosPiezaSDT ,
+                                 short AV55NumPzsFs ,
+                                 short AV56NumPzsFs2 ,
+                                 short AV53Moda21 ,
+                                 java.math.BigDecimal AV27Const ,
+                                 String AV46MetPieDCP )
+   {
+      initialize_formulas( ) ;
+      app.GxWebStd.set_html_headers( httpContext, 0, "", "");
+      /* Execute user event: Refresh */
+      e1626Q2 ();
+      GRID_nCurrentRecord = 0 ;
+      rf26Q2( ) ;
+      GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+      send_integrity_footer_hashes( ) ;
+      GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+      forbiddenHiddens = new com.genexus.util.GXProperties() ;
+      forbiddenHiddens.add("hshsalt", "hsh"+"MantenimientoRollosPieza");
+      forbiddenHiddens.add("Pgmname", GXutil.rtrim( localUtil.format( AV135Pgmname, "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "hsh", httpContext.getEncryptedSignature( forbiddenHiddens.toString(), GXKey));
+      GXutil.writeLogInfo("mantenimientorollospieza:[ SendSecurityCheck value for]"+forbiddenHiddens.toJSonString());
+      /* End function gxgrGrid_refresh */
+   }
+
+   public void send_integrity_hashes( )
+   {
+   }
+
+   public void clear_multi_value_controls( )
+   {
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         dynload_actions( ) ;
+         before_start_formulas( ) ;
+      }
+   }
+
+   public void fix_multi_value_controls( )
+   {
+   }
+
+   public void refresh( )
+   {
+      send_integrity_hashes( ) ;
+      rf26Q2( ) ;
+      if ( isFullAjaxMode( ) )
+      {
+         send_integrity_footer_hashes( ) ;
+      }
+      /* End function Refresh */
+   }
+
+   public void initialize_formulas( )
+   {
+      /* GeneXus formulas. */
+      AV135Pgmname = "MantenimientoRollosPieza" ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV135Pgmname", AV135Pgmname);
+      Gx_err = (short)(0) ;
+      edtavBarcod_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavBarcod_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavBarcod_Enabled), 5, 0), true);
+      edtavBarcodreo_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavBarcodreo_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavBarcodreo_Enabled), 5, 0), true);
+      edtavBarcodpar_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavBarcodpar_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavBarcodpar_Enabled), 5, 0), true);
+      edtavPgmname_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavPgmname_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavPgmname_Enabled), 5, 0), true);
+   }
+
+   public void rf26Q2( )
+   {
+      initialize_formulas( ) ;
+      clear_multi_value_controls( ) ;
+      if ( isAjaxCallMode( ) )
+      {
+         GridContainer.ClearRows();
+      }
+      wbStart = (short)(67) ;
+      /* Execute user event: Refresh */
+      e1626Q2 ();
+      nGXsfl_67_idx = 1 ;
+      sGXsfl_67_idx = GXutil.padl( GXutil.ltrimstr( DecimalUtil.doubleToDec(nGXsfl_67_idx), 4, 0), (short)(4), "0") ;
+      subsflControlProps_672( ) ;
+      bGXsfl_67_Refreshing = true ;
+      GridContainer.AddObjectProperty("GridName", "Grid");
+      GridContainer.AddObjectProperty("CmpContext", "");
+      GridContainer.AddObjectProperty("InMasterPage", "false");
+      GridContainer.AddObjectProperty("Class", "GridNoBorder WorkWithSelection WorkWith");
+      GridContainer.AddObjectProperty("Cellpadding", GXutil.ltrim( localUtil.ntoc( 1, (byte)(4), (byte)(0), ".", "")));
+      GridContainer.AddObjectProperty("Cellspacing", GXutil.ltrim( localUtil.ntoc( 2, (byte)(4), (byte)(0), ".", "")));
+      GridContainer.AddObjectProperty("Backcolorstyle", GXutil.ltrim( localUtil.ntoc( subGrid_Backcolorstyle, (byte)(1), (byte)(0), ".", "")));
+      GridContainer.AddObjectProperty("Sortable", GXutil.ltrim( localUtil.ntoc( subGrid_Sortable, (byte)(1), (byte)(0), ".", "")));
+      GridContainer.setPageSize( subgrid_fnc_recordsperpage( ) );
+      gxdyncontrolsrefreshing = true ;
+      fix_multi_value_controls( ) ;
+      gxdyncontrolsrefreshing = false ;
+      if ( ! httpContext.willRedirect( ) && ( httpContext.nUserReturn != 1 ) )
+      {
+         subsflControlProps_672( ) ;
+         GXPagingFrom2 = (int)(((subGrid_Rows==0) ? 1 : GRID_nFirstRecordOnPage+1)) ;
+         GXPagingTo2 = (int)(((subGrid_Rows==0) ? 10000 : GRID_nFirstRecordOnPage+subgrid_fnc_recordsperpage( )+1)) ;
+         pr_default.dynParam(0, new Object[]{ new Object[]{
+                                              AV137Mantenimientorollospiezads_2_tfprocod_sel ,
+                                              AV136Mantenimientorollospiezads_1_tfprocod ,
+                                              AV139Mantenimientorollospiezads_4_tfbarnhdr_sel ,
+                                              AV138Mantenimientorollospiezads_3_tfbarnhdr ,
+                                              AV141Mantenimientorollospiezads_6_tffascod_sel ,
+                                              AV140Mantenimientorollospiezads_5_tffascod ,
+                                              AV143Mantenimientorollospiezads_8_tffasdsc_sel ,
+                                              AV142Mantenimientorollospiezads_7_tffasdsc ,
+                                              AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel ,
+                                              AV144Mantenimientorollospiezads_9_tfmaqcodbis ,
+                                              AV146Mantenimientorollospiezads_11_tfbarfaskgm ,
+                                              AV147Mantenimientorollospiezads_12_tfbarfaskgm_to ,
+                                              AV148Mantenimientorollospiezads_13_tfbarfasmtr ,
+                                              AV149Mantenimientorollospiezads_14_tfbarfasmtr_to ,
+                                              AV150Mantenimientorollospiezads_15_tfbartierea ,
+                                              AV151Mantenimientorollospiezads_16_tfbartierea_to ,
+                                              AV152Mantenimientorollospiezads_17_tfbarfecrea ,
+                                              A758ProCod ,
+                                              Integer.valueOf(A129BarCod) ,
+                                              Byte.valueOf(A132BarCodReo) ,
+                                              A130BarCodPar ,
+                                              A457FasCod ,
+                                              A460FasDsc ,
+                                              A603MaqCodBis ,
+                                              A3837BarFasKgm ,
+                                              A3838BarFasMtr ,
+                                              A215BarTieRea ,
+                                              A160BarFecRea ,
+                                              Short.valueOf(AV58OrderedBy) ,
+                                              Boolean.valueOf(AV59OrderedDsc) ,
+                                              AV8emprcod ,
+                                              Integer.valueOf(AV5BarCod) ,
+                                              Byte.valueOf(AV7BarCodReo) ,
+                                              AV6BarCodPar ,
+                                              A396EmprCod } ,
+                                              new int[]{
+                                              TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING,
+                                              TypeConstants.DECIMAL, TypeConstants.DECIMAL, TypeConstants.DECIMAL, TypeConstants.DECIMAL, TypeConstants.DECIMAL, TypeConstants.DECIMAL, TypeConstants.DATE, TypeConstants.STRING, TypeConstants.INT, TypeConstants.BYTE,
+                                              TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.DECIMAL, TypeConstants.BOOLEAN, TypeConstants.DECIMAL, TypeConstants.BOOLEAN, TypeConstants.DECIMAL, TypeConstants.DATE,
+                                              TypeConstants.SHORT, TypeConstants.BOOLEAN, TypeConstants.STRING, TypeConstants.INT, TypeConstants.BYTE, TypeConstants.STRING, TypeConstants.STRING
+                                              }
+         });
+         lV136Mantenimientorollospiezads_1_tfprocod = GXutil.padr( GXutil.rtrim( AV136Mantenimientorollospiezads_1_tfprocod), 8, "%") ;
+         lV138Mantenimientorollospiezads_3_tfbarnhdr = GXutil.padr( GXutil.rtrim( AV138Mantenimientorollospiezads_3_tfbarnhdr), 11, "%") ;
+         lV140Mantenimientorollospiezads_5_tffascod = GXutil.padr( GXutil.rtrim( AV140Mantenimientorollospiezads_5_tffascod), 8, "%") ;
+         lV142Mantenimientorollospiezads_7_tffasdsc = GXutil.padr( GXutil.rtrim( AV142Mantenimientorollospiezads_7_tffasdsc), 28, "%") ;
+         lV144Mantenimientorollospiezads_9_tfmaqcodbis = GXutil.padr( GXutil.rtrim( AV144Mantenimientorollospiezads_9_tfmaqcodbis), 6, "%") ;
+         /* Using cursor H026Q2 */
+         pr_default.execute(0, new Object[] {AV8emprcod, Integer.valueOf(AV5BarCod), Byte.valueOf(AV7BarCodReo), AV6BarCodPar, lV136Mantenimientorollospiezads_1_tfprocod, AV137Mantenimientorollospiezads_2_tfprocod_sel, lV138Mantenimientorollospiezads_3_tfbarnhdr, AV139Mantenimientorollospiezads_4_tfbarnhdr_sel, lV140Mantenimientorollospiezads_5_tffascod, AV141Mantenimientorollospiezads_6_tffascod_sel, lV142Mantenimientorollospiezads_7_tffasdsc, AV143Mantenimientorollospiezads_8_tffasdsc_sel, lV144Mantenimientorollospiezads_9_tfmaqcodbis, AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel, AV146Mantenimientorollospiezads_11_tfbarfaskgm, AV147Mantenimientorollospiezads_12_tfbarfaskgm_to, AV148Mantenimientorollospiezads_13_tfbarfasmtr, AV149Mantenimientorollospiezads_14_tfbarfasmtr_to, AV150Mantenimientorollospiezads_15_tfbartierea, AV151Mantenimientorollospiezads_16_tfbartierea_to, AV152Mantenimientorollospiezads_17_tfbarfecrea, Integer.valueOf(GXPagingFrom2), Integer.valueOf(GXPagingTo2), Integer.valueOf(GXPagingTo2), Integer.valueOf(GXPagingFrom2), Integer.valueOf(GXPagingFrom2)});
+         nGXsfl_67_idx = 1 ;
+         sGXsfl_67_idx = GXutil.padl( GXutil.ltrimstr( DecimalUtil.doubleToDec(nGXsfl_67_idx), 4, 0), (short)(4), "0") ;
+         subsflControlProps_672( ) ;
+         while ( ( (pr_default.getStatus(0) != 101) ) && ( ( ( subGrid_Rows == 0 ) || ( GRID_nCurrentRecord < subgrid_fnc_recordsperpage( ) ) ) ) )
+         {
+            A160BarFecRea = H026Q2_A160BarFecRea[0] ;
+            A215BarTieRea = H026Q2_A215BarTieRea[0] ;
+            A3838BarFasMtr = H026Q2_A3838BarFasMtr[0] ;
+            n3838BarFasMtr = H026Q2_n3838BarFasMtr[0] ;
+            A3837BarFasKgm = H026Q2_A3837BarFasKgm[0] ;
+            n3837BarFasKgm = H026Q2_n3837BarFasKgm[0] ;
+            A603MaqCodBis = H026Q2_A603MaqCodBis[0] ;
+            A460FasDsc = H026Q2_A460FasDsc[0] ;
+            A457FasCod = H026Q2_A457FasCod[0] ;
+            A758ProCod = H026Q2_A758ProCod[0] ;
+            A194BarOrdLin = H026Q2_A194BarOrdLin[0] ;
+            A396EmprCod = H026Q2_A396EmprCod[0] ;
+            A130BarCodPar = H026Q2_A130BarCodPar[0] ;
+            A132BarCodReo = H026Q2_A132BarCodReo[0] ;
+            A129BarCod = H026Q2_A129BarCod[0] ;
+            A460FasDsc = H026Q2_A460FasDsc[0] ;
+            A13696BarNHdr = GXutil.trim( GXutil.str( A129BarCod, 8, 0)) + "-" + GXutil.trim( GXutil.str( A132BarCodReo, 1, 0)) + A130BarCodPar ;
+            e1726Q2 ();
+            pr_default.readNext(0);
+         }
+         GRID_nEOF = (byte)(((pr_default.getStatus(0) == 101) ? 1 : 0)) ;
+         app.GxWebStd.gx_hidden_field( httpContext, "GRID_nEOF", GXutil.ltrim( localUtil.ntoc( GRID_nEOF, (byte)(1), (byte)(0), ".", "")));
+         pr_default.close(0);
+         wbEnd = (short)(67) ;
+         wb26Q0( ) ;
+      }
+      bGXsfl_67_Refreshing = true ;
+   }
+
+   public void send_integrity_lvl_hashes26Q2( )
+   {
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.ajax_rsp_assign_sdt_attri("", false, "vMANTENIMIENTOROLLOSPIEZASDT", AV130MantenimientoRollosPiezaSDT);
+      }
+      else
+      {
+         httpContext.ajax_rsp_assign_hidden_sdt("vMANTENIMIENTOROLLOSPIEZASDT", AV130MantenimientoRollosPiezaSDT);
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vMANTENIMIENTOROLLOSPIEZASDT", getSecureSignedToken( "", AV130MantenimientoRollosPiezaSDT));
+      app.GxWebStd.gx_hidden_field( httpContext, "vNUMPZSFS", GXutil.ltrim( localUtil.ntoc( AV55NumPzsFs, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vNUMPZSFS", getSecureSignedToken( "", localUtil.format( DecimalUtil.doubleToDec(AV55NumPzsFs), "ZZZ9")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vNUMPZSFS2", GXutil.ltrim( localUtil.ntoc( AV56NumPzsFs2, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vNUMPZSFS2", getSecureSignedToken( "", localUtil.format( DecimalUtil.doubleToDec(AV56NumPzsFs2), "ZZZ9")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vMODA21", GXutil.ltrim( localUtil.ntoc( AV53Moda21, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vMODA21", getSecureSignedToken( "", localUtil.format( DecimalUtil.doubleToDec(AV53Moda21), "ZZZ9")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vCONST", GXutil.ltrim( localUtil.ntoc( AV27Const, (byte)(6), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vCONST", getSecureSignedToken( "", localUtil.format( AV27Const, "ZZ9.99")));
+      app.GxWebStd.gx_hidden_field( httpContext, "vMETPIEDCP", GXutil.rtrim( AV46MetPieDCP));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vMETPIEDCP", getSecureSignedToken( "", GXutil.rtrim( localUtil.format( AV46MetPieDCP, "@!"))));
+   }
+
+   public int subgrid_fnc_pagecount( )
+   {
+      GRID_nRecordCount = subgrid_fnc_recordcount( ) ;
+      if ( ((int)((GRID_nRecordCount) % (subgrid_fnc_recordsperpage( )))) == 0 )
+      {
+         return (int)(GXutil.Int( GRID_nRecordCount/ (double) (subgrid_fnc_recordsperpage( )))) ;
+      }
+      return (int)(GXutil.Int( GRID_nRecordCount/ (double) (subgrid_fnc_recordsperpage( )))+1) ;
+   }
+
+   public int subgrid_fnc_recordcount( )
+   {
+      AV136Mantenimientorollospiezads_1_tfprocod = AV88TFProCod ;
+      AV137Mantenimientorollospiezads_2_tfprocod_sel = AV89TFProCod_Sel ;
+      AV138Mantenimientorollospiezads_3_tfbarnhdr = AV76TFBarNHdr ;
+      AV139Mantenimientorollospiezads_4_tfbarnhdr_sel = AV77TFBarNHdr_Sel ;
+      AV140Mantenimientorollospiezads_5_tffascod = AV82TFFasCod ;
+      AV141Mantenimientorollospiezads_6_tffascod_sel = AV83TFFasCod_Sel ;
+      AV142Mantenimientorollospiezads_7_tffasdsc = AV84TFFasDsc ;
+      AV143Mantenimientorollospiezads_8_tffasdsc_sel = AV85TFFasDsc_Sel ;
+      AV144Mantenimientorollospiezads_9_tfmaqcodbis = AV86TFMaqCodBis ;
+      AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel = AV87TFMaqCodBis_Sel ;
+      AV146Mantenimientorollospiezads_11_tfbarfaskgm = AV71TFBarFasKgm ;
+      AV147Mantenimientorollospiezads_12_tfbarfaskgm_to = AV72TFBarFasKgm_To ;
+      AV148Mantenimientorollospiezads_13_tfbarfasmtr = AV73TFBarFasMtr ;
+      AV149Mantenimientorollospiezads_14_tfbarfasmtr_to = AV74TFBarFasMtr_To ;
+      AV150Mantenimientorollospiezads_15_tfbartierea = AV80TFBarTieRea ;
+      AV151Mantenimientorollospiezads_16_tfbartierea_to = AV81TFBarTieRea_To ;
+      AV152Mantenimientorollospiezads_17_tfbarfecrea = AV75TFBarFecRea ;
+      pr_default.dynParam(1, new Object[]{ new Object[]{
+                                           AV137Mantenimientorollospiezads_2_tfprocod_sel ,
+                                           AV136Mantenimientorollospiezads_1_tfprocod ,
+                                           AV139Mantenimientorollospiezads_4_tfbarnhdr_sel ,
+                                           AV138Mantenimientorollospiezads_3_tfbarnhdr ,
+                                           AV141Mantenimientorollospiezads_6_tffascod_sel ,
+                                           AV140Mantenimientorollospiezads_5_tffascod ,
+                                           AV143Mantenimientorollospiezads_8_tffasdsc_sel ,
+                                           AV142Mantenimientorollospiezads_7_tffasdsc ,
+                                           AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel ,
+                                           AV144Mantenimientorollospiezads_9_tfmaqcodbis ,
+                                           AV146Mantenimientorollospiezads_11_tfbarfaskgm ,
+                                           AV147Mantenimientorollospiezads_12_tfbarfaskgm_to ,
+                                           AV148Mantenimientorollospiezads_13_tfbarfasmtr ,
+                                           AV149Mantenimientorollospiezads_14_tfbarfasmtr_to ,
+                                           AV150Mantenimientorollospiezads_15_tfbartierea ,
+                                           AV151Mantenimientorollospiezads_16_tfbartierea_to ,
+                                           AV152Mantenimientorollospiezads_17_tfbarfecrea ,
+                                           A758ProCod ,
+                                           Integer.valueOf(A129BarCod) ,
+                                           Byte.valueOf(A132BarCodReo) ,
+                                           A130BarCodPar ,
+                                           A457FasCod ,
+                                           A460FasDsc ,
+                                           A603MaqCodBis ,
+                                           A3837BarFasKgm ,
+                                           A3838BarFasMtr ,
+                                           A215BarTieRea ,
+                                           A160BarFecRea ,
+                                           Short.valueOf(AV58OrderedBy) ,
+                                           Boolean.valueOf(AV59OrderedDsc) ,
+                                           AV8emprcod ,
+                                           Integer.valueOf(AV5BarCod) ,
+                                           Byte.valueOf(AV7BarCodReo) ,
+                                           AV6BarCodPar ,
+                                           A396EmprCod } ,
+                                           new int[]{
+                                           TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING,
+                                           TypeConstants.DECIMAL, TypeConstants.DECIMAL, TypeConstants.DECIMAL, TypeConstants.DECIMAL, TypeConstants.DECIMAL, TypeConstants.DECIMAL, TypeConstants.DATE, TypeConstants.STRING, TypeConstants.INT, TypeConstants.BYTE,
+                                           TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.STRING, TypeConstants.DECIMAL, TypeConstants.BOOLEAN, TypeConstants.DECIMAL, TypeConstants.BOOLEAN, TypeConstants.DECIMAL, TypeConstants.DATE,
+                                           TypeConstants.SHORT, TypeConstants.BOOLEAN, TypeConstants.STRING, TypeConstants.INT, TypeConstants.BYTE, TypeConstants.STRING, TypeConstants.STRING
+                                           }
+      });
+      lV136Mantenimientorollospiezads_1_tfprocod = GXutil.padr( GXutil.rtrim( AV136Mantenimientorollospiezads_1_tfprocod), 8, "%") ;
+      lV138Mantenimientorollospiezads_3_tfbarnhdr = GXutil.padr( GXutil.rtrim( AV138Mantenimientorollospiezads_3_tfbarnhdr), 11, "%") ;
+      lV140Mantenimientorollospiezads_5_tffascod = GXutil.padr( GXutil.rtrim( AV140Mantenimientorollospiezads_5_tffascod), 8, "%") ;
+      lV142Mantenimientorollospiezads_7_tffasdsc = GXutil.padr( GXutil.rtrim( AV142Mantenimientorollospiezads_7_tffasdsc), 28, "%") ;
+      lV144Mantenimientorollospiezads_9_tfmaqcodbis = GXutil.padr( GXutil.rtrim( AV144Mantenimientorollospiezads_9_tfmaqcodbis), 6, "%") ;
+      /* Using cursor H026Q3 */
+      pr_default.execute(1, new Object[] {AV8emprcod, Integer.valueOf(AV5BarCod), Byte.valueOf(AV7BarCodReo), AV6BarCodPar, lV136Mantenimientorollospiezads_1_tfprocod, AV137Mantenimientorollospiezads_2_tfprocod_sel, lV138Mantenimientorollospiezads_3_tfbarnhdr, AV139Mantenimientorollospiezads_4_tfbarnhdr_sel, lV140Mantenimientorollospiezads_5_tffascod, AV141Mantenimientorollospiezads_6_tffascod_sel, lV142Mantenimientorollospiezads_7_tffasdsc, AV143Mantenimientorollospiezads_8_tffasdsc_sel, lV144Mantenimientorollospiezads_9_tfmaqcodbis, AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel, AV146Mantenimientorollospiezads_11_tfbarfaskgm, AV147Mantenimientorollospiezads_12_tfbarfaskgm_to, AV148Mantenimientorollospiezads_13_tfbarfasmtr, AV149Mantenimientorollospiezads_14_tfbarfasmtr_to, AV150Mantenimientorollospiezads_15_tfbartierea, AV151Mantenimientorollospiezads_16_tfbartierea_to, AV152Mantenimientorollospiezads_17_tfbarfecrea});
+      GRID_nRecordCount = H026Q3_AGRID_nRecordCount[0] ;
+      pr_default.close(1);
+      return (int)(GRID_nRecordCount) ;
+   }
+
+   public int subgrid_fnc_recordsperpage( )
+   {
+      if ( subGrid_Rows > 0 )
+      {
+         return subGrid_Rows*1 ;
+      }
+      else
+      {
+         return -1 ;
+      }
+   }
+
+   public int subgrid_fnc_currentpage( )
+   {
+      return (int)(GXutil.Int( GRID_nFirstRecordOnPage/ (double) (subgrid_fnc_recordsperpage( )))+1) ;
+   }
+
+   public short subgrid_firstpage( )
+   {
+      AV136Mantenimientorollospiezads_1_tfprocod = AV88TFProCod ;
+      AV137Mantenimientorollospiezads_2_tfprocod_sel = AV89TFProCod_Sel ;
+      AV138Mantenimientorollospiezads_3_tfbarnhdr = AV76TFBarNHdr ;
+      AV139Mantenimientorollospiezads_4_tfbarnhdr_sel = AV77TFBarNHdr_Sel ;
+      AV140Mantenimientorollospiezads_5_tffascod = AV82TFFasCod ;
+      AV141Mantenimientorollospiezads_6_tffascod_sel = AV83TFFasCod_Sel ;
+      AV142Mantenimientorollospiezads_7_tffasdsc = AV84TFFasDsc ;
+      AV143Mantenimientorollospiezads_8_tffasdsc_sel = AV85TFFasDsc_Sel ;
+      AV144Mantenimientorollospiezads_9_tfmaqcodbis = AV86TFMaqCodBis ;
+      AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel = AV87TFMaqCodBis_Sel ;
+      AV146Mantenimientorollospiezads_11_tfbarfaskgm = AV71TFBarFasKgm ;
+      AV147Mantenimientorollospiezads_12_tfbarfaskgm_to = AV72TFBarFasKgm_To ;
+      AV148Mantenimientorollospiezads_13_tfbarfasmtr = AV73TFBarFasMtr ;
+      AV149Mantenimientorollospiezads_14_tfbarfasmtr_to = AV74TFBarFasMtr_To ;
+      AV150Mantenimientorollospiezads_15_tfbartierea = AV80TFBarTieRea ;
+      AV151Mantenimientorollospiezads_16_tfbartierea_to = AV81TFBarTieRea_To ;
+      AV152Mantenimientorollospiezads_17_tfbarfecrea = AV75TFBarFecRea ;
+      GRID_nFirstRecordOnPage = 0 ;
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_nFirstRecordOnPage", GXutil.ltrim( localUtil.ntoc( GRID_nFirstRecordOnPage, (byte)(15), (byte)(0), ".", "")));
+      if ( isFullAjaxMode( ) )
+      {
+         gxgrgrid_refresh( subGrid_Rows, AV8emprcod, AV5BarCod, AV7BarCodReo, AV6BarCodPar, AV106EmprCodJson, AV110BarCodJson, AV114BarCodReoJson, AV118BarCodParJson, AV122ProCodJson, AV126BarOrdLinJson, AV88TFProCod, AV89TFProCod_Sel, AV76TFBarNHdr, AV77TFBarNHdr_Sel, AV82TFFasCod, AV83TFFasCod_Sel, AV84TFFasDsc, AV85TFFasDsc_Sel, AV86TFMaqCodBis, AV87TFMaqCodBis_Sel, AV71TFBarFasKgm, AV72TFBarFasKgm_To, AV73TFBarFasMtr, AV74TFBarFasMtr_To, AV80TFBarTieRea, AV81TFBarTieRea_To, AV75TFBarFecRea, AV135Pgmname, AV58OrderedBy, AV59OrderedDsc, AV39i, AV105EmprCodCol, AV108EmprCodToFind, AV109BarCodCol, AV112BarCodToFind, AV113BarCodReoCol, AV116BarCodReoToFind, AV117BarCodParCol, AV120BarCodParToFind, AV121ProCodCol, AV124ProCodToFind, AV125BarOrdLinCol, AV128BarOrdLinToFind, AV130MantenimientoRollosPiezaSDT, AV55NumPzsFs, AV56NumPzsFs2, AV53Moda21, AV27Const, AV46MetPieDCP) ;
+      }
+      send_integrity_footer_hashes( ) ;
+      return (short)(0) ;
+   }
+
+   public short subgrid_nextpage( )
+   {
+      AV136Mantenimientorollospiezads_1_tfprocod = AV88TFProCod ;
+      AV137Mantenimientorollospiezads_2_tfprocod_sel = AV89TFProCod_Sel ;
+      AV138Mantenimientorollospiezads_3_tfbarnhdr = AV76TFBarNHdr ;
+      AV139Mantenimientorollospiezads_4_tfbarnhdr_sel = AV77TFBarNHdr_Sel ;
+      AV140Mantenimientorollospiezads_5_tffascod = AV82TFFasCod ;
+      AV141Mantenimientorollospiezads_6_tffascod_sel = AV83TFFasCod_Sel ;
+      AV142Mantenimientorollospiezads_7_tffasdsc = AV84TFFasDsc ;
+      AV143Mantenimientorollospiezads_8_tffasdsc_sel = AV85TFFasDsc_Sel ;
+      AV144Mantenimientorollospiezads_9_tfmaqcodbis = AV86TFMaqCodBis ;
+      AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel = AV87TFMaqCodBis_Sel ;
+      AV146Mantenimientorollospiezads_11_tfbarfaskgm = AV71TFBarFasKgm ;
+      AV147Mantenimientorollospiezads_12_tfbarfaskgm_to = AV72TFBarFasKgm_To ;
+      AV148Mantenimientorollospiezads_13_tfbarfasmtr = AV73TFBarFasMtr ;
+      AV149Mantenimientorollospiezads_14_tfbarfasmtr_to = AV74TFBarFasMtr_To ;
+      AV150Mantenimientorollospiezads_15_tfbartierea = AV80TFBarTieRea ;
+      AV151Mantenimientorollospiezads_16_tfbartierea_to = AV81TFBarTieRea_To ;
+      AV152Mantenimientorollospiezads_17_tfbarfecrea = AV75TFBarFecRea ;
+      GRID_nRecordCount = subgrid_fnc_recordcount( ) ;
+      if ( ( GRID_nRecordCount >= subgrid_fnc_recordsperpage( ) ) && ( GRID_nEOF == 0 ) )
+      {
+         GRID_nFirstRecordOnPage = (long)(GRID_nFirstRecordOnPage+subgrid_fnc_recordsperpage( )) ;
+      }
+      else
+      {
+         return (short)(2) ;
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_nFirstRecordOnPage", GXutil.ltrim( localUtil.ntoc( GRID_nFirstRecordOnPage, (byte)(15), (byte)(0), ".", "")));
+      GridContainer.AddObjectProperty("GRID_nFirstRecordOnPage", GRID_nFirstRecordOnPage);
+      if ( isFullAjaxMode( ) )
+      {
+         gxgrgrid_refresh( subGrid_Rows, AV8emprcod, AV5BarCod, AV7BarCodReo, AV6BarCodPar, AV106EmprCodJson, AV110BarCodJson, AV114BarCodReoJson, AV118BarCodParJson, AV122ProCodJson, AV126BarOrdLinJson, AV88TFProCod, AV89TFProCod_Sel, AV76TFBarNHdr, AV77TFBarNHdr_Sel, AV82TFFasCod, AV83TFFasCod_Sel, AV84TFFasDsc, AV85TFFasDsc_Sel, AV86TFMaqCodBis, AV87TFMaqCodBis_Sel, AV71TFBarFasKgm, AV72TFBarFasKgm_To, AV73TFBarFasMtr, AV74TFBarFasMtr_To, AV80TFBarTieRea, AV81TFBarTieRea_To, AV75TFBarFecRea, AV135Pgmname, AV58OrderedBy, AV59OrderedDsc, AV39i, AV105EmprCodCol, AV108EmprCodToFind, AV109BarCodCol, AV112BarCodToFind, AV113BarCodReoCol, AV116BarCodReoToFind, AV117BarCodParCol, AV120BarCodParToFind, AV121ProCodCol, AV124ProCodToFind, AV125BarOrdLinCol, AV128BarOrdLinToFind, AV130MantenimientoRollosPiezaSDT, AV55NumPzsFs, AV56NumPzsFs2, AV53Moda21, AV27Const, AV46MetPieDCP) ;
+      }
+      send_integrity_footer_hashes( ) ;
+      return (short)(((GRID_nEOF==0) ? 0 : 2)) ;
+   }
+
+   public short subgrid_previouspage( )
+   {
+      AV136Mantenimientorollospiezads_1_tfprocod = AV88TFProCod ;
+      AV137Mantenimientorollospiezads_2_tfprocod_sel = AV89TFProCod_Sel ;
+      AV138Mantenimientorollospiezads_3_tfbarnhdr = AV76TFBarNHdr ;
+      AV139Mantenimientorollospiezads_4_tfbarnhdr_sel = AV77TFBarNHdr_Sel ;
+      AV140Mantenimientorollospiezads_5_tffascod = AV82TFFasCod ;
+      AV141Mantenimientorollospiezads_6_tffascod_sel = AV83TFFasCod_Sel ;
+      AV142Mantenimientorollospiezads_7_tffasdsc = AV84TFFasDsc ;
+      AV143Mantenimientorollospiezads_8_tffasdsc_sel = AV85TFFasDsc_Sel ;
+      AV144Mantenimientorollospiezads_9_tfmaqcodbis = AV86TFMaqCodBis ;
+      AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel = AV87TFMaqCodBis_Sel ;
+      AV146Mantenimientorollospiezads_11_tfbarfaskgm = AV71TFBarFasKgm ;
+      AV147Mantenimientorollospiezads_12_tfbarfaskgm_to = AV72TFBarFasKgm_To ;
+      AV148Mantenimientorollospiezads_13_tfbarfasmtr = AV73TFBarFasMtr ;
+      AV149Mantenimientorollospiezads_14_tfbarfasmtr_to = AV74TFBarFasMtr_To ;
+      AV150Mantenimientorollospiezads_15_tfbartierea = AV80TFBarTieRea ;
+      AV151Mantenimientorollospiezads_16_tfbartierea_to = AV81TFBarTieRea_To ;
+      AV152Mantenimientorollospiezads_17_tfbarfecrea = AV75TFBarFecRea ;
+      if ( GRID_nFirstRecordOnPage >= subgrid_fnc_recordsperpage( ) )
+      {
+         GRID_nFirstRecordOnPage = (long)(GRID_nFirstRecordOnPage-subgrid_fnc_recordsperpage( )) ;
+      }
+      else
+      {
+         return (short)(2) ;
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_nFirstRecordOnPage", GXutil.ltrim( localUtil.ntoc( GRID_nFirstRecordOnPage, (byte)(15), (byte)(0), ".", "")));
+      if ( isFullAjaxMode( ) )
+      {
+         gxgrgrid_refresh( subGrid_Rows, AV8emprcod, AV5BarCod, AV7BarCodReo, AV6BarCodPar, AV106EmprCodJson, AV110BarCodJson, AV114BarCodReoJson, AV118BarCodParJson, AV122ProCodJson, AV126BarOrdLinJson, AV88TFProCod, AV89TFProCod_Sel, AV76TFBarNHdr, AV77TFBarNHdr_Sel, AV82TFFasCod, AV83TFFasCod_Sel, AV84TFFasDsc, AV85TFFasDsc_Sel, AV86TFMaqCodBis, AV87TFMaqCodBis_Sel, AV71TFBarFasKgm, AV72TFBarFasKgm_To, AV73TFBarFasMtr, AV74TFBarFasMtr_To, AV80TFBarTieRea, AV81TFBarTieRea_To, AV75TFBarFecRea, AV135Pgmname, AV58OrderedBy, AV59OrderedDsc, AV39i, AV105EmprCodCol, AV108EmprCodToFind, AV109BarCodCol, AV112BarCodToFind, AV113BarCodReoCol, AV116BarCodReoToFind, AV117BarCodParCol, AV120BarCodParToFind, AV121ProCodCol, AV124ProCodToFind, AV125BarOrdLinCol, AV128BarOrdLinToFind, AV130MantenimientoRollosPiezaSDT, AV55NumPzsFs, AV56NumPzsFs2, AV53Moda21, AV27Const, AV46MetPieDCP) ;
+      }
+      send_integrity_footer_hashes( ) ;
+      return (short)(0) ;
+   }
+
+   public short subgrid_lastpage( )
+   {
+      AV136Mantenimientorollospiezads_1_tfprocod = AV88TFProCod ;
+      AV137Mantenimientorollospiezads_2_tfprocod_sel = AV89TFProCod_Sel ;
+      AV138Mantenimientorollospiezads_3_tfbarnhdr = AV76TFBarNHdr ;
+      AV139Mantenimientorollospiezads_4_tfbarnhdr_sel = AV77TFBarNHdr_Sel ;
+      AV140Mantenimientorollospiezads_5_tffascod = AV82TFFasCod ;
+      AV141Mantenimientorollospiezads_6_tffascod_sel = AV83TFFasCod_Sel ;
+      AV142Mantenimientorollospiezads_7_tffasdsc = AV84TFFasDsc ;
+      AV143Mantenimientorollospiezads_8_tffasdsc_sel = AV85TFFasDsc_Sel ;
+      AV144Mantenimientorollospiezads_9_tfmaqcodbis = AV86TFMaqCodBis ;
+      AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel = AV87TFMaqCodBis_Sel ;
+      AV146Mantenimientorollospiezads_11_tfbarfaskgm = AV71TFBarFasKgm ;
+      AV147Mantenimientorollospiezads_12_tfbarfaskgm_to = AV72TFBarFasKgm_To ;
+      AV148Mantenimientorollospiezads_13_tfbarfasmtr = AV73TFBarFasMtr ;
+      AV149Mantenimientorollospiezads_14_tfbarfasmtr_to = AV74TFBarFasMtr_To ;
+      AV150Mantenimientorollospiezads_15_tfbartierea = AV80TFBarTieRea ;
+      AV151Mantenimientorollospiezads_16_tfbartierea_to = AV81TFBarTieRea_To ;
+      AV152Mantenimientorollospiezads_17_tfbarfecrea = AV75TFBarFecRea ;
+      GRID_nRecordCount = subgrid_fnc_recordcount( ) ;
+      if ( GRID_nRecordCount > subgrid_fnc_recordsperpage( ) )
+      {
+         if ( ((int)((GRID_nRecordCount) % (subgrid_fnc_recordsperpage( )))) == 0 )
+         {
+            GRID_nFirstRecordOnPage = (long)(GRID_nRecordCount-subgrid_fnc_recordsperpage( )) ;
+         }
+         else
+         {
+            GRID_nFirstRecordOnPage = (long)(GRID_nRecordCount-((int)((GRID_nRecordCount) % (subgrid_fnc_recordsperpage( ))))) ;
+         }
+      }
+      else
+      {
+         GRID_nFirstRecordOnPage = 0 ;
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_nFirstRecordOnPage", GXutil.ltrim( localUtil.ntoc( GRID_nFirstRecordOnPage, (byte)(15), (byte)(0), ".", "")));
+      if ( isFullAjaxMode( ) )
+      {
+         gxgrgrid_refresh( subGrid_Rows, AV8emprcod, AV5BarCod, AV7BarCodReo, AV6BarCodPar, AV106EmprCodJson, AV110BarCodJson, AV114BarCodReoJson, AV118BarCodParJson, AV122ProCodJson, AV126BarOrdLinJson, AV88TFProCod, AV89TFProCod_Sel, AV76TFBarNHdr, AV77TFBarNHdr_Sel, AV82TFFasCod, AV83TFFasCod_Sel, AV84TFFasDsc, AV85TFFasDsc_Sel, AV86TFMaqCodBis, AV87TFMaqCodBis_Sel, AV71TFBarFasKgm, AV72TFBarFasKgm_To, AV73TFBarFasMtr, AV74TFBarFasMtr_To, AV80TFBarTieRea, AV81TFBarTieRea_To, AV75TFBarFecRea, AV135Pgmname, AV58OrderedBy, AV59OrderedDsc, AV39i, AV105EmprCodCol, AV108EmprCodToFind, AV109BarCodCol, AV112BarCodToFind, AV113BarCodReoCol, AV116BarCodReoToFind, AV117BarCodParCol, AV120BarCodParToFind, AV121ProCodCol, AV124ProCodToFind, AV125BarOrdLinCol, AV128BarOrdLinToFind, AV130MantenimientoRollosPiezaSDT, AV55NumPzsFs, AV56NumPzsFs2, AV53Moda21, AV27Const, AV46MetPieDCP) ;
+      }
+      send_integrity_footer_hashes( ) ;
+      return (short)(0) ;
+   }
+
+   public int subgrid_gotopage( int nPageNo )
+   {
+      AV136Mantenimientorollospiezads_1_tfprocod = AV88TFProCod ;
+      AV137Mantenimientorollospiezads_2_tfprocod_sel = AV89TFProCod_Sel ;
+      AV138Mantenimientorollospiezads_3_tfbarnhdr = AV76TFBarNHdr ;
+      AV139Mantenimientorollospiezads_4_tfbarnhdr_sel = AV77TFBarNHdr_Sel ;
+      AV140Mantenimientorollospiezads_5_tffascod = AV82TFFasCod ;
+      AV141Mantenimientorollospiezads_6_tffascod_sel = AV83TFFasCod_Sel ;
+      AV142Mantenimientorollospiezads_7_tffasdsc = AV84TFFasDsc ;
+      AV143Mantenimientorollospiezads_8_tffasdsc_sel = AV85TFFasDsc_Sel ;
+      AV144Mantenimientorollospiezads_9_tfmaqcodbis = AV86TFMaqCodBis ;
+      AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel = AV87TFMaqCodBis_Sel ;
+      AV146Mantenimientorollospiezads_11_tfbarfaskgm = AV71TFBarFasKgm ;
+      AV147Mantenimientorollospiezads_12_tfbarfaskgm_to = AV72TFBarFasKgm_To ;
+      AV148Mantenimientorollospiezads_13_tfbarfasmtr = AV73TFBarFasMtr ;
+      AV149Mantenimientorollospiezads_14_tfbarfasmtr_to = AV74TFBarFasMtr_To ;
+      AV150Mantenimientorollospiezads_15_tfbartierea = AV80TFBarTieRea ;
+      AV151Mantenimientorollospiezads_16_tfbartierea_to = AV81TFBarTieRea_To ;
+      AV152Mantenimientorollospiezads_17_tfbarfecrea = AV75TFBarFecRea ;
+      if ( nPageNo > 0 )
+      {
+         GRID_nFirstRecordOnPage = (long)(subgrid_fnc_recordsperpage( )*(nPageNo-1)) ;
+      }
+      else
+      {
+         GRID_nFirstRecordOnPage = 0 ;
+      }
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_nFirstRecordOnPage", GXutil.ltrim( localUtil.ntoc( GRID_nFirstRecordOnPage, (byte)(15), (byte)(0), ".", "")));
+      if ( isFullAjaxMode( ) )
+      {
+         gxgrgrid_refresh( subGrid_Rows, AV8emprcod, AV5BarCod, AV7BarCodReo, AV6BarCodPar, AV106EmprCodJson, AV110BarCodJson, AV114BarCodReoJson, AV118BarCodParJson, AV122ProCodJson, AV126BarOrdLinJson, AV88TFProCod, AV89TFProCod_Sel, AV76TFBarNHdr, AV77TFBarNHdr_Sel, AV82TFFasCod, AV83TFFasCod_Sel, AV84TFFasDsc, AV85TFFasDsc_Sel, AV86TFMaqCodBis, AV87TFMaqCodBis_Sel, AV71TFBarFasKgm, AV72TFBarFasKgm_To, AV73TFBarFasMtr, AV74TFBarFasMtr_To, AV80TFBarTieRea, AV81TFBarTieRea_To, AV75TFBarFecRea, AV135Pgmname, AV58OrderedBy, AV59OrderedDsc, AV39i, AV105EmprCodCol, AV108EmprCodToFind, AV109BarCodCol, AV112BarCodToFind, AV113BarCodReoCol, AV116BarCodReoToFind, AV117BarCodParCol, AV120BarCodParToFind, AV121ProCodCol, AV124ProCodToFind, AV125BarOrdLinCol, AV128BarOrdLinToFind, AV130MantenimientoRollosPiezaSDT, AV55NumPzsFs, AV56NumPzsFs2, AV53Moda21, AV27Const, AV46MetPieDCP) ;
+      }
+      send_integrity_footer_hashes( ) ;
+      return 0 ;
+   }
+
+   public void before_start_formulas( )
+   {
+      AV135Pgmname = "MantenimientoRollosPieza" ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV135Pgmname", AV135Pgmname);
+      Gx_err = (short)(0) ;
+      edtavBarcod_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavBarcod_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavBarcod_Enabled), 5, 0), true);
+      edtavBarcodreo_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavBarcodreo_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavBarcodreo_Enabled), 5, 0), true);
+      edtavBarcodpar_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavBarcodpar_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavBarcodpar_Enabled), 5, 0), true);
+      edtavPgmname_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtavPgmname_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtavPgmname_Enabled), 5, 0), true);
+      fix_multi_value_controls( ) ;
+   }
+
+   public void strup26Q0( )
+   {
+      /* Before Start, stand alone formulas. */
+      before_start_formulas( ) ;
+      /* Execute Start event if defined. */
+      httpContext.wbGlbDoneStart = (byte)(0) ;
+      /* Execute user event: Start */
+      e1526Q2 ();
+      httpContext.wbGlbDoneStart = (byte)(1) ;
+      /* After Start, stand alone formulas. */
+      if ( GXutil.strcmp(httpContext.getRequestMethod( ), "POST") == 0 )
+      {
+         /* Read saved SDTs. */
+         httpContext.ajax_req_read_hidden_sdt(httpContext.cgiGet( "vDDO_TITLESETTINGSICONS"), AV29DDO_TitleSettingsIcons);
+         httpContext.ajax_req_read_hidden_sdt(httpContext.cgiGet( "vMANTENIMIENTOROLLOSPIEZASDT"), AV130MantenimientoRollosPiezaSDT);
+         httpContext.ajax_req_read_hidden_sdt(httpContext.cgiGet( "vSELECTEDROWS"), AV103SelectedRows);
+         /* Read saved values. */
+         nRC_GXsfl_67 = (int)(localUtil.ctol( httpContext.cgiGet( "nRC_GXsfl_67"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         AV31FasDsc = httpContext.cgiGet( "vFASDSC") ;
+         AV30FasCod = httpContext.cgiGet( "vFASCOD") ;
+         AV44MaqCodBis = httpContext.cgiGet( "vMAQCODBIS") ;
+         AV132BarOrdLin = (short)(localUtil.ctol( httpContext.cgiGet( "vBARORDLIN"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         AV61Procod = httpContext.cgiGet( "vPROCOD") ;
+         GRID_nFirstRecordOnPage = localUtil.ctol( httpContext.cgiGet( "GRID_nFirstRecordOnPage"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) ;
+         GRID_nEOF = (byte)(localUtil.ctol( httpContext.cgiGet( "GRID_nEOF"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         subGrid_Rows = (int)(localUtil.ctol( httpContext.cgiGet( "GRID_Rows"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         app.GxWebStd.gx_hidden_field( httpContext, "GRID_Rows", GXutil.ltrim( localUtil.ntoc( subGrid_Rows, (byte)(6), (byte)(0), ".", "")));
+         Dvpanel_tableheader_Width = httpContext.cgiGet( "DVPANEL_TABLEHEADER_Width") ;
+         Dvpanel_tableheader_Autowidth = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_TABLEHEADER_Autowidth")) ;
+         Dvpanel_tableheader_Autoheight = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_TABLEHEADER_Autoheight")) ;
+         Dvpanel_tableheader_Cls = httpContext.cgiGet( "DVPANEL_TABLEHEADER_Cls") ;
+         Dvpanel_tableheader_Title = httpContext.cgiGet( "DVPANEL_TABLEHEADER_Title") ;
+         Dvpanel_tableheader_Collapsible = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_TABLEHEADER_Collapsible")) ;
+         Dvpanel_tableheader_Collapsed = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_TABLEHEADER_Collapsed")) ;
+         Dvpanel_tableheader_Showcollapseicon = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_TABLEHEADER_Showcollapseicon")) ;
+         Dvpanel_tableheader_Iconposition = httpContext.cgiGet( "DVPANEL_TABLEHEADER_Iconposition") ;
+         Dvpanel_tableheader_Autoscroll = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_TABLEHEADER_Autoscroll")) ;
+         Dvpanel_unnamedtable1_Width = httpContext.cgiGet( "DVPANEL_UNNAMEDTABLE1_Width") ;
+         Dvpanel_unnamedtable1_Autowidth = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_UNNAMEDTABLE1_Autowidth")) ;
+         Dvpanel_unnamedtable1_Autoheight = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_UNNAMEDTABLE1_Autoheight")) ;
+         Dvpanel_unnamedtable1_Cls = httpContext.cgiGet( "DVPANEL_UNNAMEDTABLE1_Cls") ;
+         Dvpanel_unnamedtable1_Title = httpContext.cgiGet( "DVPANEL_UNNAMEDTABLE1_Title") ;
+         Dvpanel_unnamedtable1_Collapsible = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_UNNAMEDTABLE1_Collapsible")) ;
+         Dvpanel_unnamedtable1_Collapsed = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_UNNAMEDTABLE1_Collapsed")) ;
+         Dvpanel_unnamedtable1_Showcollapseicon = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_UNNAMEDTABLE1_Showcollapseicon")) ;
+         Dvpanel_unnamedtable1_Iconposition = httpContext.cgiGet( "DVPANEL_UNNAMEDTABLE1_Iconposition") ;
+         Dvpanel_unnamedtable1_Autoscroll = GXutil.strtobool( httpContext.cgiGet( "DVPANEL_UNNAMEDTABLE1_Autoscroll")) ;
+         Ddo_grid_Caption = httpContext.cgiGet( "DDO_GRID_Caption") ;
+         Ddo_grid_Filteredtext_set = httpContext.cgiGet( "DDO_GRID_Filteredtext_set") ;
+         Ddo_grid_Filteredtextto_set = httpContext.cgiGet( "DDO_GRID_Filteredtextto_set") ;
+         Ddo_grid_Selectedvalue_set = httpContext.cgiGet( "DDO_GRID_Selectedvalue_set") ;
+         Ddo_grid_Gridinternalname = httpContext.cgiGet( "DDO_GRID_Gridinternalname") ;
+         Ddo_grid_Columnids = httpContext.cgiGet( "DDO_GRID_Columnids") ;
+         Ddo_grid_Columnssortvalues = httpContext.cgiGet( "DDO_GRID_Columnssortvalues") ;
+         Ddo_grid_Includesortasc = httpContext.cgiGet( "DDO_GRID_Includesortasc") ;
+         Ddo_grid_Sortedstatus = httpContext.cgiGet( "DDO_GRID_Sortedstatus") ;
+         Ddo_grid_Includefilter = httpContext.cgiGet( "DDO_GRID_Includefilter") ;
+         Ddo_grid_Filtertype = httpContext.cgiGet( "DDO_GRID_Filtertype") ;
+         Ddo_grid_Filterisrange = httpContext.cgiGet( "DDO_GRID_Filterisrange") ;
+         Ddo_grid_Includedatalist = httpContext.cgiGet( "DDO_GRID_Includedatalist") ;
+         Ddo_grid_Datalisttype = httpContext.cgiGet( "DDO_GRID_Datalisttype") ;
+         Ddo_grid_Datalistproc = httpContext.cgiGet( "DDO_GRID_Datalistproc") ;
+         Dvelop_confirmpanel_confirmar_Title = httpContext.cgiGet( "DVELOP_CONFIRMPANEL_CONFIRMAR_Title") ;
+         Dvelop_confirmpanel_confirmar_Confirmationtext = httpContext.cgiGet( "DVELOP_CONFIRMPANEL_CONFIRMAR_Confirmationtext") ;
+         Dvelop_confirmpanel_confirmar_Yesbuttoncaption = httpContext.cgiGet( "DVELOP_CONFIRMPANEL_CONFIRMAR_Yesbuttoncaption") ;
+         Dvelop_confirmpanel_confirmar_Nobuttoncaption = httpContext.cgiGet( "DVELOP_CONFIRMPANEL_CONFIRMAR_Nobuttoncaption") ;
+         Dvelop_confirmpanel_confirmar_Cancelbuttoncaption = httpContext.cgiGet( "DVELOP_CONFIRMPANEL_CONFIRMAR_Cancelbuttoncaption") ;
+         Dvelop_confirmpanel_confirmar_Yesbuttonposition = httpContext.cgiGet( "DVELOP_CONFIRMPANEL_CONFIRMAR_Yesbuttonposition") ;
+         Dvelop_confirmpanel_confirmar_Confirmtype = httpContext.cgiGet( "DVELOP_CONFIRMPANEL_CONFIRMAR_Confirmtype") ;
+         Grid_empowerer_Gridinternalname = httpContext.cgiGet( "GRID_EMPOWERER_Gridinternalname") ;
+         Grid_empowerer_Hastitlesettings = GXutil.strtobool( httpContext.cgiGet( "GRID_EMPOWERER_Hastitlesettings")) ;
+         subGrid_Rows = (int)(localUtil.ctol( httpContext.cgiGet( "GRID_Rows"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         app.GxWebStd.gx_hidden_field( httpContext, "GRID_Rows", GXutil.ltrim( localUtil.ntoc( subGrid_Rows, (byte)(6), (byte)(0), ".", "")));
+         Ddo_grid_Activeeventkey = httpContext.cgiGet( "DDO_GRID_Activeeventkey") ;
+         Ddo_grid_Selectedvalue_get = httpContext.cgiGet( "DDO_GRID_Selectedvalue_get") ;
+         Ddo_grid_Filteredtextto_get = httpContext.cgiGet( "DDO_GRID_Filteredtextto_get") ;
+         Ddo_grid_Filteredtext_get = httpContext.cgiGet( "DDO_GRID_Filteredtext_get") ;
+         Ddo_grid_Selectedcolumn = httpContext.cgiGet( "DDO_GRID_Selectedcolumn") ;
+         Dvelop_confirmpanel_confirmar_Result = httpContext.cgiGet( "DVELOP_CONFIRMPANEL_CONFIRMAR_Result") ;
+         /* Read variables values. */
+         if ( ( ( localUtil.ctond( httpContext.cgiGet( edtavMetpiemet_Internalname)).doubleValue() < 0 ) ) || ( ( DecimalUtil.compareTo(localUtil.ctond( httpContext.cgiGet( edtavMetpiemet_Internalname)), DecimalUtil.stringToDec("999999.99")) > 0 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "vMETPIEMET");
+            GX_FocusControl = edtavMetpiemet_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV49MetPiemet = DecimalUtil.ZERO ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV49MetPiemet", GXutil.ltrimstr( AV49MetPiemet, 9, 2));
+         }
+         else
+         {
+            AV49MetPiemet = localUtil.ctond( httpContext.cgiGet( edtavMetpiemet_Internalname)) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV49MetPiemet", GXutil.ltrimstr( AV49MetPiemet, 9, 2));
+         }
+         if ( ( ( localUtil.ctol( httpContext.cgiGet( edtavMetpieanc_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) < 0 ) ) || ( ( localUtil.ctol( httpContext.cgiGet( edtavMetpieanc_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) > 999 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "vMETPIEANC");
+            GX_FocusControl = edtavMetpieanc_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV45MetPieAnc = (short)(0) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV45MetPieAnc", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV45MetPieAnc), 3, 0));
+         }
+         else
+         {
+            AV45MetPieAnc = (short)(localUtil.ctol( httpContext.cgiGet( edtavMetpieanc_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV45MetPieAnc", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV45MetPieAnc), 3, 0));
+         }
+         if ( ( ( localUtil.ctond( httpContext.cgiGet( edtavMetpiemtd_Internalname)).doubleValue() < 0 ) ) || ( ( DecimalUtil.compareTo(localUtil.ctond( httpContext.cgiGet( edtavMetpiemtd_Internalname)), DecimalUtil.stringToDec("99999.99")) > 0 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "vMETPIEMTD");
+            GX_FocusControl = edtavMetpiemtd_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV50MetPieMtD = DecimalUtil.ZERO ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV50MetPieMtD", GXutil.ltrimstr( AV50MetPieMtD, 8, 2));
+         }
+         else
+         {
+            AV50MetPieMtD = localUtil.ctond( httpContext.cgiGet( edtavMetpiemtd_Internalname)) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV50MetPieMtD", GXutil.ltrimstr( AV50MetPieMtD, 8, 2));
+         }
+         AV135Pgmname = httpContext.cgiGet( edtavPgmname_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV135Pgmname", AV135Pgmname);
+         if ( localUtil.vcdate( httpContext.cgiGet( edtavDdo_barfecreaauxdate_Internalname), (byte)(localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt")))) == 0 )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_faildate", new Object[] {}), 1, "vDDO_BARFECREAAUXDATE");
+            GX_FocusControl = edtavDdo_barfecreaauxdate_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            AV28DDO_BarFecReaAuxDate = GXutil.nullDate() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV28DDO_BarFecReaAuxDate", localUtil.format(AV28DDO_BarFecReaAuxDate, "99/99/99"));
+         }
+         else
+         {
+            AV28DDO_BarFecReaAuxDate = localUtil.ctod( httpContext.cgiGet( edtavDdo_barfecreaauxdate_Internalname), localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV28DDO_BarFecReaAuxDate", localUtil.format(AV28DDO_BarFecReaAuxDate, "99/99/99"));
+         }
+         /* Read subfile selected row values. */
+         nGXsfl_67_idx = (int)(localUtil.cton( httpContext.cgiGet( subGrid_Internalname+"_ROW"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         sGXsfl_67_idx = GXutil.padl( GXutil.ltrimstr( DecimalUtil.doubleToDec(nGXsfl_67_idx), 4, 0), (short)(4), "0") ;
+         subsflControlProps_672( ) ;
+         if ( nGXsfl_67_idx > 0 )
+         {
+            AV102Selected = GXutil.strtobool( httpContext.cgiGet( chkavSelected.getInternalname())) ;
+            httpContext.ajax_rsp_assign_attri("", false, chkavSelected.getInternalname(), AV102Selected);
+            A396EmprCod = GXutil.upper( httpContext.cgiGet( edtEmprCod_Internalname)) ;
+            A129BarCod = (int)(localUtil.ctol( httpContext.cgiGet( edtBarCod_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            A132BarCodReo = (byte)(localUtil.ctol( httpContext.cgiGet( edtBarCodReo_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            A130BarCodPar = httpContext.cgiGet( edtBarCodPar_Internalname) ;
+            A194BarOrdLin = (short)(localUtil.ctol( httpContext.cgiGet( edtBarOrdLin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            A758ProCod = httpContext.cgiGet( edtProCod_Internalname) ;
+            A13696BarNHdr = httpContext.cgiGet( edtBarNHdr_Internalname) ;
+            A457FasCod = GXutil.upper( httpContext.cgiGet( edtFasCod_Internalname)) ;
+            A460FasDsc = httpContext.cgiGet( edtFasDsc_Internalname) ;
+            A603MaqCodBis = httpContext.cgiGet( edtMaqCodBis_Internalname) ;
+            A3837BarFasKgm = localUtil.ctond( httpContext.cgiGet( edtBarFasKgm_Internalname)) ;
+            n3837BarFasKgm = false ;
+            A3838BarFasMtr = localUtil.ctond( httpContext.cgiGet( edtBarFasMtr_Internalname)) ;
+            n3838BarFasMtr = false ;
+            A215BarTieRea = localUtil.ctond( httpContext.cgiGet( edtBarTieRea_Internalname)) ;
+            A160BarFecRea = localUtil.ctod( httpContext.cgiGet( edtBarFecRea_Internalname), localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt"))) ;
+         }
+         /* Read hidden variables. */
+         GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+         forbiddenHiddens = new com.genexus.util.GXProperties() ;
+         forbiddenHiddens.add("hshsalt", "hsh"+"MantenimientoRollosPieza");
+         AV135Pgmname = httpContext.cgiGet( edtavPgmname_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV135Pgmname", AV135Pgmname);
+         forbiddenHiddens.add("Pgmname", GXutil.rtrim( localUtil.format( AV135Pgmname, "")));
+         hsh = httpContext.cgiGet( "hsh") ;
+         if ( ! GXutil.checkEncryptedSignature( forbiddenHiddens.toString(), hsh, GXKey) )
+         {
+            GXutil.writeLogError("mantenimientorollospieza:[ SecurityCheckFailed (403 Forbidden) value for]"+forbiddenHiddens.toJSonString());
+            GxWebError = (byte)(1) ;
+            httpContext.sendError( 403 );
+            GXutil.writeLog("send_http_error_code 403");
+            return  ;
+         }
+         /* Check if conditions changed and reset current page numbers */
+      }
+      else
+      {
+         dynload_actions( ) ;
+      }
+   }
+
+   protected void GXStart( )
+   {
+      /* Execute user event: Start */
+      e1526Q2 ();
+      if (returnInSub) return;
+   }
+
+   public void e1526Q2( )
+   {
+      /* Start Routine */
+      returnInSub = false ;
+      GXt_char1 = AV64Station ;
+      GXv_char2[0] = GXt_char1 ;
+      new app.obtenerwrkst(remoteHandle, context).execute( GXv_char2) ;
+      mantenimientorollospieza_impl.this.GXt_char1 = GXv_char2[0] ;
+      AV64Station = GXt_char1 ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV64Station", AV64Station);
+      GXv_char2[0] = AV8emprcod ;
+      GXv_char3[0] = AV9EmprNom ;
+      GXv_char4[0] = AV10UsurCod ;
+      new app.pbusemp(remoteHandle, context).execute( AV64Station, GXv_char2, GXv_char3, GXv_char4) ;
+      mantenimientorollospieza_impl.this.AV8emprcod = GXv_char2[0] ;
+      mantenimientorollospieza_impl.this.AV9EmprNom = GXv_char3[0] ;
+      mantenimientorollospieza_impl.this.AV10UsurCod = GXv_char4[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV8emprcod", AV8emprcod);
+      subGrid_Rows = 10 ;
+      app.GxWebStd.gx_hidden_field( httpContext, "GRID_Rows", GXutil.ltrim( localUtil.ntoc( subGrid_Rows, (byte)(6), (byte)(0), ".", "")));
+      Grid_empowerer_Gridinternalname = subGrid_Internalname ;
+      ucGrid_empowerer.sendProperty(context, "", false, Grid_empowerer_Internalname, "GridInternalName", Grid_empowerer_Gridinternalname);
+      Ddo_grid_Gridinternalname = subGrid_Internalname ;
+      ucDdo_grid.sendProperty(context, "", false, Ddo_grid_Internalname, "GridInternalName", Ddo_grid_Gridinternalname);
+      Form.setCaption( httpContext.getMessage( " Fases de Produccion HDR", "") );
+      httpContext.ajax_rsp_assign_prop("", false, "FORM", "Caption", Form.getCaption(), true);
+      /* Execute user subroutine: 'PREPARETRANSACTION' */
+      S112 ();
+      if (returnInSub) return;
+      /* Execute user subroutine: 'LOADGRIDSTATE' */
+      S122 ();
+      if (returnInSub) return;
+      if ( AV58OrderedBy < 1 )
+      {
+         AV58OrderedBy = (short)(1) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV58OrderedBy", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV58OrderedBy), 4, 0));
+         /* Execute user subroutine: 'SETDDOSORTEDSTATUS' */
+         S132 ();
+         if (returnInSub) return;
+      }
+      GXt_SdtDVB_SDTDropDownOptionsTitleSettingsIcons5 = AV29DDO_TitleSettingsIcons;
+      GXv_SdtDVB_SDTDropDownOptionsTitleSettingsIcons6[0] = GXt_SdtDVB_SDTDropDownOptionsTitleSettingsIcons5;
+      new app.wwpbaseobjects.getwwptitlesettingsicons(remoteHandle, context).execute( GXv_SdtDVB_SDTDropDownOptionsTitleSettingsIcons6) ;
+      GXt_SdtDVB_SDTDropDownOptionsTitleSettingsIcons5 = GXv_SdtDVB_SDTDropDownOptionsTitleSettingsIcons6[0] ;
+      AV29DDO_TitleSettingsIcons = GXt_SdtDVB_SDTDropDownOptionsTitleSettingsIcons5;
+      GXt_int7 = (byte)(AV53Moda21) ;
+      GXv_int8[0] = GXt_int7 ;
+      new app.pexicon(remoteHandle, context).execute( AV8emprcod, httpContext.getMessage( "MODA21", ""), GXv_int8) ;
+      mantenimientorollospieza_impl.this.GXt_int7 = GXv_int8[0] ;
+      AV53Moda21 = GXt_int7 ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV53Moda21", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV53Moda21), 4, 0));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vMODA21", getSecureSignedToken( "", localUtil.format( DecimalUtil.doubleToDec(AV53Moda21), "ZZZ9")));
+      GXt_int7 = (byte)(AV55NumPzsFs) ;
+      GXv_int8[0] = GXt_int7 ;
+      new app.pexicon(remoteHandle, context).execute( AV8emprcod, httpContext.getMessage( "NPFF", ""), GXv_int8) ;
+      mantenimientorollospieza_impl.this.GXt_int7 = GXv_int8[0] ;
+      AV55NumPzsFs = GXt_int7 ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV55NumPzsFs", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV55NumPzsFs), 4, 0));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vNUMPZSFS", getSecureSignedToken( "", localUtil.format( DecimalUtil.doubleToDec(AV55NumPzsFs), "ZZZ9")));
+      GXt_int7 = (byte)(AV56NumPzsFs2) ;
+      GXv_int8[0] = GXt_int7 ;
+      new app.pexicon(remoteHandle, context).execute( AV8emprcod, httpContext.getMessage( "NPFF2", ""), GXv_int8) ;
+      mantenimientorollospieza_impl.this.GXt_int7 = GXv_int8[0] ;
+      AV56NumPzsFs2 = GXt_int7 ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV56NumPzsFs2", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV56NumPzsFs2), 4, 0));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vNUMPZSFS2", getSecureSignedToken( "", localUtil.format( DecimalUtil.doubleToDec(AV56NumPzsFs2), "ZZZ9")));
+      GXt_int9 = AV92Valcont ;
+      GXv_char4[0] = AV8emprcod ;
+      GXv_char3[0] = httpContext.getMessage( "GRMCTE", "") ;
+      GXv_int10[0] = GXt_int9 ;
+      new app.pvalcon(remoteHandle, context).execute( GXv_char4, GXv_char3, GXv_int10) ;
+      mantenimientorollospieza_impl.this.AV8emprcod = GXv_char4[0] ;
+      mantenimientorollospieza_impl.this.GXt_int9 = GXv_int10[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV8emprcod", AV8emprcod);
+      AV92Valcont = (short)(GXt_int9) ;
+      AV27Const = DecimalUtil.doubleToDec(AV92Valcont) ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV27Const", GXutil.ltrimstr( AV27Const, 6, 2));
+      app.GxWebStd.gx_hidden_field( httpContext, "gxhash_vCONST", getSecureSignedToken( "", localUtil.format( AV27Const, "ZZ9.99")));
+      GXv_int11[0] = AV12Ancho ;
+      GXv_decimal12[0] = AV36grm2 ;
+      GXv_int13[0] = AV15barordlin2 ;
+      new app.pedidosclientesindetalle.mantenimientorollos_ultima_pieza(remoteHandle, context).execute( AV8emprcod, AV5BarCod, AV7BarCodReo, AV6BarCodPar, GXv_int11, GXv_decimal12, GXv_int13) ;
+      mantenimientorollospieza_impl.this.AV12Ancho = GXv_int11[0] ;
+      mantenimientorollospieza_impl.this.AV36grm2 = GXv_decimal12[0] ;
+      mantenimientorollospieza_impl.this.AV15barordlin2 = GXv_int13[0] ;
+      AV22Col_Barordlin.clear();
+      AV26Col_Procod.clear();
+      AV23Col_Fascod.clear();
+      AV24Col_FasDsc.clear();
+      AV25Col_Maqcodbis.clear();
+      AV45MetPieAnc = AV12Ancho ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV45MetPieAnc", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV45MetPieAnc), 3, 0));
+      AV50MetPieMtD = AV36grm2 ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV50MetPieMtD", GXutil.ltrimstr( AV50MetPieMtD, 8, 2));
+   }
+
+   public void e1626Q2( )
+   {
+      if ( gx_refresh_fired )
+      {
+         return  ;
+      }
+      gx_refresh_fired = true ;
+      /* Refresh Routine */
+      returnInSub = false ;
+      GXv_SdtWWPContext14[0] = AV93WWPContext;
+      new app.wwpbaseobjects.loadwwpcontext(remoteHandle, context).execute( GXv_SdtWWPContext14) ;
+      AV93WWPContext = GXv_SdtWWPContext14[0] ;
+      /* Execute user subroutine: 'SAVEGRIDSTATE' */
+      S142 ();
+      if (returnInSub) return;
+      AV105EmprCodCol.fromJSonString(AV106EmprCodJson, null);
+      AV109BarCodCol.fromJSonString(AV110BarCodJson, null);
+      AV113BarCodReoCol.fromJSonString(AV114BarCodReoJson, null);
+      AV117BarCodParCol.fromJSonString(AV118BarCodParJson, null);
+      AV121ProCodCol.fromJSonString(AV122ProCodJson, null);
+      AV125BarOrdLinCol.fromJSonString(AV126BarOrdLinJson, null);
+      AV136Mantenimientorollospiezads_1_tfprocod = AV88TFProCod ;
+      AV137Mantenimientorollospiezads_2_tfprocod_sel = AV89TFProCod_Sel ;
+      AV138Mantenimientorollospiezads_3_tfbarnhdr = AV76TFBarNHdr ;
+      AV139Mantenimientorollospiezads_4_tfbarnhdr_sel = AV77TFBarNHdr_Sel ;
+      AV140Mantenimientorollospiezads_5_tffascod = AV82TFFasCod ;
+      AV141Mantenimientorollospiezads_6_tffascod_sel = AV83TFFasCod_Sel ;
+      AV142Mantenimientorollospiezads_7_tffasdsc = AV84TFFasDsc ;
+      AV143Mantenimientorollospiezads_8_tffasdsc_sel = AV85TFFasDsc_Sel ;
+      AV144Mantenimientorollospiezads_9_tfmaqcodbis = AV86TFMaqCodBis ;
+      AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel = AV87TFMaqCodBis_Sel ;
+      AV146Mantenimientorollospiezads_11_tfbarfaskgm = AV71TFBarFasKgm ;
+      AV147Mantenimientorollospiezads_12_tfbarfaskgm_to = AV72TFBarFasKgm_To ;
+      AV148Mantenimientorollospiezads_13_tfbarfasmtr = AV73TFBarFasMtr ;
+      AV149Mantenimientorollospiezads_14_tfbarfasmtr_to = AV74TFBarFasMtr_To ;
+      AV150Mantenimientorollospiezads_15_tfbartierea = AV80TFBarTieRea ;
+      AV151Mantenimientorollospiezads_16_tfbartierea_to = AV81TFBarTieRea_To ;
+      AV152Mantenimientorollospiezads_17_tfbarfecrea = AV75TFBarFecRea ;
+      /*  Sending Event outputs  */
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV105EmprCodCol", AV105EmprCodCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV109BarCodCol", AV109BarCodCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV113BarCodReoCol", AV113BarCodReoCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV117BarCodParCol", AV117BarCodParCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV121ProCodCol", AV121ProCodCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV125BarOrdLinCol", AV125BarOrdLinCol);
+   }
+
+   public void e1226Q2( )
+   {
+      /* Ddo_grid_Onoptionclicked Routine */
+      returnInSub = false ;
+      if ( ( GXutil.strcmp(Ddo_grid_Activeeventkey, "<#OrderASC#>") == 0 ) || ( GXutil.strcmp(Ddo_grid_Activeeventkey, "<#OrderDSC#>") == 0 ) )
+      {
+         AV58OrderedBy = (short)(GXutil.lval( Ddo_grid_Selectedvalue_get)) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV58OrderedBy", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV58OrderedBy), 4, 0));
+         AV59OrderedDsc = ((GXutil.strcmp(Ddo_grid_Activeeventkey, "<#OrderDSC#>")==0) ? true : false) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV59OrderedDsc", AV59OrderedDsc);
+         /* Execute user subroutine: 'SETDDOSORTEDSTATUS' */
+         S132 ();
+         if (returnInSub) return;
+         subgrid_firstpage( ) ;
+      }
+      else if ( GXutil.strcmp(Ddo_grid_Activeeventkey, "<#Filter#>") == 0 )
+      {
+         if ( GXutil.strcmp(Ddo_grid_Selectedcolumn, "ProCod") == 0 )
+         {
+            AV88TFProCod = Ddo_grid_Filteredtext_get ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV88TFProCod", AV88TFProCod);
+            AV89TFProCod_Sel = Ddo_grid_Selectedvalue_get ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV89TFProCod_Sel", AV89TFProCod_Sel);
+         }
+         else if ( GXutil.strcmp(Ddo_grid_Selectedcolumn, "BarNHdr") == 0 )
+         {
+            AV76TFBarNHdr = Ddo_grid_Filteredtext_get ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV76TFBarNHdr", AV76TFBarNHdr);
+            AV77TFBarNHdr_Sel = Ddo_grid_Selectedvalue_get ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV77TFBarNHdr_Sel", AV77TFBarNHdr_Sel);
+         }
+         else if ( GXutil.strcmp(Ddo_grid_Selectedcolumn, "FasCod") == 0 )
+         {
+            AV82TFFasCod = Ddo_grid_Filteredtext_get ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV82TFFasCod", AV82TFFasCod);
+            AV83TFFasCod_Sel = Ddo_grid_Selectedvalue_get ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV83TFFasCod_Sel", AV83TFFasCod_Sel);
+         }
+         else if ( GXutil.strcmp(Ddo_grid_Selectedcolumn, "FasDsc") == 0 )
+         {
+            AV84TFFasDsc = Ddo_grid_Filteredtext_get ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV84TFFasDsc", AV84TFFasDsc);
+            AV85TFFasDsc_Sel = Ddo_grid_Selectedvalue_get ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV85TFFasDsc_Sel", AV85TFFasDsc_Sel);
+         }
+         else if ( GXutil.strcmp(Ddo_grid_Selectedcolumn, "MaqCodBis") == 0 )
+         {
+            AV86TFMaqCodBis = Ddo_grid_Filteredtext_get ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV86TFMaqCodBis", AV86TFMaqCodBis);
+            AV87TFMaqCodBis_Sel = Ddo_grid_Selectedvalue_get ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV87TFMaqCodBis_Sel", AV87TFMaqCodBis_Sel);
+         }
+         else if ( GXutil.strcmp(Ddo_grid_Selectedcolumn, "BarFasKgm") == 0 )
+         {
+            AV71TFBarFasKgm = CommonUtil.decimalVal( Ddo_grid_Filteredtext_get, ".") ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV71TFBarFasKgm", GXutil.ltrimstr( AV71TFBarFasKgm, 9, 2));
+            AV72TFBarFasKgm_To = CommonUtil.decimalVal( Ddo_grid_Filteredtextto_get, ".") ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV72TFBarFasKgm_To", GXutil.ltrimstr( AV72TFBarFasKgm_To, 9, 2));
+         }
+         else if ( GXutil.strcmp(Ddo_grid_Selectedcolumn, "BarFasMtr") == 0 )
+         {
+            AV73TFBarFasMtr = CommonUtil.decimalVal( Ddo_grid_Filteredtext_get, ".") ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV73TFBarFasMtr", GXutil.ltrimstr( AV73TFBarFasMtr, 9, 2));
+            AV74TFBarFasMtr_To = CommonUtil.decimalVal( Ddo_grid_Filteredtextto_get, ".") ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV74TFBarFasMtr_To", GXutil.ltrimstr( AV74TFBarFasMtr_To, 9, 2));
+         }
+         else if ( GXutil.strcmp(Ddo_grid_Selectedcolumn, "BarTieRea") == 0 )
+         {
+            AV80TFBarTieRea = CommonUtil.decimalVal( Ddo_grid_Filteredtext_get, ".") ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV80TFBarTieRea", GXutil.ltrimstr( AV80TFBarTieRea, 5, 2));
+            AV81TFBarTieRea_To = CommonUtil.decimalVal( Ddo_grid_Filteredtextto_get, ".") ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV81TFBarTieRea_To", GXutil.ltrimstr( AV81TFBarTieRea_To, 5, 2));
+         }
+         else if ( GXutil.strcmp(Ddo_grid_Selectedcolumn, "BarFecRea") == 0 )
+         {
+            AV75TFBarFecRea = localUtil.ctod( Ddo_grid_Filteredtext_get, localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV75TFBarFecRea", localUtil.format(AV75TFBarFecRea, "99/99/99"));
+         }
+         subgrid_firstpage( ) ;
+      }
+      /*  Sending Event outputs  */
+   }
+
+   private void e1726Q2( )
+   {
+      /* Grid_Load Routine */
+      returnInSub = false ;
+      AV102Selected = false ;
+      httpContext.ajax_rsp_assign_attri("", false, chkavSelected.getInternalname(), AV102Selected);
+      AV108EmprCodToFind = A396EmprCod ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV108EmprCodToFind", AV108EmprCodToFind);
+      AV112BarCodToFind = A129BarCod ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV112BarCodToFind", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV112BarCodToFind), 8, 0));
+      AV116BarCodReoToFind = A132BarCodReo ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV116BarCodReoToFind", GXutil.str( AV116BarCodReoToFind, 1, 0));
+      AV120BarCodParToFind = A130BarCodPar ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV120BarCodParToFind", AV120BarCodParToFind);
+      AV124ProCodToFind = A758ProCod ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV124ProCodToFind", AV124ProCodToFind);
+      AV128BarOrdLinToFind = A194BarOrdLin ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV128BarOrdLinToFind", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV128BarOrdLinToFind), 4, 0));
+      /* Execute user subroutine: 'GETINDEXOFSELECTEDROW' */
+      S152 ();
+      if (returnInSub) return;
+      if ( AV39i > 0 )
+      {
+         AV102Selected = true ;
+         httpContext.ajax_rsp_assign_attri("", false, chkavSelected.getInternalname(), AV102Selected);
+      }
+      /* Load Method */
+      if ( wbStart != -1 )
+      {
+         wbStart = (short)(67) ;
+      }
+      sendrow_672( ) ;
+      GRID_nCurrentRecord = (long)(GRID_nCurrentRecord+1) ;
+      if ( isFullAjaxMode( ) && ! bGXsfl_67_Refreshing )
+      {
+         httpContext.doAjaxLoad(67, GridRow);
+      }
+      /*  Sending Event outputs  */
+   }
+
+   public void e1826Q2( )
+   {
+      /* Selected_Click Routine */
+      returnInSub = false ;
+      if ( AV102Selected )
+      {
+         AV105EmprCodCol.add(A396EmprCod, 0);
+         AV109BarCodCol.add((int)(A129BarCod), 0);
+         AV113BarCodReoCol.add((byte)(A132BarCodReo), 0);
+         AV117BarCodParCol.add(A130BarCodPar, 0);
+         AV121ProCodCol.add(A758ProCod, 0);
+         AV125BarOrdLinCol.add((short)(A194BarOrdLin), 0);
+      }
+      else
+      {
+         AV108EmprCodToFind = A396EmprCod ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV108EmprCodToFind", AV108EmprCodToFind);
+         AV112BarCodToFind = A129BarCod ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV112BarCodToFind", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV112BarCodToFind), 8, 0));
+         AV116BarCodReoToFind = A132BarCodReo ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV116BarCodReoToFind", GXutil.str( AV116BarCodReoToFind, 1, 0));
+         AV120BarCodParToFind = A130BarCodPar ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV120BarCodParToFind", AV120BarCodParToFind);
+         AV124ProCodToFind = A758ProCod ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV124ProCodToFind", AV124ProCodToFind);
+         AV128BarOrdLinToFind = A194BarOrdLin ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV128BarOrdLinToFind", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV128BarOrdLinToFind), 4, 0));
+         /* Execute user subroutine: 'GETINDEXOFSELECTEDROW' */
+         S152 ();
+         if (returnInSub) return;
+         AV105EmprCodCol.removeItem((int)(AV39i));
+         AV109BarCodCol.removeItem((int)(AV39i));
+         AV113BarCodReoCol.removeItem((int)(AV39i));
+         AV117BarCodParCol.removeItem((int)(AV39i));
+         AV121ProCodCol.removeItem((int)(AV39i));
+         AV125BarOrdLinCol.removeItem((int)(AV39i));
+      }
+      AV106EmprCodJson = AV105EmprCodCol.toJSonString(false) ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV106EmprCodJson", AV106EmprCodJson);
+      AV110BarCodJson = AV109BarCodCol.toJSonString(false) ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV110BarCodJson", AV110BarCodJson);
+      AV114BarCodReoJson = AV113BarCodReoCol.toJSonString(false) ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV114BarCodReoJson", AV114BarCodReoJson);
+      AV118BarCodParJson = AV117BarCodParCol.toJSonString(false) ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV118BarCodParJson", AV118BarCodParJson);
+      AV122ProCodJson = AV121ProCodCol.toJSonString(false) ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV122ProCodJson", AV122ProCodJson);
+      AV126BarOrdLinJson = AV125BarOrdLinCol.toJSonString(false) ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV126BarOrdLinJson", AV126BarOrdLinJson);
+      divLayoutmaintable_Class = "Table TableWithSelectableGrid"+((AV105EmprCodCol.size()>0) ? " WWPMultiRowSelected" : "") ;
+      httpContext.ajax_rsp_assign_prop("", false, divLayoutmaintable_Internalname, "Class", divLayoutmaintable_Class, true);
+      /*  Sending Event outputs  */
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV105EmprCodCol", AV105EmprCodCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV109BarCodCol", AV109BarCodCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV113BarCodReoCol", AV113BarCodReoCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV117BarCodParCol", AV117BarCodParCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV121ProCodCol", AV121ProCodCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV125BarOrdLinCol", AV125BarOrdLinCol);
+   }
+
+   public void e1326Q2( )
+   {
+      /* Dvelop_confirmpanel_confirmar_Close Routine */
+      returnInSub = false ;
+      if ( GXutil.strcmp(Dvelop_confirmpanel_confirmar_Result, "Yes") == 0 )
+      {
+         /* Execute user subroutine: 'DO ACTION CONFIRMAR' */
+         S162 ();
+         if (returnInSub) return;
+      }
+      /*  Sending Event outputs  */
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV103SelectedRows", AV103SelectedRows);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV105EmprCodCol", AV105EmprCodCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV109BarCodCol", AV109BarCodCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV113BarCodReoCol", AV113BarCodReoCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV117BarCodParCol", AV117BarCodParCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV121ProCodCol", AV121ProCodCol);
+      httpContext.ajax_rsp_assign_sdt_attri("", false, "AV125BarOrdLinCol", AV125BarOrdLinCol);
+   }
+
+   public void e1426Q2( )
+   {
+      /* 'DoCerrar' Routine */
+      returnInSub = false ;
+      httpContext.setWebReturnParms(new Object[] {});
+      httpContext.setWebReturnParmsMetadata(new Object[] {});
+      httpContext.wjLocDisableFrm = (byte)(1) ;
+      httpContext.nUserReturn = (byte)(1) ;
+      returnInSub = true;
+      if (true) return;
+   }
+
+   public void S132( )
+   {
+      /* 'SETDDOSORTEDSTATUS' Routine */
+      returnInSub = false ;
+      Ddo_grid_Sortedstatus = GXutil.trim( GXutil.str( AV58OrderedBy, 4, 0))+":"+(AV59OrderedDsc ? "DSC" : "ASC") ;
+      ucDdo_grid.sendProperty(context, "", false, Ddo_grid_Internalname, "SortedStatus", Ddo_grid_Sortedstatus);
+   }
+
+   public void S152( )
+   {
+      /* 'GETINDEXOFSELECTEDROW' Routine */
+      returnInSub = false ;
+      AV39i = 1 ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV39i", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV39i), 10, 0));
+      AV153GXV1 = 1 ;
+      while ( AV153GXV1 <= AV105EmprCodCol.size() )
+      {
+         AV107EmprCodColItem = (String)AV105EmprCodCol.elementAt(-1+AV153GXV1) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV107EmprCodColItem", AV107EmprCodColItem);
+         if ( ( GXutil.strcmp(AV107EmprCodColItem, AV108EmprCodToFind) == 0 ) && ( ((Number) AV109BarCodCol.elementAt(-1+(int)(AV39i))).intValue() == AV112BarCodToFind ) && ( ((Number) AV113BarCodReoCol.elementAt(-1+(int)(AV39i))).byteValue() == AV116BarCodReoToFind ) && ( GXutil.strcmp((String)AV117BarCodParCol.elementAt(-1+(int)(AV39i)), AV120BarCodParToFind) == 0 ) && ( GXutil.strcmp((String)AV121ProCodCol.elementAt(-1+(int)(AV39i)), AV124ProCodToFind) == 0 ) && ( ((Number) AV125BarOrdLinCol.elementAt(-1+(int)(AV39i))).shortValue() == AV128BarOrdLinToFind ) )
+         {
+            if (true) break;
+         }
+         AV39i = (long)(AV39i+1) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV39i", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV39i), 10, 0));
+         AV153GXV1 = (int)(AV153GXV1+1) ;
+      }
+      if ( AV39i > AV105EmprCodCol.size() )
+      {
+         AV39i = 0 ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV39i", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV39i), 10, 0));
+      }
+   }
+
+   public void S162( )
+   {
+      /* 'DO ACTION CONFIRMAR' Routine */
+      returnInSub = false ;
+      /* Execute user subroutine: 'LOADSELECTEDROWS' */
+      S172 ();
+      if (returnInSub) return;
+      if ( AV103SelectedRows.size() == 0 )
+      {
+         httpContext.GX_msglist.addItem(httpContext.getMessage( "WWP_NoRecordSelected", ""));
+      }
+      if ( ( ( AV55NumPzsFs == 1 ) ) || ( ( AV56NumPzsFs2 == 1 ) ) )
+      {
+         GXv_char4[0] = AV8emprcod ;
+         GXv_int10[0] = AV5BarCod ;
+         GXv_int8[0] = AV7BarCodReo ;
+         GXv_char3[0] = AV6BarCodPar ;
+         GXv_char2[0] = AV61Procod ;
+         GXv_int13[0] = AV132BarOrdLin ;
+         GXv_int15[0] = AV54Num_pz ;
+         new app.pnumpzsfs(remoteHandle, context).execute( GXv_char4, GXv_int10, GXv_int8, GXv_char3, GXv_char2, GXv_int13, GXv_int15) ;
+         mantenimientorollospieza_impl.this.AV8emprcod = GXv_char4[0] ;
+         mantenimientorollospieza_impl.this.AV5BarCod = GXv_int10[0] ;
+         mantenimientorollospieza_impl.this.AV7BarCodReo = GXv_int8[0] ;
+         mantenimientorollospieza_impl.this.AV6BarCodPar = GXv_char3[0] ;
+         mantenimientorollospieza_impl.this.AV61Procod = GXv_char2[0] ;
+         mantenimientorollospieza_impl.this.AV132BarOrdLin = GXv_int13[0] ;
+         mantenimientorollospieza_impl.this.AV54Num_pz = GXv_int15[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV8emprcod", AV8emprcod);
+         httpContext.ajax_rsp_assign_attri("", false, "AV5BarCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV5BarCod), 8, 0));
+         httpContext.ajax_rsp_assign_attri("", false, "AV7BarCodReo", GXutil.str( AV7BarCodReo, 1, 0));
+         httpContext.ajax_rsp_assign_attri("", false, "AV6BarCodPar", AV6BarCodPar);
+         httpContext.ajax_rsp_assign_attri("", false, "AV61Procod", AV61Procod);
+         httpContext.ajax_rsp_assign_attri("", false, "AV132BarOrdLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV132BarOrdLin), 4, 0));
+         httpContext.ajax_rsp_assign_attri("", false, "AV54Num_pz", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV54Num_pz), 5, 0));
+         AV17BarPiecod = GXutil.padl( GXutil.trim( GXutil.str( AV132BarOrdLin, 4, 0)), (short)(4), "0") + GXutil.padl( GXutil.trim( GXutil.str( AV54Num_pz, 5, 0)), (short)(5), "0") ;
+      }
+      else
+      {
+         GXv_char4[0] = AV8emprcod ;
+         GXv_int15[0] = AV5BarCod ;
+         GXv_int8[0] = AV7BarCodReo ;
+         GXv_char3[0] = AV6BarCodPar ;
+         GXv_int10[0] = AV54Num_pz ;
+         new app.pnumrol(remoteHandle, context).execute( GXv_char4, GXv_int15, GXv_int8, GXv_char3, GXv_int10) ;
+         mantenimientorollospieza_impl.this.AV8emprcod = GXv_char4[0] ;
+         mantenimientorollospieza_impl.this.AV5BarCod = GXv_int15[0] ;
+         mantenimientorollospieza_impl.this.AV7BarCodReo = GXv_int8[0] ;
+         mantenimientorollospieza_impl.this.AV6BarCodPar = GXv_char3[0] ;
+         mantenimientorollospieza_impl.this.AV54Num_pz = GXv_int10[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV8emprcod", AV8emprcod);
+         httpContext.ajax_rsp_assign_attri("", false, "AV5BarCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV5BarCod), 8, 0));
+         httpContext.ajax_rsp_assign_attri("", false, "AV7BarCodReo", GXutil.str( AV7BarCodReo, 1, 0));
+         httpContext.ajax_rsp_assign_attri("", false, "AV6BarCodPar", AV6BarCodPar);
+         httpContext.ajax_rsp_assign_attri("", false, "AV54Num_pz", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV54Num_pz), 5, 0));
+         AV17BarPiecod = GXutil.padl( GXutil.trim( GXutil.str( AV54Num_pz, 8, 0)), (short)(5), "0") ;
+      }
+      AV13ancho2 = DecimalUtil.doubleToDec(AV45MetPieAnc/ (double) (100)) ;
+      AV19BarPieMet = AV49MetPiemet ;
+      AV36grm2 = AV50MetPieMtD ;
+      AV18BarPieKil = (AV50MetPieMtD.multiply(AV13ancho2)).multiply(AV19BarPieMet).divide(DecimalUtil.doubleToDec(1000), 18, java.math.RoundingMode.DOWN) ;
+      if ( AV53Moda21 == 1 )
+      {
+         AV19BarPieMet = AV19BarPieMet.subtract(((AV19BarPieMet.multiply(AV27Const)).divide(DecimalUtil.doubleToDec(100), 18, java.math.RoundingMode.DOWN))) ;
+         AV18BarPieKil = ((AV36grm2.multiply(AV13ancho2)).multiply(AV19BarPieMet).divide(DecimalUtil.doubleToDec(1000), 18, java.math.RoundingMode.DOWN)) ;
+      }
+      AV61Procod = ((app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem)AV130MantenimientoRollosPiezaSDT.elementAt(-1+1)).getgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Procod() ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV61Procod", AV61Procod);
+      AV132BarOrdLin = ((app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem)AV130MantenimientoRollosPiezaSDT.elementAt(-1+1)).getgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Barordlin() ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV132BarOrdLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV132BarOrdLin), 4, 0));
+      AV44MaqCodBis = ((app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem)AV130MantenimientoRollosPiezaSDT.elementAt(-1+1)).getgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Maqcodbis() ;
+      AV30FasCod = ((app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem)AV130MantenimientoRollosPiezaSDT.elementAt(-1+1)).getgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Fascod() ;
+      AV31FasDsc = ((app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem)AV130MantenimientoRollosPiezaSDT.elementAt(-1+1)).getgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Fasdsc() ;
+      AV42Lecfec = GXutil.today( ) ;
+      AV16Barpieanc = AV45MetPieAnc ;
+      AV51MetPieobs = AV8emprcod + AV44MaqCodBis + localUtil.dtoc( AV42Lecfec, localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt")), "/") + GXutil.str( AV132BarOrdLin, 8, 0) ;
+      AV20BarPieobs = " " ;
+      AV47MetPieId = " " ;
+      AV21Calidad = (byte)(((GXutil.strcmp(AV46MetPieDCP, httpContext.getMessage( "S", ""))==0) ? 1 : 0)) ;
+      GXv_int15[0] = AV5BarCod ;
+      GXv_int8[0] = AV7BarCodReo ;
+      GXv_char4[0] = AV6BarCodPar ;
+      GXv_char3[0] = AV17BarPiecod ;
+      GXv_decimal12[0] = AV19BarPieMet ;
+      GXv_decimal16[0] = AV18BarPieKil ;
+      GXv_int13[0] = AV16Barpieanc ;
+      GXv_char2[0] = AV64Station ;
+      GXv_char17[0] = AV51MetPieobs ;
+      GXv_int10[0] = AV11Albreccod ;
+      GXv_char18[0] = AV20BarPieobs ;
+      GXv_char19[0] = AV47MetPieId ;
+      GXv_int20[0] = (byte)(0) ;
+      GXv_char21[0] = " " ;
+      GXv_char22[0] = " " ;
+      GXv_decimal23[0] = AV50MetPieMtD ;
+      GXv_char24[0] = AV30FasCod ;
+      GXv_char25[0] = AV31FasDsc ;
+      GXv_date26[0] = AV42Lecfec ;
+      GXv_int27[0] = AV57OpeCod ;
+      GXv_int28[0] = AV37Hisprotur ;
+      GXv_int11[0] = (short)(0) ;
+      GXv_char29[0] = AV48MetPieLoc ;
+      GXv_int30[0] = AV21Calidad ;
+      new app.pcosi00(remoteHandle, context).execute( AV8emprcod, GXv_int15, GXv_int8, GXv_char4, GXv_char3, GXv_decimal12, GXv_decimal16, GXv_int13, GXv_char2, GXv_char17, GXv_int10, GXv_char18, GXv_char19, GXv_int20, GXv_char21, GXv_char22, GXv_decimal23, GXv_char24, GXv_char25, GXv_date26, GXv_int27, GXv_int28, GXv_int11, GXv_char29, GXv_int30) ;
+      mantenimientorollospieza_impl.this.AV5BarCod = GXv_int15[0] ;
+      mantenimientorollospieza_impl.this.AV7BarCodReo = GXv_int8[0] ;
+      mantenimientorollospieza_impl.this.AV6BarCodPar = GXv_char4[0] ;
+      mantenimientorollospieza_impl.this.AV17BarPiecod = GXv_char3[0] ;
+      mantenimientorollospieza_impl.this.AV19BarPieMet = GXv_decimal12[0] ;
+      mantenimientorollospieza_impl.this.AV18BarPieKil = GXv_decimal16[0] ;
+      mantenimientorollospieza_impl.this.AV16Barpieanc = GXv_int13[0] ;
+      mantenimientorollospieza_impl.this.AV64Station = GXv_char2[0] ;
+      mantenimientorollospieza_impl.this.AV51MetPieobs = GXv_char17[0] ;
+      mantenimientorollospieza_impl.this.AV11Albreccod = GXv_int10[0] ;
+      mantenimientorollospieza_impl.this.AV20BarPieobs = GXv_char18[0] ;
+      mantenimientorollospieza_impl.this.AV47MetPieId = GXv_char19[0] ;
+      mantenimientorollospieza_impl.this.AV50MetPieMtD = GXv_decimal23[0] ;
+      mantenimientorollospieza_impl.this.AV30FasCod = GXv_char24[0] ;
+      mantenimientorollospieza_impl.this.AV31FasDsc = GXv_char25[0] ;
+      mantenimientorollospieza_impl.this.AV42Lecfec = GXv_date26[0] ;
+      mantenimientorollospieza_impl.this.AV57OpeCod = GXv_int27[0] ;
+      mantenimientorollospieza_impl.this.AV37Hisprotur = GXv_int28[0] ;
+      mantenimientorollospieza_impl.this.AV48MetPieLoc = GXv_char29[0] ;
+      mantenimientorollospieza_impl.this.AV21Calidad = GXv_int30[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV5BarCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV5BarCod), 8, 0));
+      httpContext.ajax_rsp_assign_attri("", false, "AV7BarCodReo", GXutil.str( AV7BarCodReo, 1, 0));
+      httpContext.ajax_rsp_assign_attri("", false, "AV6BarCodPar", AV6BarCodPar);
+      httpContext.ajax_rsp_assign_attri("", false, "AV64Station", AV64Station);
+      httpContext.ajax_rsp_assign_attri("", false, "AV11Albreccod", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV11Albreccod), 8, 0));
+      httpContext.ajax_rsp_assign_attri("", false, "AV50MetPieMtD", GXutil.ltrimstr( AV50MetPieMtD, 8, 2));
+      httpContext.ajax_rsp_assign_attri("", false, "AV57OpeCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV57OpeCod), 6, 0));
+      httpContext.ajax_rsp_assign_attri("", false, "AV37Hisprotur", GXutil.str( AV37Hisprotur, 1, 0));
+      httpContext.ajax_rsp_assign_attri("", false, "AV48MetPieLoc", AV48MetPieLoc);
+      httpContext.setWebReturnParms(new Object[] {});
+      httpContext.setWebReturnParmsMetadata(new Object[] {});
+      httpContext.wjLocDisableFrm = (byte)(1) ;
+      httpContext.nUserReturn = (byte)(1) ;
+      returnInSub = true;
+      if (true) return;
+   }
+
+   public void S172( )
+   {
+      /* 'LOADSELECTEDROWS' Routine */
+      returnInSub = false ;
+      AV103SelectedRows = new GXBaseCollection<app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem>(app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem.class, "MantenimientoRollosPiezaSDTItem", "TexplusNET", remoteHandle) ;
+      AV105EmprCodCol.fromJSonString(AV106EmprCodJson, null);
+      AV109BarCodCol.fromJSonString(AV110BarCodJson, null);
+      AV113BarCodReoCol.fromJSonString(AV114BarCodReoJson, null);
+      AV117BarCodParCol.fromJSonString(AV118BarCodParJson, null);
+      AV121ProCodCol.fromJSonString(AV122ProCodJson, null);
+      AV125BarOrdLinCol.fromJSonString(AV126BarOrdLinJson, null);
+      AV39i = 1 ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV39i", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV39i), 10, 0));
+      AV154GXV2 = 1 ;
+      while ( AV154GXV2 <= AV105EmprCodCol.size() )
+      {
+         AV107EmprCodColItem = (String)AV105EmprCodCol.elementAt(-1+AV154GXV2) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV107EmprCodColItem", AV107EmprCodColItem);
+         AV104SelectedRow = (app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem)new app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem(remoteHandle, context);
+         AV111BarCodColItem = ((Number) AV109BarCodCol.elementAt(-1+(int)(AV39i))).intValue() ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV111BarCodColItem", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV111BarCodColItem), 8, 0));
+         AV115BarCodReoColItem = ((Number) AV113BarCodReoCol.elementAt(-1+(int)(AV39i))).byteValue() ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV115BarCodReoColItem", GXutil.str( AV115BarCodReoColItem, 1, 0));
+         AV119BarCodParColItem = (String)AV117BarCodParCol.elementAt(-1+(int)(AV39i)) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV119BarCodParColItem", AV119BarCodParColItem);
+         AV123ProCodColItem = (String)AV121ProCodCol.elementAt(-1+(int)(AV39i)) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV123ProCodColItem", AV123ProCodColItem);
+         AV127BarOrdLinColItem = ((Number) AV125BarOrdLinCol.elementAt(-1+(int)(AV39i))).shortValue() ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV127BarOrdLinColItem", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV127BarOrdLinColItem), 4, 0));
+         /* Using cursor H026Q4 */
+         pr_default.execute(2, new Object[] {AV107EmprCodColItem, Integer.valueOf(AV111BarCodColItem), Byte.valueOf(AV115BarCodReoColItem), AV119BarCodParColItem, AV123ProCodColItem, Short.valueOf(AV127BarOrdLinColItem)});
+         while ( (pr_default.getStatus(2) != 101) )
+         {
+            A194BarOrdLin = H026Q4_A194BarOrdLin[0] ;
+            A758ProCod = H026Q4_A758ProCod[0] ;
+            A396EmprCod = H026Q4_A396EmprCod[0] ;
+            A457FasCod = H026Q4_A457FasCod[0] ;
+            A460FasDsc = H026Q4_A460FasDsc[0] ;
+            A603MaqCodBis = H026Q4_A603MaqCodBis[0] ;
+            A3837BarFasKgm = H026Q4_A3837BarFasKgm[0] ;
+            n3837BarFasKgm = H026Q4_n3837BarFasKgm[0] ;
+            A3838BarFasMtr = H026Q4_A3838BarFasMtr[0] ;
+            n3838BarFasMtr = H026Q4_n3838BarFasMtr[0] ;
+            A215BarTieRea = H026Q4_A215BarTieRea[0] ;
+            A160BarFecRea = H026Q4_A160BarFecRea[0] ;
+            A130BarCodPar = H026Q4_A130BarCodPar[0] ;
+            A132BarCodReo = H026Q4_A132BarCodReo[0] ;
+            A129BarCod = H026Q4_A129BarCod[0] ;
+            A460FasDsc = H026Q4_A460FasDsc[0] ;
+            A13696BarNHdr = GXutil.trim( GXutil.str( A129BarCod, 8, 0)) + "-" + GXutil.trim( GXutil.str( A132BarCodReo, 1, 0)) + A130BarCodPar ;
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Emprcod( A396EmprCod );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Barcod( A129BarCod );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Barcodreo( A132BarCodReo );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Barcodpar( A130BarCodPar );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Barordlin( A194BarOrdLin );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Procod( A758ProCod );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Barnhdr( A13696BarNHdr );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Fascod( A457FasCod );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Fasdsc( A460FasDsc );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Maqcodbis( A603MaqCodBis );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Barfaskgm( A3837BarFasKgm );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Barfasmtr( A3838BarFasMtr );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Bartierea( A215BarTieRea );
+            AV104SelectedRow.setgxTv_SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem_Barfecrea( A160BarFecRea );
+            /* Exiting from a For First loop. */
+            if (true) break;
+         }
+         pr_default.close(2);
+         AV103SelectedRows.add(AV104SelectedRow, 0);
+         AV39i = (long)(AV39i+1) ;
+         httpContext.ajax_rsp_assign_attri("", false, "AV39i", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV39i), 10, 0));
+         AV154GXV2 = (int)(AV154GXV2+1) ;
+      }
+   }
+
+   public void S122( )
+   {
+      /* 'LOADGRIDSTATE' Routine */
+      returnInSub = false ;
+      if ( GXutil.strcmp(AV63Session.getValue(AV135Pgmname+"GridState"), "") == 0 )
+      {
+         AV34GridState.fromxml(new app.wwpbaseobjects.loadgridstate(remoteHandle, context).executeUdp( AV135Pgmname+"GridState"), null, null);
+      }
+      else
+      {
+         AV34GridState.fromxml(AV63Session.getValue(AV135Pgmname+"GridState"), null, null);
+      }
+      AV58OrderedBy = AV34GridState.getgxTv_SdtWWPGridState_Orderedby() ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV58OrderedBy", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV58OrderedBy), 4, 0));
+      AV59OrderedDsc = AV34GridState.getgxTv_SdtWWPGridState_Ordereddsc() ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV59OrderedDsc", AV59OrderedDsc);
+      /* Execute user subroutine: 'SETDDOSORTEDSTATUS' */
+      S132 ();
+      if (returnInSub) return;
+      AV156GXV3 = 1 ;
+      while ( AV156GXV3 <= AV34GridState.getgxTv_SdtWWPGridState_Filtervalues().size() )
+      {
+         AV35GridStateFilterValue = (app.wwpbaseobjects.SdtWWPGridState_FilterValue)((app.wwpbaseobjects.SdtWWPGridState_FilterValue)AV34GridState.getgxTv_SdtWWPGridState_Filtervalues().elementAt(-1+AV156GXV3));
+         if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFPROCOD") == 0 )
+         {
+            AV88TFProCod = AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV88TFProCod", AV88TFProCod);
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFPROCOD_SEL") == 0 )
+         {
+            AV89TFProCod_Sel = AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV89TFProCod_Sel", AV89TFProCod_Sel);
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFBARNHDR") == 0 )
+         {
+            AV76TFBarNHdr = AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV76TFBarNHdr", AV76TFBarNHdr);
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFBARNHDR_SEL") == 0 )
+         {
+            AV77TFBarNHdr_Sel = AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV77TFBarNHdr_Sel", AV77TFBarNHdr_Sel);
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFFASCOD") == 0 )
+         {
+            AV82TFFasCod = AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV82TFFasCod", AV82TFFasCod);
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFFASCOD_SEL") == 0 )
+         {
+            AV83TFFasCod_Sel = AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV83TFFasCod_Sel", AV83TFFasCod_Sel);
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFFASDSC") == 0 )
+         {
+            AV84TFFasDsc = AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV84TFFasDsc", AV84TFFasDsc);
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFFASDSC_SEL") == 0 )
+         {
+            AV85TFFasDsc_Sel = AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV85TFFasDsc_Sel", AV85TFFasDsc_Sel);
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFMAQCODBIS") == 0 )
+         {
+            AV86TFMaqCodBis = AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV86TFMaqCodBis", AV86TFMaqCodBis);
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFMAQCODBIS_SEL") == 0 )
+         {
+            AV87TFMaqCodBis_Sel = AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value() ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV87TFMaqCodBis_Sel", AV87TFMaqCodBis_Sel);
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFBARFASKGM") == 0 )
+         {
+            AV71TFBarFasKgm = CommonUtil.decimalVal( AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value(), ".") ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV71TFBarFasKgm", GXutil.ltrimstr( AV71TFBarFasKgm, 9, 2));
+            AV72TFBarFasKgm_To = CommonUtil.decimalVal( AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Valueto(), ".") ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV72TFBarFasKgm_To", GXutil.ltrimstr( AV72TFBarFasKgm_To, 9, 2));
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFBARFASMTR") == 0 )
+         {
+            AV73TFBarFasMtr = CommonUtil.decimalVal( AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value(), ".") ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV73TFBarFasMtr", GXutil.ltrimstr( AV73TFBarFasMtr, 9, 2));
+            AV74TFBarFasMtr_To = CommonUtil.decimalVal( AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Valueto(), ".") ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV74TFBarFasMtr_To", GXutil.ltrimstr( AV74TFBarFasMtr_To, 9, 2));
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFBARTIEREA") == 0 )
+         {
+            AV80TFBarTieRea = CommonUtil.decimalVal( AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value(), ".") ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV80TFBarTieRea", GXutil.ltrimstr( AV80TFBarTieRea, 5, 2));
+            AV81TFBarTieRea_To = CommonUtil.decimalVal( AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Valueto(), ".") ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV81TFBarTieRea_To", GXutil.ltrimstr( AV81TFBarTieRea_To, 5, 2));
+         }
+         else if ( GXutil.strcmp(AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Name(), "TFBARFECREA") == 0 )
+         {
+            AV75TFBarFecRea = localUtil.ctod( AV35GridStateFilterValue.getgxTv_SdtWWPGridState_FilterValue_Value(), localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "AV75TFBarFecRea", localUtil.format(AV75TFBarFecRea, "99/99/99"));
+         }
+         AV156GXV3 = (int)(AV156GXV3+1) ;
+      }
+      GXt_char1 = "" ;
+      GXv_char29[0] = GXt_char1 ;
+      new app.wwpbaseobjects.wwp_getfilterval(remoteHandle, context).execute( (GXutil.strcmp("", AV89TFProCod_Sel)==0), AV89TFProCod_Sel, GXv_char29) ;
+      mantenimientorollospieza_impl.this.GXt_char1 = GXv_char29[0] ;
+      GXt_char31 = "" ;
+      GXv_char25[0] = GXt_char31 ;
+      new app.wwpbaseobjects.wwp_getfilterval(remoteHandle, context).execute( (GXutil.strcmp("", AV77TFBarNHdr_Sel)==0), AV77TFBarNHdr_Sel, GXv_char25) ;
+      mantenimientorollospieza_impl.this.GXt_char31 = GXv_char25[0] ;
+      GXt_char32 = "" ;
+      GXv_char24[0] = GXt_char32 ;
+      new app.wwpbaseobjects.wwp_getfilterval(remoteHandle, context).execute( (GXutil.strcmp("", AV83TFFasCod_Sel)==0), AV83TFFasCod_Sel, GXv_char24) ;
+      mantenimientorollospieza_impl.this.GXt_char32 = GXv_char24[0] ;
+      GXt_char33 = "" ;
+      GXv_char22[0] = GXt_char33 ;
+      new app.wwpbaseobjects.wwp_getfilterval(remoteHandle, context).execute( (GXutil.strcmp("", AV85TFFasDsc_Sel)==0), AV85TFFasDsc_Sel, GXv_char22) ;
+      mantenimientorollospieza_impl.this.GXt_char33 = GXv_char22[0] ;
+      GXt_char34 = "" ;
+      GXv_char21[0] = GXt_char34 ;
+      new app.wwpbaseobjects.wwp_getfilterval(remoteHandle, context).execute( (GXutil.strcmp("", AV87TFMaqCodBis_Sel)==0), AV87TFMaqCodBis_Sel, GXv_char21) ;
+      mantenimientorollospieza_impl.this.GXt_char34 = GXv_char21[0] ;
+      Ddo_grid_Selectedvalue_set = GXt_char1+"|"+GXt_char31+"|"+GXt_char32+"|"+GXt_char33+"|"+GXt_char34+"||||" ;
+      ucDdo_grid.sendProperty(context, "", false, Ddo_grid_Internalname, "SelectedValue_set", Ddo_grid_Selectedvalue_set);
+      GXt_char34 = "" ;
+      GXv_char29[0] = GXt_char34 ;
+      new app.wwpbaseobjects.wwp_getfilterval(remoteHandle, context).execute( (GXutil.strcmp("", AV88TFProCod)==0), AV88TFProCod, GXv_char29) ;
+      mantenimientorollospieza_impl.this.GXt_char34 = GXv_char29[0] ;
+      GXt_char33 = "" ;
+      GXv_char25[0] = GXt_char33 ;
+      new app.wwpbaseobjects.wwp_getfilterval(remoteHandle, context).execute( (GXutil.strcmp("", AV76TFBarNHdr)==0), AV76TFBarNHdr, GXv_char25) ;
+      mantenimientorollospieza_impl.this.GXt_char33 = GXv_char25[0] ;
+      GXt_char32 = "" ;
+      GXv_char24[0] = GXt_char32 ;
+      new app.wwpbaseobjects.wwp_getfilterval(remoteHandle, context).execute( (GXutil.strcmp("", AV82TFFasCod)==0), AV82TFFasCod, GXv_char24) ;
+      mantenimientorollospieza_impl.this.GXt_char32 = GXv_char24[0] ;
+      GXt_char31 = "" ;
+      GXv_char22[0] = GXt_char31 ;
+      new app.wwpbaseobjects.wwp_getfilterval(remoteHandle, context).execute( (GXutil.strcmp("", AV84TFFasDsc)==0), AV84TFFasDsc, GXv_char22) ;
+      mantenimientorollospieza_impl.this.GXt_char31 = GXv_char22[0] ;
+      GXt_char1 = "" ;
+      GXv_char21[0] = GXt_char1 ;
+      new app.wwpbaseobjects.wwp_getfilterval(remoteHandle, context).execute( (GXutil.strcmp("", AV86TFMaqCodBis)==0), AV86TFMaqCodBis, GXv_char21) ;
+      mantenimientorollospieza_impl.this.GXt_char1 = GXv_char21[0] ;
+      Ddo_grid_Filteredtext_set = GXt_char34+"|"+GXt_char33+"|"+GXt_char32+"|"+GXt_char31+"|"+GXt_char1+"|"+((DecimalUtil.compareTo(DecimalUtil.ZERO, AV71TFBarFasKgm)==0) ? "" : GXutil.str( AV71TFBarFasKgm, 9, 2))+"|"+((DecimalUtil.compareTo(DecimalUtil.ZERO, AV73TFBarFasMtr)==0) ? "" : GXutil.str( AV73TFBarFasMtr, 9, 2))+"|"+((DecimalUtil.compareTo(DecimalUtil.ZERO, AV80TFBarTieRea)==0) ? "" : GXutil.str( AV80TFBarTieRea, 5, 2))+"|"+(GXutil.dateCompare(GXutil.resetTime(GXutil.nullDate()), GXutil.resetTime(AV75TFBarFecRea)) ? "" : localUtil.dtoc( AV75TFBarFecRea, localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt")), "/")) ;
+      ucDdo_grid.sendProperty(context, "", false, Ddo_grid_Internalname, "FilteredText_set", Ddo_grid_Filteredtext_set);
+      Ddo_grid_Filteredtextto_set = "|||||"+((DecimalUtil.compareTo(DecimalUtil.ZERO, AV72TFBarFasKgm_To)==0) ? "" : GXutil.str( AV72TFBarFasKgm_To, 9, 2))+"|"+((DecimalUtil.compareTo(DecimalUtil.ZERO, AV74TFBarFasMtr_To)==0) ? "" : GXutil.str( AV74TFBarFasMtr_To, 9, 2))+"|"+((DecimalUtil.compareTo(DecimalUtil.ZERO, AV81TFBarTieRea_To)==0) ? "" : GXutil.str( AV81TFBarTieRea_To, 5, 2))+"|" ;
+      ucDdo_grid.sendProperty(context, "", false, Ddo_grid_Internalname, "FilteredTextTo_set", Ddo_grid_Filteredtextto_set);
+      if ( ! (GXutil.strcmp("", GXutil.trim( AV34GridState.getgxTv_SdtWWPGridState_Pagesize()))==0) )
+      {
+         subGrid_Rows = (int)(GXutil.lval( AV34GridState.getgxTv_SdtWWPGridState_Pagesize())) ;
+         app.GxWebStd.gx_hidden_field( httpContext, "GRID_Rows", GXutil.ltrim( localUtil.ntoc( subGrid_Rows, (byte)(6), (byte)(0), ".", "")));
+      }
+      subgrid_gotopage( AV34GridState.getgxTv_SdtWWPGridState_Currentpage()) ;
+   }
+
+   public void S142( )
+   {
+      /* 'SAVEGRIDSTATE' Routine */
+      returnInSub = false ;
+      AV34GridState.fromxml(AV63Session.getValue(AV135Pgmname+"GridState"), null, null);
+      AV34GridState.setgxTv_SdtWWPGridState_Orderedby( AV58OrderedBy );
+      AV34GridState.setgxTv_SdtWWPGridState_Ordereddsc( AV59OrderedDsc );
+      AV34GridState.getgxTv_SdtWWPGridState_Filtervalues().clear();
+      GXv_SdtWWPGridState35[0] = AV34GridState;
+      new app.wwpbaseobjects.wwp_gridstateaddfiltervalueandsel(remoteHandle, context).execute( GXv_SdtWWPGridState35, "TFPROCOD", "", !(GXutil.strcmp("", AV88TFProCod)==0), (short)(0), AV88TFProCod, "", !(GXutil.strcmp("", AV89TFProCod_Sel)==0), AV89TFProCod_Sel, "") ;
+      AV34GridState = GXv_SdtWWPGridState35[0] ;
+      GXv_SdtWWPGridState35[0] = AV34GridState;
+      new app.wwpbaseobjects.wwp_gridstateaddfiltervalueandsel(remoteHandle, context).execute( GXv_SdtWWPGridState35, "TFBARNHDR", "", !(GXutil.strcmp("", AV76TFBarNHdr)==0), (short)(0), AV76TFBarNHdr, "", !(GXutil.strcmp("", AV77TFBarNHdr_Sel)==0), AV77TFBarNHdr_Sel, "") ;
+      AV34GridState = GXv_SdtWWPGridState35[0] ;
+      GXv_SdtWWPGridState35[0] = AV34GridState;
+      new app.wwpbaseobjects.wwp_gridstateaddfiltervalueandsel(remoteHandle, context).execute( GXv_SdtWWPGridState35, "TFFASCOD", "", !(GXutil.strcmp("", AV82TFFasCod)==0), (short)(0), AV82TFFasCod, "", !(GXutil.strcmp("", AV83TFFasCod_Sel)==0), AV83TFFasCod_Sel, "") ;
+      AV34GridState = GXv_SdtWWPGridState35[0] ;
+      GXv_SdtWWPGridState35[0] = AV34GridState;
+      new app.wwpbaseobjects.wwp_gridstateaddfiltervalueandsel(remoteHandle, context).execute( GXv_SdtWWPGridState35, "TFFASDSC", "", !(GXutil.strcmp("", AV84TFFasDsc)==0), (short)(0), AV84TFFasDsc, "", !(GXutil.strcmp("", AV85TFFasDsc_Sel)==0), AV85TFFasDsc_Sel, "") ;
+      AV34GridState = GXv_SdtWWPGridState35[0] ;
+      GXv_SdtWWPGridState35[0] = AV34GridState;
+      new app.wwpbaseobjects.wwp_gridstateaddfiltervalueandsel(remoteHandle, context).execute( GXv_SdtWWPGridState35, "TFMAQCODBIS", "", !(GXutil.strcmp("", AV86TFMaqCodBis)==0), (short)(0), AV86TFMaqCodBis, "", !(GXutil.strcmp("", AV87TFMaqCodBis_Sel)==0), AV87TFMaqCodBis_Sel, "") ;
+      AV34GridState = GXv_SdtWWPGridState35[0] ;
+      GXv_SdtWWPGridState35[0] = AV34GridState;
+      new app.wwpbaseobjects.wwp_gridstateaddfiltervalue(remoteHandle, context).execute( GXv_SdtWWPGridState35, "TFBARFASKGM", "", !((DecimalUtil.compareTo(DecimalUtil.ZERO, AV71TFBarFasKgm)==0)&&(DecimalUtil.compareTo(DecimalUtil.ZERO, AV72TFBarFasKgm_To)==0)), (short)(0), GXutil.trim( GXutil.str( AV71TFBarFasKgm, 9, 2)), GXutil.trim( GXutil.str( AV72TFBarFasKgm_To, 9, 2))) ;
+      AV34GridState = GXv_SdtWWPGridState35[0] ;
+      GXv_SdtWWPGridState35[0] = AV34GridState;
+      new app.wwpbaseobjects.wwp_gridstateaddfiltervalue(remoteHandle, context).execute( GXv_SdtWWPGridState35, "TFBARFASMTR", "", !((DecimalUtil.compareTo(DecimalUtil.ZERO, AV73TFBarFasMtr)==0)&&(DecimalUtil.compareTo(DecimalUtil.ZERO, AV74TFBarFasMtr_To)==0)), (short)(0), GXutil.trim( GXutil.str( AV73TFBarFasMtr, 9, 2)), GXutil.trim( GXutil.str( AV74TFBarFasMtr_To, 9, 2))) ;
+      AV34GridState = GXv_SdtWWPGridState35[0] ;
+      GXv_SdtWWPGridState35[0] = AV34GridState;
+      new app.wwpbaseobjects.wwp_gridstateaddfiltervalue(remoteHandle, context).execute( GXv_SdtWWPGridState35, "TFBARTIEREA", "", !((DecimalUtil.compareTo(DecimalUtil.ZERO, AV80TFBarTieRea)==0)&&(DecimalUtil.compareTo(DecimalUtil.ZERO, AV81TFBarTieRea_To)==0)), (short)(0), GXutil.trim( GXutil.str( AV80TFBarTieRea, 5, 2)), GXutil.trim( GXutil.str( AV81TFBarTieRea_To, 5, 2))) ;
+      AV34GridState = GXv_SdtWWPGridState35[0] ;
+      GXv_SdtWWPGridState35[0] = AV34GridState;
+      new app.wwpbaseobjects.wwp_gridstateaddfiltervalue(remoteHandle, context).execute( GXv_SdtWWPGridState35, "TFBARFECREA", "", !GXutil.dateCompare(GXutil.resetTime(GXutil.nullDate()), GXutil.resetTime(AV75TFBarFecRea)), (short)(0), GXutil.trim( localUtil.dtoc( AV75TFBarFecRea, localUtil.mapDateFormat( httpContext.getLanguageProperty( "date_fmt")), "/")), "") ;
+      AV34GridState = GXv_SdtWWPGridState35[0] ;
+      AV34GridState.setgxTv_SdtWWPGridState_Pagesize( GXutil.str( subGrid_Rows, 10, 0) );
+      AV34GridState.setgxTv_SdtWWPGridState_Currentpage( (short)(subgrid_fnc_currentpage( )) );
+      new app.wwpbaseobjects.savegridstate(remoteHandle, context).execute( AV135Pgmname+"GridState", AV34GridState.toxml(false, true, "WWPGridState", "TexplusNET")) ;
+   }
+
+   public void S112( )
+   {
+      /* 'PREPARETRANSACTION' Routine */
+      returnInSub = false ;
+      AV90TrnContext = (app.wwpbaseobjects.SdtWWPTransactionContext)new app.wwpbaseobjects.SdtWWPTransactionContext(remoteHandle, context);
+      AV90TrnContext.setgxTv_SdtWWPTransactionContext_Callerobject( AV135Pgmname );
+      AV90TrnContext.setgxTv_SdtWWPTransactionContext_Callerondelete( true );
+      AV90TrnContext.setgxTv_SdtWWPTransactionContext_Callerurl( AV38HTTPRequest.getScriptName()+"?"+AV38HTTPRequest.getQuerystring() );
+      AV90TrnContext.setgxTv_SdtWWPTransactionContext_Transactionname( "TBARFAS" );
+      AV63Session.setValue("TrnContext", AV90TrnContext.toxml(false, true, "WWPTransactionContext", "TexplusNET"));
+   }
+
+   public void wb_table2_94_26Q2( boolean wbgen )
+   {
+      if ( wbgen )
+      {
+         /* Table start */
+         sStyleString = "" ;
+         app.GxWebStd.gx_table_start( httpContext, tblTabledvelop_confirmpanel_confirmar_Internalname, tblTabledvelop_confirmpanel_confirmar_Internalname, "", "Table", 0, "", "", 1, 2, sStyleString, "", "", 0);
+         httpContext.writeText( "<tbody>") ;
+         httpContext.writeText( "<tr>") ;
+         httpContext.writeText( "<td data-align=\"center\"  style=\""+GXutil.CssPrettify( "text-align:-khtml-center;text-align:-moz-center;text-align:-webkit-center")+"\">") ;
+         /* User Defined Control */
+         ucDvelop_confirmpanel_confirmar.setProperty("Title", Dvelop_confirmpanel_confirmar_Title);
+         ucDvelop_confirmpanel_confirmar.setProperty("ConfirmationText", Dvelop_confirmpanel_confirmar_Confirmationtext);
+         ucDvelop_confirmpanel_confirmar.setProperty("YesButtonCaption", Dvelop_confirmpanel_confirmar_Yesbuttoncaption);
+         ucDvelop_confirmpanel_confirmar.setProperty("NoButtonCaption", Dvelop_confirmpanel_confirmar_Nobuttoncaption);
+         ucDvelop_confirmpanel_confirmar.setProperty("CancelButtonCaption", Dvelop_confirmpanel_confirmar_Cancelbuttoncaption);
+         ucDvelop_confirmpanel_confirmar.setProperty("YesButtonPosition", Dvelop_confirmpanel_confirmar_Yesbuttonposition);
+         ucDvelop_confirmpanel_confirmar.setProperty("ConfirmType", Dvelop_confirmpanel_confirmar_Confirmtype);
+         ucDvelop_confirmpanel_confirmar.render(context, "dvelop.gxbootstrap.confirmpanel", Dvelop_confirmpanel_confirmar_Internalname, "DVELOP_CONFIRMPANEL_CONFIRMARContainer");
+         httpContext.writeText( "<div class=\"gx_usercontrol_child\" id=\""+"DVELOP_CONFIRMPANEL_CONFIRMARContainer"+"Body"+"\" style=\"display:none;\">") ;
+         httpContext.writeText( "</div>") ;
+         httpContext.writeText( "</td>") ;
+         httpContext.writeText( "</tr>") ;
+         httpContext.writeText( "</tbody>") ;
+         /* End of table */
+         httpContext.writeText( "</table>") ;
+         wb_table2_94_26Q2e( true) ;
+      }
+      else
+      {
+         wb_table2_94_26Q2e( false) ;
+      }
+   }
+
+   public void wb_table1_28_26Q2( boolean wbgen )
+   {
+      if ( wbgen )
+      {
+         /* Table start */
+         sStyleString = "" ;
+         app.GxWebStd.gx_table_start( httpContext, tblTablerightheader_Internalname, tblTablerightheader_Internalname, "", "", 0, "", "", 1, 2, sStyleString, "", "", 0);
+         httpContext.writeText( "<tr>") ;
+         httpContext.writeText( "<td>") ;
+         httpContext.writeText( "</td>") ;
+         httpContext.writeText( "</tr>") ;
+         /* End of table */
+         httpContext.writeText( "</table>") ;
+         wb_table1_28_26Q2e( true) ;
+      }
+      else
+      {
+         wb_table1_28_26Q2e( false) ;
+      }
+   }
+
+   @SuppressWarnings("unchecked")
+   public void setparameters( Object[] obj )
+   {
+      AV8emprcod = (String)getParm(obj,0) ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV8emprcod", AV8emprcod);
+      AV5BarCod = ((Number) GXutil.testNumericType( getParm(obj,1), TypeConstants.INT)).intValue() ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV5BarCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(AV5BarCod), 8, 0));
+      AV7BarCodReo = ((Number) GXutil.testNumericType( getParm(obj,2), TypeConstants.BYTE)).byteValue() ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV7BarCodReo", GXutil.str( AV7BarCodReo, 1, 0));
+      AV6BarCodPar = (String)getParm(obj,3) ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV6BarCodPar", AV6BarCodPar);
+      AV99flag = ((Number) GXutil.testNumericType( getParm(obj,4), TypeConstants.BYTE)).byteValue() ;
+      httpContext.ajax_rsp_assign_attri("", false, "AV99flag", GXutil.str( AV99flag, 1, 0));
+   }
+
+   public String getresponse( String sGXDynURL )
+   {
+      initialize_properties( ) ;
+      BackMsgLst = httpContext.GX_msglist ;
+      httpContext.GX_msglist = LclMsgLst ;
+      sDynURL = sGXDynURL ;
+      nGotPars = 1 ;
+      nGXWrapped = 1 ;
+      httpContext.setWrapped(true);
+      pa26Q2( ) ;
+      ws26Q2( ) ;
+      we26Q2( ) ;
+      if ( isAjaxCallMode( ) )
+      {
+         cleanup();
+      }
+      httpContext.setWrapped(false);
+      httpContext.GX_msglist = BackMsgLst ;
+      String response = "";
+      try
+      {
+         response = ((java.io.ByteArrayOutputStream) httpContext.getOutputStream()).toString("UTF8");
+      }
+      catch (java.io.UnsupportedEncodingException e)
+      {
+         Application.printWarning(e.getMessage(), e);
+      }
+      finally
+      {
+         httpContext.closeOutputStream();
+      }
+      return response;
+   }
+
+   public void responsestatic( String sGXDynURL )
+   {
+   }
+
+   public void define_styles( )
+   {
+      httpContext.AddStyleSheetFile("DVelop/Bootstrap/Shared/DVelopBootstrap.css", "");
+      httpContext.AddStyleSheetFile("calendar-system.css", "");
+      httpContext.AddThemeStyleSheetFile("", context.getHttpContext().getTheme( )+".css", "?"+httpContext.getCacheInvalidationToken( ));
+      boolean outputEnabled = httpContext.isOutputEnabled( );
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      idxLst = 1 ;
+      while ( idxLst <= Form.getJscriptsrc().getCount() )
+      {
+         httpContext.AddJavascriptSource(GXutil.rtrim( Form.getJscriptsrc().item(idxLst)), "?20268211615121", true, true);
+         idxLst = (int)(idxLst+1) ;
+      }
+      if ( ! outputEnabled )
+      {
+         if ( httpContext.isSpaRequest( ) )
+         {
+            httpContext.disableOutput();
+         }
+      }
+      /* End function define_styles */
+   }
+
+   public void include_jscripts( )
+   {
+      httpContext.AddJavascriptSource("messages."+httpContext.getLanguageProperty( "code")+".js", "?"+httpContext.getCacheInvalidationToken( ), false, true);
+      httpContext.AddJavascriptSource("mantenimientorollospieza.js", "?20268211615122", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Panel/BootstrapPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("UserControls/DatamonJSRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/DropDownOptions/BootstrapDropDownOptionsRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/Shared/DVelopBootstrap.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Bootstrap/ConfirmPanel/BootstrapConfirmPanelRender.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/Shared/WorkWithPlusCommon.js", "", false, true);
+      httpContext.AddJavascriptSource("DVelop/GridEmpowerer/GridEmpowererRender.js", "", false, true);
+      /* End function include_jscripts */
+   }
+
+   public void subsflControlProps_672( )
+   {
+      chkavSelected.setInternalname( "vSELECTED_"+sGXsfl_67_idx );
+      edtEmprCod_Internalname = "EMPRCOD_"+sGXsfl_67_idx ;
+      edtBarCod_Internalname = "BARCOD_"+sGXsfl_67_idx ;
+      edtBarCodReo_Internalname = "BARCODREO_"+sGXsfl_67_idx ;
+      edtBarCodPar_Internalname = "BARCODPAR_"+sGXsfl_67_idx ;
+      edtBarOrdLin_Internalname = "BARORDLIN_"+sGXsfl_67_idx ;
+      edtProCod_Internalname = "PROCOD_"+sGXsfl_67_idx ;
+      edtBarNHdr_Internalname = "BARNHDR_"+sGXsfl_67_idx ;
+      edtFasCod_Internalname = "FASCOD_"+sGXsfl_67_idx ;
+      edtFasDsc_Internalname = "FASDSC_"+sGXsfl_67_idx ;
+      edtMaqCodBis_Internalname = "MAQCODBIS_"+sGXsfl_67_idx ;
+      edtBarFasKgm_Internalname = "BARFASKGM_"+sGXsfl_67_idx ;
+      edtBarFasMtr_Internalname = "BARFASMTR_"+sGXsfl_67_idx ;
+      edtBarTieRea_Internalname = "BARTIEREA_"+sGXsfl_67_idx ;
+      edtBarFecRea_Internalname = "BARFECREA_"+sGXsfl_67_idx ;
+   }
+
+   public void subsflControlProps_fel_672( )
+   {
+      chkavSelected.setInternalname( "vSELECTED_"+sGXsfl_67_fel_idx );
+      edtEmprCod_Internalname = "EMPRCOD_"+sGXsfl_67_fel_idx ;
+      edtBarCod_Internalname = "BARCOD_"+sGXsfl_67_fel_idx ;
+      edtBarCodReo_Internalname = "BARCODREO_"+sGXsfl_67_fel_idx ;
+      edtBarCodPar_Internalname = "BARCODPAR_"+sGXsfl_67_fel_idx ;
+      edtBarOrdLin_Internalname = "BARORDLIN_"+sGXsfl_67_fel_idx ;
+      edtProCod_Internalname = "PROCOD_"+sGXsfl_67_fel_idx ;
+      edtBarNHdr_Internalname = "BARNHDR_"+sGXsfl_67_fel_idx ;
+      edtFasCod_Internalname = "FASCOD_"+sGXsfl_67_fel_idx ;
+      edtFasDsc_Internalname = "FASDSC_"+sGXsfl_67_fel_idx ;
+      edtMaqCodBis_Internalname = "MAQCODBIS_"+sGXsfl_67_fel_idx ;
+      edtBarFasKgm_Internalname = "BARFASKGM_"+sGXsfl_67_fel_idx ;
+      edtBarFasMtr_Internalname = "BARFASMTR_"+sGXsfl_67_fel_idx ;
+      edtBarTieRea_Internalname = "BARTIEREA_"+sGXsfl_67_fel_idx ;
+      edtBarFecRea_Internalname = "BARFECREA_"+sGXsfl_67_fel_idx ;
+   }
+
+   public void sendrow_672( )
+   {
+      subsflControlProps_672( ) ;
+      wb26Q0( ) ;
+      if ( ( subGrid_Rows * 1 == 0 ) || ( nGXsfl_67_idx <= subgrid_fnc_recordsperpage( ) * 1 ) )
+      {
+         GridRow = GXWebRow.GetNew(context,GridContainer) ;
+         if ( subGrid_Backcolorstyle == 0 )
+         {
+            /* None style subfile background logic. */
+            subGrid_Backstyle = (byte)(0) ;
+            if ( GXutil.strcmp(subGrid_Class, "") != 0 )
+            {
+               subGrid_Linesclass = subGrid_Class+"Odd" ;
+            }
+         }
+         else if ( subGrid_Backcolorstyle == 1 )
+         {
+            /* Uniform style subfile background logic. */
+            subGrid_Backstyle = (byte)(0) ;
+            subGrid_Backcolor = subGrid_Allbackcolor ;
+            if ( GXutil.strcmp(subGrid_Class, "") != 0 )
+            {
+               subGrid_Linesclass = subGrid_Class+"Uniform" ;
+            }
+         }
+         else if ( subGrid_Backcolorstyle == 2 )
+         {
+            /* Header style subfile background logic. */
+            subGrid_Backstyle = (byte)(1) ;
+            if ( GXutil.strcmp(subGrid_Class, "") != 0 )
+            {
+               subGrid_Linesclass = subGrid_Class+"Odd" ;
+            }
+            subGrid_Backcolor = (int)(0x0) ;
+         }
+         else if ( subGrid_Backcolorstyle == 3 )
+         {
+            /* Report style subfile background logic. */
+            subGrid_Backstyle = (byte)(1) ;
+            if ( ((int)((nGXsfl_67_idx) % (2))) == 0 )
+            {
+               subGrid_Backcolor = (int)(0x0) ;
+               if ( GXutil.strcmp(subGrid_Class, "") != 0 )
+               {
+                  subGrid_Linesclass = subGrid_Class+"Even" ;
+               }
+            }
+            else
+            {
+               subGrid_Backcolor = (int)(0x0) ;
+               if ( GXutil.strcmp(subGrid_Class, "") != 0 )
+               {
+                  subGrid_Linesclass = subGrid_Class+"Odd" ;
+               }
+            }
+         }
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<tr ") ;
+            httpContext.writeText( " class=\""+"GridNoBorder WorkWithSelection WorkWith"+"\" style=\""+""+"\"") ;
+            httpContext.writeText( " gxrow=\""+sGXsfl_67_idx+"\">") ;
+         }
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+""+"\""+" style=\""+""+"\">") ;
+         }
+         /* Check box */
+         TempTags = " " + ((chkavSelected.getEnabled()!=0)&&(chkavSelected.getVisible()!=0) ? " onfocus=\"gx.evt.onfocus(this, 68,'',false,'"+sGXsfl_67_idx+"',67)\"" : " ") ;
+         ClassString = "AttributeCheckBox" ;
+         StyleString = "" ;
+         GXCCtl = "vSELECTED_" + sGXsfl_67_idx ;
+         chkavSelected.setName( GXCCtl );
+         chkavSelected.setWebtags( "" );
+         chkavSelected.setCaption( "" );
+         httpContext.ajax_rsp_assign_prop("", false, chkavSelected.getInternalname(), "TitleCaption", chkavSelected.getCaption(), !bGXsfl_67_Refreshing);
+         chkavSelected.setCheckedValue( "false" );
+         AV102Selected = GXutil.strtobool( GXutil.booltostr( AV102Selected)) ;
+         httpContext.ajax_rsp_assign_attri("", false, chkavSelected.getInternalname(), AV102Selected);
+         GridRow.AddColumnProperties("checkbox", 1, isAjaxCallMode( ), new Object[] {chkavSelected.getInternalname(),GXutil.booltostr( AV102Selected),"","",Integer.valueOf(-1),Integer.valueOf(1),"true","",StyleString,ClassString,"","",TempTags+((chkavSelected.getEnabled()!=0)&&(chkavSelected.getVisible()!=0) ? " onblur=\""+""+";gx.evt.onblur(this,68);\"" : " ")});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"left"+"\""+" style=\""+"display:none;"+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtEmprCod_Internalname,GXutil.rtrim( A396EmprCod),GXutil.rtrim( localUtil.format( A396EmprCod, "@!")),"","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtEmprCod_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn hidden-xs","",Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(0),"text","",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(3),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(-1),Boolean.valueOf(true),"","left",Boolean.valueOf(true),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"right"+"\""+" style=\""+"display:none;"+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtBarCod_Internalname,GXutil.ltrim( localUtil.ntoc( A129BarCod, (byte)(8), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")),GXutil.ltrim( localUtil.format( DecimalUtil.doubleToDec(A129BarCod), "ZZZZZZZ9"))," inputmode=\"numeric\" pattern=\"[0-9]*\""+"","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtBarCod_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn hidden-xs","",Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(0),"text","1",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(8),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(0),Boolean.valueOf(true),"","right",Boolean.valueOf(false),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"right"+"\""+" style=\""+"display:none;"+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtBarCodReo_Internalname,GXutil.ltrim( localUtil.ntoc( A132BarCodReo, (byte)(1), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")),GXutil.ltrim( localUtil.format( DecimalUtil.doubleToDec(A132BarCodReo), "9"))," inputmode=\"numeric\" pattern=\"[0-9]*\""+"","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtBarCodReo_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn","",Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(0),"text","1",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(1),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(0),Boolean.valueOf(true),"","right",Boolean.valueOf(false),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"left"+"\""+" style=\""+"display:none;"+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtBarCodPar_Internalname,GXutil.rtrim( A130BarCodPar),"","","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtBarCodPar_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn","",Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(0),"text","",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(1),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(-1),Boolean.valueOf(true),"","left",Boolean.valueOf(true),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"right"+"\""+" style=\""+"display:none;"+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtBarOrdLin_Internalname,GXutil.ltrim( localUtil.ntoc( A194BarOrdLin, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")),GXutil.ltrim( localUtil.format( DecimalUtil.doubleToDec(A194BarOrdLin), "ZZZ9"))," inputmode=\"numeric\" pattern=\"[0-9]*\""+"","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtBarOrdLin_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn","",Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(0),"text","1",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(4),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(0),Boolean.valueOf(true),"","right",Boolean.valueOf(false),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"left"+"\""+" style=\""+""+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtProCod_Internalname,GXutil.rtrim( A758ProCod),"","","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtProCod_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn","",Integer.valueOf(-1),Integer.valueOf(0),Integer.valueOf(0),"text","",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(8),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(-1),Boolean.valueOf(true),"","left",Boolean.valueOf(true),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"left"+"\""+" style=\""+""+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtBarNHdr_Internalname,GXutil.rtrim( A13696BarNHdr),"","","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtBarNHdr_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn","",Integer.valueOf(-1),Integer.valueOf(0),Integer.valueOf(0),"text","",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(11),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(-1),Boolean.valueOf(true),"","left",Boolean.valueOf(true),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"left"+"\""+" style=\""+""+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtFasCod_Internalname,GXutil.rtrim( A457FasCod),GXutil.rtrim( localUtil.format( A457FasCod, "@!")),"","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtFasCod_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn","",Integer.valueOf(-1),Integer.valueOf(0),Integer.valueOf(0),"text","",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(8),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(-1),Boolean.valueOf(true),"","left",Boolean.valueOf(true),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"left"+"\""+" style=\""+""+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtFasDsc_Internalname,GXutil.rtrim( A460FasDsc),"","","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtFasDsc_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn","",Integer.valueOf(-1),Integer.valueOf(0),Integer.valueOf(0),"text","",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(28),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(-1),Boolean.valueOf(true),"","left",Boolean.valueOf(true),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"left"+"\""+" style=\""+""+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtMaqCodBis_Internalname,GXutil.rtrim( A603MaqCodBis),"","","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtMaqCodBis_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn","",Integer.valueOf(-1),Integer.valueOf(0),Integer.valueOf(0),"text","",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(6),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(-1),Boolean.valueOf(true),"","left",Boolean.valueOf(true),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"right"+"\""+" style=\""+""+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtBarFasKgm_Internalname,GXutil.ltrim( localUtil.ntoc( A3837BarFasKgm, (byte)(9), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")),GXutil.ltrim( localUtil.format( A3837BarFasKgm, "ZZZZZ9.99")),"","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtBarFasKgm_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn","",Integer.valueOf(-1),Integer.valueOf(0),Integer.valueOf(0),"text","",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(9),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(0),Boolean.valueOf(true),"","right",Boolean.valueOf(false),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"right"+"\""+" style=\""+""+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtBarFasMtr_Internalname,GXutil.ltrim( localUtil.ntoc( A3838BarFasMtr, (byte)(9), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")),GXutil.ltrim( localUtil.format( A3838BarFasMtr, "ZZZZZ9.99")),"","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtBarFasMtr_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn","",Integer.valueOf(-1),Integer.valueOf(0),Integer.valueOf(0),"text","",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(9),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(0),Boolean.valueOf(true),"","right",Boolean.valueOf(false),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"right"+"\""+" style=\""+""+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtBarTieRea_Internalname,GXutil.ltrim( localUtil.ntoc( A215BarTieRea, (byte)(5), (byte)(2), httpContext.getLanguageProperty( "decimal_point"), "")),GXutil.ltrim( localUtil.format( A215BarTieRea, "Z9.99")),"","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtBarTieRea_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn","",Integer.valueOf(-1),Integer.valueOf(0),Integer.valueOf(0),"text","",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(5),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(0),Boolean.valueOf(true),"","right",Boolean.valueOf(false),""});
+         /* Subfile cell */
+         if ( GridContainer.GetWrapped() == 1 )
+         {
+            httpContext.writeText( "<td valign=\"middle\" align=\""+"right"+"\""+" style=\""+""+"\">") ;
+         }
+         /* Single line edit */
+         ROClassString = "Attribute" ;
+         GridRow.AddColumnProperties("edit", 1, isAjaxCallMode( ), new Object[] {edtBarFecRea_Internalname,localUtil.format(A160BarFecRea, "99/99/99"),localUtil.format( A160BarFecRea, "99/99/99"),"","'"+""+"'"+",false,"+"'"+""+"'","","","","",edtBarFecRea_Jsonclick,Integer.valueOf(0),"Attribute","",ROClassString,"WWColumn","",Integer.valueOf(-1),Integer.valueOf(0),Integer.valueOf(0),"text","",Integer.valueOf(0),"px",Integer.valueOf(17),"px",Integer.valueOf(8),Integer.valueOf(0),Integer.valueOf(0),Integer.valueOf(67),Integer.valueOf(0),Integer.valueOf(-1),Integer.valueOf(0),Boolean.valueOf(true),"","right",Boolean.valueOf(false),""});
+         send_integrity_lvl_hashes26Q2( ) ;
+         GridContainer.AddRow(GridRow);
+         nGXsfl_67_idx = ((subGrid_Islastpage==1)&&(nGXsfl_67_idx+1>subgrid_fnc_recordsperpage( )) ? 1 : nGXsfl_67_idx+1) ;
+         sGXsfl_67_idx = GXutil.padl( GXutil.ltrimstr( DecimalUtil.doubleToDec(nGXsfl_67_idx), 4, 0), (short)(4), "0") ;
+         subsflControlProps_672( ) ;
+      }
+      /* End function sendrow_672 */
+   }
+
+   public void startgridcontrol67( )
+   {
+      if ( GridContainer.GetWrapped() == 1 )
+      {
+         httpContext.writeText( "<div id=\""+"GridContainer"+"DivS\" data-gxgridid=\"67\">") ;
+         sStyleString = "" ;
+         app.GxWebStd.gx_table_start( httpContext, subGrid_Internalname, subGrid_Internalname, "", "GridNoBorder WorkWithSelection WorkWith", 0, "", "", 1, 2, sStyleString, "", "", 0);
+         /* Subfile titles */
+         httpContext.writeText( "<tr") ;
+         httpContext.writeTextNL( ">") ;
+         if ( subGrid_Backcolorstyle == 0 )
+         {
+            subGrid_Titlebackstyle = (byte)(0) ;
+            if ( GXutil.len( subGrid_Class) > 0 )
+            {
+               subGrid_Linesclass = subGrid_Class+"Title" ;
+            }
+         }
+         else
+         {
+            subGrid_Titlebackstyle = (byte)(1) ;
+            if ( subGrid_Backcolorstyle == 1 )
+            {
+               subGrid_Titlebackcolor = subGrid_Allbackcolor ;
+               if ( GXutil.len( subGrid_Class) > 0 )
+               {
+                  subGrid_Linesclass = subGrid_Class+"UniformTitle" ;
+               }
+            }
+            else
+            {
+               if ( GXutil.len( subGrid_Class) > 0 )
+               {
+                  subGrid_Linesclass = subGrid_Class+"Title" ;
+               }
+            }
+         }
+         httpContext.writeText( "<th align=\""+""+"\" "+" nowrap=\"nowrap\" "+" class=\""+"AttributeCheckBox"+"\" "+" style=\""+""+""+"\" "+">") ;
+         httpContext.writeValue( "") ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"left"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+"display:none;"+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "Código Empresa", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"right"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+"display:none;"+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "Codigo Barcada", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"right"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+"display:none;"+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "Codigo Reoperado Barcada", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"left"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+"display:none;"+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "Codigo Particion Barcada", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"right"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+"display:none;"+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "Orden", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"left"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+""+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "Cód. Proc.", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"left"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+""+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "N Hdr", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"left"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+""+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "Fase", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"left"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+""+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "Descripcion", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"left"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+""+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "Maquina", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"right"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+""+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "KIlos", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"right"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+""+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "Metros", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"right"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+""+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "Tiempo Real", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeText( "<th align=\""+"right"+"\" "+" nowrap=\"nowrap\" "+" class=\""+"Attribute"+"\" "+" style=\""+""+""+"\" "+">") ;
+         httpContext.writeValue( httpContext.getMessage( "Fecha Fin", "")) ;
+         httpContext.writeTextNL( "</th>") ;
+         httpContext.writeTextNL( "</tr>") ;
+         GridContainer.AddObjectProperty("GridName", "Grid");
+      }
+      else
+      {
+         if ( isAjaxCallMode( ) )
+         {
+            GridContainer = new com.genexus.webpanels.GXWebGrid(context);
+         }
+         else
+         {
+            GridContainer.Clear();
+         }
+         GridContainer.SetWrapped(nGXWrapped);
+         GridContainer.AddObjectProperty("GridName", "Grid");
+         GridContainer.AddObjectProperty("Header", subGrid_Header);
+         GridContainer.AddObjectProperty("Class", "GridNoBorder WorkWithSelection WorkWith");
+         GridContainer.AddObjectProperty("Cellpadding", GXutil.ltrim( localUtil.ntoc( 1, (byte)(4), (byte)(0), ".", "")));
+         GridContainer.AddObjectProperty("Cellspacing", GXutil.ltrim( localUtil.ntoc( 2, (byte)(4), (byte)(0), ".", "")));
+         GridContainer.AddObjectProperty("Backcolorstyle", GXutil.ltrim( localUtil.ntoc( subGrid_Backcolorstyle, (byte)(1), (byte)(0), ".", "")));
+         GridContainer.AddObjectProperty("Sortable", GXutil.ltrim( localUtil.ntoc( subGrid_Sortable, (byte)(1), (byte)(0), ".", "")));
+         GridContainer.AddObjectProperty("CmpContext", "");
+         GridContainer.AddObjectProperty("InMasterPage", "false");
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.booltostr( AV102Selected));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.rtrim( A396EmprCod));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.ltrim( localUtil.ntoc( A129BarCod, (byte)(8), (byte)(0), ".", "")));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.ltrim( localUtil.ntoc( A132BarCodReo, (byte)(1), (byte)(0), ".", "")));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.rtrim( A130BarCodPar));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.ltrim( localUtil.ntoc( A194BarOrdLin, (byte)(4), (byte)(0), ".", "")));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.rtrim( A758ProCod));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.rtrim( A13696BarNHdr));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.rtrim( A457FasCod));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.rtrim( A460FasDsc));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.rtrim( A603MaqCodBis));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.ltrim( localUtil.ntoc( A3837BarFasKgm, (byte)(9), (byte)(2), ".", "")));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.ltrim( localUtil.ntoc( A3838BarFasMtr, (byte)(9), (byte)(2), ".", "")));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", GXutil.ltrim( localUtil.ntoc( A215BarTieRea, (byte)(5), (byte)(2), ".", "")));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridColumn = GXWebColumn.GetNew(isAjaxCallMode( )) ;
+         GridColumn.AddObjectProperty("Value", localUtil.format(A160BarFecRea, "99/99/99"));
+         GridContainer.AddColumnProperties(GridColumn);
+         GridContainer.AddObjectProperty("Selectedindex", GXutil.ltrim( localUtil.ntoc( subGrid_Selectedindex, (byte)(4), (byte)(0), ".", "")));
+         GridContainer.AddObjectProperty("Allowselection", GXutil.ltrim( localUtil.ntoc( subGrid_Allowselection, (byte)(1), (byte)(0), ".", "")));
+         GridContainer.AddObjectProperty("Selectioncolor", GXutil.ltrim( localUtil.ntoc( subGrid_Selectioncolor, (byte)(9), (byte)(0), ".", "")));
+         GridContainer.AddObjectProperty("Allowhover", GXutil.ltrim( localUtil.ntoc( subGrid_Allowhovering, (byte)(1), (byte)(0), ".", "")));
+         GridContainer.AddObjectProperty("Hovercolor", GXutil.ltrim( localUtil.ntoc( subGrid_Hoveringcolor, (byte)(9), (byte)(0), ".", "")));
+         GridContainer.AddObjectProperty("Allowcollapsing", GXutil.ltrim( localUtil.ntoc( subGrid_Allowcollapsing, (byte)(1), (byte)(0), ".", "")));
+         GridContainer.AddObjectProperty("Collapsed", GXutil.ltrim( localUtil.ntoc( subGrid_Collapsed, (byte)(1), (byte)(0), ".", "")));
+      }
+   }
+
+   public void init_default_properties( )
+   {
+      edtavBarcod_Internalname = "vBARCOD" ;
+      edtavBarcodreo_Internalname = "vBARCODREO" ;
+      edtavBarcodpar_Internalname = "vBARCODPAR" ;
+      divUnnamedtable4_Internalname = "UNNAMEDTABLE4" ;
+      tblTablerightheader_Internalname = "TABLERIGHTHEADER" ;
+      divTableheader_Internalname = "TABLEHEADER" ;
+      Dvpanel_tableheader_Internalname = "DVPANEL_TABLEHEADER" ;
+      edtavMetpiemet_Internalname = "vMETPIEMET" ;
+      edtavMetpieanc_Internalname = "vMETPIEANC" ;
+      edtavMetpiemtd_Internalname = "vMETPIEMTD" ;
+      divUnnamedtable3_Internalname = "UNNAMEDTABLE3" ;
+      divUnnamedtable1_Internalname = "UNNAMEDTABLE1" ;
+      Dvpanel_unnamedtable1_Internalname = "DVPANEL_UNNAMEDTABLE1" ;
+      bttBtnconfirmar_Internalname = "BTNCONFIRMAR" ;
+      bttBtncerrar_Internalname = "BTNCERRAR" ;
+      divUnnamedtable2_Internalname = "UNNAMEDTABLE2" ;
+      chkavSelected.setInternalname( "vSELECTED" );
+      edtEmprCod_Internalname = "EMPRCOD" ;
+      edtBarCod_Internalname = "BARCOD" ;
+      edtBarCodReo_Internalname = "BARCODREO" ;
+      edtBarCodPar_Internalname = "BARCODPAR" ;
+      edtBarOrdLin_Internalname = "BARORDLIN" ;
+      edtProCod_Internalname = "PROCOD" ;
+      edtBarNHdr_Internalname = "BARNHDR" ;
+      edtFasCod_Internalname = "FASCOD" ;
+      edtFasDsc_Internalname = "FASDSC" ;
+      edtMaqCodBis_Internalname = "MAQCODBIS" ;
+      edtBarFasKgm_Internalname = "BARFASKGM" ;
+      edtBarFasMtr_Internalname = "BARFASMTR" ;
+      edtBarTieRea_Internalname = "BARTIEREA" ;
+      edtBarFecRea_Internalname = "BARFECREA" ;
+      edtavPgmname_Internalname = "vPGMNAME" ;
+      Datamonjs_Internalname = "DATAMONJS" ;
+      divTablemain_Internalname = "TABLEMAIN" ;
+      Ddo_grid_Internalname = "DDO_GRID" ;
+      Dvelop_confirmpanel_confirmar_Internalname = "DVELOP_CONFIRMPANEL_CONFIRMAR" ;
+      tblTabledvelop_confirmpanel_confirmar_Internalname = "TABLEDVELOP_CONFIRMPANEL_CONFIRMAR" ;
+      Grid_empowerer_Internalname = "GRID_EMPOWERER" ;
+      edtavDdo_barfecreaauxdate_Internalname = "vDDO_BARFECREAAUXDATE" ;
+      divDdo_barfecreaauxdates_Internalname = "DDO_BARFECREAAUXDATES" ;
+      divHtml_bottomauxiliarcontrols_Internalname = "HTML_BOTTOMAUXILIARCONTROLS" ;
+      divLayoutmaintable_Internalname = "LAYOUTMAINTABLE" ;
+      Form.setInternalname( "FORM" );
+      subGrid_Internalname = "GRID" ;
+   }
+
+   public void initialize_properties( )
+   {
+      httpContext.setAjaxOnSessionTimeout(ajaxOnSessionTimeout());
+      httpContext.setDefaultTheme("WorkWithPlusThemeDS");
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableJsOutput();
+      }
+      init_default_properties( ) ;
+      subGrid_Allowcollapsing = (byte)(0) ;
+      subGrid_Allowhovering = (byte)(-1) ;
+      subGrid_Allowselection = (byte)(1) ;
+      subGrid_Header = "" ;
+      edtBarFecRea_Jsonclick = "" ;
+      edtBarTieRea_Jsonclick = "" ;
+      edtBarFasMtr_Jsonclick = "" ;
+      edtBarFasKgm_Jsonclick = "" ;
+      edtMaqCodBis_Jsonclick = "" ;
+      edtFasDsc_Jsonclick = "" ;
+      edtFasCod_Jsonclick = "" ;
+      edtBarNHdr_Jsonclick = "" ;
+      edtProCod_Jsonclick = "" ;
+      edtBarOrdLin_Jsonclick = "" ;
+      edtBarCodPar_Jsonclick = "" ;
+      edtBarCodReo_Jsonclick = "" ;
+      edtBarCod_Jsonclick = "" ;
+      edtEmprCod_Jsonclick = "" ;
+      chkavSelected.setCaption( "" );
+      chkavSelected.setVisible( -1 );
+      chkavSelected.setEnabled( 1 );
+      subGrid_Class = "GridNoBorder WorkWithSelection WorkWith" ;
+      subGrid_Backcolorstyle = (byte)(0) ;
+      subGrid_Sortable = (byte)(0) ;
+      edtavDdo_barfecreaauxdate_Jsonclick = "" ;
+      edtavPgmname_Jsonclick = "" ;
+      edtavPgmname_Enabled = 0 ;
+      edtavMetpiemtd_Jsonclick = "" ;
+      edtavMetpiemtd_Enabled = 1 ;
+      edtavMetpieanc_Jsonclick = "" ;
+      edtavMetpieanc_Enabled = 1 ;
+      edtavMetpiemet_Jsonclick = "" ;
+      edtavMetpiemet_Enabled = 1 ;
+      edtavBarcodpar_Jsonclick = "" ;
+      edtavBarcodpar_Enabled = 0 ;
+      edtavBarcodreo_Jsonclick = "" ;
+      edtavBarcodreo_Enabled = 0 ;
+      edtavBarcod_Jsonclick = "" ;
+      edtavBarcod_Enabled = 0 ;
+      divLayoutmaintable_Class = "Table TableWithSelectableGrid" ;
+      Grid_empowerer_Hastitlesettings = GXutil.toBoolean( -1) ;
+      Dvelop_confirmpanel_confirmar_Confirmtype = "1" ;
+      Dvelop_confirmpanel_confirmar_Yesbuttonposition = "left" ;
+      Dvelop_confirmpanel_confirmar_Cancelbuttoncaption = "WWP_ConfirmTextCancel" ;
+      Dvelop_confirmpanel_confirmar_Nobuttoncaption = "WWP_ConfirmTextNo" ;
+      Dvelop_confirmpanel_confirmar_Yesbuttoncaption = "WWP_ConfirmTextYes" ;
+      Dvelop_confirmpanel_confirmar_Confirmationtext = "¿Confirma la seleccion?" ;
+      Dvelop_confirmpanel_confirmar_Title = "" ;
+      Ddo_grid_Datalistproc = "MantenimientoRollosPiezaGetFilterData" ;
+      Ddo_grid_Datalisttype = "Dynamic|Dynamic|Dynamic|Dynamic|Dynamic||||" ;
+      Ddo_grid_Includedatalist = "T|T|T|T|T||||" ;
+      Ddo_grid_Filterisrange = "|||||T|T|T|" ;
+      Ddo_grid_Filtertype = "Character|Character|Character|Character|Character|Numeric|Numeric|Numeric|Date" ;
+      Ddo_grid_Includefilter = "T" ;
+      Ddo_grid_Includesortasc = "T||T|T|T|T|T|T|T" ;
+      Ddo_grid_Columnssortvalues = "2||3|4|5|6|7|8|9" ;
+      Ddo_grid_Columnids = "6:ProCod|7:BarNHdr|8:FasCod|9:FasDsc|10:MaqCodBis|11:BarFasKgm|12:BarFasMtr|13:BarTieRea|14:BarFecRea" ;
+      Ddo_grid_Gridinternalname = "" ;
+      Dvpanel_unnamedtable1_Autoscroll = GXutil.toBoolean( 0) ;
+      Dvpanel_unnamedtable1_Iconposition = "Right" ;
+      Dvpanel_unnamedtable1_Showcollapseicon = GXutil.toBoolean( 0) ;
+      Dvpanel_unnamedtable1_Collapsed = GXutil.toBoolean( 0) ;
+      Dvpanel_unnamedtable1_Collapsible = GXutil.toBoolean( -1) ;
+      Dvpanel_unnamedtable1_Title = httpContext.getMessage( "Datos", "") ;
+      Dvpanel_unnamedtable1_Cls = "PanelCard_GrayTitle" ;
+      Dvpanel_unnamedtable1_Autoheight = GXutil.toBoolean( -1) ;
+      Dvpanel_unnamedtable1_Autowidth = GXutil.toBoolean( 0) ;
+      Dvpanel_unnamedtable1_Width = "100%" ;
+      Dvpanel_tableheader_Autoscroll = GXutil.toBoolean( 0) ;
+      Dvpanel_tableheader_Iconposition = "Right" ;
+      Dvpanel_tableheader_Showcollapseicon = GXutil.toBoolean( 0) ;
+      Dvpanel_tableheader_Collapsed = GXutil.toBoolean( 1) ;
+      Dvpanel_tableheader_Collapsible = GXutil.toBoolean( -1) ;
+      Dvpanel_tableheader_Title = httpContext.getMessage( "Informacion General", "") ;
+      Dvpanel_tableheader_Cls = "PanelCard_GrayTitle" ;
+      Dvpanel_tableheader_Autoheight = GXutil.toBoolean( -1) ;
+      Dvpanel_tableheader_Autowidth = GXutil.toBoolean( 0) ;
+      Dvpanel_tableheader_Width = "100%" ;
+      Form.setHeaderrawhtml( "" );
+      Form.setBackground( "" );
+      Form.setTextcolor( 0 );
+      Form.setIBackground( (int)(0xFFFFFF) );
+      Form.setCaption( httpContext.getMessage( " Fases de Produccion HDR", "") );
+      subGrid_Rows = 0 ;
+      httpContext.GX_msglist.setDisplaymode( (short)(1) );
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableJsOutput();
+      }
+   }
+
+   public void init_web_controls( )
+   {
+      GXCCtl = "vSELECTED_" + sGXsfl_67_idx ;
+      chkavSelected.setName( GXCCtl );
+      chkavSelected.setWebtags( "" );
+      chkavSelected.setCaption( "" );
+      httpContext.ajax_rsp_assign_prop("", false, chkavSelected.getInternalname(), "TitleCaption", chkavSelected.getCaption(), !bGXsfl_67_Refreshing);
+      chkavSelected.setCheckedValue( "false" );
+      AV102Selected = GXutil.strtobool( GXutil.booltostr( AV102Selected)) ;
+      httpContext.ajax_rsp_assign_attri("", false, chkavSelected.getInternalname(), AV102Selected);
+      /* End function init_web_controls */
+   }
+
+   public boolean supportAjaxEvent( )
+   {
+      return true ;
+   }
+
+   public String ajaxOnSessionTimeout( )
+   {
+      httpContext.setAjaxOnSessionTimeout("Warn");
+      return "Warn" ;
+   }
+
+   public void initializeDynEvents( )
+   {
+      setEventMetadata("REFRESH","{handler:'refresh',iparms:[{av:'GRID_nFirstRecordOnPage'},{av:'GRID_nEOF'},{av:'AV8emprcod',fld:'vEMPRCOD',pic:'@!'},{av:'AV5BarCod',fld:'vBARCOD',pic:'ZZZZZZZ9'},{av:'AV7BarCodReo',fld:'vBARCODREO',pic:'9'},{av:'AV6BarCodPar',fld:'vBARCODPAR',pic:''},{av:'AV39i',fld:'vI',pic:'ZZZZZZZZZ9'},{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV108EmprCodToFind',fld:'vEMPRCODTOFIND',pic:'@!'},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV112BarCodToFind',fld:'vBARCODTOFIND',pic:'ZZZZZZZ9'},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV116BarCodReoToFind',fld:'vBARCODREOTOFIND',pic:'9'},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV120BarCodParToFind',fld:'vBARCODPARTOFIND',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV124ProCodToFind',fld:'vPROCODTOFIND',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''},{av:'AV128BarOrdLinToFind',fld:'vBARORDLINTOFIND',pic:'ZZZ9'},{av:'AV106EmprCodJson',fld:'vEMPRCODJSON',pic:''},{av:'AV110BarCodJson',fld:'vBARCODJSON',pic:''},{av:'AV114BarCodReoJson',fld:'vBARCODREOJSON',pic:''},{av:'AV118BarCodParJson',fld:'vBARCODPARJSON',pic:''},{av:'AV122ProCodJson',fld:'vPROCODJSON',pic:''},{av:'AV126BarOrdLinJson',fld:'vBARORDLINJSON',pic:''},{av:'AV88TFProCod',fld:'vTFPROCOD',pic:''},{av:'AV89TFProCod_Sel',fld:'vTFPROCOD_SEL',pic:''},{av:'AV76TFBarNHdr',fld:'vTFBARNHDR',pic:''},{av:'AV77TFBarNHdr_Sel',fld:'vTFBARNHDR_SEL',pic:''},{av:'AV82TFFasCod',fld:'vTFFASCOD',pic:'@!'},{av:'AV83TFFasCod_Sel',fld:'vTFFASCOD_SEL',pic:'@!'},{av:'AV84TFFasDsc',fld:'vTFFASDSC',pic:''},{av:'AV85TFFasDsc_Sel',fld:'vTFFASDSC_SEL',pic:''},{av:'AV86TFMaqCodBis',fld:'vTFMAQCODBIS',pic:''},{av:'AV87TFMaqCodBis_Sel',fld:'vTFMAQCODBIS_SEL',pic:''},{av:'AV71TFBarFasKgm',fld:'vTFBARFASKGM',pic:'ZZZZZ9.99'},{av:'AV72TFBarFasKgm_To',fld:'vTFBARFASKGM_TO',pic:'ZZZZZ9.99'},{av:'AV73TFBarFasMtr',fld:'vTFBARFASMTR',pic:'ZZZZZ9.99'},{av:'AV74TFBarFasMtr_To',fld:'vTFBARFASMTR_TO',pic:'ZZZZZ9.99'},{av:'AV80TFBarTieRea',fld:'vTFBARTIEREA',pic:'Z9.99'},{av:'AV81TFBarTieRea_To',fld:'vTFBARTIEREA_TO',pic:'Z9.99'},{av:'AV75TFBarFecRea',fld:'vTFBARFECREA',pic:''},{av:'AV58OrderedBy',fld:'vORDEREDBY',pic:'ZZZ9'},{av:'AV59OrderedDsc',fld:'vORDEREDDSC',pic:''},{av:'subGrid_Rows',ctrl:'GRID',prop:'Rows'},{av:'AV135Pgmname',fld:'vPGMNAME',pic:''},{av:'AV130MantenimientoRollosPiezaSDT',fld:'vMANTENIMIENTOROLLOSPIEZASDT',pic:'',hsh:true},{av:'AV55NumPzsFs',fld:'vNUMPZSFS',pic:'ZZZ9',hsh:true},{av:'AV56NumPzsFs2',fld:'vNUMPZSFS2',pic:'ZZZ9',hsh:true},{av:'AV53Moda21',fld:'vMODA21',pic:'ZZZ9',hsh:true},{av:'AV27Const',fld:'vCONST',pic:'ZZ9.99',hsh:true},{av:'AV46MetPieDCP',fld:'vMETPIEDCP',pic:'@!',hsh:true}]");
+      setEventMetadata("REFRESH",",oparms:[{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''}]}");
+      setEventMetadata("DDO_GRID.ONOPTIONCLICKED","{handler:'e1226Q2',iparms:[{av:'GRID_nFirstRecordOnPage'},{av:'GRID_nEOF'},{av:'subGrid_Rows',ctrl:'GRID',prop:'Rows'},{av:'AV8emprcod',fld:'vEMPRCOD',pic:'@!'},{av:'AV5BarCod',fld:'vBARCOD',pic:'ZZZZZZZ9'},{av:'AV7BarCodReo',fld:'vBARCODREO',pic:'9'},{av:'AV6BarCodPar',fld:'vBARCODPAR',pic:''},{av:'AV106EmprCodJson',fld:'vEMPRCODJSON',pic:''},{av:'AV110BarCodJson',fld:'vBARCODJSON',pic:''},{av:'AV114BarCodReoJson',fld:'vBARCODREOJSON',pic:''},{av:'AV118BarCodParJson',fld:'vBARCODPARJSON',pic:''},{av:'AV122ProCodJson',fld:'vPROCODJSON',pic:''},{av:'AV126BarOrdLinJson',fld:'vBARORDLINJSON',pic:''},{av:'AV88TFProCod',fld:'vTFPROCOD',pic:''},{av:'AV89TFProCod_Sel',fld:'vTFPROCOD_SEL',pic:''},{av:'AV76TFBarNHdr',fld:'vTFBARNHDR',pic:''},{av:'AV77TFBarNHdr_Sel',fld:'vTFBARNHDR_SEL',pic:''},{av:'AV82TFFasCod',fld:'vTFFASCOD',pic:'@!'},{av:'AV83TFFasCod_Sel',fld:'vTFFASCOD_SEL',pic:'@!'},{av:'AV84TFFasDsc',fld:'vTFFASDSC',pic:''},{av:'AV85TFFasDsc_Sel',fld:'vTFFASDSC_SEL',pic:''},{av:'AV86TFMaqCodBis',fld:'vTFMAQCODBIS',pic:''},{av:'AV87TFMaqCodBis_Sel',fld:'vTFMAQCODBIS_SEL',pic:''},{av:'AV71TFBarFasKgm',fld:'vTFBARFASKGM',pic:'ZZZZZ9.99'},{av:'AV72TFBarFasKgm_To',fld:'vTFBARFASKGM_TO',pic:'ZZZZZ9.99'},{av:'AV73TFBarFasMtr',fld:'vTFBARFASMTR',pic:'ZZZZZ9.99'},{av:'AV74TFBarFasMtr_To',fld:'vTFBARFASMTR_TO',pic:'ZZZZZ9.99'},{av:'AV80TFBarTieRea',fld:'vTFBARTIEREA',pic:'Z9.99'},{av:'AV81TFBarTieRea_To',fld:'vTFBARTIEREA_TO',pic:'Z9.99'},{av:'AV75TFBarFecRea',fld:'vTFBARFECREA',pic:''},{av:'AV135Pgmname',fld:'vPGMNAME',pic:''},{av:'AV58OrderedBy',fld:'vORDEREDBY',pic:'ZZZ9'},{av:'AV59OrderedDsc',fld:'vORDEREDDSC',pic:''},{av:'AV39i',fld:'vI',pic:'ZZZZZZZZZ9'},{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV108EmprCodToFind',fld:'vEMPRCODTOFIND',pic:'@!'},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV112BarCodToFind',fld:'vBARCODTOFIND',pic:'ZZZZZZZ9'},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV116BarCodReoToFind',fld:'vBARCODREOTOFIND',pic:'9'},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV120BarCodParToFind',fld:'vBARCODPARTOFIND',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV124ProCodToFind',fld:'vPROCODTOFIND',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''},{av:'AV128BarOrdLinToFind',fld:'vBARORDLINTOFIND',pic:'ZZZ9'},{av:'AV130MantenimientoRollosPiezaSDT',fld:'vMANTENIMIENTOROLLOSPIEZASDT',pic:'',hsh:true},{av:'AV55NumPzsFs',fld:'vNUMPZSFS',pic:'ZZZ9',hsh:true},{av:'AV56NumPzsFs2',fld:'vNUMPZSFS2',pic:'ZZZ9',hsh:true},{av:'AV53Moda21',fld:'vMODA21',pic:'ZZZ9',hsh:true},{av:'AV27Const',fld:'vCONST',pic:'ZZ9.99',hsh:true},{av:'AV46MetPieDCP',fld:'vMETPIEDCP',pic:'@!',hsh:true},{av:'Ddo_grid_Activeeventkey',ctrl:'DDO_GRID',prop:'ActiveEventKey'},{av:'Ddo_grid_Selectedvalue_get',ctrl:'DDO_GRID',prop:'SelectedValue_get'},{av:'Ddo_grid_Filteredtextto_get',ctrl:'DDO_GRID',prop:'FilteredTextTo_get'},{av:'Ddo_grid_Filteredtext_get',ctrl:'DDO_GRID',prop:'FilteredText_get'},{av:'Ddo_grid_Selectedcolumn',ctrl:'DDO_GRID',prop:'SelectedColumn'}]");
+      setEventMetadata("DDO_GRID.ONOPTIONCLICKED",",oparms:[{av:'AV58OrderedBy',fld:'vORDEREDBY',pic:'ZZZ9'},{av:'AV59OrderedDsc',fld:'vORDEREDDSC',pic:''},{av:'AV75TFBarFecRea',fld:'vTFBARFECREA',pic:''},{av:'AV80TFBarTieRea',fld:'vTFBARTIEREA',pic:'Z9.99'},{av:'AV81TFBarTieRea_To',fld:'vTFBARTIEREA_TO',pic:'Z9.99'},{av:'AV73TFBarFasMtr',fld:'vTFBARFASMTR',pic:'ZZZZZ9.99'},{av:'AV74TFBarFasMtr_To',fld:'vTFBARFASMTR_TO',pic:'ZZZZZ9.99'},{av:'AV71TFBarFasKgm',fld:'vTFBARFASKGM',pic:'ZZZZZ9.99'},{av:'AV72TFBarFasKgm_To',fld:'vTFBARFASKGM_TO',pic:'ZZZZZ9.99'},{av:'AV86TFMaqCodBis',fld:'vTFMAQCODBIS',pic:''},{av:'AV87TFMaqCodBis_Sel',fld:'vTFMAQCODBIS_SEL',pic:''},{av:'AV84TFFasDsc',fld:'vTFFASDSC',pic:''},{av:'AV85TFFasDsc_Sel',fld:'vTFFASDSC_SEL',pic:''},{av:'AV82TFFasCod',fld:'vTFFASCOD',pic:'@!'},{av:'AV83TFFasCod_Sel',fld:'vTFFASCOD_SEL',pic:'@!'},{av:'AV76TFBarNHdr',fld:'vTFBARNHDR',pic:''},{av:'AV77TFBarNHdr_Sel',fld:'vTFBARNHDR_SEL',pic:''},{av:'AV88TFProCod',fld:'vTFPROCOD',pic:''},{av:'AV89TFProCod_Sel',fld:'vTFPROCOD_SEL',pic:''},{av:'Ddo_grid_Sortedstatus',ctrl:'DDO_GRID',prop:'SortedStatus'}]}");
+      setEventMetadata("GRID.LOAD","{handler:'e1726Q2',iparms:[{av:'A396EmprCod',fld:'EMPRCOD',pic:'@!'},{av:'A129BarCod',fld:'BARCOD',pic:'ZZZZZZZ9'},{av:'A132BarCodReo',fld:'BARCODREO',pic:'9'},{av:'A130BarCodPar',fld:'BARCODPAR',pic:''},{av:'A758ProCod',fld:'PROCOD',pic:''},{av:'A194BarOrdLin',fld:'BARORDLIN',pic:'ZZZ9'},{av:'AV39i',fld:'vI',pic:'ZZZZZZZZZ9'},{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV108EmprCodToFind',fld:'vEMPRCODTOFIND',pic:'@!'},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV112BarCodToFind',fld:'vBARCODTOFIND',pic:'ZZZZZZZ9'},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV116BarCodReoToFind',fld:'vBARCODREOTOFIND',pic:'9'},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV120BarCodParToFind',fld:'vBARCODPARTOFIND',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV124ProCodToFind',fld:'vPROCODTOFIND',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''},{av:'AV128BarOrdLinToFind',fld:'vBARORDLINTOFIND',pic:'ZZZ9'}]");
+      setEventMetadata("GRID.LOAD",",oparms:[{av:'AV102Selected',fld:'vSELECTED',pic:''},{av:'AV108EmprCodToFind',fld:'vEMPRCODTOFIND',pic:'@!'},{av:'AV112BarCodToFind',fld:'vBARCODTOFIND',pic:'ZZZZZZZ9'},{av:'AV116BarCodReoToFind',fld:'vBARCODREOTOFIND',pic:'9'},{av:'AV120BarCodParToFind',fld:'vBARCODPARTOFIND',pic:''},{av:'AV124ProCodToFind',fld:'vPROCODTOFIND',pic:''},{av:'AV128BarOrdLinToFind',fld:'vBARORDLINTOFIND',pic:'ZZZ9'},{av:'AV39i',fld:'vI',pic:'ZZZZZZZZZ9'},{av:'AV107EmprCodColItem',fld:'vEMPRCODCOLITEM',pic:'@!'}]}");
+      setEventMetadata("VSELECTED.CLICK","{handler:'e1826Q2',iparms:[{av:'AV102Selected',fld:'vSELECTED',pic:''},{av:'A396EmprCod',fld:'EMPRCOD',pic:'@!'},{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'A129BarCod',fld:'BARCOD',pic:'ZZZZZZZ9'},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'A132BarCodReo',fld:'BARCODREO',pic:'9'},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'A130BarCodPar',fld:'BARCODPAR',pic:''},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'A758ProCod',fld:'PROCOD',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'A194BarOrdLin',fld:'BARORDLIN',pic:'ZZZ9'},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''},{av:'AV39i',fld:'vI',pic:'ZZZZZZZZZ9'},{av:'AV108EmprCodToFind',fld:'vEMPRCODTOFIND',pic:'@!'},{av:'AV112BarCodToFind',fld:'vBARCODTOFIND',pic:'ZZZZZZZ9'},{av:'AV116BarCodReoToFind',fld:'vBARCODREOTOFIND',pic:'9'},{av:'AV120BarCodParToFind',fld:'vBARCODPARTOFIND',pic:''},{av:'AV124ProCodToFind',fld:'vPROCODTOFIND',pic:''},{av:'AV128BarOrdLinToFind',fld:'vBARORDLINTOFIND',pic:'ZZZ9'}]");
+      setEventMetadata("VSELECTED.CLICK",",oparms:[{av:'AV108EmprCodToFind',fld:'vEMPRCODTOFIND',pic:'@!'},{av:'AV112BarCodToFind',fld:'vBARCODTOFIND',pic:'ZZZZZZZ9'},{av:'AV116BarCodReoToFind',fld:'vBARCODREOTOFIND',pic:'9'},{av:'AV120BarCodParToFind',fld:'vBARCODPARTOFIND',pic:''},{av:'AV124ProCodToFind',fld:'vPROCODTOFIND',pic:''},{av:'AV128BarOrdLinToFind',fld:'vBARORDLINTOFIND',pic:'ZZZ9'},{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''},{av:'AV106EmprCodJson',fld:'vEMPRCODJSON',pic:''},{av:'AV110BarCodJson',fld:'vBARCODJSON',pic:''},{av:'AV114BarCodReoJson',fld:'vBARCODREOJSON',pic:''},{av:'AV118BarCodParJson',fld:'vBARCODPARJSON',pic:''},{av:'AV122ProCodJson',fld:'vPROCODJSON',pic:''},{av:'AV126BarOrdLinJson',fld:'vBARORDLINJSON',pic:''},{av:'divLayoutmaintable_Class',ctrl:'LAYOUTMAINTABLE',prop:'Class'},{av:'AV39i',fld:'vI',pic:'ZZZZZZZZZ9'},{av:'AV107EmprCodColItem',fld:'vEMPRCODCOLITEM',pic:'@!'}]}");
+      setEventMetadata("'DOCONFIRMAR'","{handler:'e1126Q1',iparms:[{av:'AV103SelectedRows',fld:'vSELECTEDROWS',pic:''},{av:'AV130MantenimientoRollosPiezaSDT',fld:'vMANTENIMIENTOROLLOSPIEZASDT',pic:'',hsh:true},{av:'AV49MetPiemet',fld:'vMETPIEMET',pic:'ZZZZZ9.99'}]");
+      setEventMetadata("'DOCONFIRMAR'",",oparms:[{av:'AV61Procod',fld:'vPROCOD',pic:''},{av:'AV132BarOrdLin',fld:'vBARORDLIN',pic:'ZZZ9'},{av:'Dvelop_confirmpanel_confirmar_Confirmationtext',ctrl:'DVELOP_CONFIRMPANEL_CONFIRMAR',prop:'ConfirmationText'}]}");
+      setEventMetadata("DVELOP_CONFIRMPANEL_CONFIRMAR.CLOSE","{handler:'e1326Q2',iparms:[{av:'Dvelop_confirmpanel_confirmar_Result',ctrl:'DVELOP_CONFIRMPANEL_CONFIRMAR',prop:'Result'},{av:'AV103SelectedRows',fld:'vSELECTEDROWS',pic:''},{av:'AV55NumPzsFs',fld:'vNUMPZSFS',pic:'ZZZ9',hsh:true},{av:'AV56NumPzsFs2',fld:'vNUMPZSFS2',pic:'ZZZ9',hsh:true},{av:'AV8emprcod',fld:'vEMPRCOD',pic:'@!'},{av:'AV5BarCod',fld:'vBARCOD',pic:'ZZZZZZZ9'},{av:'AV7BarCodReo',fld:'vBARCODREO',pic:'9'},{av:'AV6BarCodPar',fld:'vBARCODPAR',pic:''},{av:'AV61Procod',fld:'vPROCOD',pic:''},{av:'AV132BarOrdLin',fld:'vBARORDLIN',pic:'ZZZ9'},{av:'AV54Num_pz',fld:'vNUM_PZ',pic:'ZZZZ9'},{av:'AV45MetPieAnc',fld:'vMETPIEANC',pic:'ZZ9'},{av:'AV49MetPiemet',fld:'vMETPIEMET',pic:'ZZZZZ9.99'},{av:'AV50MetPieMtD',fld:'vMETPIEMTD',pic:'ZZZZ9.99'},{av:'AV53Moda21',fld:'vMODA21',pic:'ZZZ9',hsh:true},{av:'AV27Const',fld:'vCONST',pic:'ZZ9.99',hsh:true},{av:'AV130MantenimientoRollosPiezaSDT',fld:'vMANTENIMIENTOROLLOSPIEZASDT',pic:'',hsh:true},{av:'AV46MetPieDCP',fld:'vMETPIEDCP',pic:'@!',hsh:true},{av:'AV64Station',fld:'vSTATION',pic:''},{av:'AV11Albreccod',fld:'vALBRECCOD',pic:'ZZZZZZZ9'},{av:'AV57OpeCod',fld:'vOPECOD',pic:'ZZZZZ9'},{av:'AV37Hisprotur',fld:'vHISPROTUR',pic:'9'},{av:'AV48MetPieLoc',fld:'vMETPIELOC',pic:''},{av:'AV106EmprCodJson',fld:'vEMPRCODJSON',pic:''},{av:'AV110BarCodJson',fld:'vBARCODJSON',pic:''},{av:'AV114BarCodReoJson',fld:'vBARCODREOJSON',pic:''},{av:'AV118BarCodParJson',fld:'vBARCODPARJSON',pic:''},{av:'AV122ProCodJson',fld:'vPROCODJSON',pic:''},{av:'AV126BarOrdLinJson',fld:'vBARORDLINJSON',pic:''},{av:'A396EmprCod',fld:'EMPRCOD',pic:'@!'},{av:'A129BarCod',fld:'BARCOD',pic:'ZZZZZZZ9'},{av:'A132BarCodReo',fld:'BARCODREO',pic:'9'},{av:'A130BarCodPar',fld:'BARCODPAR',pic:''},{av:'A758ProCod',fld:'PROCOD',pic:''},{av:'A194BarOrdLin',fld:'BARORDLIN',pic:'ZZZ9'},{av:'A13696BarNHdr',fld:'BARNHDR',pic:''},{av:'A457FasCod',fld:'FASCOD',pic:'@!'},{av:'A460FasDsc',fld:'FASDSC',pic:''},{av:'A603MaqCodBis',fld:'MAQCODBIS',pic:''},{av:'A3837BarFasKgm',fld:'BARFASKGM',pic:'ZZZZZ9.99'},{av:'A3838BarFasMtr',fld:'BARFASMTR',pic:'ZZZZZ9.99'},{av:'A215BarTieRea',fld:'BARTIEREA',pic:'Z9.99'},{av:'A160BarFecRea',fld:'BARFECREA',pic:''}]");
+      setEventMetadata("DVELOP_CONFIRMPANEL_CONFIRMAR.CLOSE",",oparms:[{av:'AV132BarOrdLin',fld:'vBARORDLIN',pic:'ZZZ9'},{av:'AV61Procod',fld:'vPROCOD',pic:''},{av:'AV54Num_pz',fld:'vNUM_PZ',pic:'ZZZZ9'},{av:'AV6BarCodPar',fld:'vBARCODPAR',pic:''},{av:'AV7BarCodReo',fld:'vBARCODREO',pic:'9'},{av:'AV5BarCod',fld:'vBARCOD',pic:'ZZZZZZZ9'},{av:'AV8emprcod',fld:'vEMPRCOD',pic:'@!'},{av:'AV48MetPieLoc',fld:'vMETPIELOC',pic:''},{av:'AV37Hisprotur',fld:'vHISPROTUR',pic:'9'},{av:'AV57OpeCod',fld:'vOPECOD',pic:'ZZZZZ9'},{av:'AV50MetPieMtD',fld:'vMETPIEMTD',pic:'ZZZZ9.99'},{av:'AV11Albreccod',fld:'vALBRECCOD',pic:'ZZZZZZZ9'},{av:'AV64Station',fld:'vSTATION',pic:''},{av:'AV103SelectedRows',fld:'vSELECTEDROWS',pic:''},{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''},{av:'AV39i',fld:'vI',pic:'ZZZZZZZZZ9'},{av:'AV107EmprCodColItem',fld:'vEMPRCODCOLITEM',pic:'@!'},{av:'AV111BarCodColItem',fld:'vBARCODCOLITEM',pic:'ZZZZZZZ9'},{av:'AV115BarCodReoColItem',fld:'vBARCODREOCOLITEM',pic:'9'},{av:'AV119BarCodParColItem',fld:'vBARCODPARCOLITEM',pic:''},{av:'AV123ProCodColItem',fld:'vPROCODCOLITEM',pic:''},{av:'AV127BarOrdLinColItem',fld:'vBARORDLINCOLITEM',pic:'ZZZ9'}]}");
+      setEventMetadata("'DOCERRAR'","{handler:'e1426Q2',iparms:[]");
+      setEventMetadata("'DOCERRAR'",",oparms:[]}");
+      setEventMetadata("GRID_FIRSTPAGE","{handler:'subgrid_firstpage',iparms:[{av:'GRID_nFirstRecordOnPage'},{av:'GRID_nEOF'},{av:'AV8emprcod',fld:'vEMPRCOD',pic:'@!'},{av:'AV5BarCod',fld:'vBARCOD',pic:'ZZZZZZZ9'},{av:'AV7BarCodReo',fld:'vBARCODREO',pic:'9'},{av:'AV6BarCodPar',fld:'vBARCODPAR',pic:''},{av:'AV39i',fld:'vI',pic:'ZZZZZZZZZ9'},{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV108EmprCodToFind',fld:'vEMPRCODTOFIND',pic:'@!'},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV112BarCodToFind',fld:'vBARCODTOFIND',pic:'ZZZZZZZ9'},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV116BarCodReoToFind',fld:'vBARCODREOTOFIND',pic:'9'},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV120BarCodParToFind',fld:'vBARCODPARTOFIND',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV124ProCodToFind',fld:'vPROCODTOFIND',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''},{av:'AV128BarOrdLinToFind',fld:'vBARORDLINTOFIND',pic:'ZZZ9'},{av:'AV130MantenimientoRollosPiezaSDT',fld:'vMANTENIMIENTOROLLOSPIEZASDT',pic:'',hsh:true},{av:'AV55NumPzsFs',fld:'vNUMPZSFS',pic:'ZZZ9',hsh:true},{av:'AV56NumPzsFs2',fld:'vNUMPZSFS2',pic:'ZZZ9',hsh:true},{av:'AV53Moda21',fld:'vMODA21',pic:'ZZZ9',hsh:true},{av:'AV27Const',fld:'vCONST',pic:'ZZ9.99',hsh:true},{av:'AV46MetPieDCP',fld:'vMETPIEDCP',pic:'@!',hsh:true},{av:'AV106EmprCodJson',fld:'vEMPRCODJSON',pic:''},{av:'AV110BarCodJson',fld:'vBARCODJSON',pic:''},{av:'AV114BarCodReoJson',fld:'vBARCODREOJSON',pic:''},{av:'AV118BarCodParJson',fld:'vBARCODPARJSON',pic:''},{av:'AV122ProCodJson',fld:'vPROCODJSON',pic:''},{av:'AV126BarOrdLinJson',fld:'vBARORDLINJSON',pic:''},{av:'AV88TFProCod',fld:'vTFPROCOD',pic:''},{av:'AV89TFProCod_Sel',fld:'vTFPROCOD_SEL',pic:''},{av:'AV76TFBarNHdr',fld:'vTFBARNHDR',pic:''},{av:'AV77TFBarNHdr_Sel',fld:'vTFBARNHDR_SEL',pic:''},{av:'AV82TFFasCod',fld:'vTFFASCOD',pic:'@!'},{av:'AV83TFFasCod_Sel',fld:'vTFFASCOD_SEL',pic:'@!'},{av:'AV84TFFasDsc',fld:'vTFFASDSC',pic:''},{av:'AV85TFFasDsc_Sel',fld:'vTFFASDSC_SEL',pic:''},{av:'AV86TFMaqCodBis',fld:'vTFMAQCODBIS',pic:''},{av:'AV87TFMaqCodBis_Sel',fld:'vTFMAQCODBIS_SEL',pic:''},{av:'AV71TFBarFasKgm',fld:'vTFBARFASKGM',pic:'ZZZZZ9.99'},{av:'AV72TFBarFasKgm_To',fld:'vTFBARFASKGM_TO',pic:'ZZZZZ9.99'},{av:'AV73TFBarFasMtr',fld:'vTFBARFASMTR',pic:'ZZZZZ9.99'},{av:'AV74TFBarFasMtr_To',fld:'vTFBARFASMTR_TO',pic:'ZZZZZ9.99'},{av:'AV80TFBarTieRea',fld:'vTFBARTIEREA',pic:'Z9.99'},{av:'AV81TFBarTieRea_To',fld:'vTFBARTIEREA_TO',pic:'Z9.99'},{av:'AV75TFBarFecRea',fld:'vTFBARFECREA',pic:''},{av:'AV135Pgmname',fld:'vPGMNAME',pic:''},{av:'AV58OrderedBy',fld:'vORDEREDBY',pic:'ZZZ9'},{av:'AV59OrderedDsc',fld:'vORDEREDDSC',pic:''},{av:'subGrid_Rows',ctrl:'GRID',prop:'Rows'}]");
+      setEventMetadata("GRID_FIRSTPAGE",",oparms:[{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''}]}");
+      setEventMetadata("GRID_PREVPAGE","{handler:'subgrid_previouspage',iparms:[{av:'GRID_nFirstRecordOnPage'},{av:'GRID_nEOF'},{av:'AV8emprcod',fld:'vEMPRCOD',pic:'@!'},{av:'AV5BarCod',fld:'vBARCOD',pic:'ZZZZZZZ9'},{av:'AV7BarCodReo',fld:'vBARCODREO',pic:'9'},{av:'AV6BarCodPar',fld:'vBARCODPAR',pic:''},{av:'AV39i',fld:'vI',pic:'ZZZZZZZZZ9'},{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV108EmprCodToFind',fld:'vEMPRCODTOFIND',pic:'@!'},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV112BarCodToFind',fld:'vBARCODTOFIND',pic:'ZZZZZZZ9'},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV116BarCodReoToFind',fld:'vBARCODREOTOFIND',pic:'9'},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV120BarCodParToFind',fld:'vBARCODPARTOFIND',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV124ProCodToFind',fld:'vPROCODTOFIND',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''},{av:'AV128BarOrdLinToFind',fld:'vBARORDLINTOFIND',pic:'ZZZ9'},{av:'AV130MantenimientoRollosPiezaSDT',fld:'vMANTENIMIENTOROLLOSPIEZASDT',pic:'',hsh:true},{av:'AV55NumPzsFs',fld:'vNUMPZSFS',pic:'ZZZ9',hsh:true},{av:'AV56NumPzsFs2',fld:'vNUMPZSFS2',pic:'ZZZ9',hsh:true},{av:'AV53Moda21',fld:'vMODA21',pic:'ZZZ9',hsh:true},{av:'AV27Const',fld:'vCONST',pic:'ZZ9.99',hsh:true},{av:'AV46MetPieDCP',fld:'vMETPIEDCP',pic:'@!',hsh:true},{av:'AV106EmprCodJson',fld:'vEMPRCODJSON',pic:''},{av:'AV110BarCodJson',fld:'vBARCODJSON',pic:''},{av:'AV114BarCodReoJson',fld:'vBARCODREOJSON',pic:''},{av:'AV118BarCodParJson',fld:'vBARCODPARJSON',pic:''},{av:'AV122ProCodJson',fld:'vPROCODJSON',pic:''},{av:'AV126BarOrdLinJson',fld:'vBARORDLINJSON',pic:''},{av:'AV88TFProCod',fld:'vTFPROCOD',pic:''},{av:'AV89TFProCod_Sel',fld:'vTFPROCOD_SEL',pic:''},{av:'AV76TFBarNHdr',fld:'vTFBARNHDR',pic:''},{av:'AV77TFBarNHdr_Sel',fld:'vTFBARNHDR_SEL',pic:''},{av:'AV82TFFasCod',fld:'vTFFASCOD',pic:'@!'},{av:'AV83TFFasCod_Sel',fld:'vTFFASCOD_SEL',pic:'@!'},{av:'AV84TFFasDsc',fld:'vTFFASDSC',pic:''},{av:'AV85TFFasDsc_Sel',fld:'vTFFASDSC_SEL',pic:''},{av:'AV86TFMaqCodBis',fld:'vTFMAQCODBIS',pic:''},{av:'AV87TFMaqCodBis_Sel',fld:'vTFMAQCODBIS_SEL',pic:''},{av:'AV71TFBarFasKgm',fld:'vTFBARFASKGM',pic:'ZZZZZ9.99'},{av:'AV72TFBarFasKgm_To',fld:'vTFBARFASKGM_TO',pic:'ZZZZZ9.99'},{av:'AV73TFBarFasMtr',fld:'vTFBARFASMTR',pic:'ZZZZZ9.99'},{av:'AV74TFBarFasMtr_To',fld:'vTFBARFASMTR_TO',pic:'ZZZZZ9.99'},{av:'AV80TFBarTieRea',fld:'vTFBARTIEREA',pic:'Z9.99'},{av:'AV81TFBarTieRea_To',fld:'vTFBARTIEREA_TO',pic:'Z9.99'},{av:'AV75TFBarFecRea',fld:'vTFBARFECREA',pic:''},{av:'AV135Pgmname',fld:'vPGMNAME',pic:''},{av:'AV58OrderedBy',fld:'vORDEREDBY',pic:'ZZZ9'},{av:'AV59OrderedDsc',fld:'vORDEREDDSC',pic:''},{av:'subGrid_Rows',ctrl:'GRID',prop:'Rows'}]");
+      setEventMetadata("GRID_PREVPAGE",",oparms:[{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''}]}");
+      setEventMetadata("GRID_NEXTPAGE","{handler:'subgrid_nextpage',iparms:[{av:'GRID_nFirstRecordOnPage'},{av:'GRID_nEOF'},{av:'AV8emprcod',fld:'vEMPRCOD',pic:'@!'},{av:'AV5BarCod',fld:'vBARCOD',pic:'ZZZZZZZ9'},{av:'AV7BarCodReo',fld:'vBARCODREO',pic:'9'},{av:'AV6BarCodPar',fld:'vBARCODPAR',pic:''},{av:'AV39i',fld:'vI',pic:'ZZZZZZZZZ9'},{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV108EmprCodToFind',fld:'vEMPRCODTOFIND',pic:'@!'},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV112BarCodToFind',fld:'vBARCODTOFIND',pic:'ZZZZZZZ9'},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV116BarCodReoToFind',fld:'vBARCODREOTOFIND',pic:'9'},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV120BarCodParToFind',fld:'vBARCODPARTOFIND',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV124ProCodToFind',fld:'vPROCODTOFIND',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''},{av:'AV128BarOrdLinToFind',fld:'vBARORDLINTOFIND',pic:'ZZZ9'},{av:'AV130MantenimientoRollosPiezaSDT',fld:'vMANTENIMIENTOROLLOSPIEZASDT',pic:'',hsh:true},{av:'AV55NumPzsFs',fld:'vNUMPZSFS',pic:'ZZZ9',hsh:true},{av:'AV56NumPzsFs2',fld:'vNUMPZSFS2',pic:'ZZZ9',hsh:true},{av:'AV53Moda21',fld:'vMODA21',pic:'ZZZ9',hsh:true},{av:'AV27Const',fld:'vCONST',pic:'ZZ9.99',hsh:true},{av:'AV46MetPieDCP',fld:'vMETPIEDCP',pic:'@!',hsh:true},{av:'AV106EmprCodJson',fld:'vEMPRCODJSON',pic:''},{av:'AV110BarCodJson',fld:'vBARCODJSON',pic:''},{av:'AV114BarCodReoJson',fld:'vBARCODREOJSON',pic:''},{av:'AV118BarCodParJson',fld:'vBARCODPARJSON',pic:''},{av:'AV122ProCodJson',fld:'vPROCODJSON',pic:''},{av:'AV126BarOrdLinJson',fld:'vBARORDLINJSON',pic:''},{av:'AV88TFProCod',fld:'vTFPROCOD',pic:''},{av:'AV89TFProCod_Sel',fld:'vTFPROCOD_SEL',pic:''},{av:'AV76TFBarNHdr',fld:'vTFBARNHDR',pic:''},{av:'AV77TFBarNHdr_Sel',fld:'vTFBARNHDR_SEL',pic:''},{av:'AV82TFFasCod',fld:'vTFFASCOD',pic:'@!'},{av:'AV83TFFasCod_Sel',fld:'vTFFASCOD_SEL',pic:'@!'},{av:'AV84TFFasDsc',fld:'vTFFASDSC',pic:''},{av:'AV85TFFasDsc_Sel',fld:'vTFFASDSC_SEL',pic:''},{av:'AV86TFMaqCodBis',fld:'vTFMAQCODBIS',pic:''},{av:'AV87TFMaqCodBis_Sel',fld:'vTFMAQCODBIS_SEL',pic:''},{av:'AV71TFBarFasKgm',fld:'vTFBARFASKGM',pic:'ZZZZZ9.99'},{av:'AV72TFBarFasKgm_To',fld:'vTFBARFASKGM_TO',pic:'ZZZZZ9.99'},{av:'AV73TFBarFasMtr',fld:'vTFBARFASMTR',pic:'ZZZZZ9.99'},{av:'AV74TFBarFasMtr_To',fld:'vTFBARFASMTR_TO',pic:'ZZZZZ9.99'},{av:'AV80TFBarTieRea',fld:'vTFBARTIEREA',pic:'Z9.99'},{av:'AV81TFBarTieRea_To',fld:'vTFBARTIEREA_TO',pic:'Z9.99'},{av:'AV75TFBarFecRea',fld:'vTFBARFECREA',pic:''},{av:'AV135Pgmname',fld:'vPGMNAME',pic:''},{av:'AV58OrderedBy',fld:'vORDEREDBY',pic:'ZZZ9'},{av:'AV59OrderedDsc',fld:'vORDEREDDSC',pic:''},{av:'subGrid_Rows',ctrl:'GRID',prop:'Rows'}]");
+      setEventMetadata("GRID_NEXTPAGE",",oparms:[{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''}]}");
+      setEventMetadata("GRID_LASTPAGE","{handler:'subgrid_lastpage',iparms:[{av:'GRID_nFirstRecordOnPage'},{av:'GRID_nEOF'},{av:'AV8emprcod',fld:'vEMPRCOD',pic:'@!'},{av:'AV5BarCod',fld:'vBARCOD',pic:'ZZZZZZZ9'},{av:'AV7BarCodReo',fld:'vBARCODREO',pic:'9'},{av:'AV6BarCodPar',fld:'vBARCODPAR',pic:''},{av:'AV39i',fld:'vI',pic:'ZZZZZZZZZ9'},{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV108EmprCodToFind',fld:'vEMPRCODTOFIND',pic:'@!'},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV112BarCodToFind',fld:'vBARCODTOFIND',pic:'ZZZZZZZ9'},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV116BarCodReoToFind',fld:'vBARCODREOTOFIND',pic:'9'},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV120BarCodParToFind',fld:'vBARCODPARTOFIND',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV124ProCodToFind',fld:'vPROCODTOFIND',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''},{av:'AV128BarOrdLinToFind',fld:'vBARORDLINTOFIND',pic:'ZZZ9'},{av:'AV130MantenimientoRollosPiezaSDT',fld:'vMANTENIMIENTOROLLOSPIEZASDT',pic:'',hsh:true},{av:'AV55NumPzsFs',fld:'vNUMPZSFS',pic:'ZZZ9',hsh:true},{av:'AV56NumPzsFs2',fld:'vNUMPZSFS2',pic:'ZZZ9',hsh:true},{av:'AV53Moda21',fld:'vMODA21',pic:'ZZZ9',hsh:true},{av:'AV27Const',fld:'vCONST',pic:'ZZ9.99',hsh:true},{av:'AV46MetPieDCP',fld:'vMETPIEDCP',pic:'@!',hsh:true},{av:'AV106EmprCodJson',fld:'vEMPRCODJSON',pic:''},{av:'AV110BarCodJson',fld:'vBARCODJSON',pic:''},{av:'AV114BarCodReoJson',fld:'vBARCODREOJSON',pic:''},{av:'AV118BarCodParJson',fld:'vBARCODPARJSON',pic:''},{av:'AV122ProCodJson',fld:'vPROCODJSON',pic:''},{av:'AV126BarOrdLinJson',fld:'vBARORDLINJSON',pic:''},{av:'AV88TFProCod',fld:'vTFPROCOD',pic:''},{av:'AV89TFProCod_Sel',fld:'vTFPROCOD_SEL',pic:''},{av:'AV76TFBarNHdr',fld:'vTFBARNHDR',pic:''},{av:'AV77TFBarNHdr_Sel',fld:'vTFBARNHDR_SEL',pic:''},{av:'AV82TFFasCod',fld:'vTFFASCOD',pic:'@!'},{av:'AV83TFFasCod_Sel',fld:'vTFFASCOD_SEL',pic:'@!'},{av:'AV84TFFasDsc',fld:'vTFFASDSC',pic:''},{av:'AV85TFFasDsc_Sel',fld:'vTFFASDSC_SEL',pic:''},{av:'AV86TFMaqCodBis',fld:'vTFMAQCODBIS',pic:''},{av:'AV87TFMaqCodBis_Sel',fld:'vTFMAQCODBIS_SEL',pic:''},{av:'AV71TFBarFasKgm',fld:'vTFBARFASKGM',pic:'ZZZZZ9.99'},{av:'AV72TFBarFasKgm_To',fld:'vTFBARFASKGM_TO',pic:'ZZZZZ9.99'},{av:'AV73TFBarFasMtr',fld:'vTFBARFASMTR',pic:'ZZZZZ9.99'},{av:'AV74TFBarFasMtr_To',fld:'vTFBARFASMTR_TO',pic:'ZZZZZ9.99'},{av:'AV80TFBarTieRea',fld:'vTFBARTIEREA',pic:'Z9.99'},{av:'AV81TFBarTieRea_To',fld:'vTFBARTIEREA_TO',pic:'Z9.99'},{av:'AV75TFBarFecRea',fld:'vTFBARFECREA',pic:''},{av:'AV135Pgmname',fld:'vPGMNAME',pic:''},{av:'AV58OrderedBy',fld:'vORDEREDBY',pic:'ZZZ9'},{av:'AV59OrderedDsc',fld:'vORDEREDDSC',pic:''},{av:'subGrid_Rows',ctrl:'GRID',prop:'Rows'}]");
+      setEventMetadata("GRID_LASTPAGE",",oparms:[{av:'AV105EmprCodCol',fld:'vEMPRCODCOL',pic:''},{av:'AV109BarCodCol',fld:'vBARCODCOL',pic:''},{av:'AV113BarCodReoCol',fld:'vBARCODREOCOL',pic:''},{av:'AV117BarCodParCol',fld:'vBARCODPARCOL',pic:''},{av:'AV121ProCodCol',fld:'vPROCODCOL',pic:''},{av:'AV125BarOrdLinCol',fld:'vBARORDLINCOL',pic:''}]}");
+      setEventMetadata("VALIDV_BARCOD","{handler:'validv_Barcod',iparms:[]");
+      setEventMetadata("VALIDV_BARCOD",",oparms:[]}");
+      setEventMetadata("VALIDV_BARCODREO","{handler:'validv_Barcodreo',iparms:[]");
+      setEventMetadata("VALIDV_BARCODREO",",oparms:[]}");
+      setEventMetadata("VALIDV_BARCODPAR","{handler:'validv_Barcodpar',iparms:[]");
+      setEventMetadata("VALIDV_BARCODPAR",",oparms:[]}");
+      setEventMetadata("VALID_EMPRCOD","{handler:'valid_Emprcod',iparms:[]");
+      setEventMetadata("VALID_EMPRCOD",",oparms:[]}");
+      setEventMetadata("VALID_BARCOD","{handler:'valid_Barcod',iparms:[]");
+      setEventMetadata("VALID_BARCOD",",oparms:[]}");
+      setEventMetadata("VALID_BARCODREO","{handler:'valid_Barcodreo',iparms:[]");
+      setEventMetadata("VALID_BARCODREO",",oparms:[]}");
+      setEventMetadata("VALID_BARCODPAR","{handler:'valid_Barcodpar',iparms:[]");
+      setEventMetadata("VALID_BARCODPAR",",oparms:[]}");
+      setEventMetadata("VALID_FASCOD","{handler:'valid_Fascod',iparms:[]");
+      setEventMetadata("VALID_FASCOD",",oparms:[]}");
+      setEventMetadata("NULL","{handler:'valid_Barfecrea',iparms:[]");
+      setEventMetadata("NULL",",oparms:[]}");
+   }
+
+   protected boolean IntegratedSecurityEnabled( )
+   {
+      return false;
+   }
+
+   protected int IntegratedSecurityLevel( )
+   {
+      return 0;
+   }
+
+   protected String IntegratedSecurityPermissionPrefix( )
+   {
+      return "";
+   }
+
+   protected String EncryptURLParameters( )
+   {
+      return "NO";
+   }
+
+   protected void cleanup( )
+   {
+      super.cleanup();
+      CloseOpenCursors();
+   }
+
+   protected void CloseOpenCursors( )
+   {
+   }
+
+   /* Aggregate/select formulas */
+   public void initialize( )
+   {
+      wcpOAV8emprcod = "" ;
+      wcpOAV6BarCodPar = "" ;
+      Ddo_grid_Activeeventkey = "" ;
+      Ddo_grid_Selectedvalue_get = "" ;
+      Ddo_grid_Filteredtextto_get = "" ;
+      Ddo_grid_Filteredtext_get = "" ;
+      Ddo_grid_Selectedcolumn = "" ;
+      Dvelop_confirmpanel_confirmar_Result = "" ;
+      gxfirstwebparm = "" ;
+      gxfirstwebparm_bkp = "" ;
+      AV8emprcod = "" ;
+      AV6BarCodPar = "" ;
+      AV106EmprCodJson = "" ;
+      AV110BarCodJson = "" ;
+      AV114BarCodReoJson = "" ;
+      AV118BarCodParJson = "" ;
+      AV122ProCodJson = "" ;
+      AV126BarOrdLinJson = "" ;
+      AV88TFProCod = "" ;
+      AV89TFProCod_Sel = "" ;
+      AV76TFBarNHdr = "" ;
+      AV77TFBarNHdr_Sel = "" ;
+      AV82TFFasCod = "" ;
+      AV83TFFasCod_Sel = "" ;
+      AV84TFFasDsc = "" ;
+      AV85TFFasDsc_Sel = "" ;
+      AV86TFMaqCodBis = "" ;
+      AV87TFMaqCodBis_Sel = "" ;
+      AV71TFBarFasKgm = DecimalUtil.ZERO ;
+      AV72TFBarFasKgm_To = DecimalUtil.ZERO ;
+      AV73TFBarFasMtr = DecimalUtil.ZERO ;
+      AV74TFBarFasMtr_To = DecimalUtil.ZERO ;
+      AV80TFBarTieRea = DecimalUtil.ZERO ;
+      AV81TFBarTieRea_To = DecimalUtil.ZERO ;
+      AV75TFBarFecRea = GXutil.nullDate() ;
+      AV135Pgmname = "" ;
+      AV105EmprCodCol = new GXSimpleCollection<String>(String.class, "internal", "");
+      AV108EmprCodToFind = "" ;
+      AV109BarCodCol = new GXSimpleCollection<Integer>(Integer.class, "internal", "");
+      AV113BarCodReoCol = new GXSimpleCollection<Byte>(Byte.class, "internal", "");
+      AV117BarCodParCol = new GXSimpleCollection<String>(String.class, "internal", "");
+      AV120BarCodParToFind = "" ;
+      AV121ProCodCol = new GXSimpleCollection<String>(String.class, "internal", "");
+      AV124ProCodToFind = "" ;
+      AV125BarOrdLinCol = new GXSimpleCollection<Short>(Short.class, "internal", "");
+      AV130MantenimientoRollosPiezaSDT = new GXBaseCollection<app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem>(app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem.class, "MantenimientoRollosPiezaSDTItem", "TexplusNET", remoteHandle);
+      AV27Const = DecimalUtil.ZERO ;
+      AV46MetPieDCP = "" ;
+      Form = new com.genexus.webpanels.GXWebForm();
+      sDynURL = "" ;
+      FormProcess = "" ;
+      bodyStyle = "" ;
+      GXKey = "" ;
+      forbiddenHiddens = new com.genexus.util.GXProperties();
+      AV29DDO_TitleSettingsIcons = new app.wwpbaseobjects.SdtDVB_SDTDropDownOptionsTitleSettingsIcons(remoteHandle, context);
+      AV103SelectedRows = new GXBaseCollection<app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem>(app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem.class, "MantenimientoRollosPiezaSDTItem", "TexplusNET", remoteHandle);
+      AV61Procod = "" ;
+      AV64Station = "" ;
+      AV48MetPieLoc = "" ;
+      AV31FasDsc = "" ;
+      AV30FasCod = "" ;
+      AV44MaqCodBis = "" ;
+      Ddo_grid_Caption = "" ;
+      Ddo_grid_Filteredtext_set = "" ;
+      Ddo_grid_Filteredtextto_set = "" ;
+      Ddo_grid_Selectedvalue_set = "" ;
+      Ddo_grid_Sortedstatus = "" ;
+      Grid_empowerer_Gridinternalname = "" ;
+      GX_FocusControl = "" ;
+      sPrefix = "" ;
+      ucDvpanel_tableheader = new com.genexus.webpanels.GXUserControl();
+      ClassString = "" ;
+      StyleString = "" ;
+      ucDvpanel_unnamedtable1 = new com.genexus.webpanels.GXUserControl();
+      TempTags = "" ;
+      AV49MetPiemet = DecimalUtil.ZERO ;
+      AV50MetPieMtD = DecimalUtil.ZERO ;
+      bttBtnconfirmar_Jsonclick = "" ;
+      bttBtncerrar_Jsonclick = "" ;
+      GridContainer = new com.genexus.webpanels.GXWebGrid(context);
+      sStyleString = "" ;
+      ucDatamonjs = new com.genexus.webpanels.GXUserControl();
+      ucDdo_grid = new com.genexus.webpanels.GXUserControl();
+      ucGrid_empowerer = new com.genexus.webpanels.GXUserControl();
+      AV28DDO_BarFecReaAuxDate = GXutil.nullDate() ;
+      sEvt = "" ;
+      EvtGridId = "" ;
+      EvtRowId = "" ;
+      sEvtType = "" ;
+      AV136Mantenimientorollospiezads_1_tfprocod = "" ;
+      AV137Mantenimientorollospiezads_2_tfprocod_sel = "" ;
+      AV138Mantenimientorollospiezads_3_tfbarnhdr = "" ;
+      AV139Mantenimientorollospiezads_4_tfbarnhdr_sel = "" ;
+      AV140Mantenimientorollospiezads_5_tffascod = "" ;
+      AV141Mantenimientorollospiezads_6_tffascod_sel = "" ;
+      AV142Mantenimientorollospiezads_7_tffasdsc = "" ;
+      AV143Mantenimientorollospiezads_8_tffasdsc_sel = "" ;
+      AV144Mantenimientorollospiezads_9_tfmaqcodbis = "" ;
+      AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel = "" ;
+      AV146Mantenimientorollospiezads_11_tfbarfaskgm = DecimalUtil.ZERO ;
+      AV147Mantenimientorollospiezads_12_tfbarfaskgm_to = DecimalUtil.ZERO ;
+      AV148Mantenimientorollospiezads_13_tfbarfasmtr = DecimalUtil.ZERO ;
+      AV149Mantenimientorollospiezads_14_tfbarfasmtr_to = DecimalUtil.ZERO ;
+      AV150Mantenimientorollospiezads_15_tfbartierea = DecimalUtil.ZERO ;
+      AV151Mantenimientorollospiezads_16_tfbartierea_to = DecimalUtil.ZERO ;
+      AV152Mantenimientorollospiezads_17_tfbarfecrea = GXutil.nullDate() ;
+      A396EmprCod = "" ;
+      A130BarCodPar = "" ;
+      A758ProCod = "" ;
+      A13696BarNHdr = "" ;
+      A457FasCod = "" ;
+      A460FasDsc = "" ;
+      A603MaqCodBis = "" ;
+      A3837BarFasKgm = DecimalUtil.ZERO ;
+      A3838BarFasMtr = DecimalUtil.ZERO ;
+      A215BarTieRea = DecimalUtil.ZERO ;
+      A160BarFecRea = GXutil.nullDate() ;
+      scmdbuf = "" ;
+      lV136Mantenimientorollospiezads_1_tfprocod = "" ;
+      lV138Mantenimientorollospiezads_3_tfbarnhdr = "" ;
+      lV140Mantenimientorollospiezads_5_tffascod = "" ;
+      lV142Mantenimientorollospiezads_7_tffasdsc = "" ;
+      lV144Mantenimientorollospiezads_9_tfmaqcodbis = "" ;
+      H026Q2_A160BarFecRea = new java.util.Date[] {GXutil.nullDate()} ;
+      H026Q2_A215BarTieRea = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      H026Q2_A3838BarFasMtr = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      H026Q2_n3838BarFasMtr = new boolean[] {false} ;
+      H026Q2_A3837BarFasKgm = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      H026Q2_n3837BarFasKgm = new boolean[] {false} ;
+      H026Q2_A603MaqCodBis = new String[] {""} ;
+      H026Q2_A460FasDsc = new String[] {""} ;
+      H026Q2_A457FasCod = new String[] {""} ;
+      H026Q2_A758ProCod = new String[] {""} ;
+      H026Q2_A194BarOrdLin = new short[1] ;
+      H026Q2_A396EmprCod = new String[] {""} ;
+      H026Q2_A130BarCodPar = new String[] {""} ;
+      H026Q2_A132BarCodReo = new byte[1] ;
+      H026Q2_A129BarCod = new int[1] ;
+      H026Q3_AGRID_nRecordCount = new long[1] ;
+      hsh = "" ;
+      AV9EmprNom = "" ;
+      AV10UsurCod = "" ;
+      GXt_SdtDVB_SDTDropDownOptionsTitleSettingsIcons5 = new app.wwpbaseobjects.SdtDVB_SDTDropDownOptionsTitleSettingsIcons(remoteHandle, context);
+      GXv_SdtDVB_SDTDropDownOptionsTitleSettingsIcons6 = new app.wwpbaseobjects.SdtDVB_SDTDropDownOptionsTitleSettingsIcons[1] ;
+      AV36grm2 = DecimalUtil.ZERO ;
+      AV22Col_Barordlin = new GXSimpleCollection<Short>(Short.class, "internal", "");
+      AV26Col_Procod = new GXSimpleCollection<String>(String.class, "internal", "");
+      AV23Col_Fascod = new GXSimpleCollection<String>(String.class, "internal", "");
+      AV24Col_FasDsc = new GXSimpleCollection<String>(String.class, "internal", "");
+      AV25Col_Maqcodbis = new GXSimpleCollection<String>(String.class, "internal", "");
+      AV93WWPContext = new app.wwpbaseobjects.SdtWWPContext(remoteHandle, context);
+      GXv_SdtWWPContext14 = new app.wwpbaseobjects.SdtWWPContext[1] ;
+      GridRow = new com.genexus.webpanels.GXWebRow();
+      AV107EmprCodColItem = "" ;
+      AV17BarPiecod = "" ;
+      AV13ancho2 = DecimalUtil.ZERO ;
+      AV19BarPieMet = DecimalUtil.ZERO ;
+      AV18BarPieKil = DecimalUtil.ZERO ;
+      AV42Lecfec = GXutil.nullDate() ;
+      AV51MetPieobs = "" ;
+      AV20BarPieobs = "" ;
+      AV47MetPieId = "" ;
+      GXv_int15 = new int[1] ;
+      GXv_int8 = new byte[1] ;
+      GXv_char4 = new String[1] ;
+      GXv_char3 = new String[1] ;
+      GXv_decimal12 = new java.math.BigDecimal[1] ;
+      GXv_decimal16 = new java.math.BigDecimal[1] ;
+      GXv_int13 = new short[1] ;
+      GXv_char2 = new String[1] ;
+      GXv_char17 = new String[1] ;
+      GXv_int10 = new int[1] ;
+      GXv_char18 = new String[1] ;
+      GXv_char19 = new String[1] ;
+      GXv_int20 = new byte[1] ;
+      GXv_decimal23 = new java.math.BigDecimal[1] ;
+      GXv_date26 = new java.util.Date[1] ;
+      GXv_int27 = new int[1] ;
+      GXv_int28 = new byte[1] ;
+      GXv_int11 = new short[1] ;
+      GXv_int30 = new byte[1] ;
+      AV104SelectedRow = new app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem(remoteHandle, context);
+      AV119BarCodParColItem = "" ;
+      AV123ProCodColItem = "" ;
+      H026Q4_A194BarOrdLin = new short[1] ;
+      H026Q4_A758ProCod = new String[] {""} ;
+      H026Q4_A396EmprCod = new String[] {""} ;
+      H026Q4_A457FasCod = new String[] {""} ;
+      H026Q4_A460FasDsc = new String[] {""} ;
+      H026Q4_A603MaqCodBis = new String[] {""} ;
+      H026Q4_A3837BarFasKgm = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      H026Q4_n3837BarFasKgm = new boolean[] {false} ;
+      H026Q4_A3838BarFasMtr = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      H026Q4_n3838BarFasMtr = new boolean[] {false} ;
+      H026Q4_A215BarTieRea = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      H026Q4_A160BarFecRea = new java.util.Date[] {GXutil.nullDate()} ;
+      H026Q4_A130BarCodPar = new String[] {""} ;
+      H026Q4_A132BarCodReo = new byte[1] ;
+      H026Q4_A129BarCod = new int[1] ;
+      AV63Session = httpContext.getWebSession();
+      AV34GridState = new app.wwpbaseobjects.SdtWWPGridState(remoteHandle, context);
+      AV35GridStateFilterValue = new app.wwpbaseobjects.SdtWWPGridState_FilterValue(remoteHandle, context);
+      GXt_char34 = "" ;
+      GXv_char29 = new String[1] ;
+      GXt_char33 = "" ;
+      GXv_char25 = new String[1] ;
+      GXt_char32 = "" ;
+      GXv_char24 = new String[1] ;
+      GXt_char31 = "" ;
+      GXv_char22 = new String[1] ;
+      GXt_char1 = "" ;
+      GXv_char21 = new String[1] ;
+      GXv_SdtWWPGridState35 = new app.wwpbaseobjects.SdtWWPGridState[1] ;
+      AV90TrnContext = new app.wwpbaseobjects.SdtWWPTransactionContext(remoteHandle, context);
+      AV38HTTPRequest = httpContext.getHttpRequest();
+      ucDvelop_confirmpanel_confirmar = new com.genexus.webpanels.GXUserControl();
+      BackMsgLst = new com.genexus.internet.MsgList();
+      LclMsgLst = new com.genexus.internet.MsgList();
+      subGrid_Linesclass = "" ;
+      GXCCtl = "" ;
+      ROClassString = "" ;
+      GridColumn = new com.genexus.webpanels.GXWebColumn();
+      pr_default = new DataStoreProvider(context, remoteHandle, new app.mantenimientorollospieza__default(),
+         new Object[] {
+             new Object[] {
+            H026Q2_A160BarFecRea, H026Q2_A215BarTieRea, H026Q2_A3838BarFasMtr, H026Q2_n3838BarFasMtr, H026Q2_A3837BarFasKgm, H026Q2_n3837BarFasKgm, H026Q2_A603MaqCodBis, H026Q2_A460FasDsc, H026Q2_A457FasCod, H026Q2_A758ProCod,
+            H026Q2_A194BarOrdLin, H026Q2_A396EmprCod, H026Q2_A130BarCodPar, H026Q2_A132BarCodReo, H026Q2_A129BarCod
+            }
+            , new Object[] {
+            H026Q3_AGRID_nRecordCount
+            }
+            , new Object[] {
+            H026Q4_A194BarOrdLin, H026Q4_A758ProCod, H026Q4_A396EmprCod, H026Q4_A457FasCod, H026Q4_A460FasDsc, H026Q4_A603MaqCodBis, H026Q4_A3837BarFasKgm, H026Q4_n3837BarFasKgm, H026Q4_A3838BarFasMtr, H026Q4_n3838BarFasMtr,
+            H026Q4_A215BarTieRea, H026Q4_A160BarFecRea, H026Q4_A130BarCodPar, H026Q4_A132BarCodReo, H026Q4_A129BarCod
+            }
+         }
+      );
+      AV135Pgmname = "MantenimientoRollosPieza" ;
+      /* GeneXus formulas. */
+      AV135Pgmname = "MantenimientoRollosPieza" ;
+      Gx_err = (short)(0) ;
+      edtavBarcod_Enabled = 0 ;
+      edtavBarcodreo_Enabled = 0 ;
+      edtavBarcodpar_Enabled = 0 ;
+      edtavPgmname_Enabled = 0 ;
+   }
+
+   private byte wcpOAV7BarCodReo ;
+   private byte wcpOAV99flag ;
+   private byte GRID_nEOF ;
+   private byte nGotPars ;
+   private byte GxWebError ;
+   private byte AV7BarCodReo ;
+   private byte AV99flag ;
+   private byte AV116BarCodReoToFind ;
+   private byte gxajaxcallmode ;
+   private byte AV37Hisprotur ;
+   private byte A132BarCodReo ;
+   private byte nDonePA ;
+   private byte subGrid_Backcolorstyle ;
+   private byte subGrid_Sortable ;
+   private byte GXt_int7 ;
+   private byte AV21Calidad ;
+   private byte GXv_int8[] ;
+   private byte GXv_int20[] ;
+   private byte GXv_int28[] ;
+   private byte GXv_int30[] ;
+   private byte AV115BarCodReoColItem ;
+   private byte nGXWrapped ;
+   private byte subGrid_Backstyle ;
+   private byte subGrid_Titlebackstyle ;
+   private byte subGrid_Allowselection ;
+   private byte subGrid_Allowhovering ;
+   private byte subGrid_Allowcollapsing ;
+   private byte subGrid_Collapsed ;
+   private short nRcdExists_3 ;
+   private short nIsMod_3 ;
+   private short AV58OrderedBy ;
+   private short AV128BarOrdLinToFind ;
+   private short AV55NumPzsFs ;
+   private short AV56NumPzsFs2 ;
+   private short AV53Moda21 ;
+   private short AV132BarOrdLin ;
+   private short wbEnd ;
+   private short wbStart ;
+   private short AV45MetPieAnc ;
+   private short A194BarOrdLin ;
+   private short gxcookieaux ;
+   private short Gx_err ;
+   private short AV92Valcont ;
+   private short AV12Ancho ;
+   private short AV15barordlin2 ;
+   private short AV16Barpieanc ;
+   private short GXv_int13[] ;
+   private short GXv_int11[] ;
+   private short AV127BarOrdLinColItem ;
+   private int wcpOAV5BarCod ;
+   private int subGrid_Rows ;
+   private int nRC_GXsfl_67 ;
+   private int AV5BarCod ;
+   private int nGXsfl_67_idx=1 ;
+   private int AV112BarCodToFind ;
+   private int AV54Num_pz ;
+   private int AV11Albreccod ;
+   private int AV57OpeCod ;
+   private int edtavBarcod_Enabled ;
+   private int edtavBarcodreo_Enabled ;
+   private int edtavBarcodpar_Enabled ;
+   private int edtavMetpiemet_Enabled ;
+   private int edtavMetpieanc_Enabled ;
+   private int edtavMetpiemtd_Enabled ;
+   private int edtavPgmname_Enabled ;
+   private int A129BarCod ;
+   private int subGrid_Islastpage ;
+   private int GXPagingFrom2 ;
+   private int GXPagingTo2 ;
+   private int GXt_int9 ;
+   private int AV153GXV1 ;
+   private int GXv_int15[] ;
+   private int GXv_int10[] ;
+   private int GXv_int27[] ;
+   private int AV154GXV2 ;
+   private int AV111BarCodColItem ;
+   private int AV156GXV3 ;
+   private int idxLst ;
+   private int subGrid_Backcolor ;
+   private int subGrid_Allbackcolor ;
+   private int subGrid_Titlebackcolor ;
+   private int subGrid_Selectedindex ;
+   private int subGrid_Selectioncolor ;
+   private int subGrid_Hoveringcolor ;
+   private long GRID_nFirstRecordOnPage ;
+   private long AV39i ;
+   private long GRID_nCurrentRecord ;
+   private long GRID_nRecordCount ;
+   private java.math.BigDecimal AV71TFBarFasKgm ;
+   private java.math.BigDecimal AV72TFBarFasKgm_To ;
+   private java.math.BigDecimal AV73TFBarFasMtr ;
+   private java.math.BigDecimal AV74TFBarFasMtr_To ;
+   private java.math.BigDecimal AV80TFBarTieRea ;
+   private java.math.BigDecimal AV81TFBarTieRea_To ;
+   private java.math.BigDecimal AV27Const ;
+   private java.math.BigDecimal AV49MetPiemet ;
+   private java.math.BigDecimal AV50MetPieMtD ;
+   private java.math.BigDecimal AV146Mantenimientorollospiezads_11_tfbarfaskgm ;
+   private java.math.BigDecimal AV147Mantenimientorollospiezads_12_tfbarfaskgm_to ;
+   private java.math.BigDecimal AV148Mantenimientorollospiezads_13_tfbarfasmtr ;
+   private java.math.BigDecimal AV149Mantenimientorollospiezads_14_tfbarfasmtr_to ;
+   private java.math.BigDecimal AV150Mantenimientorollospiezads_15_tfbartierea ;
+   private java.math.BigDecimal AV151Mantenimientorollospiezads_16_tfbartierea_to ;
+   private java.math.BigDecimal A3837BarFasKgm ;
+   private java.math.BigDecimal A3838BarFasMtr ;
+   private java.math.BigDecimal A215BarTieRea ;
+   private java.math.BigDecimal AV36grm2 ;
+   private java.math.BigDecimal AV13ancho2 ;
+   private java.math.BigDecimal AV19BarPieMet ;
+   private java.math.BigDecimal AV18BarPieKil ;
+   private java.math.BigDecimal GXv_decimal12[] ;
+   private java.math.BigDecimal GXv_decimal16[] ;
+   private java.math.BigDecimal GXv_decimal23[] ;
+   private String wcpOAV8emprcod ;
+   private String wcpOAV6BarCodPar ;
+   private String Ddo_grid_Activeeventkey ;
+   private String Ddo_grid_Selectedvalue_get ;
+   private String Ddo_grid_Filteredtextto_get ;
+   private String Ddo_grid_Filteredtext_get ;
+   private String Ddo_grid_Selectedcolumn ;
+   private String Dvelop_confirmpanel_confirmar_Result ;
+   private String gxfirstwebparm ;
+   private String gxfirstwebparm_bkp ;
+   private String AV8emprcod ;
+   private String AV6BarCodPar ;
+   private String sGXsfl_67_idx="0001" ;
+   private String AV88TFProCod ;
+   private String AV89TFProCod_Sel ;
+   private String AV76TFBarNHdr ;
+   private String AV77TFBarNHdr_Sel ;
+   private String AV82TFFasCod ;
+   private String AV83TFFasCod_Sel ;
+   private String AV84TFFasDsc ;
+   private String AV85TFFasDsc_Sel ;
+   private String AV86TFMaqCodBis ;
+   private String AV87TFMaqCodBis_Sel ;
+   private String AV135Pgmname ;
+   private String AV108EmprCodToFind ;
+   private String AV120BarCodParToFind ;
+   private String AV124ProCodToFind ;
+   private String AV46MetPieDCP ;
+   private String sDynURL ;
+   private String FormProcess ;
+   private String bodyStyle ;
+   private String GXKey ;
+   private String AV61Procod ;
+   private String AV64Station ;
+   private String AV48MetPieLoc ;
+   private String AV31FasDsc ;
+   private String AV30FasCod ;
+   private String AV44MaqCodBis ;
+   private String Dvpanel_tableheader_Width ;
+   private String Dvpanel_tableheader_Cls ;
+   private String Dvpanel_tableheader_Title ;
+   private String Dvpanel_tableheader_Iconposition ;
+   private String Dvpanel_unnamedtable1_Width ;
+   private String Dvpanel_unnamedtable1_Cls ;
+   private String Dvpanel_unnamedtable1_Title ;
+   private String Dvpanel_unnamedtable1_Iconposition ;
+   private String Ddo_grid_Caption ;
+   private String Ddo_grid_Filteredtext_set ;
+   private String Ddo_grid_Filteredtextto_set ;
+   private String Ddo_grid_Selectedvalue_set ;
+   private String Ddo_grid_Gridinternalname ;
+   private String Ddo_grid_Columnids ;
+   private String Ddo_grid_Columnssortvalues ;
+   private String Ddo_grid_Includesortasc ;
+   private String Ddo_grid_Sortedstatus ;
+   private String Ddo_grid_Includefilter ;
+   private String Ddo_grid_Filtertype ;
+   private String Ddo_grid_Filterisrange ;
+   private String Ddo_grid_Includedatalist ;
+   private String Ddo_grid_Datalisttype ;
+   private String Ddo_grid_Datalistproc ;
+   private String Dvelop_confirmpanel_confirmar_Title ;
+   private String Dvelop_confirmpanel_confirmar_Confirmationtext ;
+   private String Dvelop_confirmpanel_confirmar_Yesbuttoncaption ;
+   private String Dvelop_confirmpanel_confirmar_Nobuttoncaption ;
+   private String Dvelop_confirmpanel_confirmar_Cancelbuttoncaption ;
+   private String Dvelop_confirmpanel_confirmar_Yesbuttonposition ;
+   private String Dvelop_confirmpanel_confirmar_Confirmtype ;
+   private String Grid_empowerer_Gridinternalname ;
+   private String GX_FocusControl ;
+   private String sPrefix ;
+   private String divLayoutmaintable_Internalname ;
+   private String divLayoutmaintable_Class ;
+   private String divTablemain_Internalname ;
+   private String Dvpanel_tableheader_Internalname ;
+   private String divTableheader_Internalname ;
+   private String divUnnamedtable4_Internalname ;
+   private String edtavBarcod_Internalname ;
+   private String edtavBarcod_Jsonclick ;
+   private String edtavBarcodreo_Internalname ;
+   private String edtavBarcodreo_Jsonclick ;
+   private String edtavBarcodpar_Internalname ;
+   private String edtavBarcodpar_Jsonclick ;
+   private String ClassString ;
+   private String StyleString ;
+   private String Dvpanel_unnamedtable1_Internalname ;
+   private String divUnnamedtable1_Internalname ;
+   private String divUnnamedtable3_Internalname ;
+   private String edtavMetpiemet_Internalname ;
+   private String TempTags ;
+   private String edtavMetpiemet_Jsonclick ;
+   private String edtavMetpieanc_Internalname ;
+   private String edtavMetpieanc_Jsonclick ;
+   private String edtavMetpiemtd_Internalname ;
+   private String edtavMetpiemtd_Jsonclick ;
+   private String divUnnamedtable2_Internalname ;
+   private String bttBtnconfirmar_Internalname ;
+   private String bttBtnconfirmar_Jsonclick ;
+   private String bttBtncerrar_Internalname ;
+   private String bttBtncerrar_Jsonclick ;
+   private String sStyleString ;
+   private String subGrid_Internalname ;
+   private String edtavPgmname_Internalname ;
+   private String edtavPgmname_Jsonclick ;
+   private String Datamonjs_Internalname ;
+   private String divHtml_bottomauxiliarcontrols_Internalname ;
+   private String Ddo_grid_Internalname ;
+   private String Grid_empowerer_Internalname ;
+   private String divDdo_barfecreaauxdates_Internalname ;
+   private String edtavDdo_barfecreaauxdate_Internalname ;
+   private String edtavDdo_barfecreaauxdate_Jsonclick ;
+   private String sEvt ;
+   private String EvtGridId ;
+   private String EvtRowId ;
+   private String sEvtType ;
+   private String AV136Mantenimientorollospiezads_1_tfprocod ;
+   private String AV137Mantenimientorollospiezads_2_tfprocod_sel ;
+   private String AV138Mantenimientorollospiezads_3_tfbarnhdr ;
+   private String AV139Mantenimientorollospiezads_4_tfbarnhdr_sel ;
+   private String AV140Mantenimientorollospiezads_5_tffascod ;
+   private String AV141Mantenimientorollospiezads_6_tffascod_sel ;
+   private String AV142Mantenimientorollospiezads_7_tffasdsc ;
+   private String AV143Mantenimientorollospiezads_8_tffasdsc_sel ;
+   private String AV144Mantenimientorollospiezads_9_tfmaqcodbis ;
+   private String AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel ;
+   private String A396EmprCod ;
+   private String edtEmprCod_Internalname ;
+   private String edtBarCod_Internalname ;
+   private String edtBarCodReo_Internalname ;
+   private String A130BarCodPar ;
+   private String edtBarCodPar_Internalname ;
+   private String edtBarOrdLin_Internalname ;
+   private String A758ProCod ;
+   private String edtProCod_Internalname ;
+   private String A13696BarNHdr ;
+   private String edtBarNHdr_Internalname ;
+   private String A457FasCod ;
+   private String edtFasCod_Internalname ;
+   private String A460FasDsc ;
+   private String edtFasDsc_Internalname ;
+   private String A603MaqCodBis ;
+   private String edtMaqCodBis_Internalname ;
+   private String edtBarFasKgm_Internalname ;
+   private String edtBarFasMtr_Internalname ;
+   private String edtBarTieRea_Internalname ;
+   private String edtBarFecRea_Internalname ;
+   private String scmdbuf ;
+   private String lV136Mantenimientorollospiezads_1_tfprocod ;
+   private String lV138Mantenimientorollospiezads_3_tfbarnhdr ;
+   private String lV140Mantenimientorollospiezads_5_tffascod ;
+   private String lV142Mantenimientorollospiezads_7_tffasdsc ;
+   private String lV144Mantenimientorollospiezads_9_tfmaqcodbis ;
+   private String hsh ;
+   private String AV9EmprNom ;
+   private String AV10UsurCod ;
+   private String AV107EmprCodColItem ;
+   private String AV17BarPiecod ;
+   private String AV20BarPieobs ;
+   private String AV47MetPieId ;
+   private String GXv_char4[] ;
+   private String GXv_char3[] ;
+   private String GXv_char2[] ;
+   private String GXv_char17[] ;
+   private String GXv_char18[] ;
+   private String GXv_char19[] ;
+   private String AV119BarCodParColItem ;
+   private String AV123ProCodColItem ;
+   private String GXt_char34 ;
+   private String GXv_char29[] ;
+   private String GXt_char33 ;
+   private String GXv_char25[] ;
+   private String GXt_char32 ;
+   private String GXv_char24[] ;
+   private String GXt_char31 ;
+   private String GXv_char22[] ;
+   private String GXt_char1 ;
+   private String GXv_char21[] ;
+   private String tblTabledvelop_confirmpanel_confirmar_Internalname ;
+   private String Dvelop_confirmpanel_confirmar_Internalname ;
+   private String tblTablerightheader_Internalname ;
+   private String sGXsfl_67_fel_idx="0001" ;
+   private String subGrid_Class ;
+   private String subGrid_Linesclass ;
+   private String GXCCtl ;
+   private String ROClassString ;
+   private String edtEmprCod_Jsonclick ;
+   private String edtBarCod_Jsonclick ;
+   private String edtBarCodReo_Jsonclick ;
+   private String edtBarCodPar_Jsonclick ;
+   private String edtBarOrdLin_Jsonclick ;
+   private String edtProCod_Jsonclick ;
+   private String edtBarNHdr_Jsonclick ;
+   private String edtFasCod_Jsonclick ;
+   private String edtFasDsc_Jsonclick ;
+   private String edtMaqCodBis_Jsonclick ;
+   private String edtBarFasKgm_Jsonclick ;
+   private String edtBarFasMtr_Jsonclick ;
+   private String edtBarTieRea_Jsonclick ;
+   private String edtBarFecRea_Jsonclick ;
+   private String subGrid_Header ;
+   private java.util.Date AV75TFBarFecRea ;
+   private java.util.Date AV28DDO_BarFecReaAuxDate ;
+   private java.util.Date AV152Mantenimientorollospiezads_17_tfbarfecrea ;
+   private java.util.Date A160BarFecRea ;
+   private java.util.Date AV42Lecfec ;
+   private java.util.Date GXv_date26[] ;
+   private boolean entryPointCalled ;
+   private boolean toggleJsOutput ;
+   private boolean AV59OrderedDsc ;
+   private boolean Dvpanel_tableheader_Autowidth ;
+   private boolean Dvpanel_tableheader_Autoheight ;
+   private boolean Dvpanel_tableheader_Collapsible ;
+   private boolean Dvpanel_tableheader_Collapsed ;
+   private boolean Dvpanel_tableheader_Showcollapseicon ;
+   private boolean Dvpanel_tableheader_Autoscroll ;
+   private boolean Dvpanel_unnamedtable1_Autowidth ;
+   private boolean Dvpanel_unnamedtable1_Autoheight ;
+   private boolean Dvpanel_unnamedtable1_Collapsible ;
+   private boolean Dvpanel_unnamedtable1_Collapsed ;
+   private boolean Dvpanel_unnamedtable1_Showcollapseicon ;
+   private boolean Dvpanel_unnamedtable1_Autoscroll ;
+   private boolean Grid_empowerer_Hastitlesettings ;
+   private boolean wbLoad ;
+   private boolean Rfr0gs ;
+   private boolean wbErr ;
+   private boolean AV102Selected ;
+   private boolean n3837BarFasKgm ;
+   private boolean n3838BarFasMtr ;
+   private boolean bGXsfl_67_Refreshing=false ;
+   private boolean gxdyncontrolsrefreshing ;
+   private boolean returnInSub ;
+   private boolean gx_refresh_fired ;
+   private String AV106EmprCodJson ;
+   private String AV110BarCodJson ;
+   private String AV114BarCodReoJson ;
+   private String AV118BarCodParJson ;
+   private String AV122ProCodJson ;
+   private String AV126BarOrdLinJson ;
+   private String AV51MetPieobs ;
+   private GXSimpleCollection<Byte> AV113BarCodReoCol ;
+   private GXSimpleCollection<Short> AV125BarOrdLinCol ;
+   private GXSimpleCollection<Short> AV22Col_Barordlin ;
+   private GXSimpleCollection<Integer> AV109BarCodCol ;
+   private com.genexus.webpanels.GXWebGrid GridContainer ;
+   private com.genexus.webpanels.GXWebRow GridRow ;
+   private com.genexus.webpanels.GXWebColumn GridColumn ;
+   private com.genexus.internet.MsgList BackMsgLst ;
+   private com.genexus.internet.MsgList LclMsgLst ;
+   private com.genexus.internet.HttpRequest AV38HTTPRequest ;
+   private com.genexus.webpanels.WebSession AV63Session ;
+   private com.genexus.webpanels.GXUserControl ucDvpanel_tableheader ;
+   private com.genexus.webpanels.GXUserControl ucDvpanel_unnamedtable1 ;
+   private com.genexus.webpanels.GXUserControl ucDatamonjs ;
+   private com.genexus.webpanels.GXUserControl ucDdo_grid ;
+   private com.genexus.webpanels.GXUserControl ucGrid_empowerer ;
+   private com.genexus.webpanels.GXUserControl ucDvelop_confirmpanel_confirmar ;
+   private com.genexus.util.GXProperties forbiddenHiddens ;
+   private ICheckbox chkavSelected ;
+   private IDataStoreProvider pr_default ;
+   private java.util.Date[] H026Q2_A160BarFecRea ;
+   private java.math.BigDecimal[] H026Q2_A215BarTieRea ;
+   private java.math.BigDecimal[] H026Q2_A3838BarFasMtr ;
+   private boolean[] H026Q2_n3838BarFasMtr ;
+   private java.math.BigDecimal[] H026Q2_A3837BarFasKgm ;
+   private boolean[] H026Q2_n3837BarFasKgm ;
+   private String[] H026Q2_A603MaqCodBis ;
+   private String[] H026Q2_A460FasDsc ;
+   private String[] H026Q2_A457FasCod ;
+   private String[] H026Q2_A758ProCod ;
+   private short[] H026Q2_A194BarOrdLin ;
+   private String[] H026Q2_A396EmprCod ;
+   private String[] H026Q2_A130BarCodPar ;
+   private byte[] H026Q2_A132BarCodReo ;
+   private int[] H026Q2_A129BarCod ;
+   private long[] H026Q3_AGRID_nRecordCount ;
+   private short[] H026Q4_A194BarOrdLin ;
+   private String[] H026Q4_A758ProCod ;
+   private String[] H026Q4_A396EmprCod ;
+   private String[] H026Q4_A457FasCod ;
+   private String[] H026Q4_A460FasDsc ;
+   private String[] H026Q4_A603MaqCodBis ;
+   private java.math.BigDecimal[] H026Q4_A3837BarFasKgm ;
+   private boolean[] H026Q4_n3837BarFasKgm ;
+   private java.math.BigDecimal[] H026Q4_A3838BarFasMtr ;
+   private boolean[] H026Q4_n3838BarFasMtr ;
+   private java.math.BigDecimal[] H026Q4_A215BarTieRea ;
+   private java.util.Date[] H026Q4_A160BarFecRea ;
+   private String[] H026Q4_A130BarCodPar ;
+   private byte[] H026Q4_A132BarCodReo ;
+   private int[] H026Q4_A129BarCod ;
+   private com.genexus.webpanels.GXWebForm Form ;
+   private GXSimpleCollection<String> AV105EmprCodCol ;
+   private GXSimpleCollection<String> AV117BarCodParCol ;
+   private GXSimpleCollection<String> AV121ProCodCol ;
+   private GXSimpleCollection<String> AV26Col_Procod ;
+   private GXSimpleCollection<String> AV23Col_Fascod ;
+   private GXSimpleCollection<String> AV24Col_FasDsc ;
+   private GXSimpleCollection<String> AV25Col_Maqcodbis ;
+   private GXBaseCollection<app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem> AV130MantenimientoRollosPiezaSDT ;
+   private GXBaseCollection<app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem> AV103SelectedRows ;
+   private app.wwpbaseobjects.SdtDVB_SDTDropDownOptionsTitleSettingsIcons AV29DDO_TitleSettingsIcons ;
+   private app.wwpbaseobjects.SdtDVB_SDTDropDownOptionsTitleSettingsIcons GXt_SdtDVB_SDTDropDownOptionsTitleSettingsIcons5 ;
+   private app.wwpbaseobjects.SdtDVB_SDTDropDownOptionsTitleSettingsIcons GXv_SdtDVB_SDTDropDownOptionsTitleSettingsIcons6[] ;
+   private app.wwpbaseobjects.SdtWWPGridState AV34GridState ;
+   private app.wwpbaseobjects.SdtWWPGridState GXv_SdtWWPGridState35[] ;
+   private app.wwpbaseobjects.SdtWWPGridState_FilterValue AV35GridStateFilterValue ;
+   private app.wwpbaseobjects.SdtWWPTransactionContext AV90TrnContext ;
+   private app.wwpbaseobjects.SdtWWPContext AV93WWPContext ;
+   private app.wwpbaseobjects.SdtWWPContext GXv_SdtWWPContext14[] ;
+   private app.SdtMantenimientoRollosPiezaSDT_MantenimientoRollosPiezaSDTItem AV104SelectedRow ;
+}
+
+final  class mantenimientorollospieza__default extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   protected Object[] conditional_H026Q2( ModelContext context ,
+                                          int remoteHandle ,
+                                          com.genexus.IHttpContext httpContext ,
+                                          String AV137Mantenimientorollospiezads_2_tfprocod_sel ,
+                                          String AV136Mantenimientorollospiezads_1_tfprocod ,
+                                          String AV139Mantenimientorollospiezads_4_tfbarnhdr_sel ,
+                                          String AV138Mantenimientorollospiezads_3_tfbarnhdr ,
+                                          String AV141Mantenimientorollospiezads_6_tffascod_sel ,
+                                          String AV140Mantenimientorollospiezads_5_tffascod ,
+                                          String AV143Mantenimientorollospiezads_8_tffasdsc_sel ,
+                                          String AV142Mantenimientorollospiezads_7_tffasdsc ,
+                                          String AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel ,
+                                          String AV144Mantenimientorollospiezads_9_tfmaqcodbis ,
+                                          java.math.BigDecimal AV146Mantenimientorollospiezads_11_tfbarfaskgm ,
+                                          java.math.BigDecimal AV147Mantenimientorollospiezads_12_tfbarfaskgm_to ,
+                                          java.math.BigDecimal AV148Mantenimientorollospiezads_13_tfbarfasmtr ,
+                                          java.math.BigDecimal AV149Mantenimientorollospiezads_14_tfbarfasmtr_to ,
+                                          java.math.BigDecimal AV150Mantenimientorollospiezads_15_tfbartierea ,
+                                          java.math.BigDecimal AV151Mantenimientorollospiezads_16_tfbartierea_to ,
+                                          java.util.Date AV152Mantenimientorollospiezads_17_tfbarfecrea ,
+                                          String A758ProCod ,
+                                          int A129BarCod ,
+                                          byte A132BarCodReo ,
+                                          String A130BarCodPar ,
+                                          String A457FasCod ,
+                                          String A460FasDsc ,
+                                          String A603MaqCodBis ,
+                                          java.math.BigDecimal A3837BarFasKgm ,
+                                          java.math.BigDecimal A3838BarFasMtr ,
+                                          java.math.BigDecimal A215BarTieRea ,
+                                          java.util.Date A160BarFecRea ,
+                                          short AV58OrderedBy ,
+                                          boolean AV59OrderedDsc ,
+                                          String AV8emprcod ,
+                                          int AV5BarCod ,
+                                          byte AV7BarCodReo ,
+                                          String AV6BarCodPar ,
+                                          String A396EmprCod )
+   {
+      java.lang.StringBuffer sWhereString = new java.lang.StringBuffer();
+      String scmdbuf;
+      byte[] GXv_int36 = new byte[26];
+      Object[] GXv_Object37 = new Object[2];
+      String sSelectString;
+      String sFromString;
+      String sOrderString;
+      sSelectString = " T1.BarFecRea, T1.BarTieRea, T1.BarFasMtr, T1.BarFasKgm, T1.MaqCodBis, T2.FasDsc, T1.FasCod, T1.ProCod, T1.BarOrdLin, T1.EmprCod, T1.BarCodPar, T1.BarCodReo, T1.BarCod" ;
+      sFromString = " FROM (TXPBARFAS T1 INNER JOIN TXPFASPRO T2 ON T2.EmprCod = T1.EmprCod AND T2.FasCod = T1.FasCod)" ;
+      sOrderString = "" ;
+      addWhere(sWhereString, "(T1.EmprCod = ? and T1.BarCod = ? and T1.BarCodReo = ? and T1.BarCodPar = ?)");
+      if ( (GXutil.strcmp("", AV137Mantenimientorollospiezads_2_tfprocod_sel)==0) && ( ! (GXutil.strcmp("", AV136Mantenimientorollospiezads_1_tfprocod)==0) ) )
+      {
+         addWhere(sWhereString, "(UPPER(T1.ProCod) like '%' || UPPER(?))");
+      }
+      else
+      {
+         GXv_int36[4] = (byte)(1) ;
+      }
+      if ( ! (GXutil.strcmp("", AV137Mantenimientorollospiezads_2_tfprocod_sel)==0) )
+      {
+         addWhere(sWhereString, "(T1.ProCod = ?)");
+      }
+      else
+      {
+         GXv_int36[5] = (byte)(1) ;
+      }
+      if ( (GXutil.strcmp("", AV139Mantenimientorollospiezads_4_tfbarnhdr_sel)==0) && ( ! (GXutil.strcmp("", AV138Mantenimientorollospiezads_3_tfbarnhdr)==0) ) )
+      {
+         addWhere(sWhereString, "(UPPER(RTRIM(LTRIM(SUBSTR(TO_CHAR(T1.BarCod,'99999990'), 2))) || '-' || RTRIM(LTRIM(SUBSTR(TO_CHAR(T1.BarCodReo,'90'), 2))) || T1.BarCodPar) like '%' || UPPER(?))");
+      }
+      else
+      {
+         GXv_int36[6] = (byte)(1) ;
+      }
+      if ( ! (GXutil.strcmp("", AV139Mantenimientorollospiezads_4_tfbarnhdr_sel)==0) )
+      {
+         addWhere(sWhereString, "(RTRIM(LTRIM(SUBSTR(TO_CHAR(T1.BarCod,'99999990'), 2))) || '-' || RTRIM(LTRIM(SUBSTR(TO_CHAR(T1.BarCodReo,'90'), 2))) || T1.BarCodPar = ?)");
+      }
+      else
+      {
+         GXv_int36[7] = (byte)(1) ;
+      }
+      if ( (GXutil.strcmp("", AV141Mantenimientorollospiezads_6_tffascod_sel)==0) && ( ! (GXutil.strcmp("", AV140Mantenimientorollospiezads_5_tffascod)==0) ) )
+      {
+         addWhere(sWhereString, "(UPPER(T1.FasCod) like '%' || UPPER(?))");
+      }
+      else
+      {
+         GXv_int36[8] = (byte)(1) ;
+      }
+      if ( ! (GXutil.strcmp("", AV141Mantenimientorollospiezads_6_tffascod_sel)==0) )
+      {
+         addWhere(sWhereString, "(T1.FasCod = ?)");
+      }
+      else
+      {
+         GXv_int36[9] = (byte)(1) ;
+      }
+      if ( (GXutil.strcmp("", AV143Mantenimientorollospiezads_8_tffasdsc_sel)==0) && ( ! (GXutil.strcmp("", AV142Mantenimientorollospiezads_7_tffasdsc)==0) ) )
+      {
+         addWhere(sWhereString, "(UPPER(T2.FasDsc) like '%' || UPPER(?))");
+      }
+      else
+      {
+         GXv_int36[10] = (byte)(1) ;
+      }
+      if ( ! (GXutil.strcmp("", AV143Mantenimientorollospiezads_8_tffasdsc_sel)==0) )
+      {
+         addWhere(sWhereString, "(T2.FasDsc = ?)");
+      }
+      else
+      {
+         GXv_int36[11] = (byte)(1) ;
+      }
+      if ( (GXutil.strcmp("", AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel)==0) && ( ! (GXutil.strcmp("", AV144Mantenimientorollospiezads_9_tfmaqcodbis)==0) ) )
+      {
+         addWhere(sWhereString, "(UPPER(T1.MaqCodBis) like '%' || UPPER(?))");
+      }
+      else
+      {
+         GXv_int36[12] = (byte)(1) ;
+      }
+      if ( ! (GXutil.strcmp("", AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel)==0) )
+      {
+         addWhere(sWhereString, "(T1.MaqCodBis = ?)");
+      }
+      else
+      {
+         GXv_int36[13] = (byte)(1) ;
+      }
+      if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV146Mantenimientorollospiezads_11_tfbarfaskgm)==0) )
+      {
+         addWhere(sWhereString, "(T1.BarFasKgm >= ?)");
+      }
+      else
+      {
+         GXv_int36[14] = (byte)(1) ;
+      }
+      if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV147Mantenimientorollospiezads_12_tfbarfaskgm_to)==0) )
+      {
+         addWhere(sWhereString, "(T1.BarFasKgm <= ?)");
+      }
+      else
+      {
+         GXv_int36[15] = (byte)(1) ;
+      }
+      if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV148Mantenimientorollospiezads_13_tfbarfasmtr)==0) )
+      {
+         addWhere(sWhereString, "(T1.BarFasMtr >= ?)");
+      }
+      else
+      {
+         GXv_int36[16] = (byte)(1) ;
+      }
+      if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV149Mantenimientorollospiezads_14_tfbarfasmtr_to)==0) )
+      {
+         addWhere(sWhereString, "(T1.BarFasMtr <= ?)");
+      }
+      else
+      {
+         GXv_int36[17] = (byte)(1) ;
+      }
+      if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV150Mantenimientorollospiezads_15_tfbartierea)==0) )
+      {
+         addWhere(sWhereString, "(T1.BarTieRea >= ?)");
+      }
+      else
+      {
+         GXv_int36[18] = (byte)(1) ;
+      }
+      if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV151Mantenimientorollospiezads_16_tfbartierea_to)==0) )
+      {
+         addWhere(sWhereString, "(T1.BarTieRea <= ?)");
+      }
+      else
+      {
+         GXv_int36[19] = (byte)(1) ;
+      }
+      if ( ! GXutil.dateCompare(GXutil.resetTime(GXutil.nullDate()), GXutil.resetTime(AV152Mantenimientorollospiezads_17_tfbarfecrea)) )
+      {
+         addWhere(sWhereString, "(T1.BarFecRea >= ?)");
+      }
+      else
+      {
+         GXv_int36[20] = (byte)(1) ;
+      }
+      if ( AV58OrderedBy == 1 )
+      {
+         sOrderString += " ORDER BY T1.EmprCod, T1.BarCod, T1.BarCodReo, T1.BarCodPar, T1.ProCod, T1.BarOrdLin" ;
+      }
+      else if ( ( AV58OrderedBy == 2 ) && ! AV59OrderedDsc )
+      {
+         sOrderString += " ORDER BY T1.ProCod" ;
+      }
+      else if ( ( AV58OrderedBy == 2 ) && ( AV59OrderedDsc ) )
+      {
+         sOrderString += " ORDER BY T1.ProCod DESC" ;
+      }
+      else if ( ( AV58OrderedBy == 3 ) && ! AV59OrderedDsc )
+      {
+         sOrderString += " ORDER BY T1.FasCod" ;
+      }
+      else if ( ( AV58OrderedBy == 3 ) && ( AV59OrderedDsc ) )
+      {
+         sOrderString += " ORDER BY T1.FasCod DESC" ;
+      }
+      else if ( ( AV58OrderedBy == 4 ) && ! AV59OrderedDsc )
+      {
+         sOrderString += " ORDER BY T2.FasDsc" ;
+      }
+      else if ( ( AV58OrderedBy == 4 ) && ( AV59OrderedDsc ) )
+      {
+         sOrderString += " ORDER BY T2.FasDsc DESC" ;
+      }
+      else if ( ( AV58OrderedBy == 5 ) && ! AV59OrderedDsc )
+      {
+         sOrderString += " ORDER BY T1.MaqCodBis" ;
+      }
+      else if ( ( AV58OrderedBy == 5 ) && ( AV59OrderedDsc ) )
+      {
+         sOrderString += " ORDER BY T1.MaqCodBis DESC" ;
+      }
+      else if ( ( AV58OrderedBy == 6 ) && ! AV59OrderedDsc )
+      {
+         sOrderString += " ORDER BY T1.BarFasKgm" ;
+      }
+      else if ( ( AV58OrderedBy == 6 ) && ( AV59OrderedDsc ) )
+      {
+         sOrderString += " ORDER BY T1.BarFasKgm DESC" ;
+      }
+      else if ( ( AV58OrderedBy == 7 ) && ! AV59OrderedDsc )
+      {
+         sOrderString += " ORDER BY T1.BarFasMtr" ;
+      }
+      else if ( ( AV58OrderedBy == 7 ) && ( AV59OrderedDsc ) )
+      {
+         sOrderString += " ORDER BY T1.BarFasMtr DESC" ;
+      }
+      else if ( ( AV58OrderedBy == 8 ) && ! AV59OrderedDsc )
+      {
+         sOrderString += " ORDER BY T1.BarTieRea" ;
+      }
+      else if ( ( AV58OrderedBy == 8 ) && ( AV59OrderedDsc ) )
+      {
+         sOrderString += " ORDER BY T1.BarTieRea DESC" ;
+      }
+      else if ( ( AV58OrderedBy == 9 ) && ! AV59OrderedDsc )
+      {
+         sOrderString += " ORDER BY T1.BarFecRea" ;
+      }
+      else if ( ( AV58OrderedBy == 9 ) && ( AV59OrderedDsc ) )
+      {
+         sOrderString += " ORDER BY T1.BarFecRea DESC" ;
+      }
+      else if ( true )
+      {
+         sOrderString += " ORDER BY T1.EmprCod, T1.BarCod, T1.BarCodReo, T1.BarCodPar, T1.ProCod, T1.BarOrdLin" ;
+      }
+      scmdbuf = "SELECT * FROM ( SELECT GX_CTE.*, ROWNUM GX_ROW_NUMBER FROM (SELECT " + sSelectString + sFromString + sWhereString + sOrderString + "" + ") GX_CTE) WHERE GX_ROW_NUMBER" + " BETWEEN " + "?" + " AND " + "?" + " OR " + "?" + " < " + "?" + " AND GX_ROW_NUMBER >= " + "?" ;
+      GXv_Object37[0] = scmdbuf ;
+      GXv_Object37[1] = GXv_int36 ;
+      return GXv_Object37 ;
+   }
+
+   protected Object[] conditional_H026Q3( ModelContext context ,
+                                          int remoteHandle ,
+                                          com.genexus.IHttpContext httpContext ,
+                                          String AV137Mantenimientorollospiezads_2_tfprocod_sel ,
+                                          String AV136Mantenimientorollospiezads_1_tfprocod ,
+                                          String AV139Mantenimientorollospiezads_4_tfbarnhdr_sel ,
+                                          String AV138Mantenimientorollospiezads_3_tfbarnhdr ,
+                                          String AV141Mantenimientorollospiezads_6_tffascod_sel ,
+                                          String AV140Mantenimientorollospiezads_5_tffascod ,
+                                          String AV143Mantenimientorollospiezads_8_tffasdsc_sel ,
+                                          String AV142Mantenimientorollospiezads_7_tffasdsc ,
+                                          String AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel ,
+                                          String AV144Mantenimientorollospiezads_9_tfmaqcodbis ,
+                                          java.math.BigDecimal AV146Mantenimientorollospiezads_11_tfbarfaskgm ,
+                                          java.math.BigDecimal AV147Mantenimientorollospiezads_12_tfbarfaskgm_to ,
+                                          java.math.BigDecimal AV148Mantenimientorollospiezads_13_tfbarfasmtr ,
+                                          java.math.BigDecimal AV149Mantenimientorollospiezads_14_tfbarfasmtr_to ,
+                                          java.math.BigDecimal AV150Mantenimientorollospiezads_15_tfbartierea ,
+                                          java.math.BigDecimal AV151Mantenimientorollospiezads_16_tfbartierea_to ,
+                                          java.util.Date AV152Mantenimientorollospiezads_17_tfbarfecrea ,
+                                          String A758ProCod ,
+                                          int A129BarCod ,
+                                          byte A132BarCodReo ,
+                                          String A130BarCodPar ,
+                                          String A457FasCod ,
+                                          String A460FasDsc ,
+                                          String A603MaqCodBis ,
+                                          java.math.BigDecimal A3837BarFasKgm ,
+                                          java.math.BigDecimal A3838BarFasMtr ,
+                                          java.math.BigDecimal A215BarTieRea ,
+                                          java.util.Date A160BarFecRea ,
+                                          short AV58OrderedBy ,
+                                          boolean AV59OrderedDsc ,
+                                          String AV8emprcod ,
+                                          int AV5BarCod ,
+                                          byte AV7BarCodReo ,
+                                          String AV6BarCodPar ,
+                                          String A396EmprCod )
+   {
+      java.lang.StringBuffer sWhereString = new java.lang.StringBuffer();
+      String scmdbuf;
+      byte[] GXv_int38 = new byte[21];
+      Object[] GXv_Object39 = new Object[2];
+      scmdbuf = "SELECT COUNT(*) FROM (TXPBARFAS T1 INNER JOIN TXPFASPRO T2 ON T2.EmprCod = T1.EmprCod AND T2.FasCod = T1.FasCod)" ;
+      addWhere(sWhereString, "(T1.EmprCod = ? and T1.BarCod = ? and T1.BarCodReo = ? and T1.BarCodPar = ?)");
+      if ( (GXutil.strcmp("", AV137Mantenimientorollospiezads_2_tfprocod_sel)==0) && ( ! (GXutil.strcmp("", AV136Mantenimientorollospiezads_1_tfprocod)==0) ) )
+      {
+         addWhere(sWhereString, "(UPPER(T1.ProCod) like '%' || UPPER(?))");
+      }
+      else
+      {
+         GXv_int38[4] = (byte)(1) ;
+      }
+      if ( ! (GXutil.strcmp("", AV137Mantenimientorollospiezads_2_tfprocod_sel)==0) )
+      {
+         addWhere(sWhereString, "(T1.ProCod = ?)");
+      }
+      else
+      {
+         GXv_int38[5] = (byte)(1) ;
+      }
+      if ( (GXutil.strcmp("", AV139Mantenimientorollospiezads_4_tfbarnhdr_sel)==0) && ( ! (GXutil.strcmp("", AV138Mantenimientorollospiezads_3_tfbarnhdr)==0) ) )
+      {
+         addWhere(sWhereString, "(UPPER(RTRIM(LTRIM(SUBSTR(TO_CHAR(T1.BarCod,'99999990'), 2))) || '-' || RTRIM(LTRIM(SUBSTR(TO_CHAR(T1.BarCodReo,'90'), 2))) || T1.BarCodPar) like '%' || UPPER(?))");
+      }
+      else
+      {
+         GXv_int38[6] = (byte)(1) ;
+      }
+      if ( ! (GXutil.strcmp("", AV139Mantenimientorollospiezads_4_tfbarnhdr_sel)==0) )
+      {
+         addWhere(sWhereString, "(RTRIM(LTRIM(SUBSTR(TO_CHAR(T1.BarCod,'99999990'), 2))) || '-' || RTRIM(LTRIM(SUBSTR(TO_CHAR(T1.BarCodReo,'90'), 2))) || T1.BarCodPar = ?)");
+      }
+      else
+      {
+         GXv_int38[7] = (byte)(1) ;
+      }
+      if ( (GXutil.strcmp("", AV141Mantenimientorollospiezads_6_tffascod_sel)==0) && ( ! (GXutil.strcmp("", AV140Mantenimientorollospiezads_5_tffascod)==0) ) )
+      {
+         addWhere(sWhereString, "(UPPER(T1.FasCod) like '%' || UPPER(?))");
+      }
+      else
+      {
+         GXv_int38[8] = (byte)(1) ;
+      }
+      if ( ! (GXutil.strcmp("", AV141Mantenimientorollospiezads_6_tffascod_sel)==0) )
+      {
+         addWhere(sWhereString, "(T1.FasCod = ?)");
+      }
+      else
+      {
+         GXv_int38[9] = (byte)(1) ;
+      }
+      if ( (GXutil.strcmp("", AV143Mantenimientorollospiezads_8_tffasdsc_sel)==0) && ( ! (GXutil.strcmp("", AV142Mantenimientorollospiezads_7_tffasdsc)==0) ) )
+      {
+         addWhere(sWhereString, "(UPPER(T2.FasDsc) like '%' || UPPER(?))");
+      }
+      else
+      {
+         GXv_int38[10] = (byte)(1) ;
+      }
+      if ( ! (GXutil.strcmp("", AV143Mantenimientorollospiezads_8_tffasdsc_sel)==0) )
+      {
+         addWhere(sWhereString, "(T2.FasDsc = ?)");
+      }
+      else
+      {
+         GXv_int38[11] = (byte)(1) ;
+      }
+      if ( (GXutil.strcmp("", AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel)==0) && ( ! (GXutil.strcmp("", AV144Mantenimientorollospiezads_9_tfmaqcodbis)==0) ) )
+      {
+         addWhere(sWhereString, "(UPPER(T1.MaqCodBis) like '%' || UPPER(?))");
+      }
+      else
+      {
+         GXv_int38[12] = (byte)(1) ;
+      }
+      if ( ! (GXutil.strcmp("", AV145Mantenimientorollospiezads_10_tfmaqcodbis_sel)==0) )
+      {
+         addWhere(sWhereString, "(T1.MaqCodBis = ?)");
+      }
+      else
+      {
+         GXv_int38[13] = (byte)(1) ;
+      }
+      if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV146Mantenimientorollospiezads_11_tfbarfaskgm)==0) )
+      {
+         addWhere(sWhereString, "(T1.BarFasKgm >= ?)");
+      }
+      else
+      {
+         GXv_int38[14] = (byte)(1) ;
+      }
+      if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV147Mantenimientorollospiezads_12_tfbarfaskgm_to)==0) )
+      {
+         addWhere(sWhereString, "(T1.BarFasKgm <= ?)");
+      }
+      else
+      {
+         GXv_int38[15] = (byte)(1) ;
+      }
+      if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV148Mantenimientorollospiezads_13_tfbarfasmtr)==0) )
+      {
+         addWhere(sWhereString, "(T1.BarFasMtr >= ?)");
+      }
+      else
+      {
+         GXv_int38[16] = (byte)(1) ;
+      }
+      if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV149Mantenimientorollospiezads_14_tfbarfasmtr_to)==0) )
+      {
+         addWhere(sWhereString, "(T1.BarFasMtr <= ?)");
+      }
+      else
+      {
+         GXv_int38[17] = (byte)(1) ;
+      }
+      if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV150Mantenimientorollospiezads_15_tfbartierea)==0) )
+      {
+         addWhere(sWhereString, "(T1.BarTieRea >= ?)");
+      }
+      else
+      {
+         GXv_int38[18] = (byte)(1) ;
+      }
+      if ( ! (DecimalUtil.compareTo(DecimalUtil.ZERO, AV151Mantenimientorollospiezads_16_tfbartierea_to)==0) )
+      {
+         addWhere(sWhereString, "(T1.BarTieRea <= ?)");
+      }
+      else
+      {
+         GXv_int38[19] = (byte)(1) ;
+      }
+      if ( ! GXutil.dateCompare(GXutil.resetTime(GXutil.nullDate()), GXutil.resetTime(AV152Mantenimientorollospiezads_17_tfbarfecrea)) )
+      {
+         addWhere(sWhereString, "(T1.BarFecRea >= ?)");
+      }
+      else
+      {
+         GXv_int38[20] = (byte)(1) ;
+      }
+      scmdbuf += sWhereString ;
+      if ( AV58OrderedBy == 1 )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 2 ) && ! AV59OrderedDsc )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 2 ) && ( AV59OrderedDsc ) )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 3 ) && ! AV59OrderedDsc )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 3 ) && ( AV59OrderedDsc ) )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 4 ) && ! AV59OrderedDsc )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 4 ) && ( AV59OrderedDsc ) )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 5 ) && ! AV59OrderedDsc )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 5 ) && ( AV59OrderedDsc ) )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 6 ) && ! AV59OrderedDsc )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 6 ) && ( AV59OrderedDsc ) )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 7 ) && ! AV59OrderedDsc )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 7 ) && ( AV59OrderedDsc ) )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 8 ) && ! AV59OrderedDsc )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 8 ) && ( AV59OrderedDsc ) )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 9 ) && ! AV59OrderedDsc )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( ( AV58OrderedBy == 9 ) && ( AV59OrderedDsc ) )
+      {
+         scmdbuf += "" ;
+      }
+      else if ( true )
+      {
+         scmdbuf += "" ;
+      }
+      GXv_Object39[0] = scmdbuf ;
+      GXv_Object39[1] = GXv_int38 ;
+      return GXv_Object39 ;
+   }
+
+   public Object [] getDynamicStatement( int cursor ,
+                                         ModelContext context ,
+                                         int remoteHandle ,
+                                         com.genexus.IHttpContext httpContext ,
+                                         Object [] dynConstraints )
+   {
+      switch ( cursor )
+      {
+            case 0 :
+                  return conditional_H026Q2(context, remoteHandle, httpContext, (String)dynConstraints[0] , (String)dynConstraints[1] , (String)dynConstraints[2] , (String)dynConstraints[3] , (String)dynConstraints[4] , (String)dynConstraints[5] , (String)dynConstraints[6] , (String)dynConstraints[7] , (String)dynConstraints[8] , (String)dynConstraints[9] , (java.math.BigDecimal)dynConstraints[10] , (java.math.BigDecimal)dynConstraints[11] , (java.math.BigDecimal)dynConstraints[12] , (java.math.BigDecimal)dynConstraints[13] , (java.math.BigDecimal)dynConstraints[14] , (java.math.BigDecimal)dynConstraints[15] , (java.util.Date)dynConstraints[16] , (String)dynConstraints[17] , ((Number) dynConstraints[18]).intValue() , ((Number) dynConstraints[19]).byteValue() , (String)dynConstraints[20] , (String)dynConstraints[21] , (String)dynConstraints[22] , (String)dynConstraints[23] , (java.math.BigDecimal)dynConstraints[24] , (java.math.BigDecimal)dynConstraints[25] , (java.math.BigDecimal)dynConstraints[26] , (java.util.Date)dynConstraints[27] , ((Number) dynConstraints[28]).shortValue() , ((Boolean) dynConstraints[29]).booleanValue() , (String)dynConstraints[30] , ((Number) dynConstraints[31]).intValue() , ((Number) dynConstraints[32]).byteValue() , (String)dynConstraints[33] , (String)dynConstraints[34] );
+            case 1 :
+                  return conditional_H026Q3(context, remoteHandle, httpContext, (String)dynConstraints[0] , (String)dynConstraints[1] , (String)dynConstraints[2] , (String)dynConstraints[3] , (String)dynConstraints[4] , (String)dynConstraints[5] , (String)dynConstraints[6] , (String)dynConstraints[7] , (String)dynConstraints[8] , (String)dynConstraints[9] , (java.math.BigDecimal)dynConstraints[10] , (java.math.BigDecimal)dynConstraints[11] , (java.math.BigDecimal)dynConstraints[12] , (java.math.BigDecimal)dynConstraints[13] , (java.math.BigDecimal)dynConstraints[14] , (java.math.BigDecimal)dynConstraints[15] , (java.util.Date)dynConstraints[16] , (String)dynConstraints[17] , ((Number) dynConstraints[18]).intValue() , ((Number) dynConstraints[19]).byteValue() , (String)dynConstraints[20] , (String)dynConstraints[21] , (String)dynConstraints[22] , (String)dynConstraints[23] , (java.math.BigDecimal)dynConstraints[24] , (java.math.BigDecimal)dynConstraints[25] , (java.math.BigDecimal)dynConstraints[26] , (java.util.Date)dynConstraints[27] , ((Number) dynConstraints[28]).shortValue() , ((Boolean) dynConstraints[29]).booleanValue() , (String)dynConstraints[30] , ((Number) dynConstraints[31]).intValue() , ((Number) dynConstraints[32]).byteValue() , (String)dynConstraints[33] , (String)dynConstraints[34] );
+      }
+      return super.getDynamicStatement(cursor, context, remoteHandle, httpContext, dynConstraints);
+   }
+
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+          new ForEachCursor("H026Q2", "scmdbuf",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,11, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("H026Q3", "scmdbuf",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("H026Q4", "SELECT T1.BarOrdLin, T1.ProCod, T1.EmprCod, T1.FasCod, T2.FasDsc, T1.MaqCodBis, T1.BarFasKgm, T1.BarFasMtr, T1.BarTieRea, T1.BarFecRea, T1.BarCodPar, T1.BarCodReo, T1.BarCod FROM (TXPBARFAS T1 INNER JOIN TXPFASPRO T2 ON T2.EmprCod = T1.EmprCod AND T2.FasCod = T1.FasCod) WHERE T1.EmprCod = ? and T1.BarCod = ? and T1.BarCodReo = ? and T1.BarCodPar = ? and T1.ProCod = ? and T1.BarOrdLin = ? ORDER BY T1.EmprCod, T1.BarCod, T1.BarCodReo, T1.BarCodPar, T1.ProCod, T1.BarOrdLin ",false, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,true )
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               ((java.util.Date[]) buf[0])[0] = rslt.getGXDate(1);
+               ((java.math.BigDecimal[]) buf[1])[0] = rslt.getBigDecimal(2,2);
+               ((java.math.BigDecimal[]) buf[2])[0] = rslt.getBigDecimal(3,2);
+               ((boolean[]) buf[3])[0] = rslt.wasNull();
+               ((java.math.BigDecimal[]) buf[4])[0] = rslt.getBigDecimal(4,2);
+               ((boolean[]) buf[5])[0] = rslt.wasNull();
+               ((String[]) buf[6])[0] = rslt.getString(5, 6);
+               ((String[]) buf[7])[0] = rslt.getString(6, 28);
+               ((String[]) buf[8])[0] = rslt.getString(7, 8);
+               ((String[]) buf[9])[0] = rslt.getString(8, 8);
+               ((short[]) buf[10])[0] = rslt.getShort(9);
+               ((String[]) buf[11])[0] = rslt.getString(10, 3);
+               ((String[]) buf[12])[0] = rslt.getString(11, 1);
+               ((byte[]) buf[13])[0] = rslt.getByte(12);
+               ((int[]) buf[14])[0] = rslt.getInt(13);
+               return;
+            case 1 :
+               ((long[]) buf[0])[0] = rslt.getLong(1);
+               return;
+            case 2 :
+               ((short[]) buf[0])[0] = rslt.getShort(1);
+               ((String[]) buf[1])[0] = rslt.getString(2, 8);
+               ((String[]) buf[2])[0] = rslt.getString(3, 3);
+               ((String[]) buf[3])[0] = rslt.getString(4, 8);
+               ((String[]) buf[4])[0] = rslt.getString(5, 28);
+               ((String[]) buf[5])[0] = rslt.getString(6, 6);
+               ((java.math.BigDecimal[]) buf[6])[0] = rslt.getBigDecimal(7,2);
+               ((boolean[]) buf[7])[0] = rslt.wasNull();
+               ((java.math.BigDecimal[]) buf[8])[0] = rslt.getBigDecimal(8,2);
+               ((boolean[]) buf[9])[0] = rslt.wasNull();
+               ((java.math.BigDecimal[]) buf[10])[0] = rslt.getBigDecimal(9,2);
+               ((java.util.Date[]) buf[11])[0] = rslt.getGXDate(10);
+               ((String[]) buf[12])[0] = rslt.getString(11, 1);
+               ((byte[]) buf[13])[0] = rslt.getByte(12);
+               ((int[]) buf[14])[0] = rslt.getInt(13);
+               return;
+      }
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      short sIdx;
+      switch ( cursor )
+      {
+            case 0 :
+               sIdx = (short)(0) ;
+               if ( ((Number) parms[0]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[26], 3);
+               }
+               if ( ((Number) parms[1]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setInt(sIdx, ((Number) parms[27]).intValue());
+               }
+               if ( ((Number) parms[2]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setByte(sIdx, ((Number) parms[28]).byteValue());
+               }
+               if ( ((Number) parms[3]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[29], 1);
+               }
+               if ( ((Number) parms[4]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[30], 8);
+               }
+               if ( ((Number) parms[5]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[31], 8);
+               }
+               if ( ((Number) parms[6]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[32], 11);
+               }
+               if ( ((Number) parms[7]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[33], 11);
+               }
+               if ( ((Number) parms[8]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[34], 8);
+               }
+               if ( ((Number) parms[9]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[35], 8);
+               }
+               if ( ((Number) parms[10]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[36], 28);
+               }
+               if ( ((Number) parms[11]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[37], 28);
+               }
+               if ( ((Number) parms[12]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[38], 6);
+               }
+               if ( ((Number) parms[13]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[39], 6);
+               }
+               if ( ((Number) parms[14]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setBigDecimal(sIdx, (java.math.BigDecimal)parms[40], 2);
+               }
+               if ( ((Number) parms[15]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setBigDecimal(sIdx, (java.math.BigDecimal)parms[41], 2);
+               }
+               if ( ((Number) parms[16]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setBigDecimal(sIdx, (java.math.BigDecimal)parms[42], 2);
+               }
+               if ( ((Number) parms[17]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setBigDecimal(sIdx, (java.math.BigDecimal)parms[43], 2);
+               }
+               if ( ((Number) parms[18]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setBigDecimal(sIdx, (java.math.BigDecimal)parms[44], 2);
+               }
+               if ( ((Number) parms[19]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setBigDecimal(sIdx, (java.math.BigDecimal)parms[45], 2);
+               }
+               if ( ((Number) parms[20]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setDate(sIdx, (java.util.Date)parms[46]);
+               }
+               if ( ((Number) parms[21]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setInt(sIdx, ((Number) parms[47]).intValue());
+               }
+               if ( ((Number) parms[22]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setInt(sIdx, ((Number) parms[48]).intValue());
+               }
+               if ( ((Number) parms[23]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setInt(sIdx, ((Number) parms[49]).intValue());
+               }
+               if ( ((Number) parms[24]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setInt(sIdx, ((Number) parms[50]).intValue());
+               }
+               if ( ((Number) parms[25]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setInt(sIdx, ((Number) parms[51]).intValue());
+               }
+               return;
+            case 1 :
+               sIdx = (short)(0) ;
+               if ( ((Number) parms[0]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[21], 3);
+               }
+               if ( ((Number) parms[1]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setInt(sIdx, ((Number) parms[22]).intValue());
+               }
+               if ( ((Number) parms[2]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setByte(sIdx, ((Number) parms[23]).byteValue());
+               }
+               if ( ((Number) parms[3]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[24], 1);
+               }
+               if ( ((Number) parms[4]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[25], 8);
+               }
+               if ( ((Number) parms[5]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[26], 8);
+               }
+               if ( ((Number) parms[6]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[27], 11);
+               }
+               if ( ((Number) parms[7]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[28], 11);
+               }
+               if ( ((Number) parms[8]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[29], 8);
+               }
+               if ( ((Number) parms[9]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[30], 8);
+               }
+               if ( ((Number) parms[10]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[31], 28);
+               }
+               if ( ((Number) parms[11]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[32], 28);
+               }
+               if ( ((Number) parms[12]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[33], 6);
+               }
+               if ( ((Number) parms[13]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setString(sIdx, (String)parms[34], 6);
+               }
+               if ( ((Number) parms[14]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setBigDecimal(sIdx, (java.math.BigDecimal)parms[35], 2);
+               }
+               if ( ((Number) parms[15]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setBigDecimal(sIdx, (java.math.BigDecimal)parms[36], 2);
+               }
+               if ( ((Number) parms[16]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setBigDecimal(sIdx, (java.math.BigDecimal)parms[37], 2);
+               }
+               if ( ((Number) parms[17]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setBigDecimal(sIdx, (java.math.BigDecimal)parms[38], 2);
+               }
+               if ( ((Number) parms[18]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setBigDecimal(sIdx, (java.math.BigDecimal)parms[39], 2);
+               }
+               if ( ((Number) parms[19]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setBigDecimal(sIdx, (java.math.BigDecimal)parms[40], 2);
+               }
+               if ( ((Number) parms[20]).byteValue() == 0 )
+               {
+                  sIdx = (short)(sIdx+1) ;
+                  stmt.setDate(sIdx, (java.util.Date)parms[41]);
+               }
+               return;
+            case 2 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setByte(3, ((Number) parms[2]).byteValue());
+               stmt.setString(4, (String)parms[3], 1);
+               stmt.setString(5, (String)parms[4], 8);
+               stmt.setShort(6, ((Number) parms[5]).shortValue());
+               return;
+      }
+   }
+
+}
+

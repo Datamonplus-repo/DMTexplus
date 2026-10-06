@@ -1,0 +1,282 @@
+package app.gestionlaboratorio ;
+import app.*;
+import java.sql.*;
+import com.genexus.db.*;
+import com.genexus.*;
+import com.genexus.search.*;
+
+public final  class pcoscort extends GXProcedure
+{
+   public pcoscort( int remoteHandle )
+   {
+      super( remoteHandle , new ModelContext( pcoscort.class ), "" );
+   }
+
+   public pcoscort( int remoteHandle ,
+                    ModelContext context )
+   {
+      super( remoteHandle , context, "" );
+   }
+
+   @SuppressWarnings("unchecked")
+   public java.math.BigDecimal executeUdp( String[] aP0 ,
+                                           String[] aP1 ,
+                                           int[] aP2 )
+   {
+      pcoscort.this.aP3 = new java.math.BigDecimal[] {DecimalUtil.ZERO};
+      execute_int(aP0, aP1, aP2, aP3);
+      return aP3[0];
+   }
+
+   public void execute( String[] aP0 ,
+                        String[] aP1 ,
+                        int[] aP2 ,
+                        java.math.BigDecimal[] aP3 )
+   {
+      execute_int(aP0, aP1, aP2, aP3);
+   }
+
+   private void execute_int( String[] aP0 ,
+                             String[] aP1 ,
+                             int[] aP2 ,
+                             java.math.BigDecimal[] aP3 )
+   {
+      pcoscort.this.A396EmprCod = aP0[0];
+      this.aP0 = aP0;
+      pcoscort.this.A910Workstat = aP1[0];
+      this.aP1 = aP1;
+      pcoscort.this.AV14Lb_numero = aP2[0];
+      this.aP2 = aP2;
+      pcoscort.this.AV8Coste_Cor = aP3[0];
+      this.aP3 = aP3;
+      initialize();
+      /* GeneXus formulas */
+      /* Output device settings */
+      privateExecute();
+   }
+
+   private void privateExecute( )
+   {
+      GXt_char1 = AV10Station ;
+      GXv_char2[0] = GXt_char1 ;
+      new app.obtenerwrkst(remoteHandle, context).execute( GXv_char2) ;
+      pcoscort.this.GXt_char1 = GXv_char2[0] ;
+      AV10Station = GXt_char1 ;
+      GXv_char2[0] = A396EmprCod ;
+      GXv_char3[0] = AV11EmprNom ;
+      GXv_char4[0] = AV12UsurCod ;
+      new app.pbusemp(remoteHandle, context).execute( AV10Station, GXv_char2, GXv_char3, GXv_char4) ;
+      pcoscort.this.A396EmprCod = GXv_char2[0] ;
+      pcoscort.this.AV11EmprNom = GXv_char3[0] ;
+      pcoscort.this.AV12UsurCod = GXv_char4[0] ;
+      GXt_int5 = AV15vertraza ;
+      GXv_int6[0] = GXt_int5 ;
+      new app.pexicon(remoteHandle, context).execute( A396EmprCod, httpContext.getMessage( "TRZ000", ""), GXv_int6) ;
+      pcoscort.this.GXt_int5 = GXv_int6[0] ;
+      AV15vertraza = GXt_int5 ;
+      AV8Coste_Cor = DecimalUtil.doubleToDec(0) ;
+      AV9Lb_costec = DecimalUtil.doubleToDec(0) ;
+      /* Using cursor P04OT2 */
+      pr_default.execute(0, new Object[] {A396EmprCod, A910Workstat});
+      while ( (pr_default.getStatus(0) != 101) )
+      {
+         A891EscMCos = P04OT2_A891EscMCos[0] ;
+         A719PrdNum = P04OT2_A719PrdNum[0] ;
+         A764ProForCod = P04OT2_A764ProForCod[0] ;
+         A718PrdNom = P04OT2_A718PrdNom[0] ;
+         A4712EscMFacCon = P04OT2_A4712EscMFacCon[0] ;
+         A890EscMCan = P04OT2_A890EscMCan[0] ;
+         A889EscMPrdPre = P04OT2_A889EscMPrdPre[0] ;
+         A7584EscVolm = P04OT2_A7584EscVolm[0] ;
+         A887EscMLin = P04OT2_A887EscMLin[0] ;
+         A718PrdNom = P04OT2_A718PrdNom[0] ;
+         AV8Coste_Cor = AV8Coste_Cor.add(A891EscMCos) ;
+         if ( ( GXutil.strcmp(GXutil.substring( A719PrdNum, 1, 1), "1") >= 0 ) && ( GXutil.strcmp(GXutil.substring( A719PrdNum, 1, 1), "7") <= 0 ) )
+         {
+            AV9Lb_costec = AV9Lb_costec.add(A891EscMCos) ;
+         }
+         if ( AV15vertraza == 1 )
+         {
+            AV13Inc_obs = httpContext.getMessage( "Coste Ensayo.", "") + GXutil.newLine( ) ;
+            AV13Inc_obs += httpContext.getMessage( "Station = ", "") + GXutil.trim( A910Workstat) + GXutil.newLine( ) ;
+            AV13Inc_obs += httpContext.getMessage( "Linea   = ", "") + GXutil.str( A887EscMLin, 8, 0) + GXutil.newLine( ) ;
+            AV13Inc_obs += httpContext.getMessage( "Proceso = ", "") + GXutil.trim( A764ProForCod) + GXutil.newLine( ) ;
+            AV13Inc_obs += httpContext.getMessage( "Producto= ", "") + GXutil.trim( A719PrdNum) + " " + GXutil.trim( A718PrdNom) + GXutil.newLine( ) ;
+            AV13Inc_obs += httpContext.getMessage( "Factor  = ", "") + GXutil.str( A4712EscMFacCon, 12, 5) + GXutil.newLine( ) ;
+            AV13Inc_obs += httpContext.getMessage( "Cantidad= ", "") + GXutil.str( A890EscMCan, 11, 4) + GXutil.newLine( ) ;
+            AV13Inc_obs += httpContext.getMessage( "Precio  = ", "") + GXutil.str( A889EscMPrdPre, 14, 5) + GXutil.newLine( ) ;
+            AV13Inc_obs += httpContext.getMessage( "Coste   = ", "") + GXutil.str( A891EscMCos, 15, 5) + GXutil.newLine( ) ;
+            AV13Inc_obs += httpContext.getMessage( "Volumen = ", "") + GXutil.str( A7584EscVolm, 5, 0) ;
+            new app.pctrinc(remoteHandle, context).execute( A396EmprCod, AV19Pgmname, AV12UsurCod, AV10Station, AV13Inc_obs, AV14Lb_numero, (byte)(0), " ") ;
+         }
+         /* Using cursor P04OT3 */
+         pr_default.execute(1, new Object[] {A396EmprCod, A910Workstat, Integer.valueOf(A887EscMLin)});
+         Application.getSmartCacheProvider(remoteHandle).setUpdated("TXPESCMAN");
+         pr_default.readNext(0);
+      }
+      pr_default.close(0);
+      cleanup();
+   }
+
+   protected void cleanup( )
+   {
+      this.aP0[0] = pcoscort.this.A396EmprCod;
+      this.aP1[0] = pcoscort.this.A910Workstat;
+      this.aP2[0] = pcoscort.this.AV14Lb_numero;
+      this.aP3[0] = pcoscort.this.AV8Coste_Cor;
+      Application.commitDataStores(context, remoteHandle, pr_default, "gestionlaboratorio.pcoscort");
+      CloseOpenCursors();
+      exitApp();
+   }
+
+   protected void CloseOpenCursors( )
+   {
+   }
+
+   /* Aggregate/select formulas */
+   public void initialize( )
+   {
+      AV10Station = "" ;
+      GXt_char1 = "" ;
+      GXv_char2 = new String[1] ;
+      AV11EmprNom = "" ;
+      GXv_char3 = new String[1] ;
+      AV12UsurCod = "" ;
+      GXv_char4 = new String[1] ;
+      GXv_int6 = new byte[1] ;
+      AV9Lb_costec = DecimalUtil.ZERO ;
+      scmdbuf = "" ;
+      P04OT2_A396EmprCod = new String[] {""} ;
+      P04OT2_A910Workstat = new String[] {""} ;
+      P04OT2_A891EscMCos = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OT2_A719PrdNum = new String[] {""} ;
+      P04OT2_A764ProForCod = new String[] {""} ;
+      P04OT2_A718PrdNom = new String[] {""} ;
+      P04OT2_A4712EscMFacCon = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OT2_A890EscMCan = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OT2_A889EscMPrdPre = new java.math.BigDecimal[] {DecimalUtil.ZERO} ;
+      P04OT2_A7584EscVolm = new int[1] ;
+      P04OT2_A887EscMLin = new int[1] ;
+      A891EscMCos = DecimalUtil.ZERO ;
+      A719PrdNum = "" ;
+      A764ProForCod = "" ;
+      A718PrdNom = "" ;
+      A4712EscMFacCon = DecimalUtil.ZERO ;
+      A890EscMCan = DecimalUtil.ZERO ;
+      A889EscMPrdPre = DecimalUtil.ZERO ;
+      AV13Inc_obs = "" ;
+      AV19Pgmname = "" ;
+      pr_default = new DataStoreProvider(context, remoteHandle, new app.gestionlaboratorio.pcoscort__default(),
+         new Object[] {
+             new Object[] {
+            P04OT2_A396EmprCod, P04OT2_A910Workstat, P04OT2_A891EscMCos, P04OT2_A719PrdNum, P04OT2_A764ProForCod, P04OT2_A718PrdNom, P04OT2_A4712EscMFacCon, P04OT2_A890EscMCan, P04OT2_A889EscMPrdPre, P04OT2_A7584EscVolm,
+            P04OT2_A887EscMLin
+            }
+            , new Object[] {
+            }
+         }
+      );
+      AV19Pgmname = "GestionLaboratorio.PCOSCORt" ;
+      /* GeneXus formulas. */
+      AV19Pgmname = "GestionLaboratorio.PCOSCORt" ;
+      Gx_err = (short)(0) ;
+   }
+
+   private byte AV15vertraza ;
+   private byte GXt_int5 ;
+   private byte GXv_int6[] ;
+   private short Gx_err ;
+   private int AV14Lb_numero ;
+   private int A7584EscVolm ;
+   private int A887EscMLin ;
+   private java.math.BigDecimal AV8Coste_Cor ;
+   private java.math.BigDecimal AV9Lb_costec ;
+   private java.math.BigDecimal A891EscMCos ;
+   private java.math.BigDecimal A4712EscMFacCon ;
+   private java.math.BigDecimal A890EscMCan ;
+   private java.math.BigDecimal A889EscMPrdPre ;
+   private String A396EmprCod ;
+   private String A910Workstat ;
+   private String AV10Station ;
+   private String GXt_char1 ;
+   private String GXv_char2[] ;
+   private String AV11EmprNom ;
+   private String GXv_char3[] ;
+   private String AV12UsurCod ;
+   private String GXv_char4[] ;
+   private String scmdbuf ;
+   private String A719PrdNum ;
+   private String A764ProForCod ;
+   private String A718PrdNom ;
+   private String AV19Pgmname ;
+   private String AV13Inc_obs ;
+   private java.math.BigDecimal[] aP3 ;
+   private String[] aP0 ;
+   private String[] aP1 ;
+   private int[] aP2 ;
+   private IDataStoreProvider pr_default ;
+   private String[] P04OT2_A396EmprCod ;
+   private String[] P04OT2_A910Workstat ;
+   private java.math.BigDecimal[] P04OT2_A891EscMCos ;
+   private String[] P04OT2_A719PrdNum ;
+   private String[] P04OT2_A764ProForCod ;
+   private String[] P04OT2_A718PrdNom ;
+   private java.math.BigDecimal[] P04OT2_A4712EscMFacCon ;
+   private java.math.BigDecimal[] P04OT2_A890EscMCan ;
+   private java.math.BigDecimal[] P04OT2_A889EscMPrdPre ;
+   private int[] P04OT2_A7584EscVolm ;
+   private int[] P04OT2_A887EscMLin ;
+}
+
+final  class pcoscort__default extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+          new ForEachCursor("P04OT2", "SELECT T1.EmprCod, T1.Workstat, T1.EscMCos, T1.PrdNum, T1.ProForCod, T2.PrdNom, T1.EscMFacCon, T1.EscMCan, T1.EscMPrdPre, T1.EscVolm, T1.EscMLin FROM (TXPESCMAN T1 INNER JOIN TXPPRODUC T2 ON T2.EmprCod = T1.EmprCod AND T2.PrdNum = T1.PrdNum) WHERE T1.EmprCod = ? and T1.Workstat = ? ORDER BY T1.EmprCod, T1.Workstat, T1.EscMLin ",true, GX_NOMASK + GX_MASKLOOPLOCK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new UpdateCursor("P04OT3", "DELETE FROM TXPESCMAN  WHERE EmprCod = ? AND Workstat = ? AND EscMLin = ?", GX_NOMASK + GX_MASKLOOPLOCK, "TXPESCMAN")
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((String[]) buf[1])[0] = rslt.getString(2, 10);
+               ((java.math.BigDecimal[]) buf[2])[0] = rslt.getBigDecimal(3,5);
+               ((String[]) buf[3])[0] = rslt.getString(4, 6);
+               ((String[]) buf[4])[0] = rslt.getString(5, 6);
+               ((String[]) buf[5])[0] = rslt.getString(6, 26);
+               ((java.math.BigDecimal[]) buf[6])[0] = rslt.getBigDecimal(7,5);
+               ((java.math.BigDecimal[]) buf[7])[0] = rslt.getBigDecimal(8,4);
+               ((java.math.BigDecimal[]) buf[8])[0] = rslt.getBigDecimal(9,5);
+               ((int[]) buf[9])[0] = rslt.getInt(10);
+               ((int[]) buf[10])[0] = rslt.getInt(11);
+               return;
+      }
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setString(2, (String)parms[1], 10);
+               return;
+            case 1 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setString(2, (String)parms[1], 10);
+               stmt.setInt(3, ((Number) parms[2]).intValue());
+               return;
+      }
+   }
+
+}
+

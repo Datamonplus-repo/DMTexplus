@@ -1,0 +1,4107 @@
+package app.controlcalidadhtd ;
+import app.*;
+import com.genexus.*;
+import com.genexus.db.*;
+import com.genexus.webpanels.*;
+import java.sql.*;
+import com.genexus.search.*;
+
+public final  class controlcalidad_ccdef1_impl extends GXDataArea
+{
+   public void initenv( )
+   {
+      if ( GxWebError != 0 )
+      {
+         return  ;
+      }
+   }
+
+   public void inittrn( )
+   {
+      initialize_properties( ) ;
+      entryPointCalled = false ;
+      gxfirstwebparm = httpContext.GetNextPar( ) ;
+      gxfirstwebparm_bkp = gxfirstwebparm ;
+      gxfirstwebparm = httpContext.DecryptAjaxCall( gxfirstwebparm) ;
+      toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableJsOutput();
+      }
+      if ( GXutil.strcmp(gxfirstwebparm, "dyncall") == 0 )
+      {
+         httpContext.setAjaxCallMode();
+         if ( ! httpContext.IsValidAjaxCall( true) )
+         {
+            GxWebError = (byte)(1) ;
+            return  ;
+         }
+         dyncall( httpContext.GetNextPar( )) ;
+         return  ;
+      }
+      else if ( GXutil.strcmp(gxfirstwebparm, "gxajaxExecAct_"+"gxLoad_2") == 0 )
+      {
+         A396EmprCod = httpContext.GetPar( "EmprCod") ;
+         httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+         httpContext.setAjaxCallMode();
+         if ( ! httpContext.IsValidAjaxCall( true) )
+         {
+            GxWebError = (byte)(1) ;
+            return  ;
+         }
+         gxload_2( A396EmprCod) ;
+         return  ;
+      }
+      else if ( GXutil.strcmp(gxfirstwebparm, "gxajaxExecAct_"+"gxLoad_4") == 0 )
+      {
+         A396EmprCod = httpContext.GetPar( "EmprCod") ;
+         httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+         A11522CCVCod = httpContext.GetPar( "CCVCod") ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11522CCVCod", A11522CCVCod);
+         httpContext.setAjaxCallMode();
+         if ( ! httpContext.IsValidAjaxCall( true) )
+         {
+            GxWebError = (byte)(1) ;
+            return  ;
+         }
+         gxload_4( A396EmprCod, A11522CCVCod) ;
+         return  ;
+      }
+      else if ( GXutil.strcmp(gxfirstwebparm, "gxajaxExecAct_"+"gxLoad_3") == 0 )
+      {
+         A396EmprCod = httpContext.GetPar( "EmprCod") ;
+         httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+         A4031CCTCod = (int)(GXutil.lval( httpContext.GetPar( "CCTCod"))) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4031CCTCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4031CCTCod), 6, 0));
+         httpContext.setAjaxCallMode();
+         if ( ! httpContext.IsValidAjaxCall( true) )
+         {
+            GxWebError = (byte)(1) ;
+            return  ;
+         }
+         gxload_3( A396EmprCod, A4031CCTCod) ;
+         return  ;
+      }
+      else if ( GXutil.strcmp(gxfirstwebparm, "gxajaxEvt") == 0 )
+      {
+         httpContext.setAjaxEventMode();
+         if ( ! httpContext.IsValidAjaxCall( true) )
+         {
+            GxWebError = (byte)(1) ;
+            return  ;
+         }
+         gxfirstwebparm = httpContext.GetNextPar( ) ;
+      }
+      else if ( GXutil.strcmp(gxfirstwebparm, "gxfullajaxEvt") == 0 )
+      {
+         if ( ! httpContext.IsValidAjaxCall( true) )
+         {
+            GxWebError = (byte)(1) ;
+            return  ;
+         }
+         gxfirstwebparm = httpContext.GetNextPar( ) ;
+      }
+      else
+      {
+         if ( ! httpContext.IsValidAjaxCall( false) )
+         {
+            GxWebError = (byte)(1) ;
+            return  ;
+         }
+         gxfirstwebparm = gxfirstwebparm_bkp ;
+      }
+      if ( toggleJsOutput )
+      {
+         if ( httpContext.isSpaRequest( ) )
+         {
+            httpContext.enableJsOutput();
+         }
+      }
+      if ( (GXutil.strcmp("", httpContext.getCookie( "GX_SESSION_ID"))==0) )
+      {
+         gxcookieaux = httpContext.setCookie( "GX_SESSION_ID", httpContext.encrypt64( com.genexus.util.Encryption.getNewKey( ), context.getServerKey( )), "", GXutil.nullDate(), "", (short)(httpContext.getHttpSecure( ))) ;
+      }
+      GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+      toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableJsOutput();
+      }
+      init_web_controls( ) ;
+      if ( toggleJsOutput )
+      {
+         if ( httpContext.isSpaRequest( ) )
+         {
+            httpContext.enableJsOutput();
+         }
+      }
+      if ( ! httpContext.isSpaRequest( ) )
+      {
+         if ( httpContext.exposeMetadata( ) )
+         {
+            Form.getMeta().addItem("generator", "GeneXus Java 17_0_11-163677", (short)(0)) ;
+         }
+         Form.getMeta().addItem("description", httpContext.getMessage( "Control Calidad_CCDEF1 (lineas)", ""), (short)(0)) ;
+      }
+      httpContext.wjLoc = "" ;
+      httpContext.nUserReturn = (byte)(0) ;
+      httpContext.wbHandled = (byte)(0) ;
+      if ( GXutil.strcmp(httpContext.getRequestMethod( ), "POST") == 0 )
+      {
+      }
+      if ( ! httpContext.isAjaxRequest( ) )
+      {
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      }
+      wbErr = false ;
+      httpContext.setDefaultTheme("WorkWithPlusThemeDS");
+      if ( ! httpContext.isLocalStorageSupported( ) )
+      {
+         httpContext.pushCurrentUrl();
+      }
+   }
+
+   public controlcalidad_ccdef1_impl( com.genexus.internet.HttpContext context )
+   {
+      super(context);
+   }
+
+   public controlcalidad_ccdef1_impl( int remoteHandle )
+   {
+      super( remoteHandle , new ModelContext( controlcalidad_ccdef1_impl.class ));
+   }
+
+   public controlcalidad_ccdef1_impl( int remoteHandle ,
+                                      ModelContext context )
+   {
+      super( remoteHandle , context);
+   }
+
+   protected void createObjects( )
+   {
+      cmbCCTLinTpoD = new HTMLChoice();
+      cmbCCTLinTpoI = new HTMLChoice();
+      cmbCCVTpoDat = new HTMLChoice();
+   }
+
+   public void webExecute( )
+   {
+      initenv( ) ;
+      inittrn( ) ;
+      if ( ( GxWebError == 0 ) && ! isAjaxCallMode( ) )
+      {
+         MasterPageObj= createMasterPage(remoteHandle, "app.wwpbaseobjects.workwithplusmasterpage");
+         MasterPageObj.setDataArea(this,false);
+         validateSpaRequest();
+         MasterPageObj.webExecute();
+         if ( ( GxWebError == 0 ) && httpContext.isAjaxRequest( ) )
+         {
+            httpContext.enableOutput();
+            if ( ! httpContext.isAjaxRequest( ) )
+            {
+               httpContext.GX_webresponse.addHeader("Cache-Control", "no-store");
+            }
+            if ( ! httpContext.willRedirect( ) )
+            {
+               addString( httpContext.getJSONResponse( )) ;
+            }
+            else
+            {
+               if ( httpContext.isAjaxRequest( ) )
+               {
+                  httpContext.disableOutput();
+               }
+               renderHtmlHeaders( ) ;
+               httpContext.redirect( httpContext.wjLoc );
+               httpContext.dispatchAjaxCommands();
+            }
+         }
+      }
+      if ( isAjaxCallMode( ) )
+      {
+         cleanup();
+      }
+   }
+
+   public void fix_multi_value_controls( )
+   {
+      if ( cmbCCTLinTpoD.getItemCount() > 0 )
+      {
+         A4044CCTLinTpoD = cmbCCTLinTpoD.getValidValue(A4044CCTLinTpoD) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4044CCTLinTpoD", A4044CCTLinTpoD);
+      }
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         cmbCCTLinTpoD.setValue( GXutil.rtrim( A4044CCTLinTpoD) );
+         httpContext.ajax_rsp_assign_prop("", false, cmbCCTLinTpoD.getInternalname(), "Values", cmbCCTLinTpoD.ToJavascriptSource(), true);
+      }
+      if ( cmbCCTLinTpoI.getItemCount() > 0 )
+      {
+         A4048CCTLinTpoI = cmbCCTLinTpoI.getValidValue(A4048CCTLinTpoI) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4048CCTLinTpoI", A4048CCTLinTpoI);
+      }
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         cmbCCTLinTpoI.setValue( GXutil.rtrim( A4048CCTLinTpoI) );
+         httpContext.ajax_rsp_assign_prop("", false, cmbCCTLinTpoI.getInternalname(), "Values", cmbCCTLinTpoI.ToJavascriptSource(), true);
+      }
+      if ( cmbCCVTpoDat.getItemCount() > 0 )
+      {
+         A11528CCVTpoDat = cmbCCVTpoDat.getValidValue(A11528CCVTpoDat) ;
+         n11528CCVTpoDat = false ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11528CCVTpoDat", A11528CCVTpoDat);
+      }
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         cmbCCVTpoDat.setValue( GXutil.rtrim( A11528CCVTpoDat) );
+         httpContext.ajax_rsp_assign_prop("", false, cmbCCVTpoDat.getInternalname(), "Values", cmbCCVTpoDat.ToJavascriptSource(), true);
+      }
+   }
+
+   public void draw( )
+   {
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      if ( ! app.GxWebStd.gx_redirect( httpContext) )
+      {
+         disable_std_buttons( ) ;
+         enableDisable( ) ;
+         set_caption( ) ;
+         /* Form start */
+         drawControls( ) ;
+         fix_multi_value_controls( ) ;
+      }
+      /* Execute Exit event if defined. */
+   }
+
+   public void drawControls( )
+   {
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "Section", "left", "top", " "+"data-gx-base-lib=\"bootstrapv3\""+" "+"data-abstract-form"+" ", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, divMaintable_Internalname, 1, 0, "px", 0, "px", "WWAdvancedContainer", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-8 col-sm-offset-2", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, divTitlecontainer_Internalname, 1, 0, "px", 0, "px", "TableTop", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+      /* Text block */
+      app.GxWebStd.gx_label_ctrl( httpContext, lblTitle_Internalname, httpContext.getMessage( "Control Calidad_CCDEF1 (lineas)", ""), "", "", lblTitle_Jsonclick, "'"+""+"'"+",false,"+"'"+""+"'", "", "Title", 0, "", 1, 1, 0, (short)(0), "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "left", "top", "", "", "div");
+      ClassString = "ErrorViewer" ;
+      StyleString = "" ;
+      app.GxWebStd.gx_msg_list( httpContext, "", httpContext.GX_msglist.getDisplaymode(), StyleString, ClassString, "", "false");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 col-sm-8 col-sm-offset-2", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, divFormcontainer_Internalname, 1, 0, "px", 0, "px", "FormContainer", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, divToolbarcell_Internalname, 1, 0, "px", 0, "px", "col-xs-12 col-sm-9 col-sm-offset-3 ToolbarCellClass", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-action-group ActionGroup", "left", "top", " "+"data-gx-actiongroup-type=\"toolbar\""+" ", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "btn-group", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 21,'',false,'',0)\"" ;
+      ClassString = "BtnFirst" ;
+      StyleString = "" ;
+      app.GxWebStd.gx_button_ctrl( httpContext, bttBtn_first_Internalname, "", "", bttBtn_first_Jsonclick, 5, "", "", StyleString, ClassString, bttBtn_first_Visible, 1, "standard", "'"+""+"'"+",false,"+"'"+"EFIRST."+"'", TempTags, "", httpContext.getButtonType( ), "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 23,'',false,'',0)\"" ;
+      ClassString = "BtnPrevious" ;
+      StyleString = "" ;
+      app.GxWebStd.gx_button_ctrl( httpContext, bttBtn_previous_Internalname, "", "", bttBtn_previous_Jsonclick, 5, "", "", StyleString, ClassString, bttBtn_previous_Visible, 1, "standard", "'"+""+"'"+",false,"+"'"+"EPREVIOUS."+"'", TempTags, "", httpContext.getButtonType( ), "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 25,'',false,'',0)\"" ;
+      ClassString = "BtnNext" ;
+      StyleString = "" ;
+      app.GxWebStd.gx_button_ctrl( httpContext, bttBtn_next_Internalname, "", "", bttBtn_next_Jsonclick, 5, "", "", StyleString, ClassString, bttBtn_next_Visible, 1, "standard", "'"+""+"'"+",false,"+"'"+"ENEXT."+"'", TempTags, "", httpContext.getButtonType( ), "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 27,'',false,'',0)\"" ;
+      ClassString = "BtnLast" ;
+      StyleString = "" ;
+      app.GxWebStd.gx_button_ctrl( httpContext, bttBtn_last_Internalname, "", "", bttBtn_last_Jsonclick, 5, "", "", StyleString, ClassString, bttBtn_last_Visible, 1, "standard", "'"+""+"'"+",false,"+"'"+"ELAST."+"'", TempTags, "", httpContext.getButtonType( ), "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 29,'',false,'',0)\"" ;
+      ClassString = "BtnSelect" ;
+      StyleString = "" ;
+      app.GxWebStd.gx_button_ctrl( httpContext, bttBtn_select_Internalname, "", httpContext.getMessage( "GX_BtnSelect", ""), bttBtn_select_Jsonclick, 5, httpContext.getMessage( "GX_BtnSelect", ""), "", StyleString, ClassString, bttBtn_select_Visible, 1, "standard", "'"+""+"'"+",false,"+"'"+"ESELECT."+"'", TempTags, "", 2, "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCellAdvanced", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtEmprCod_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtEmprCod_Internalname, httpContext.getMessage( "Empresa", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 34,'',false,'',0)\"" ;
+      app.GxWebStd.gx_single_line_edit( httpContext, edtEmprCod_Internalname, GXutil.rtrim( A396EmprCod), GXutil.rtrim( localUtil.format( A396EmprCod, "@!")), TempTags+" onchange=\""+"this.value=this.value.toUpperCase();"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"this.value=this.value.toUpperCase();"+";gx.evt.onblur(this,34);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtEmprCod_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtEmprCod_Enabled, 0, "text", "", 3, "chr", 1, "row", 3, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCTCod_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCTCod_Internalname, httpContext.getMessage( "Código", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 39,'',false,'',0)\"" ;
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCTCod_Internalname, GXutil.ltrim( localUtil.ntoc( A4031CCTCod, (byte)(6), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtCCTCod_Enabled!=0) ? localUtil.format( DecimalUtil.doubleToDec(A4031CCTCod), "ZZZZZ9") : localUtil.format( DecimalUtil.doubleToDec(A4031CCTCod), "ZZZZZ9"))), " inputmode=\"numeric\" pattern=\"[0-9]*\""+TempTags+" onchange=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onblur(this,39);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCTCod_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCTCod_Enabled, 0, "text", "1", 6, "chr", 1, "row", 6, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCTDsc_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCTDsc_Internalname, httpContext.getMessage( "Descripción del Test", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCTDsc_Internalname, GXutil.rtrim( A4036CCTDsc), GXutil.rtrim( localUtil.format( A4036CCTDsc, "")), "", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCTDsc_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCTDsc_Enabled, 0, "text", "", 30, "chr", 1, "row", 30, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCTLin_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCTLin_Internalname, httpContext.getMessage( "# Lín", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 49,'',false,'',0)\"" ;
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCTLin_Internalname, GXutil.ltrim( localUtil.ntoc( A4034CCTLin, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtCCTLin_Enabled!=0) ? localUtil.format( DecimalUtil.doubleToDec(A4034CCTLin), "ZZZ9") : localUtil.format( DecimalUtil.doubleToDec(A4034CCTLin), "ZZZ9"))), " inputmode=\"numeric\" pattern=\"[0-9]*\""+TempTags+" onchange=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onblur(this,49);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCTLin_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCTLin_Enabled, 0, "text", "1", 4, "chr", 1, "row", 4, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCTLinDsc_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCTLinDsc_Internalname, httpContext.getMessage( "Descripción", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 54,'',false,'',0)\"" ;
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCTLinDsc_Internalname, GXutil.rtrim( A4043CCTLinDsc), GXutil.rtrim( localUtil.format( A4043CCTLinDsc, "")), TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,54);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCTLinDsc_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCTLinDsc_Enabled, 0, "text", "", 30, "chr", 1, "row", 30, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCTLinDc2_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCTLinDc2_Internalname, httpContext.getMessage( "(cont)", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 59,'',false,'',0)\"" ;
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCTLinDc2_Internalname, GXutil.rtrim( A14344CCTLinDc2), GXutil.rtrim( localUtil.format( A14344CCTLinDc2, "")), TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,59);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCTLinDc2_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCTLinDc2_Enabled, 0, "text", "", 60, "chr", 1, "row", 60, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+cmbCCTLinTpoD.getInternalname()+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, cmbCCTLinTpoD.getInternalname(), httpContext.getMessage( "Tipo de Datos", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 64,'',false,'',0)\"" ;
+      /* ComboBox */
+      app.GxWebStd.gx_combobox_ctrl1( httpContext, cmbCCTLinTpoD, cmbCCTLinTpoD.getInternalname(), GXutil.rtrim( A4044CCTLinTpoD), 1, cmbCCTLinTpoD.getJsonclick(), 0, "'"+""+"'"+",false,"+"'"+""+"'", "char", "", 1, cmbCCTLinTpoD.getEnabled(), 0, (short)(0), 0, "em", 0, "", "", "Attribute", "", "", TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,64);\"", "", true, (byte)(0), "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      cmbCCTLinTpoD.setValue( GXutil.rtrim( A4044CCTLinTpoD) );
+      httpContext.ajax_rsp_assign_prop("", false, cmbCCTLinTpoD.getInternalname(), "Values", cmbCCTLinTpoD.ToJavascriptSource(), true);
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCTLinLgoD_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCTLinLgoD_Internalname, httpContext.getMessage( "Largo del Dato", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 69,'',false,'',0)\"" ;
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCTLinLgoD_Internalname, GXutil.ltrim( localUtil.ntoc( A4045CCTLinLgoD, (byte)(3), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtCCTLinLgoD_Enabled!=0) ? localUtil.format( DecimalUtil.doubleToDec(A4045CCTLinLgoD), "ZZ9") : localUtil.format( DecimalUtil.doubleToDec(A4045CCTLinLgoD), "ZZ9"))), " inputmode=\"numeric\" pattern=\"[0-9]*\""+TempTags+" onchange=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"gx.num.valid_integer( this,gx.thousandSeparator);"+";gx.evt.onblur(this,69);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCTLinLgoD_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCTLinLgoD_Enabled, 0, "text", "1", 3, "chr", 1, "row", 3, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCTLinPict_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCTLinPict_Internalname, httpContext.getMessage( "Picture", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 74,'',false,'',0)\"" ;
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCTLinPict_Internalname, GXutil.rtrim( A4046CCTLinPict), GXutil.rtrim( localUtil.format( A4046CCTLinPict, "")), TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,74);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCTLinPict_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCTLinPict_Enabled, 0, "text", "", 40, "chr", 1, "row", 40, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCTLinVarW_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCTLinVarW_Internalname, httpContext.getMessage( "Variable Word", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 79,'',false,'',0)\"" ;
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCTLinVarW_Internalname, GXutil.rtrim( A4047CCTLinVarW), GXutil.rtrim( localUtil.format( A4047CCTLinVarW, "@!")), TempTags+" onchange=\""+"this.value=this.value.toUpperCase();"+";gx.evt.onchange(this, event)\" "+" onblur=\""+"this.value=this.value.toUpperCase();"+";gx.evt.onblur(this,79);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCTLinVarW_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCTLinVarW_Enabled, 0, "text", "", 32, "chr", 1, "row", 32, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+cmbCCTLinTpoI.getInternalname()+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, cmbCCTLinTpoI.getInternalname(), httpContext.getMessage( "Tipo de Ingreso", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 84,'',false,'',0)\"" ;
+      /* ComboBox */
+      app.GxWebStd.gx_combobox_ctrl1( httpContext, cmbCCTLinTpoI, cmbCCTLinTpoI.getInternalname(), GXutil.rtrim( A4048CCTLinTpoI), 1, cmbCCTLinTpoI.getJsonclick(), 0, "'"+""+"'"+",false,"+"'"+""+"'", "char", "", 1, cmbCCTLinTpoI.getEnabled(), 0, (short)(0), 0, "em", 0, "", "", "Attribute", "", "", TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,84);\"", "", true, (byte)(0), "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      cmbCCTLinTpoI.setValue( GXutil.rtrim( A4048CCTLinTpoI) );
+      httpContext.ajax_rsp_assign_prop("", false, cmbCCTLinTpoI.getInternalname(), "Values", cmbCCTLinTpoI.ToJavascriptSource(), true);
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCTSta_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCTSta_Internalname, httpContext.getMessage( "Standar", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 89,'',false,'',0)\"" ;
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCTSta_Internalname, GXutil.rtrim( A4408CCTSta), GXutil.rtrim( localUtil.format( A4408CCTSta, "")), TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,89);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCTSta_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCTSta_Enabled, 0, "text", "", 40, "chr", 1, "row", 40, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCVCod_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCVCod_Internalname, httpContext.getMessage( "Variable Automática", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 94,'',false,'',0)\"" ;
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCVCod_Internalname, GXutil.rtrim( A11522CCVCod), GXutil.rtrim( localUtil.format( A11522CCVCod, "")), TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,94);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCVCod_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCVCod_Enabled, 0, "text", "", 10, "chr", 1, "row", 10, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCVPict_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCVPict_Internalname, httpContext.getMessage( "Mascara", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCVPict_Internalname, GXutil.rtrim( A11526CCVPict), GXutil.rtrim( localUtil.format( A11526CCVPict, "")), "", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCVPict_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCVPict_Enabled, 0, "text", "", 40, "chr", 1, "row", 40, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCVLgoDat_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCVLgoDat_Internalname, httpContext.getMessage( "Largo", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCVLgoDat_Internalname, GXutil.ltrim( localUtil.ntoc( A11527CCVLgoDat, (byte)(3), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")), GXutil.ltrim( ((edtCCVLgoDat_Enabled!=0) ? localUtil.format( DecimalUtil.doubleToDec(A11527CCVLgoDat), "ZZ9") : localUtil.format( DecimalUtil.doubleToDec(A11527CCVLgoDat), "ZZ9"))), " inputmode=\"numeric\" pattern=\"[0-9]*\""+"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCVLgoDat_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCVLgoDat_Enabled, 0, "text", "1", 3, "chr", 1, "row", 3, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(0), true, "", "right", false, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+cmbCCVTpoDat.getInternalname()+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, cmbCCVTpoDat.getInternalname(), httpContext.getMessage( "Tipo de Datos", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* ComboBox */
+      app.GxWebStd.gx_combobox_ctrl1( httpContext, cmbCCVTpoDat, cmbCCVTpoDat.getInternalname(), GXutil.rtrim( A11528CCVTpoDat), 1, cmbCCVTpoDat.getJsonclick(), 0, "'"+""+"'"+",false,"+"'"+""+"'", "char", "", 1, cmbCCVTpoDat.getEnabled(), 1, (short)(0), 0, "em", 0, "", "", "Attribute", "", "", "", "", true, (byte)(0), "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      cmbCCVTpoDat.setValue( GXutil.rtrim( A11528CCVTpoDat) );
+      httpContext.ajax_rsp_assign_prop("", false, cmbCCVTpoDat.getInternalname(), "Values", cmbCCVTpoDat.ToJavascriptSource(), true);
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCVDsc_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCVDsc_Internalname, httpContext.getMessage( "Descripción", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCVDsc_Internalname, GXutil.rtrim( A11529CCVDsc), GXutil.rtrim( localUtil.format( A11529CCVDsc, "")), "", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCVDsc_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCVDsc_Enabled, 0, "text", "", 30, "chr", 1, "row", 30, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCVNorma_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCVNorma_Internalname, httpContext.getMessage( "Norma", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 119,'',false,'',0)\"" ;
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCVNorma_Internalname, GXutil.rtrim( A13249CCVNorma), GXutil.rtrim( localUtil.format( A13249CCVNorma, "")), TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,119);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCVNorma_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCVNorma_Enabled, 0, "text", "", 30, "chr", 1, "row", 30, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCVEspecif_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCVEspecif_Internalname, httpContext.getMessage( "Especificacion", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Single line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 124,'',false,'',0)\"" ;
+      app.GxWebStd.gx_single_line_edit( httpContext, edtCCVEspecif_Internalname, GXutil.rtrim( A13250CCVEspecif), GXutil.rtrim( localUtil.format( A13250CCVEspecif, "")), TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,124);\"", "'"+""+"'"+",false,"+"'"+""+"'", "", "", "", "", edtCCVEspecif_Jsonclick, 0, "Attribute", "", "", "", "", 1, edtCCVEspecif_Enabled, 0, "text", "", 30, "chr", 1, "row", 30, (byte)(0), (short)(0), 0, (byte)(0), (byte)(-1), (byte)(-1), true, "", "left", true, "", "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12 FormCell", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "form-group gx-form-group", "left", "top", ""+" data-gx-for=\""+edtCCVEspe2_Internalname+"\"", "", "div");
+      /* Attribute/Variable Label */
+      app.GxWebStd.gx_label_element( httpContext, edtCCVEspe2_Internalname, httpContext.getMessage( "(mayor)", ""), "col-sm-3 AttributeLabel", 1, true, "");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-sm-9 gx-attribute", "left", "top", "", "", "div");
+      /* Multiple line edit */
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 129,'',false,'',0)\"" ;
+      ClassString = "Attribute" ;
+      StyleString = "" ;
+      ClassString = "Attribute" ;
+      StyleString = "" ;
+      app.GxWebStd.gx_html_textarea( httpContext, edtCCVEspe2_Internalname, A14345CCVEspe2, "", TempTags+" onchange=\""+""+";gx.evt.onchange(this, event)\" "+" onblur=\""+""+";gx.evt.onblur(this,129);\"", (short)(0), 1, edtCCVEspe2_Enabled, 0, 80, "chr", 4, "row", (byte)(0), StyleString, ClassString, "", "", "300", -1, 0, "", "", (byte)(-1), true, "", "'"+""+"'"+",false,"+"'"+""+"'", 0, "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "row", "left", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "col-xs-12", "Center", "top", "", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-action-group Confirm", "left", "top", " "+"data-gx-actiongroup-type=\"toolbar\""+" ", "", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 134,'',false,'',0)\"" ;
+      ClassString = "BtnEnter" ;
+      StyleString = "" ;
+      app.GxWebStd.gx_button_ctrl( httpContext, bttBtn_enter_Internalname, "", httpContext.getMessage( "GX_BtnEnter", ""), bttBtn_enter_Jsonclick, 5, httpContext.getMessage( "GX_BtnEnter", ""), "", StyleString, ClassString, bttBtn_enter_Visible, bttBtn_enter_Enabled, "standard", "'"+""+"'"+",false,"+"'"+"EENTER."+"'", TempTags, "", httpContext.getButtonType( ), "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 136,'',false,'',0)\"" ;
+      ClassString = "BtnCancel" ;
+      StyleString = "" ;
+      app.GxWebStd.gx_button_ctrl( httpContext, bttBtn_cancel_Internalname, "", httpContext.getMessage( "GX_BtnCancel", ""), bttBtn_cancel_Jsonclick, 1, httpContext.getMessage( "GX_BtnCancel", ""), "", StyleString, ClassString, bttBtn_cancel_Visible, 1, "standard", "'"+""+"'"+",false,"+"'"+"ECANCEL."+"'", TempTags, "", httpContext.getButtonType( ), "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      /* Div Control */
+      app.GxWebStd.gx_div_start( httpContext, "", 1, 0, "px", 0, "px", "gx-button", "left", "top", "", "", "div");
+      TempTags = "  onfocus=\"gx.evt.onfocus(this, 138,'',false,'',0)\"" ;
+      ClassString = "BtnDelete" ;
+      StyleString = "" ;
+      app.GxWebStd.gx_button_ctrl( httpContext, bttBtn_delete_Internalname, "", httpContext.getMessage( "GX_BtnDelete", ""), bttBtn_delete_Jsonclick, 5, httpContext.getMessage( "GX_BtnDelete", ""), "", StyleString, ClassString, bttBtn_delete_Visible, bttBtn_delete_Enabled, "standard", "'"+""+"'"+",false,"+"'"+"EDELETE."+"'", TempTags, "", httpContext.getButtonType( ), "HLP_ControlCalidadHTD\\ControlCalidad_CCDEF1.htm");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "Center", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+      app.GxWebStd.gx_div_end( httpContext, "left", "top", "div");
+   }
+
+   public void userMain( )
+   {
+      standaloneStartup( ) ;
+   }
+
+   public void userMainFullajax( )
+   {
+      initenv( ) ;
+      inittrn( ) ;
+      userMain( ) ;
+      draw( ) ;
+      sendCloseFormHiddens( ) ;
+   }
+
+   public void standaloneStartup( )
+   {
+      standaloneStartupServer( ) ;
+      disable_std_buttons( ) ;
+      enableDisable( ) ;
+      process( ) ;
+   }
+
+   public void standaloneStartupServer( )
+   {
+      httpContext.wbGlbDoneStart = (byte)(1) ;
+      assign_properties_default( ) ;
+      if ( GXutil.strcmp(httpContext.getRequestMethod( ), "POST") == 0 )
+      {
+         /* Read saved SDTs. */
+         /* Read saved values. */
+         Z396EmprCod = httpContext.cgiGet( "Z396EmprCod") ;
+         Z4031CCTCod = (int)(localUtil.ctol( httpContext.cgiGet( "Z4031CCTCod"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         Z4034CCTLin = (short)(localUtil.ctol( httpContext.cgiGet( "Z4034CCTLin"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         Z4043CCTLinDsc = httpContext.cgiGet( "Z4043CCTLinDsc") ;
+         Z14344CCTLinDc2 = httpContext.cgiGet( "Z14344CCTLinDc2") ;
+         Z4044CCTLinTpoD = httpContext.cgiGet( "Z4044CCTLinTpoD") ;
+         Z4045CCTLinLgoD = (short)(localUtil.ctol( httpContext.cgiGet( "Z4045CCTLinLgoD"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         Z4046CCTLinPict = httpContext.cgiGet( "Z4046CCTLinPict") ;
+         Z4047CCTLinVarW = httpContext.cgiGet( "Z4047CCTLinVarW") ;
+         Z4048CCTLinTpoI = httpContext.cgiGet( "Z4048CCTLinTpoI") ;
+         Z4408CCTSta = httpContext.cgiGet( "Z4408CCTSta") ;
+         Z13249CCVNorma = httpContext.cgiGet( "Z13249CCVNorma") ;
+         Z13250CCVEspecif = httpContext.cgiGet( "Z13250CCVEspecif") ;
+         Z14345CCVEspe2 = httpContext.cgiGet( "Z14345CCVEspe2") ;
+         Z11522CCVCod = httpContext.cgiGet( "Z11522CCVCod") ;
+         IsConfirmed = (short)(localUtil.ctol( httpContext.cgiGet( "IsConfirmed"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         IsModified = (short)(localUtil.ctol( httpContext.cgiGet( "IsModified"), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         Gx_mode = httpContext.cgiGet( "Mode") ;
+         A407EmprNom = httpContext.cgiGet( "EMPRNOM") ;
+         n407EmprNom = false ;
+         /* Read variables values. */
+         A396EmprCod = GXutil.upper( httpContext.cgiGet( edtEmprCod_Internalname)) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+         if ( ( ( localUtil.ctol( httpContext.cgiGet( edtCCTCod_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) < 0 ) ) || ( ( localUtil.ctol( httpContext.cgiGet( edtCCTCod_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) > 999999 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "CCTCOD");
+            AnyError = (short)(1) ;
+            GX_FocusControl = edtCCTCod_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            A4031CCTCod = 0 ;
+            httpContext.ajax_rsp_assign_attri("", false, "A4031CCTCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4031CCTCod), 6, 0));
+         }
+         else
+         {
+            A4031CCTCod = (int)(localUtil.ctol( httpContext.cgiGet( edtCCTCod_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "A4031CCTCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4031CCTCod), 6, 0));
+         }
+         A4036CCTDsc = httpContext.cgiGet( edtCCTDsc_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4036CCTDsc", A4036CCTDsc);
+         if ( ( ( localUtil.ctol( httpContext.cgiGet( edtCCTLin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) < 0 ) ) || ( ( localUtil.ctol( httpContext.cgiGet( edtCCTLin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) > 9999 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "CCTLIN");
+            AnyError = (short)(1) ;
+            GX_FocusControl = edtCCTLin_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            A4034CCTLin = (short)(0) ;
+            httpContext.ajax_rsp_assign_attri("", false, "A4034CCTLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4034CCTLin), 4, 0));
+         }
+         else
+         {
+            A4034CCTLin = (short)(localUtil.ctol( httpContext.cgiGet( edtCCTLin_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "A4034CCTLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4034CCTLin), 4, 0));
+         }
+         A4043CCTLinDsc = httpContext.cgiGet( edtCCTLinDsc_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4043CCTLinDsc", A4043CCTLinDsc);
+         A14344CCTLinDc2 = httpContext.cgiGet( edtCCTLinDc2_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A14344CCTLinDc2", A14344CCTLinDc2);
+         cmbCCTLinTpoD.setValue( httpContext.cgiGet( cmbCCTLinTpoD.getInternalname()) );
+         A4044CCTLinTpoD = httpContext.cgiGet( cmbCCTLinTpoD.getInternalname()) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4044CCTLinTpoD", A4044CCTLinTpoD);
+         if ( ( ( localUtil.ctol( httpContext.cgiGet( edtCCTLinLgoD_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) < 0 ) ) || ( ( localUtil.ctol( httpContext.cgiGet( edtCCTLinLgoD_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep")) > 999 ) ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_badnum"), 1, "CCTLINLGOD");
+            AnyError = (short)(1) ;
+            GX_FocusControl = edtCCTLinLgoD_Internalname ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            wbErr = true ;
+            A4045CCTLinLgoD = (short)(0) ;
+            httpContext.ajax_rsp_assign_attri("", false, "A4045CCTLinLgoD", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4045CCTLinLgoD), 3, 0));
+         }
+         else
+         {
+            A4045CCTLinLgoD = (short)(localUtil.ctol( httpContext.cgiGet( edtCCTLinLgoD_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "A4045CCTLinLgoD", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4045CCTLinLgoD), 3, 0));
+         }
+         A4046CCTLinPict = httpContext.cgiGet( edtCCTLinPict_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4046CCTLinPict", A4046CCTLinPict);
+         A4047CCTLinVarW = GXutil.upper( httpContext.cgiGet( edtCCTLinVarW_Internalname)) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4047CCTLinVarW", A4047CCTLinVarW);
+         cmbCCTLinTpoI.setValue( httpContext.cgiGet( cmbCCTLinTpoI.getInternalname()) );
+         A4048CCTLinTpoI = httpContext.cgiGet( cmbCCTLinTpoI.getInternalname()) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4048CCTLinTpoI", A4048CCTLinTpoI);
+         A4408CCTSta = httpContext.cgiGet( edtCCTSta_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4408CCTSta", A4408CCTSta);
+         A11522CCVCod = httpContext.cgiGet( edtCCVCod_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11522CCVCod", A11522CCVCod);
+         A11526CCVPict = httpContext.cgiGet( edtCCVPict_Internalname) ;
+         n11526CCVPict = false ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11526CCVPict", A11526CCVPict);
+         A11527CCVLgoDat = (short)(localUtil.ctol( httpContext.cgiGet( edtCCVLgoDat_Internalname), httpContext.getLanguageProperty( "decimal_point"), httpContext.getLanguageProperty( "thousand_sep"))) ;
+         n11527CCVLgoDat = false ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11527CCVLgoDat", GXutil.ltrimstr( DecimalUtil.doubleToDec(A11527CCVLgoDat), 3, 0));
+         cmbCCVTpoDat.setValue( httpContext.cgiGet( cmbCCVTpoDat.getInternalname()) );
+         A11528CCVTpoDat = httpContext.cgiGet( cmbCCVTpoDat.getInternalname()) ;
+         n11528CCVTpoDat = false ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11528CCVTpoDat", A11528CCVTpoDat);
+         A11529CCVDsc = httpContext.cgiGet( edtCCVDsc_Internalname) ;
+         n11529CCVDsc = false ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11529CCVDsc", A11529CCVDsc);
+         A13249CCVNorma = httpContext.cgiGet( edtCCVNorma_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A13249CCVNorma", A13249CCVNorma);
+         A13250CCVEspecif = httpContext.cgiGet( edtCCVEspecif_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A13250CCVEspecif", A13250CCVEspecif);
+         A14345CCVEspe2 = httpContext.cgiGet( edtCCVEspe2_Internalname) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A14345CCVEspe2", A14345CCVEspe2);
+         /* Read subfile selected row values. */
+         /* Read hidden variables. */
+         GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+         standaloneNotModal( ) ;
+      }
+      else
+      {
+         standaloneNotModal( ) ;
+         if ( GXutil.strcmp(gxfirstwebparm, "viewer") == 0 )
+         {
+            Gx_mode = "DSP" ;
+            httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+            A396EmprCod = httpContext.GetPar( "EmprCod") ;
+            httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+            A4031CCTCod = (int)(GXutil.lval( httpContext.GetPar( "CCTCod"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "A4031CCTCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4031CCTCod), 6, 0));
+            A4034CCTLin = (short)(GXutil.lval( httpContext.GetPar( "CCTLin"))) ;
+            httpContext.ajax_rsp_assign_attri("", false, "A4034CCTLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4034CCTLin), 4, 0));
+            getEqualNoModal( ) ;
+            Gx_mode = "DSP" ;
+            httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+            disable_std_buttons_dsp( ) ;
+            standaloneModal( ) ;
+         }
+         else
+         {
+            Gx_mode = "INS" ;
+            httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+            standaloneModal( ) ;
+         }
+      }
+   }
+
+   public void process( )
+   {
+      if ( GXutil.strcmp(httpContext.getRequestMethod( ), "POST") == 0 )
+      {
+         /* Read Transaction buttons. */
+         sEvt = httpContext.cgiGet( "_EventName") ;
+         EvtGridId = httpContext.cgiGet( "_EventGridId") ;
+         EvtRowId = httpContext.cgiGet( "_EventRowId") ;
+         if ( GXutil.len( sEvt) > 0 )
+         {
+            sEvtType = GXutil.left( sEvt, 1) ;
+            sEvt = GXutil.right( sEvt, GXutil.len( sEvt)-1) ;
+            if ( GXutil.strcmp(sEvtType, "M") != 0 )
+            {
+               if ( GXutil.strcmp(sEvtType, "E") == 0 )
+               {
+                  sEvtType = GXutil.right( sEvt, 1) ;
+                  if ( GXutil.strcmp(sEvtType, ".") == 0 )
+                  {
+                     sEvt = GXutil.left( sEvt, GXutil.len( sEvt)-1) ;
+                     if ( GXutil.strcmp(sEvt, "ENTER") == 0 )
+                     {
+                        httpContext.wbHandled = (byte)(1) ;
+                        btn_enter( ) ;
+                        /* No code required for Cancel button. It is implemented as the Reset button. */
+                     }
+                     else if ( GXutil.strcmp(sEvt, "FIRST") == 0 )
+                     {
+                        httpContext.wbHandled = (byte)(1) ;
+                        btn_first( ) ;
+                     }
+                     else if ( GXutil.strcmp(sEvt, "PREVIOUS") == 0 )
+                     {
+                        httpContext.wbHandled = (byte)(1) ;
+                        btn_previous( ) ;
+                     }
+                     else if ( GXutil.strcmp(sEvt, "NEXT") == 0 )
+                     {
+                        httpContext.wbHandled = (byte)(1) ;
+                        btn_next( ) ;
+                     }
+                     else if ( GXutil.strcmp(sEvt, "LAST") == 0 )
+                     {
+                        httpContext.wbHandled = (byte)(1) ;
+                        btn_last( ) ;
+                     }
+                     else if ( GXutil.strcmp(sEvt, "SELECT") == 0 )
+                     {
+                        httpContext.wbHandled = (byte)(1) ;
+                        btn_select( ) ;
+                     }
+                     else if ( GXutil.strcmp(sEvt, "DELETE") == 0 )
+                     {
+                        httpContext.wbHandled = (byte)(1) ;
+                        btn_delete( ) ;
+                     }
+                     else if ( GXutil.strcmp(sEvt, "LSCR") == 0 )
+                     {
+                        httpContext.wbHandled = (byte)(1) ;
+                        afterkeyloadscreen( ) ;
+                     }
+                  }
+                  else
+                  {
+                  }
+               }
+               httpContext.wbHandled = (byte)(1) ;
+            }
+         }
+      }
+   }
+
+   public void afterTrn( )
+   {
+      if ( trnEnded == 1 )
+      {
+         if ( ! (GXutil.strcmp("", endTrnMsgTxt)==0) )
+         {
+            httpContext.GX_msglist.addItem(endTrnMsgTxt, endTrnMsgCod, 0, "", true);
+         }
+         trnEnded = 0 ;
+         standaloneNotModal( ) ;
+         standaloneModal( ) ;
+         if ( isIns( )  )
+         {
+            /* Clear variables for new insertion. */
+            initAll1VQ622( ) ;
+            standaloneNotModal( ) ;
+            standaloneModal( ) ;
+         }
+      }
+      endTrnMsgTxt = "" ;
+   }
+
+   public String toString( )
+   {
+      return "" ;
+   }
+
+   public GXContentInfo getContentInfo( )
+   {
+      return (GXContentInfo)(null) ;
+   }
+
+   public void disable_std_buttons( )
+   {
+      if ( isIns( ) )
+      {
+         bttBtn_delete_Enabled = 0 ;
+         httpContext.ajax_rsp_assign_prop("", false, bttBtn_delete_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_delete_Enabled), 5, 0), true);
+      }
+   }
+
+   public void disable_std_buttons_dsp( )
+   {
+      bttBtn_delete_Visible = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, bttBtn_delete_Internalname, "Visible", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_delete_Visible), 5, 0), true);
+      bttBtn_first_Visible = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, bttBtn_first_Internalname, "Visible", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_first_Visible), 5, 0), true);
+      bttBtn_previous_Visible = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, bttBtn_previous_Internalname, "Visible", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_previous_Visible), 5, 0), true);
+      bttBtn_next_Visible = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, bttBtn_next_Internalname, "Visible", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_next_Visible), 5, 0), true);
+      bttBtn_last_Visible = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, bttBtn_last_Internalname, "Visible", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_last_Visible), 5, 0), true);
+      bttBtn_select_Visible = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, bttBtn_select_Internalname, "Visible", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_select_Visible), 5, 0), true);
+      bttBtn_delete_Visible = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, bttBtn_delete_Internalname, "Visible", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_delete_Visible), 5, 0), true);
+      if ( isDsp( ) )
+      {
+         bttBtn_enter_Visible = 0 ;
+         httpContext.ajax_rsp_assign_prop("", false, bttBtn_enter_Internalname, "Visible", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_enter_Visible), 5, 0), true);
+      }
+      disableAttributes1VQ622( ) ;
+   }
+
+   public void set_caption( )
+   {
+      if ( ( IsConfirmed == 1 ) && ( AnyError == 0 ) )
+      {
+         if ( isDlt( ) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_confdelete"), 0, "", true);
+         }
+         else
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_mustconfirm"), 0, "", true);
+         }
+      }
+   }
+
+   public void resetCaption1VQ0( )
+   {
+   }
+
+   public void zm1VQ622( int GX_JID )
+   {
+      if ( ( GX_JID == 1 ) || ( GX_JID == 0 ) )
+      {
+         if ( ! isIns( ) )
+         {
+            Z4043CCTLinDsc = T01VQ3_A4043CCTLinDsc[0] ;
+            Z14344CCTLinDc2 = T01VQ3_A14344CCTLinDc2[0] ;
+            Z4044CCTLinTpoD = T01VQ3_A4044CCTLinTpoD[0] ;
+            Z4045CCTLinLgoD = T01VQ3_A4045CCTLinLgoD[0] ;
+            Z4046CCTLinPict = T01VQ3_A4046CCTLinPict[0] ;
+            Z4047CCTLinVarW = T01VQ3_A4047CCTLinVarW[0] ;
+            Z4048CCTLinTpoI = T01VQ3_A4048CCTLinTpoI[0] ;
+            Z4408CCTSta = T01VQ3_A4408CCTSta[0] ;
+            Z13249CCVNorma = T01VQ3_A13249CCVNorma[0] ;
+            Z13250CCVEspecif = T01VQ3_A13250CCVEspecif[0] ;
+            Z14345CCVEspe2 = T01VQ3_A14345CCVEspe2[0] ;
+            Z11522CCVCod = T01VQ3_A11522CCVCod[0] ;
+         }
+         else
+         {
+            Z4043CCTLinDsc = A4043CCTLinDsc ;
+            Z14344CCTLinDc2 = A14344CCTLinDc2 ;
+            Z4044CCTLinTpoD = A4044CCTLinTpoD ;
+            Z4045CCTLinLgoD = A4045CCTLinLgoD ;
+            Z4046CCTLinPict = A4046CCTLinPict ;
+            Z4047CCTLinVarW = A4047CCTLinVarW ;
+            Z4048CCTLinTpoI = A4048CCTLinTpoI ;
+            Z4408CCTSta = A4408CCTSta ;
+            Z13249CCVNorma = A13249CCVNorma ;
+            Z13250CCVEspecif = A13250CCVEspecif ;
+            Z14345CCVEspe2 = A14345CCVEspe2 ;
+            Z11522CCVCod = A11522CCVCod ;
+         }
+      }
+      if ( GX_JID == -1 )
+      {
+         Z4034CCTLin = A4034CCTLin ;
+         Z4043CCTLinDsc = A4043CCTLinDsc ;
+         Z14344CCTLinDc2 = A14344CCTLinDc2 ;
+         Z4044CCTLinTpoD = A4044CCTLinTpoD ;
+         Z4045CCTLinLgoD = A4045CCTLinLgoD ;
+         Z4046CCTLinPict = A4046CCTLinPict ;
+         Z4047CCTLinVarW = A4047CCTLinVarW ;
+         Z4048CCTLinTpoI = A4048CCTLinTpoI ;
+         Z4408CCTSta = A4408CCTSta ;
+         Z13249CCVNorma = A13249CCVNorma ;
+         Z13250CCVEspecif = A13250CCVEspecif ;
+         Z14345CCVEspe2 = A14345CCVEspe2 ;
+         Z396EmprCod = A396EmprCod ;
+         Z4031CCTCod = A4031CCTCod ;
+         Z11522CCVCod = A11522CCVCod ;
+         Z407EmprNom = A407EmprNom ;
+         Z4036CCTDsc = A4036CCTDsc ;
+         Z11526CCVPict = A11526CCVPict ;
+         Z11527CCVLgoDat = A11527CCVLgoDat ;
+         Z11528CCVTpoDat = A11528CCVTpoDat ;
+         Z11529CCVDsc = A11529CCVDsc ;
+      }
+   }
+
+   public void standaloneNotModal( )
+   {
+   }
+
+   public void standaloneModal( )
+   {
+      if ( GXutil.strcmp(Gx_mode, "INS") == 0 )
+      {
+         bttBtn_delete_Enabled = 0 ;
+         httpContext.ajax_rsp_assign_prop("", false, bttBtn_delete_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_delete_Enabled), 5, 0), true);
+      }
+      else
+      {
+         bttBtn_delete_Enabled = 1 ;
+         httpContext.ajax_rsp_assign_prop("", false, bttBtn_delete_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_delete_Enabled), 5, 0), true);
+      }
+      if ( GXutil.strcmp(Gx_mode, "DSP") == 0 )
+      {
+         bttBtn_enter_Enabled = 0 ;
+         httpContext.ajax_rsp_assign_prop("", false, bttBtn_enter_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_enter_Enabled), 5, 0), true);
+      }
+      else
+      {
+         bttBtn_enter_Enabled = 1 ;
+         httpContext.ajax_rsp_assign_prop("", false, bttBtn_enter_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_enter_Enabled), 5, 0), true);
+      }
+   }
+
+   public void load1VQ622( )
+   {
+      /* Using cursor T01VQ7 */
+      pr_default.execute(5, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod), Short.valueOf(A4034CCTLin)});
+      if ( (pr_default.getStatus(5) != 101) )
+      {
+         RcdFound622 = (short)(1) ;
+         A407EmprNom = T01VQ7_A407EmprNom[0] ;
+         n407EmprNom = T01VQ7_n407EmprNom[0] ;
+         A4036CCTDsc = T01VQ7_A4036CCTDsc[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4036CCTDsc", A4036CCTDsc);
+         A4043CCTLinDsc = T01VQ7_A4043CCTLinDsc[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4043CCTLinDsc", A4043CCTLinDsc);
+         A14344CCTLinDc2 = T01VQ7_A14344CCTLinDc2[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A14344CCTLinDc2", A14344CCTLinDc2);
+         A4044CCTLinTpoD = T01VQ7_A4044CCTLinTpoD[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4044CCTLinTpoD", A4044CCTLinTpoD);
+         A4045CCTLinLgoD = T01VQ7_A4045CCTLinLgoD[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4045CCTLinLgoD", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4045CCTLinLgoD), 3, 0));
+         A4046CCTLinPict = T01VQ7_A4046CCTLinPict[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4046CCTLinPict", A4046CCTLinPict);
+         A4047CCTLinVarW = T01VQ7_A4047CCTLinVarW[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4047CCTLinVarW", A4047CCTLinVarW);
+         A4048CCTLinTpoI = T01VQ7_A4048CCTLinTpoI[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4048CCTLinTpoI", A4048CCTLinTpoI);
+         A4408CCTSta = T01VQ7_A4408CCTSta[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4408CCTSta", A4408CCTSta);
+         A11526CCVPict = T01VQ7_A11526CCVPict[0] ;
+         n11526CCVPict = T01VQ7_n11526CCVPict[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11526CCVPict", A11526CCVPict);
+         A11527CCVLgoDat = T01VQ7_A11527CCVLgoDat[0] ;
+         n11527CCVLgoDat = T01VQ7_n11527CCVLgoDat[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11527CCVLgoDat", GXutil.ltrimstr( DecimalUtil.doubleToDec(A11527CCVLgoDat), 3, 0));
+         A11528CCVTpoDat = T01VQ7_A11528CCVTpoDat[0] ;
+         n11528CCVTpoDat = T01VQ7_n11528CCVTpoDat[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11528CCVTpoDat", A11528CCVTpoDat);
+         A11529CCVDsc = T01VQ7_A11529CCVDsc[0] ;
+         n11529CCVDsc = T01VQ7_n11529CCVDsc[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11529CCVDsc", A11529CCVDsc);
+         A13249CCVNorma = T01VQ7_A13249CCVNorma[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A13249CCVNorma", A13249CCVNorma);
+         A13250CCVEspecif = T01VQ7_A13250CCVEspecif[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A13250CCVEspecif", A13250CCVEspecif);
+         A14345CCVEspe2 = T01VQ7_A14345CCVEspe2[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A14345CCVEspe2", A14345CCVEspe2);
+         A11522CCVCod = T01VQ7_A11522CCVCod[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11522CCVCod", A11522CCVCod);
+         zm1VQ622( -1) ;
+      }
+      pr_default.close(5);
+      onLoadActions1VQ622( ) ;
+   }
+
+   public void onLoadActions1VQ622( )
+   {
+   }
+
+   public void checkExtendedTable1VQ622( )
+   {
+      nIsDirty_622 = (short)(0) ;
+      Gx_BScreen = (byte)(1) ;
+      standaloneModal( ) ;
+      /* Using cursor T01VQ4 */
+      pr_default.execute(2, new Object[] {A396EmprCod});
+      if ( (pr_default.getStatus(2) == 101) )
+      {
+         httpContext.GX_msglist.addItem(GXutil.format( httpContext.getMessage( "GXSPC_ForeignKeyNotFound", ""), httpContext.getMessage( "EMPRESAS", ""), "", "", "", "", "", "", "", ""), "ForeignKeyNotFound", 1, "EMPRCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      }
+      A407EmprNom = T01VQ4_A407EmprNom[0] ;
+      n407EmprNom = T01VQ4_n407EmprNom[0] ;
+      pr_default.close(2);
+      /* Using cursor T01VQ6 */
+      pr_default.execute(4, new Object[] {A396EmprCod, A11522CCVCod});
+      if ( (pr_default.getStatus(4) == 101) )
+      {
+         httpContext.GX_msglist.addItem(GXutil.format( httpContext.getMessage( "GXSPC_ForeignKeyNotFound", ""), httpContext.getMessage( "Variables Automáticas", ""), "", "", "", "", "", "", "", ""), "ForeignKeyNotFound", 1, "CCVCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      }
+      A11526CCVPict = T01VQ6_A11526CCVPict[0] ;
+      n11526CCVPict = T01VQ6_n11526CCVPict[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11526CCVPict", A11526CCVPict);
+      A11527CCVLgoDat = T01VQ6_A11527CCVLgoDat[0] ;
+      n11527CCVLgoDat = T01VQ6_n11527CCVLgoDat[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11527CCVLgoDat", GXutil.ltrimstr( DecimalUtil.doubleToDec(A11527CCVLgoDat), 3, 0));
+      A11528CCVTpoDat = T01VQ6_A11528CCVTpoDat[0] ;
+      n11528CCVTpoDat = T01VQ6_n11528CCVTpoDat[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11528CCVTpoDat", A11528CCVTpoDat);
+      A11529CCVDsc = T01VQ6_A11529CCVDsc[0] ;
+      n11529CCVDsc = T01VQ6_n11529CCVDsc[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11529CCVDsc", A11529CCVDsc);
+      pr_default.close(4);
+      /* Using cursor T01VQ5 */
+      pr_default.execute(3, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod)});
+      if ( (pr_default.getStatus(3) == 101) )
+      {
+         httpContext.GX_msglist.addItem(GXutil.format( httpContext.getMessage( "GXSPC_ForeignKeyNotFound", ""), httpContext.getMessage( "CCDef", ""), "", "", "", "", "", "", "", ""), "ForeignKeyNotFound", 1, "CCTCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      }
+      A4036CCTDsc = T01VQ5_A4036CCTDsc[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4036CCTDsc", A4036CCTDsc);
+      pr_default.close(3);
+   }
+
+   public void closeExtendedTableCursors1VQ622( )
+   {
+      pr_default.close(2);
+      pr_default.close(4);
+      pr_default.close(3);
+   }
+
+   public void enableDisable( )
+   {
+   }
+
+   public void gxload_2( String A396EmprCod )
+   {
+      /* Using cursor T01VQ8 */
+      pr_default.execute(6, new Object[] {A396EmprCod});
+      if ( (pr_default.getStatus(6) == 101) )
+      {
+         httpContext.GX_msglist.addItem(GXutil.format( httpContext.getMessage( "GXSPC_ForeignKeyNotFound", ""), httpContext.getMessage( "EMPRESAS", ""), "", "", "", "", "", "", "", ""), "ForeignKeyNotFound", 1, "EMPRCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      }
+      A407EmprNom = T01VQ8_A407EmprNom[0] ;
+      n407EmprNom = T01VQ8_n407EmprNom[0] ;
+      app.GxWebStd.set_html_headers( httpContext, 0, "", "");
+      addString( "[[") ;
+      addString( "\""+PrivateUtilities.encodeJSConstant( GXutil.rtrim( A407EmprNom))+"\"") ;
+      addString( "]") ;
+      if ( (pr_default.getStatus(6) == 101) )
+      {
+         addString( ",") ;
+         addString( "101") ;
+      }
+      addString( "]") ;
+      pr_default.close(6);
+   }
+
+   public void gxload_4( String A396EmprCod ,
+                         String A11522CCVCod )
+   {
+      /* Using cursor T01VQ9 */
+      pr_default.execute(7, new Object[] {A396EmprCod, A11522CCVCod});
+      if ( (pr_default.getStatus(7) == 101) )
+      {
+         httpContext.GX_msglist.addItem(GXutil.format( httpContext.getMessage( "GXSPC_ForeignKeyNotFound", ""), httpContext.getMessage( "Variables Automáticas", ""), "", "", "", "", "", "", "", ""), "ForeignKeyNotFound", 1, "CCVCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      }
+      A11526CCVPict = T01VQ9_A11526CCVPict[0] ;
+      n11526CCVPict = T01VQ9_n11526CCVPict[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11526CCVPict", A11526CCVPict);
+      A11527CCVLgoDat = T01VQ9_A11527CCVLgoDat[0] ;
+      n11527CCVLgoDat = T01VQ9_n11527CCVLgoDat[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11527CCVLgoDat", GXutil.ltrimstr( DecimalUtil.doubleToDec(A11527CCVLgoDat), 3, 0));
+      A11528CCVTpoDat = T01VQ9_A11528CCVTpoDat[0] ;
+      n11528CCVTpoDat = T01VQ9_n11528CCVTpoDat[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11528CCVTpoDat", A11528CCVTpoDat);
+      A11529CCVDsc = T01VQ9_A11529CCVDsc[0] ;
+      n11529CCVDsc = T01VQ9_n11529CCVDsc[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11529CCVDsc", A11529CCVDsc);
+      app.GxWebStd.set_html_headers( httpContext, 0, "", "");
+      addString( "[[") ;
+      addString( "\""+PrivateUtilities.encodeJSConstant( GXutil.rtrim( A11526CCVPict))+"\""+","+"\""+PrivateUtilities.encodeJSConstant( GXutil.ltrim( localUtil.ntoc( A11527CCVLgoDat, (byte)(3), (byte)(0), ".", "")))+"\""+","+"\""+PrivateUtilities.encodeJSConstant( GXutil.rtrim( A11528CCVTpoDat))+"\""+","+"\""+PrivateUtilities.encodeJSConstant( GXutil.rtrim( A11529CCVDsc))+"\"") ;
+      addString( "]") ;
+      if ( (pr_default.getStatus(7) == 101) )
+      {
+         addString( ",") ;
+         addString( "101") ;
+      }
+      addString( "]") ;
+      pr_default.close(7);
+   }
+
+   public void gxload_3( String A396EmprCod ,
+                         int A4031CCTCod )
+   {
+      /* Using cursor T01VQ10 */
+      pr_default.execute(8, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod)});
+      if ( (pr_default.getStatus(8) == 101) )
+      {
+         httpContext.GX_msglist.addItem(GXutil.format( httpContext.getMessage( "GXSPC_ForeignKeyNotFound", ""), httpContext.getMessage( "CCDef", ""), "", "", "", "", "", "", "", ""), "ForeignKeyNotFound", 1, "CCTCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      }
+      A4036CCTDsc = T01VQ10_A4036CCTDsc[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4036CCTDsc", A4036CCTDsc);
+      app.GxWebStd.set_html_headers( httpContext, 0, "", "");
+      addString( "[[") ;
+      addString( "\""+PrivateUtilities.encodeJSConstant( GXutil.rtrim( A4036CCTDsc))+"\"") ;
+      addString( "]") ;
+      if ( (pr_default.getStatus(8) == 101) )
+      {
+         addString( ",") ;
+         addString( "101") ;
+      }
+      addString( "]") ;
+      pr_default.close(8);
+   }
+
+   public void getKey1VQ622( )
+   {
+      /* Using cursor T01VQ11 */
+      pr_default.execute(9, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod), Short.valueOf(A4034CCTLin)});
+      if ( (pr_default.getStatus(9) != 101) )
+      {
+         RcdFound622 = (short)(1) ;
+      }
+      else
+      {
+         RcdFound622 = (short)(0) ;
+      }
+      pr_default.close(9);
+   }
+
+   public void getByPrimaryKey( )
+   {
+      /* Using cursor T01VQ3 */
+      pr_default.execute(1, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod), Short.valueOf(A4034CCTLin)});
+      if ( (pr_default.getStatus(1) != 101) )
+      {
+         zm1VQ622( 1) ;
+         RcdFound622 = (short)(1) ;
+         A4034CCTLin = T01VQ3_A4034CCTLin[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4034CCTLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4034CCTLin), 4, 0));
+         A4043CCTLinDsc = T01VQ3_A4043CCTLinDsc[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4043CCTLinDsc", A4043CCTLinDsc);
+         A14344CCTLinDc2 = T01VQ3_A14344CCTLinDc2[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A14344CCTLinDc2", A14344CCTLinDc2);
+         A4044CCTLinTpoD = T01VQ3_A4044CCTLinTpoD[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4044CCTLinTpoD", A4044CCTLinTpoD);
+         A4045CCTLinLgoD = T01VQ3_A4045CCTLinLgoD[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4045CCTLinLgoD", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4045CCTLinLgoD), 3, 0));
+         A4046CCTLinPict = T01VQ3_A4046CCTLinPict[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4046CCTLinPict", A4046CCTLinPict);
+         A4047CCTLinVarW = T01VQ3_A4047CCTLinVarW[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4047CCTLinVarW", A4047CCTLinVarW);
+         A4048CCTLinTpoI = T01VQ3_A4048CCTLinTpoI[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4048CCTLinTpoI", A4048CCTLinTpoI);
+         A4408CCTSta = T01VQ3_A4408CCTSta[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4408CCTSta", A4408CCTSta);
+         A13249CCVNorma = T01VQ3_A13249CCVNorma[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A13249CCVNorma", A13249CCVNorma);
+         A13250CCVEspecif = T01VQ3_A13250CCVEspecif[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A13250CCVEspecif", A13250CCVEspecif);
+         A14345CCVEspe2 = T01VQ3_A14345CCVEspe2[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A14345CCVEspe2", A14345CCVEspe2);
+         A396EmprCod = T01VQ3_A396EmprCod[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+         A4031CCTCod = T01VQ3_A4031CCTCod[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4031CCTCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4031CCTCod), 6, 0));
+         A11522CCVCod = T01VQ3_A11522CCVCod[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11522CCVCod", A11522CCVCod);
+         Z396EmprCod = A396EmprCod ;
+         Z4031CCTCod = A4031CCTCod ;
+         Z4034CCTLin = A4034CCTLin ;
+         sMode622 = Gx_mode ;
+         Gx_mode = "DSP" ;
+         httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+         standaloneModal( ) ;
+         load1VQ622( ) ;
+         if ( AnyError == 1 )
+         {
+            RcdFound622 = (short)(0) ;
+            initializeNonKey1VQ622( ) ;
+         }
+         Gx_mode = sMode622 ;
+         httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+      }
+      else
+      {
+         RcdFound622 = (short)(0) ;
+         initializeNonKey1VQ622( ) ;
+         sMode622 = Gx_mode ;
+         Gx_mode = "DSP" ;
+         httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+         standaloneModal( ) ;
+         Gx_mode = sMode622 ;
+         httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+      }
+      pr_default.close(1);
+   }
+
+   public void getEqualNoModal( )
+   {
+      getKey1VQ622( ) ;
+      if ( RcdFound622 == 0 )
+      {
+         Gx_mode = "INS" ;
+         httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+      }
+      else
+      {
+         Gx_mode = "UPD" ;
+         httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+      }
+      getByPrimaryKey( ) ;
+   }
+
+   public void move_next( )
+   {
+      RcdFound622 = (short)(0) ;
+      /* Using cursor T01VQ12 */
+      pr_default.execute(10, new Object[] {A396EmprCod, A396EmprCod, Integer.valueOf(A4031CCTCod), Integer.valueOf(A4031CCTCod), A396EmprCod, Short.valueOf(A4034CCTLin)});
+      if ( (pr_default.getStatus(10) != 101) )
+      {
+         while ( (pr_default.getStatus(10) != 101) && ( ( GXutil.strcmp(T01VQ12_A396EmprCod[0], A396EmprCod) < 0 ) || ( GXutil.strcmp(T01VQ12_A396EmprCod[0], A396EmprCod) == 0 ) && ( T01VQ12_A4031CCTCod[0] < A4031CCTCod ) || ( T01VQ12_A4031CCTCod[0] == A4031CCTCod ) && ( GXutil.strcmp(T01VQ12_A396EmprCod[0], A396EmprCod) == 0 ) && ( T01VQ12_A4034CCTLin[0] < A4034CCTLin ) ) )
+         {
+            pr_default.readNext(10);
+         }
+         if ( (pr_default.getStatus(10) != 101) && ( ( GXutil.strcmp(T01VQ12_A396EmprCod[0], A396EmprCod) > 0 ) || ( GXutil.strcmp(T01VQ12_A396EmprCod[0], A396EmprCod) == 0 ) && ( T01VQ12_A4031CCTCod[0] > A4031CCTCod ) || ( T01VQ12_A4031CCTCod[0] == A4031CCTCod ) && ( GXutil.strcmp(T01VQ12_A396EmprCod[0], A396EmprCod) == 0 ) && ( T01VQ12_A4034CCTLin[0] > A4034CCTLin ) ) )
+         {
+            A396EmprCod = T01VQ12_A396EmprCod[0] ;
+            httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+            A4031CCTCod = T01VQ12_A4031CCTCod[0] ;
+            httpContext.ajax_rsp_assign_attri("", false, "A4031CCTCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4031CCTCod), 6, 0));
+            A4034CCTLin = T01VQ12_A4034CCTLin[0] ;
+            httpContext.ajax_rsp_assign_attri("", false, "A4034CCTLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4034CCTLin), 4, 0));
+            RcdFound622 = (short)(1) ;
+         }
+      }
+      pr_default.close(10);
+   }
+
+   public void move_previous( )
+   {
+      RcdFound622 = (short)(0) ;
+      /* Using cursor T01VQ13 */
+      pr_default.execute(11, new Object[] {A396EmprCod, A396EmprCod, Integer.valueOf(A4031CCTCod), Integer.valueOf(A4031CCTCod), A396EmprCod, Short.valueOf(A4034CCTLin)});
+      if ( (pr_default.getStatus(11) != 101) )
+      {
+         while ( (pr_default.getStatus(11) != 101) && ( ( GXutil.strcmp(T01VQ13_A396EmprCod[0], A396EmprCod) > 0 ) || ( GXutil.strcmp(T01VQ13_A396EmprCod[0], A396EmprCod) == 0 ) && ( T01VQ13_A4031CCTCod[0] > A4031CCTCod ) || ( T01VQ13_A4031CCTCod[0] == A4031CCTCod ) && ( GXutil.strcmp(T01VQ13_A396EmprCod[0], A396EmprCod) == 0 ) && ( T01VQ13_A4034CCTLin[0] > A4034CCTLin ) ) )
+         {
+            pr_default.readNext(11);
+         }
+         if ( (pr_default.getStatus(11) != 101) && ( ( GXutil.strcmp(T01VQ13_A396EmprCod[0], A396EmprCod) < 0 ) || ( GXutil.strcmp(T01VQ13_A396EmprCod[0], A396EmprCod) == 0 ) && ( T01VQ13_A4031CCTCod[0] < A4031CCTCod ) || ( T01VQ13_A4031CCTCod[0] == A4031CCTCod ) && ( GXutil.strcmp(T01VQ13_A396EmprCod[0], A396EmprCod) == 0 ) && ( T01VQ13_A4034CCTLin[0] < A4034CCTLin ) ) )
+         {
+            A396EmprCod = T01VQ13_A396EmprCod[0] ;
+            httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+            A4031CCTCod = T01VQ13_A4031CCTCod[0] ;
+            httpContext.ajax_rsp_assign_attri("", false, "A4031CCTCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4031CCTCod), 6, 0));
+            A4034CCTLin = T01VQ13_A4034CCTLin[0] ;
+            httpContext.ajax_rsp_assign_attri("", false, "A4034CCTLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4034CCTLin), 4, 0));
+            RcdFound622 = (short)(1) ;
+         }
+      }
+      pr_default.close(11);
+   }
+
+   public void btn_enter( )
+   {
+      nKeyPressed = (byte)(1) ;
+      getKey1VQ622( ) ;
+      if ( isIns( ) )
+      {
+         /* Insert record */
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+         insert1VQ622( ) ;
+         if ( AnyError == 1 )
+         {
+            GX_FocusControl = "" ;
+            httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+         }
+      }
+      else
+      {
+         if ( RcdFound622 == 1 )
+         {
+            if ( ( GXutil.strcmp(A396EmprCod, Z396EmprCod) != 0 ) || ( A4031CCTCod != Z4031CCTCod ) || ( A4034CCTLin != Z4034CCTLin ) )
+            {
+               A396EmprCod = Z396EmprCod ;
+               httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+               A4031CCTCod = Z4031CCTCod ;
+               httpContext.ajax_rsp_assign_attri("", false, "A4031CCTCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4031CCTCod), 6, 0));
+               A4034CCTLin = Z4034CCTLin ;
+               httpContext.ajax_rsp_assign_attri("", false, "A4034CCTLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4034CCTLin), 4, 0));
+               httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_getbeforeupd"), "CandidateKeyNotFound", 1, "EMPRCOD");
+               AnyError = (short)(1) ;
+               GX_FocusControl = edtEmprCod_Internalname ;
+               httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            }
+            else if ( isDlt( ) )
+            {
+               delete( ) ;
+               afterTrn( ) ;
+               GX_FocusControl = edtEmprCod_Internalname ;
+               httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            }
+            else
+            {
+               Gx_mode = "UPD" ;
+               httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+               /* Update record */
+               update1VQ622( ) ;
+               GX_FocusControl = edtEmprCod_Internalname ;
+               httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+            }
+         }
+         else
+         {
+            if ( ( GXutil.strcmp(A396EmprCod, Z396EmprCod) != 0 ) || ( A4031CCTCod != Z4031CCTCod ) || ( A4034CCTLin != Z4034CCTLin ) )
+            {
+               Gx_mode = "INS" ;
+               httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+               /* Insert record */
+               GX_FocusControl = edtEmprCod_Internalname ;
+               httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+               insert1VQ622( ) ;
+               if ( AnyError == 1 )
+               {
+                  GX_FocusControl = "" ;
+                  httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+               }
+            }
+            else
+            {
+               if ( GXutil.strcmp(Gx_mode, "UPD") == 0 )
+               {
+                  httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_recdeleted"), 1, "EMPRCOD");
+                  AnyError = (short)(1) ;
+                  GX_FocusControl = edtEmprCod_Internalname ;
+                  httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+               }
+               else
+               {
+                  Gx_mode = "INS" ;
+                  httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+                  /* Insert record */
+                  GX_FocusControl = edtEmprCod_Internalname ;
+                  httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+                  insert1VQ622( ) ;
+                  if ( AnyError == 1 )
+                  {
+                     GX_FocusControl = "" ;
+                     httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+                  }
+               }
+            }
+         }
+      }
+      afterTrn( ) ;
+   }
+
+   public void btn_delete( )
+   {
+      if ( ( GXutil.strcmp(A396EmprCod, Z396EmprCod) != 0 ) || ( A4031CCTCod != Z4031CCTCod ) || ( A4034CCTLin != Z4034CCTLin ) )
+      {
+         A396EmprCod = Z396EmprCod ;
+         httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+         A4031CCTCod = Z4031CCTCod ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4031CCTCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4031CCTCod), 6, 0));
+         A4034CCTLin = Z4034CCTLin ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4034CCTLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4034CCTLin), 4, 0));
+         httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_getbeforedlt"), 1, "EMPRCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      }
+      else
+      {
+         delete( ) ;
+         afterTrn( ) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      }
+      if ( AnyError != 0 )
+      {
+         Gx_mode = "UPD" ;
+         httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+      }
+      else
+      {
+         getByPrimaryKey( ) ;
+      }
+      CloseOpenCursors();
+   }
+
+   public void btn_get( )
+   {
+      nKeyPressed = (byte)(2) ;
+      IsConfirmed = (short)(0) ;
+      httpContext.ajax_rsp_assign_attri("", false, "IsConfirmed", GXutil.ltrimstr( DecimalUtil.doubleToDec(IsConfirmed), 4, 0));
+      getEqualNoModal( ) ;
+      if ( RcdFound622 == 0 )
+      {
+         httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_keynfound"), "PrimaryKeyNotFound", 1, "EMPRCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      }
+      GX_FocusControl = edtCCTLinDsc_Internalname ;
+      httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      standaloneNotModal( ) ;
+      standaloneModal( ) ;
+   }
+
+   public void btn_first( )
+   {
+      nKeyPressed = (byte)(2) ;
+      IsConfirmed = (short)(0) ;
+      httpContext.ajax_rsp_assign_attri("", false, "IsConfirmed", GXutil.ltrimstr( DecimalUtil.doubleToDec(IsConfirmed), 4, 0));
+      scanStart1VQ622( ) ;
+      if ( RcdFound622 == 0 )
+      {
+         httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_norectobrow"), 0, "", true);
+      }
+      else
+      {
+         Gx_mode = "UPD" ;
+         httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+      }
+      GX_FocusControl = edtCCTLinDsc_Internalname ;
+      httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      scanEnd1VQ622( ) ;
+      getByPrimaryKey( ) ;
+      standaloneNotModal( ) ;
+      standaloneModal( ) ;
+   }
+
+   public void btn_previous( )
+   {
+      nKeyPressed = (byte)(2) ;
+      IsConfirmed = (short)(0) ;
+      httpContext.ajax_rsp_assign_attri("", false, "IsConfirmed", GXutil.ltrimstr( DecimalUtil.doubleToDec(IsConfirmed), 4, 0));
+      move_previous( ) ;
+      if ( RcdFound622 == 0 )
+      {
+         httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_norectobrow"), 0, "", true);
+      }
+      else
+      {
+         Gx_mode = "UPD" ;
+         httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+      }
+      GX_FocusControl = edtCCTLinDsc_Internalname ;
+      httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      getByPrimaryKey( ) ;
+      standaloneNotModal( ) ;
+      standaloneModal( ) ;
+   }
+
+   public void btn_next( )
+   {
+      nKeyPressed = (byte)(2) ;
+      IsConfirmed = (short)(0) ;
+      httpContext.ajax_rsp_assign_attri("", false, "IsConfirmed", GXutil.ltrimstr( DecimalUtil.doubleToDec(IsConfirmed), 4, 0));
+      move_next( ) ;
+      if ( RcdFound622 == 0 )
+      {
+         httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_norectobrow"), 0, "", true);
+      }
+      else
+      {
+         Gx_mode = "UPD" ;
+         httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+      }
+      GX_FocusControl = edtCCTLinDsc_Internalname ;
+      httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      getByPrimaryKey( ) ;
+      standaloneNotModal( ) ;
+      standaloneModal( ) ;
+   }
+
+   public void btn_last( )
+   {
+      nKeyPressed = (byte)(2) ;
+      IsConfirmed = (short)(0) ;
+      httpContext.ajax_rsp_assign_attri("", false, "IsConfirmed", GXutil.ltrimstr( DecimalUtil.doubleToDec(IsConfirmed), 4, 0));
+      scanStart1VQ622( ) ;
+      if ( RcdFound622 == 0 )
+      {
+         httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_norectobrow"), 0, "", true);
+      }
+      else
+      {
+         while ( RcdFound622 != 0 )
+         {
+            scanNext1VQ622( ) ;
+         }
+         Gx_mode = "UPD" ;
+         httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+      }
+      GX_FocusControl = edtCCTLinDsc_Internalname ;
+      httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      scanEnd1VQ622( ) ;
+      getByPrimaryKey( ) ;
+      standaloneNotModal( ) ;
+      standaloneModal( ) ;
+   }
+
+   public void btn_select( )
+   {
+      getEqualNoModal( ) ;
+   }
+
+   public void checkOptimisticConcurrency1VQ622( )
+   {
+      if ( ! isIns( ) )
+      {
+         /* Using cursor T01VQ2 */
+         pr_default.execute(0, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod), Short.valueOf(A4034CCTLin)});
+         if ( (pr_default.getStatus(0) == 103) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_lock", new Object[] {"TXPCCDef1"}), "RecordIsLocked", 1, "");
+            AnyError = (short)(1) ;
+            return  ;
+         }
+         Gx_longc = false ;
+         if ( (pr_default.getStatus(0) == 101) || ( GXutil.strcmp(Z4043CCTLinDsc, T01VQ2_A4043CCTLinDsc[0]) != 0 ) || ( GXutil.strcmp(Z14344CCTLinDc2, T01VQ2_A14344CCTLinDc2[0]) != 0 ) || ( GXutil.strcmp(Z4044CCTLinTpoD, T01VQ2_A4044CCTLinTpoD[0]) != 0 ) || ( Z4045CCTLinLgoD != T01VQ2_A4045CCTLinLgoD[0] ) || ( GXutil.strcmp(Z4046CCTLinPict, T01VQ2_A4046CCTLinPict[0]) != 0 ) )
+         {
+            Gx_longc = true ;
+         }
+         if ( Gx_longc || ( GXutil.strcmp(Z4047CCTLinVarW, T01VQ2_A4047CCTLinVarW[0]) != 0 ) || ( GXutil.strcmp(Z4048CCTLinTpoI, T01VQ2_A4048CCTLinTpoI[0]) != 0 ) || ( GXutil.strcmp(Z4408CCTSta, T01VQ2_A4408CCTSta[0]) != 0 ) || ( GXutil.strcmp(Z13249CCVNorma, T01VQ2_A13249CCVNorma[0]) != 0 ) || ( GXutil.strcmp(Z13250CCVEspecif, T01VQ2_A13250CCVEspecif[0]) != 0 ) )
+         {
+            Gx_longc = true ;
+         }
+         if ( Gx_longc || ( GXutil.strcmp(Z14345CCVEspe2, T01VQ2_A14345CCVEspe2[0]) != 0 ) || ( GXutil.strcmp(Z11522CCVCod, T01VQ2_A11522CCVCod[0]) != 0 ) )
+         {
+            if ( GXutil.strcmp(Z4043CCTLinDsc, T01VQ2_A4043CCTLinDsc[0]) != 0 )
+            {
+               GXutil.writeLogln("controlcalidadhtd.controlcalidad_ccdef1:[seudo value changed for attri]"+"CCTLinDsc");
+               GXutil.writeLogRaw("Old: ",Z4043CCTLinDsc);
+               GXutil.writeLogRaw("Current: ",T01VQ2_A4043CCTLinDsc[0]);
+            }
+            if ( GXutil.strcmp(Z14344CCTLinDc2, T01VQ2_A14344CCTLinDc2[0]) != 0 )
+            {
+               GXutil.writeLogln("controlcalidadhtd.controlcalidad_ccdef1:[seudo value changed for attri]"+"CCTLinDc2");
+               GXutil.writeLogRaw("Old: ",Z14344CCTLinDc2);
+               GXutil.writeLogRaw("Current: ",T01VQ2_A14344CCTLinDc2[0]);
+            }
+            if ( GXutil.strcmp(Z4044CCTLinTpoD, T01VQ2_A4044CCTLinTpoD[0]) != 0 )
+            {
+               GXutil.writeLogln("controlcalidadhtd.controlcalidad_ccdef1:[seudo value changed for attri]"+"CCTLinTpoD");
+               GXutil.writeLogRaw("Old: ",Z4044CCTLinTpoD);
+               GXutil.writeLogRaw("Current: ",T01VQ2_A4044CCTLinTpoD[0]);
+            }
+            if ( Z4045CCTLinLgoD != T01VQ2_A4045CCTLinLgoD[0] )
+            {
+               GXutil.writeLogln("controlcalidadhtd.controlcalidad_ccdef1:[seudo value changed for attri]"+"CCTLinLgoD");
+               GXutil.writeLogRaw("Old: ",Z4045CCTLinLgoD);
+               GXutil.writeLogRaw("Current: ",T01VQ2_A4045CCTLinLgoD[0]);
+            }
+            if ( GXutil.strcmp(Z4046CCTLinPict, T01VQ2_A4046CCTLinPict[0]) != 0 )
+            {
+               GXutil.writeLogln("controlcalidadhtd.controlcalidad_ccdef1:[seudo value changed for attri]"+"CCTLinPict");
+               GXutil.writeLogRaw("Old: ",Z4046CCTLinPict);
+               GXutil.writeLogRaw("Current: ",T01VQ2_A4046CCTLinPict[0]);
+            }
+            if ( GXutil.strcmp(Z4047CCTLinVarW, T01VQ2_A4047CCTLinVarW[0]) != 0 )
+            {
+               GXutil.writeLogln("controlcalidadhtd.controlcalidad_ccdef1:[seudo value changed for attri]"+"CCTLinVarW");
+               GXutil.writeLogRaw("Old: ",Z4047CCTLinVarW);
+               GXutil.writeLogRaw("Current: ",T01VQ2_A4047CCTLinVarW[0]);
+            }
+            if ( GXutil.strcmp(Z4048CCTLinTpoI, T01VQ2_A4048CCTLinTpoI[0]) != 0 )
+            {
+               GXutil.writeLogln("controlcalidadhtd.controlcalidad_ccdef1:[seudo value changed for attri]"+"CCTLinTpoI");
+               GXutil.writeLogRaw("Old: ",Z4048CCTLinTpoI);
+               GXutil.writeLogRaw("Current: ",T01VQ2_A4048CCTLinTpoI[0]);
+            }
+            if ( GXutil.strcmp(Z4408CCTSta, T01VQ2_A4408CCTSta[0]) != 0 )
+            {
+               GXutil.writeLogln("controlcalidadhtd.controlcalidad_ccdef1:[seudo value changed for attri]"+"CCTSta");
+               GXutil.writeLogRaw("Old: ",Z4408CCTSta);
+               GXutil.writeLogRaw("Current: ",T01VQ2_A4408CCTSta[0]);
+            }
+            if ( GXutil.strcmp(Z13249CCVNorma, T01VQ2_A13249CCVNorma[0]) != 0 )
+            {
+               GXutil.writeLogln("controlcalidadhtd.controlcalidad_ccdef1:[seudo value changed for attri]"+"CCVNorma");
+               GXutil.writeLogRaw("Old: ",Z13249CCVNorma);
+               GXutil.writeLogRaw("Current: ",T01VQ2_A13249CCVNorma[0]);
+            }
+            if ( GXutil.strcmp(Z13250CCVEspecif, T01VQ2_A13250CCVEspecif[0]) != 0 )
+            {
+               GXutil.writeLogln("controlcalidadhtd.controlcalidad_ccdef1:[seudo value changed for attri]"+"CCVEspecif");
+               GXutil.writeLogRaw("Old: ",Z13250CCVEspecif);
+               GXutil.writeLogRaw("Current: ",T01VQ2_A13250CCVEspecif[0]);
+            }
+            if ( GXutil.strcmp(Z14345CCVEspe2, T01VQ2_A14345CCVEspe2[0]) != 0 )
+            {
+               GXutil.writeLogln("controlcalidadhtd.controlcalidad_ccdef1:[seudo value changed for attri]"+"CCVEspe2");
+               GXutil.writeLogRaw("Old: ",Z14345CCVEspe2);
+               GXutil.writeLogRaw("Current: ",T01VQ2_A14345CCVEspe2[0]);
+            }
+            if ( GXutil.strcmp(Z11522CCVCod, T01VQ2_A11522CCVCod[0]) != 0 )
+            {
+               GXutil.writeLogln("controlcalidadhtd.controlcalidad_ccdef1:[seudo value changed for attri]"+"CCVCod");
+               GXutil.writeLogRaw("Old: ",Z11522CCVCod);
+               GXutil.writeLogRaw("Current: ",T01VQ2_A11522CCVCod[0]);
+            }
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_waschg", new Object[] {"TXPCCDef1"}), "RecordWasChanged", 1, "");
+            AnyError = (short)(1) ;
+            return  ;
+         }
+      }
+   }
+
+   public void insert1VQ622( )
+   {
+      beforeValidate1VQ622( ) ;
+      if ( AnyError == 0 )
+      {
+         checkExtendedTable1VQ622( ) ;
+      }
+      if ( AnyError == 0 )
+      {
+         zm1VQ622( 0) ;
+         checkOptimisticConcurrency1VQ622( ) ;
+         if ( AnyError == 0 )
+         {
+            afterConfirm1VQ622( ) ;
+            if ( AnyError == 0 )
+            {
+               beforeInsert1VQ622( ) ;
+               if ( AnyError == 0 )
+               {
+                  /* Using cursor T01VQ14 */
+                  pr_default.execute(12, new Object[] {Short.valueOf(A4034CCTLin), A4043CCTLinDsc, A14344CCTLinDc2, A4044CCTLinTpoD, Short.valueOf(A4045CCTLinLgoD), A4046CCTLinPict, A4047CCTLinVarW, A4048CCTLinTpoI, A4408CCTSta, A13249CCVNorma, A13250CCVEspecif, A14345CCVEspe2, A396EmprCod, Integer.valueOf(A4031CCTCod), A11522CCVCod});
+                  Application.getSmartCacheProvider(remoteHandle).setUpdated("TXPCCDef1");
+                  if ( (pr_default.getStatus(12) == 1) )
+                  {
+                     httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_noupdate"), "DuplicatePrimaryKey", 1, "");
+                     AnyError = (short)(1) ;
+                  }
+                  if ( AnyError == 0 )
+                  {
+                     /* Start of After( Insert) rules */
+                     /* End of After( Insert) rules */
+                     if ( AnyError == 0 )
+                     {
+                        /* Save values for previous() function. */
+                        endTrnMsgTxt = localUtil.getMessages().getMessage("GXM_sucadded") ;
+                        endTrnMsgCod = "SuccessfullyAdded" ;
+                        resetCaption1VQ0( ) ;
+                     }
+                  }
+               }
+               else
+               {
+                  httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_unexp"), 1, "");
+                  AnyError = (short)(1) ;
+               }
+            }
+         }
+         else
+         {
+            load1VQ622( ) ;
+         }
+         endLevel1VQ622( ) ;
+      }
+      closeExtendedTableCursors1VQ622( ) ;
+   }
+
+   public void update1VQ622( )
+   {
+      beforeValidate1VQ622( ) ;
+      if ( AnyError == 0 )
+      {
+         checkExtendedTable1VQ622( ) ;
+      }
+      if ( AnyError == 0 )
+      {
+         checkOptimisticConcurrency1VQ622( ) ;
+         if ( AnyError == 0 )
+         {
+            afterConfirm1VQ622( ) ;
+            if ( AnyError == 0 )
+            {
+               beforeUpdate1VQ622( ) ;
+               if ( AnyError == 0 )
+               {
+                  /* Using cursor T01VQ15 */
+                  pr_default.execute(13, new Object[] {A4043CCTLinDsc, A14344CCTLinDc2, A4044CCTLinTpoD, Short.valueOf(A4045CCTLinLgoD), A4046CCTLinPict, A4047CCTLinVarW, A4048CCTLinTpoI, A4408CCTSta, A13249CCVNorma, A13250CCVEspecif, A14345CCVEspe2, A11522CCVCod, A396EmprCod, Integer.valueOf(A4031CCTCod), Short.valueOf(A4034CCTLin)});
+                  Application.getSmartCacheProvider(remoteHandle).setUpdated("TXPCCDef1");
+                  if ( (pr_default.getStatus(13) == 103) )
+                  {
+                     httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_lock", new Object[] {"TXPCCDef1"}), "RecordIsLocked", 1, "");
+                     AnyError = (short)(1) ;
+                  }
+                  deferredUpdate1VQ622( ) ;
+                  if ( AnyError == 0 )
+                  {
+                     /* Start of After( update) rules */
+                     /* End of After( update) rules */
+                     if ( AnyError == 0 )
+                     {
+                        getByPrimaryKey( ) ;
+                        endTrnMsgTxt = localUtil.getMessages().getMessage("GXM_sucupdated") ;
+                        endTrnMsgCod = "SuccessfullyUpdated" ;
+                        resetCaption1VQ0( ) ;
+                     }
+                  }
+                  else
+                  {
+                     httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_unexp"), 1, "");
+                     AnyError = (short)(1) ;
+                  }
+               }
+            }
+         }
+         endLevel1VQ622( ) ;
+      }
+      closeExtendedTableCursors1VQ622( ) ;
+   }
+
+   public void deferredUpdate1VQ622( )
+   {
+   }
+
+   public void delete( )
+   {
+      Gx_mode = "DLT" ;
+      httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+      beforeValidate1VQ622( ) ;
+      if ( AnyError == 0 )
+      {
+         checkOptimisticConcurrency1VQ622( ) ;
+      }
+      if ( AnyError == 0 )
+      {
+         onDeleteControls1VQ622( ) ;
+         afterConfirm1VQ622( ) ;
+         if ( AnyError == 0 )
+         {
+            beforeDelete1VQ622( ) ;
+            if ( AnyError == 0 )
+            {
+               /* No cascading delete specified. */
+               /* Using cursor T01VQ16 */
+               pr_default.execute(14, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod), Short.valueOf(A4034CCTLin)});
+               Application.getSmartCacheProvider(remoteHandle).setUpdated("TXPCCDef1");
+               if ( AnyError == 0 )
+               {
+                  /* Start of After( delete) rules */
+                  /* End of After( delete) rules */
+                  if ( AnyError == 0 )
+                  {
+                     move_next( ) ;
+                     if ( RcdFound622 == 0 )
+                     {
+                        initAll1VQ622( ) ;
+                        Gx_mode = "INS" ;
+                        httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+                     }
+                     else
+                     {
+                        getByPrimaryKey( ) ;
+                        Gx_mode = "UPD" ;
+                        httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+                     }
+                     endTrnMsgTxt = localUtil.getMessages().getMessage("GXM_sucdeleted") ;
+                     endTrnMsgCod = "SuccessfullyDeleted" ;
+                     resetCaption1VQ0( ) ;
+                  }
+               }
+               else
+               {
+                  httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_unexp"), 1, "");
+                  AnyError = (short)(1) ;
+               }
+            }
+         }
+      }
+      sMode622 = Gx_mode ;
+      Gx_mode = "DLT" ;
+      httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+      endLevel1VQ622( ) ;
+      Gx_mode = sMode622 ;
+      httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", Gx_mode);
+   }
+
+   public void onDeleteControls1VQ622( )
+   {
+      standaloneModal( ) ;
+      if ( AnyError == 0 )
+      {
+         /* Delete mode formulas */
+         /* Using cursor T01VQ17 */
+         pr_default.execute(15, new Object[] {A396EmprCod});
+         A407EmprNom = T01VQ17_A407EmprNom[0] ;
+         n407EmprNom = T01VQ17_n407EmprNom[0] ;
+         pr_default.close(15);
+         /* Using cursor T01VQ18 */
+         pr_default.execute(16, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod)});
+         A4036CCTDsc = T01VQ18_A4036CCTDsc[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4036CCTDsc", A4036CCTDsc);
+         pr_default.close(16);
+         /* Using cursor T01VQ19 */
+         pr_default.execute(17, new Object[] {A396EmprCod, A11522CCVCod});
+         A11526CCVPict = T01VQ19_A11526CCVPict[0] ;
+         n11526CCVPict = T01VQ19_n11526CCVPict[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11526CCVPict", A11526CCVPict);
+         A11527CCVLgoDat = T01VQ19_A11527CCVLgoDat[0] ;
+         n11527CCVLgoDat = T01VQ19_n11527CCVLgoDat[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11527CCVLgoDat", GXutil.ltrimstr( DecimalUtil.doubleToDec(A11527CCVLgoDat), 3, 0));
+         A11528CCVTpoDat = T01VQ19_A11528CCVTpoDat[0] ;
+         n11528CCVTpoDat = T01VQ19_n11528CCVTpoDat[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11528CCVTpoDat", A11528CCVTpoDat);
+         A11529CCVDsc = T01VQ19_A11529CCVDsc[0] ;
+         n11529CCVDsc = T01VQ19_n11529CCVDsc[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11529CCVDsc", A11529CCVDsc);
+         pr_default.close(17);
+      }
+      if ( AnyError == 0 )
+      {
+         /* Using cursor T01VQ20 */
+         pr_default.execute(18, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod), Short.valueOf(A4034CCTLin)});
+         if ( (pr_default.getStatus(18) != 101) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_del", new Object[] {httpContext.getMessage( "Valores Estandars", "")}), "CannotDeleteReferencedRecord", 1, "");
+            AnyError = (short)(1) ;
+         }
+         pr_default.close(18);
+         /* Using cursor T01VQ21 */
+         pr_default.execute(19, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod), Short.valueOf(A4034CCTLin)});
+         if ( (pr_default.getStatus(19) != 101) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_del", new Object[] {httpContext.getMessage( "CCSta", "")}), "CannotDeleteReferencedRecord", 1, "");
+            AnyError = (short)(1) ;
+         }
+         pr_default.close(19);
+         /* Using cursor T01VQ22 */
+         pr_default.execute(20, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod), Short.valueOf(A4034CCTLin)});
+         if ( (pr_default.getStatus(20) != 101) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_del", new Object[] {httpContext.getMessage( "CCDef2", "")}), "CannotDeleteReferencedRecord", 1, "");
+            AnyError = (short)(1) ;
+         }
+         pr_default.close(20);
+         /* Using cursor T01VQ23 */
+         pr_default.execute(21, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod), Short.valueOf(A4034CCTLin)});
+         if ( (pr_default.getStatus(21) != 101) )
+         {
+            httpContext.GX_msglist.addItem(localUtil.getMessages().getMessage("GXM_del", new Object[] {httpContext.getMessage( "CC1", "")}), "CannotDeleteReferencedRecord", 1, "");
+            AnyError = (short)(1) ;
+         }
+         pr_default.close(21);
+      }
+   }
+
+   public void endLevel1VQ622( )
+   {
+      if ( ! isIns( ) )
+      {
+         pr_default.close(0);
+      }
+      if ( AnyError == 0 )
+      {
+         beforeComplete1VQ622( ) ;
+      }
+      if ( AnyError == 0 )
+      {
+         Application.commitDataStores(context, remoteHandle, pr_default, "controlcalidadhtd.controlcalidad_ccdef1");
+         if ( AnyError == 0 )
+         {
+            confirmValues1VQ0( ) ;
+         }
+         /* After transaction rules */
+         /* Execute 'After Trn' event if defined. */
+         trnEnded = 1 ;
+      }
+      else
+      {
+         Application.rollbackDataStores(context, remoteHandle, pr_default, "controlcalidadhtd.controlcalidad_ccdef1");
+      }
+      IsModified = (short)(0) ;
+      if ( AnyError != 0 )
+      {
+         httpContext.wjLoc = "" ;
+         httpContext.nUserReturn = (byte)(0) ;
+      }
+   }
+
+   public void scanStart1VQ622( )
+   {
+      /* Using cursor T01VQ24 */
+      pr_default.execute(22);
+      RcdFound622 = (short)(0) ;
+      if ( (pr_default.getStatus(22) != 101) )
+      {
+         RcdFound622 = (short)(1) ;
+         A396EmprCod = T01VQ24_A396EmprCod[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+         A4031CCTCod = T01VQ24_A4031CCTCod[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4031CCTCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4031CCTCod), 6, 0));
+         A4034CCTLin = T01VQ24_A4034CCTLin[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4034CCTLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4034CCTLin), 4, 0));
+      }
+      /* Load Subordinate Levels */
+   }
+
+   public void scanNext1VQ622( )
+   {
+      /* Scan next routine */
+      pr_default.readNext(22);
+      RcdFound622 = (short)(0) ;
+      if ( (pr_default.getStatus(22) != 101) )
+      {
+         RcdFound622 = (short)(1) ;
+         A396EmprCod = T01VQ24_A396EmprCod[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+         A4031CCTCod = T01VQ24_A4031CCTCod[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4031CCTCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4031CCTCod), 6, 0));
+         A4034CCTLin = T01VQ24_A4034CCTLin[0] ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4034CCTLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4034CCTLin), 4, 0));
+      }
+   }
+
+   public void scanEnd1VQ622( )
+   {
+      pr_default.close(22);
+   }
+
+   public void afterConfirm1VQ622( )
+   {
+      /* After Confirm Rules */
+   }
+
+   public void beforeInsert1VQ622( )
+   {
+      /* Before Insert Rules */
+   }
+
+   public void beforeUpdate1VQ622( )
+   {
+      /* Before Update Rules */
+   }
+
+   public void beforeDelete1VQ622( )
+   {
+      /* Before Delete Rules */
+   }
+
+   public void beforeComplete1VQ622( )
+   {
+      /* Before Complete Rules */
+   }
+
+   public void beforeValidate1VQ622( )
+   {
+      /* Before Validate Rules */
+   }
+
+   public void disableAttributes1VQ622( )
+   {
+      edtEmprCod_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtEmprCod_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtEmprCod_Enabled), 5, 0), true);
+      edtCCTCod_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCTCod_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCTCod_Enabled), 5, 0), true);
+      edtCCTDsc_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCTDsc_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCTDsc_Enabled), 5, 0), true);
+      edtCCTLin_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCTLin_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCTLin_Enabled), 5, 0), true);
+      edtCCTLinDsc_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCTLinDsc_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCTLinDsc_Enabled), 5, 0), true);
+      edtCCTLinDc2_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCTLinDc2_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCTLinDc2_Enabled), 5, 0), true);
+      cmbCCTLinTpoD.setEnabled( 0 );
+      httpContext.ajax_rsp_assign_prop("", false, cmbCCTLinTpoD.getInternalname(), "Enabled", GXutil.ltrimstr( cmbCCTLinTpoD.getEnabled(), 5, 0), true);
+      edtCCTLinLgoD_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCTLinLgoD_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCTLinLgoD_Enabled), 5, 0), true);
+      edtCCTLinPict_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCTLinPict_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCTLinPict_Enabled), 5, 0), true);
+      edtCCTLinVarW_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCTLinVarW_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCTLinVarW_Enabled), 5, 0), true);
+      cmbCCTLinTpoI.setEnabled( 0 );
+      httpContext.ajax_rsp_assign_prop("", false, cmbCCTLinTpoI.getInternalname(), "Enabled", GXutil.ltrimstr( cmbCCTLinTpoI.getEnabled(), 5, 0), true);
+      edtCCTSta_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCTSta_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCTSta_Enabled), 5, 0), true);
+      edtCCVCod_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCVCod_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCVCod_Enabled), 5, 0), true);
+      edtCCVPict_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCVPict_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCVPict_Enabled), 5, 0), true);
+      edtCCVLgoDat_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCVLgoDat_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCVLgoDat_Enabled), 5, 0), true);
+      cmbCCVTpoDat.setEnabled( 0 );
+      httpContext.ajax_rsp_assign_prop("", false, cmbCCVTpoDat.getInternalname(), "Enabled", GXutil.ltrimstr( cmbCCVTpoDat.getEnabled(), 5, 0), true);
+      edtCCVDsc_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCVDsc_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCVDsc_Enabled), 5, 0), true);
+      edtCCVNorma_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCVNorma_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCVNorma_Enabled), 5, 0), true);
+      edtCCVEspecif_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCVEspecif_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCVEspecif_Enabled), 5, 0), true);
+      edtCCVEspe2_Enabled = 0 ;
+      httpContext.ajax_rsp_assign_prop("", false, edtCCVEspe2_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(edtCCVEspe2_Enabled), 5, 0), true);
+   }
+
+   public void send_integrity_lvl_hashes1VQ622( )
+   {
+   }
+
+   public void assign_properties_default( )
+   {
+   }
+
+   public void confirmValues1VQ0( )
+   {
+   }
+
+   public void renderHtmlHeaders( )
+   {
+      app.GxWebStd.gx_html_headers( httpContext, 0, "", "", Form.getMeta(), Form.getMetaequiv(), true);
+   }
+
+   public void renderHtmlOpenForm( )
+   {
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      httpContext.writeText( "<title>") ;
+      httpContext.writeValue( Form.getCaption()) ;
+      httpContext.writeTextNL( "</title>") ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      if ( GXutil.len( sDynURL) > 0 )
+      {
+         httpContext.writeText( "<BASE href=\""+sDynURL+"\" />") ;
+      }
+      define_styles( ) ;
+      MasterPageObj.master_styles();
+      if ( ( ( httpContext.getBrowserType( ) == 1 ) || ( httpContext.getBrowserType( ) == 5 ) ) && ( GXutil.strcmp(httpContext.getBrowserVersion( ), "7.0") == 0 ) )
+      {
+         httpContext.AddJavascriptSource("json2.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      }
+      httpContext.AddJavascriptSource("jquery.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("gxgral.js", "?"+httpContext.getBuildNumber( 214800), false, true);
+      httpContext.AddJavascriptSource("gxcfg.js", "?"+httpContext.getCacheInvalidationToken( ), false, true);
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      httpContext.writeText( Form.getHeaderrawhtml()) ;
+      httpContext.closeHtmlHeader();
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      FormProcess = " data-HasEnter=\"true\" data-Skiponenter=\"false\"" ;
+      httpContext.writeText( "<body ") ;
+      bodyStyle = "" + "background-color:" + WebUtils.getHTMLColor( Form.getIBackground()) + ";color:" + WebUtils.getHTMLColor( Form.getTextcolor()) + ";" ;
+      bodyStyle += "-moz-opacity:0;opacity:0;" ;
+      if ( ! ( (GXutil.strcmp("", Form.getBackground())==0) ) )
+      {
+         bodyStyle += " background-image:url(" + httpContext.convertURL( Form.getBackground()) + ")" ;
+      }
+      httpContext.writeText( " "+"class=\"form-horizontal Form\""+" "+ "style='"+bodyStyle+"'") ;
+      httpContext.writeText( FormProcess+">") ;
+      httpContext.skipLines( 1 );
+      httpContext.writeTextNL( "<form id=\"MAINFORM\" autocomplete=\"off\" name=\"MAINFORM\" method=\"post\" tabindex=-1  class=\"form-horizontal Form\" data-gx-class=\"form-horizontal Form\" novalidate action=\""+formatLink("app.controlcalidadhtd.controlcalidad_ccdef1", new String[] {}, new String[] {}) +"\">") ;
+      app.GxWebStd.gx_hidden_field( httpContext, "_EventName", "");
+      app.GxWebStd.gx_hidden_field( httpContext, "_EventGridId", "");
+      app.GxWebStd.gx_hidden_field( httpContext, "_EventRowId", "");
+      httpContext.writeText( "<input type=\"submit\" title=\"submit\" style=\"display:block;height:0;border:0;padding:0\" disabled>") ;
+      httpContext.ajax_rsp_assign_prop("", false, "FORM", "Class", "form-horizontal Form", true);
+      toggleJsOutput = httpContext.isJsOutputEnabled( ) ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableJsOutput();
+      }
+   }
+
+   public void send_integrity_footer_hashes( )
+   {
+      GXKey = httpContext.decrypt64( httpContext.getCookie( "GX_SESSION_ID"), context.getServerKey( )) ;
+   }
+
+   public void sendCloseFormHiddens( )
+   {
+      /* Send hidden variables. */
+      /* Send saved values. */
+      send_integrity_footer_hashes( ) ;
+      app.GxWebStd.gx_hidden_field( httpContext, "Z396EmprCod", GXutil.rtrim( Z396EmprCod));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4031CCTCod", GXutil.ltrim( localUtil.ntoc( Z4031CCTCod, (byte)(6), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4034CCTLin", GXutil.ltrim( localUtil.ntoc( Z4034CCTLin, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4043CCTLinDsc", GXutil.rtrim( Z4043CCTLinDsc));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z14344CCTLinDc2", GXutil.rtrim( Z14344CCTLinDc2));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4044CCTLinTpoD", GXutil.rtrim( Z4044CCTLinTpoD));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4045CCTLinLgoD", GXutil.ltrim( localUtil.ntoc( Z4045CCTLinLgoD, (byte)(3), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4046CCTLinPict", GXutil.rtrim( Z4046CCTLinPict));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4047CCTLinVarW", GXutil.rtrim( Z4047CCTLinVarW));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4048CCTLinTpoI", GXutil.rtrim( Z4048CCTLinTpoI));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4408CCTSta", GXutil.rtrim( Z4408CCTSta));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z13249CCVNorma", GXutil.rtrim( Z13249CCVNorma));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z13250CCVEspecif", GXutil.rtrim( Z13250CCVEspecif));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z14345CCVEspe2", Z14345CCVEspe2);
+      app.GxWebStd.gx_hidden_field( httpContext, "Z11522CCVCod", GXutil.rtrim( Z11522CCVCod));
+      app.GxWebStd.gx_hidden_field( httpContext, "IsConfirmed", GXutil.ltrim( localUtil.ntoc( IsConfirmed, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "IsModified", GXutil.ltrim( localUtil.ntoc( IsModified, (byte)(4), (byte)(0), httpContext.getLanguageProperty( "decimal_point"), "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "Mode", GXutil.rtrim( Gx_mode));
+      app.GxWebStd.gx_hidden_field( httpContext, "EMPRNOM", GXutil.rtrim( A407EmprNom));
+   }
+
+   public void renderHtmlCloseForm( )
+   {
+      sendCloseFormHiddens( ) ;
+      app.GxWebStd.gx_hidden_field( httpContext, "GX_FocusControl", GX_FocusControl);
+      httpContext.SendAjaxEncryptionKey();
+      sendSecurityToken(sPrefix);
+      httpContext.SendComponentObjects();
+      httpContext.SendServerCommands();
+      httpContext.SendState();
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableOutput();
+      }
+      httpContext.writeTextNL( "</form>") ;
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      include_jscripts( ) ;
+      httpContext.writeText( "<script type=\"text/javascript\">") ;
+      httpContext.writeText( "gx.setLanguageCode(\""+httpContext.getLanguageProperty( "code")+"\");") ;
+      if ( ! httpContext.isSpaRequest( ) )
+      {
+         httpContext.writeText( "gx.setDateFormat(\""+httpContext.getLanguageProperty( "date_fmt")+"\");") ;
+         httpContext.writeText( "gx.setTimeFormat("+httpContext.getLanguageProperty( "time_fmt")+");") ;
+         httpContext.writeText( "gx.setCenturyFirstYear("+40+");") ;
+         httpContext.writeText( "gx.setDecimalPoint(\""+httpContext.getLanguageProperty( "decimal_point")+"\");") ;
+         httpContext.writeText( "gx.setThousandSeparator(\""+httpContext.getLanguageProperty( "thousand_sep")+"\");") ;
+         httpContext.writeText( "gx.StorageTimeZone = "+2+";") ;
+      }
+      httpContext.writeText( "</script>") ;
+   }
+
+   public byte executeStartEvent( )
+   {
+      standaloneStartup( ) ;
+      gxajaxcallmode = (byte)((isAjaxCallMode( ) ? 1 : 0)) ;
+      return gxajaxcallmode ;
+   }
+
+   public void renderHtmlContent( )
+   {
+      httpContext.writeText( "<div") ;
+      app.GxWebStd.classAttribute( httpContext, "gx-ct-body"+" "+((GXutil.strcmp("", Form.getThemeClass())==0) ? "form-horizontal Form" : Form.getThemeClass())+"-fx");
+      httpContext.writeText( ">") ;
+      draw( ) ;
+      httpContext.writeText( "</div>") ;
+   }
+
+   public void dispatchEvents( )
+   {
+      process( ) ;
+   }
+
+   public boolean hasEnterEvent( )
+   {
+      return true ;
+   }
+
+   public com.genexus.webpanels.GXWebForm getForm( )
+   {
+      return Form ;
+   }
+
+   public String getSelfLink( )
+   {
+      return formatLink("app.controlcalidadhtd.controlcalidad_ccdef1", new String[] {}, new String[] {})  ;
+   }
+
+   public String getPgmname( )
+   {
+      return "ControlCalidadHTD.ControlCalidad_CCDEF1" ;
+   }
+
+   public String getPgmdesc( )
+   {
+      return httpContext.getMessage( "Control Calidad_CCDEF1 (lineas)", "") ;
+   }
+
+   public void initializeNonKey1VQ622( )
+   {
+      A407EmprNom = "" ;
+      n407EmprNom = false ;
+      httpContext.ajax_rsp_assign_attri("", false, "A407EmprNom", A407EmprNom);
+      A4036CCTDsc = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4036CCTDsc", A4036CCTDsc);
+      A4043CCTLinDsc = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4043CCTLinDsc", A4043CCTLinDsc);
+      A14344CCTLinDc2 = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A14344CCTLinDc2", A14344CCTLinDc2);
+      A4044CCTLinTpoD = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4044CCTLinTpoD", A4044CCTLinTpoD);
+      A4045CCTLinLgoD = (short)(0) ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4045CCTLinLgoD", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4045CCTLinLgoD), 3, 0));
+      A4046CCTLinPict = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4046CCTLinPict", A4046CCTLinPict);
+      A4047CCTLinVarW = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4047CCTLinVarW", A4047CCTLinVarW);
+      A4048CCTLinTpoI = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4048CCTLinTpoI", A4048CCTLinTpoI);
+      A4408CCTSta = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4408CCTSta", A4408CCTSta);
+      A11522CCVCod = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11522CCVCod", A11522CCVCod);
+      A11526CCVPict = "" ;
+      n11526CCVPict = false ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11526CCVPict", A11526CCVPict);
+      A11527CCVLgoDat = (short)(0) ;
+      n11527CCVLgoDat = false ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11527CCVLgoDat", GXutil.ltrimstr( DecimalUtil.doubleToDec(A11527CCVLgoDat), 3, 0));
+      A11528CCVTpoDat = "" ;
+      n11528CCVTpoDat = false ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11528CCVTpoDat", A11528CCVTpoDat);
+      A11529CCVDsc = "" ;
+      n11529CCVDsc = false ;
+      httpContext.ajax_rsp_assign_attri("", false, "A11529CCVDsc", A11529CCVDsc);
+      A13249CCVNorma = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A13249CCVNorma", A13249CCVNorma);
+      A13250CCVEspecif = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A13250CCVEspecif", A13250CCVEspecif);
+      A14345CCVEspe2 = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A14345CCVEspe2", A14345CCVEspe2);
+      Z4043CCTLinDsc = "" ;
+      Z14344CCTLinDc2 = "" ;
+      Z4044CCTLinTpoD = "" ;
+      Z4045CCTLinLgoD = (short)(0) ;
+      Z4046CCTLinPict = "" ;
+      Z4047CCTLinVarW = "" ;
+      Z4048CCTLinTpoI = "" ;
+      Z4408CCTSta = "" ;
+      Z13249CCVNorma = "" ;
+      Z13250CCVEspecif = "" ;
+      Z14345CCVEspe2 = "" ;
+      Z11522CCVCod = "" ;
+   }
+
+   public void initAll1VQ622( )
+   {
+      A396EmprCod = "" ;
+      httpContext.ajax_rsp_assign_attri("", false, "A396EmprCod", A396EmprCod);
+      A4031CCTCod = 0 ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4031CCTCod", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4031CCTCod), 6, 0));
+      A4034CCTLin = (short)(0) ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4034CCTLin", GXutil.ltrimstr( DecimalUtil.doubleToDec(A4034CCTLin), 4, 0));
+      initializeNonKey1VQ622( ) ;
+   }
+
+   public void standaloneModalInsert( )
+   {
+   }
+
+   public void define_styles( )
+   {
+      httpContext.AddThemeStyleSheetFile("", context.getHttpContext().getTheme( )+".css", "?"+httpContext.getCacheInvalidationToken( ));
+      boolean outputEnabled = httpContext.isOutputEnabled( );
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableOutput();
+      }
+      idxLst = 1 ;
+      while ( idxLst <= Form.getJscriptsrc().getCount() )
+      {
+         httpContext.AddJavascriptSource(GXutil.rtrim( Form.getJscriptsrc().item(idxLst)), "?202682415124541", true, true);
+         idxLst = (int)(idxLst+1) ;
+      }
+      if ( ! outputEnabled )
+      {
+         if ( httpContext.isSpaRequest( ) )
+         {
+            httpContext.disableOutput();
+         }
+      }
+      /* End function define_styles */
+   }
+
+   public void include_jscripts( )
+   {
+      httpContext.AddJavascriptSource("messages."+httpContext.getLanguageProperty( "code")+".js", "?"+httpContext.getCacheInvalidationToken( ), false, true);
+      httpContext.AddJavascriptSource("controlcalidadhtd/controlcalidad_ccdef1.js", "?202682415124541", false, true);
+      /* End function include_jscripts */
+   }
+
+   public void init_default_properties( )
+   {
+      lblTitle_Internalname = "TITLE" ;
+      divTitlecontainer_Internalname = "TITLECONTAINER" ;
+      bttBtn_first_Internalname = "BTN_FIRST" ;
+      bttBtn_previous_Internalname = "BTN_PREVIOUS" ;
+      bttBtn_next_Internalname = "BTN_NEXT" ;
+      bttBtn_last_Internalname = "BTN_LAST" ;
+      bttBtn_select_Internalname = "BTN_SELECT" ;
+      divToolbarcell_Internalname = "TOOLBARCELL" ;
+      edtEmprCod_Internalname = "EMPRCOD" ;
+      edtCCTCod_Internalname = "CCTCOD" ;
+      edtCCTDsc_Internalname = "CCTDSC" ;
+      edtCCTLin_Internalname = "CCTLIN" ;
+      edtCCTLinDsc_Internalname = "CCTLINDSC" ;
+      edtCCTLinDc2_Internalname = "CCTLINDC2" ;
+      cmbCCTLinTpoD.setInternalname( "CCTLINTPOD" );
+      edtCCTLinLgoD_Internalname = "CCTLINLGOD" ;
+      edtCCTLinPict_Internalname = "CCTLINPICT" ;
+      edtCCTLinVarW_Internalname = "CCTLINVARW" ;
+      cmbCCTLinTpoI.setInternalname( "CCTLINTPOI" );
+      edtCCTSta_Internalname = "CCTSTA" ;
+      edtCCVCod_Internalname = "CCVCOD" ;
+      edtCCVPict_Internalname = "CCVPICT" ;
+      edtCCVLgoDat_Internalname = "CCVLGODAT" ;
+      cmbCCVTpoDat.setInternalname( "CCVTPODAT" );
+      edtCCVDsc_Internalname = "CCVDSC" ;
+      edtCCVNorma_Internalname = "CCVNORMA" ;
+      edtCCVEspecif_Internalname = "CCVESPECIF" ;
+      edtCCVEspe2_Internalname = "CCVESPE2" ;
+      divFormcontainer_Internalname = "FORMCONTAINER" ;
+      bttBtn_enter_Internalname = "BTN_ENTER" ;
+      bttBtn_cancel_Internalname = "BTN_CANCEL" ;
+      bttBtn_delete_Internalname = "BTN_DELETE" ;
+      divMaintable_Internalname = "MAINTABLE" ;
+      Form.setInternalname( "FORM" );
+   }
+
+   public void initialize_properties( )
+   {
+      httpContext.setAjaxOnSessionTimeout(ajaxOnSessionTimeout());
+      httpContext.setDefaultTheme("WorkWithPlusThemeDS");
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.disableJsOutput();
+      }
+      init_default_properties( ) ;
+      Form.setHeaderrawhtml( "" );
+      Form.setBackground( "" );
+      Form.setTextcolor( 0 );
+      Form.setIBackground( (int)(0xFFFFFF) );
+      Form.setCaption( httpContext.getMessage( "Control Calidad_CCDEF1 (lineas)", "") );
+      bttBtn_delete_Enabled = 1 ;
+      bttBtn_delete_Visible = 1 ;
+      bttBtn_cancel_Visible = 1 ;
+      bttBtn_enter_Enabled = 1 ;
+      bttBtn_enter_Visible = 1 ;
+      edtCCVEspe2_Enabled = 1 ;
+      edtCCVEspecif_Jsonclick = "" ;
+      edtCCVEspecif_Enabled = 1 ;
+      edtCCVNorma_Jsonclick = "" ;
+      edtCCVNorma_Enabled = 1 ;
+      edtCCVDsc_Jsonclick = "" ;
+      edtCCVDsc_Enabled = 0 ;
+      cmbCCVTpoDat.setJsonclick( "" );
+      cmbCCVTpoDat.setEnabled( 0 );
+      edtCCVLgoDat_Jsonclick = "" ;
+      edtCCVLgoDat_Enabled = 0 ;
+      edtCCVPict_Jsonclick = "" ;
+      edtCCVPict_Enabled = 0 ;
+      edtCCVCod_Jsonclick = "" ;
+      edtCCVCod_Enabled = 1 ;
+      edtCCTSta_Jsonclick = "" ;
+      edtCCTSta_Enabled = 1 ;
+      cmbCCTLinTpoI.setJsonclick( "" );
+      cmbCCTLinTpoI.setEnabled( 1 );
+      edtCCTLinVarW_Jsonclick = "" ;
+      edtCCTLinVarW_Enabled = 1 ;
+      edtCCTLinPict_Jsonclick = "" ;
+      edtCCTLinPict_Enabled = 1 ;
+      edtCCTLinLgoD_Jsonclick = "" ;
+      edtCCTLinLgoD_Enabled = 1 ;
+      cmbCCTLinTpoD.setJsonclick( "" );
+      cmbCCTLinTpoD.setEnabled( 1 );
+      edtCCTLinDc2_Jsonclick = "" ;
+      edtCCTLinDc2_Enabled = 1 ;
+      edtCCTLinDsc_Jsonclick = "" ;
+      edtCCTLinDsc_Enabled = 1 ;
+      edtCCTLin_Jsonclick = "" ;
+      edtCCTLin_Enabled = 1 ;
+      edtCCTDsc_Jsonclick = "" ;
+      edtCCTDsc_Enabled = 0 ;
+      edtCCTCod_Jsonclick = "" ;
+      edtCCTCod_Enabled = 1 ;
+      edtEmprCod_Jsonclick = "" ;
+      edtEmprCod_Enabled = 1 ;
+      bttBtn_select_Visible = 1 ;
+      bttBtn_last_Visible = 1 ;
+      bttBtn_next_Visible = 1 ;
+      bttBtn_previous_Visible = 1 ;
+      bttBtn_first_Visible = 1 ;
+      httpContext.GX_msglist.setDisplaymode( (short)(1) );
+      if ( httpContext.isSpaRequest( ) )
+      {
+         httpContext.enableJsOutput();
+      }
+   }
+
+   public void dynload_actions( )
+   {
+      /* End function dynload_actions */
+   }
+
+   public void init_web_controls( )
+   {
+      cmbCCTLinTpoD.setName( "CCTLINTPOD" );
+      cmbCCTLinTpoD.setWebtags( "" );
+      cmbCCTLinTpoD.addItem("F", httpContext.getMessage( "Fecha", ""), (short)(0));
+      cmbCCTLinTpoD.addItem("N", httpContext.getMessage( "Numérico", ""), (short)(0));
+      cmbCCTLinTpoD.addItem("H", httpContext.getMessage( "Hora", ""), (short)(0));
+      cmbCCTLinTpoD.addItem("C", httpContext.getMessage( "Caracteres", ""), (short)(0));
+      cmbCCTLinTpoD.addItem("T", httpContext.getMessage( "Título", ""), (short)(0));
+      if ( cmbCCTLinTpoD.getItemCount() > 0 )
+      {
+         A4044CCTLinTpoD = cmbCCTLinTpoD.getValidValue(A4044CCTLinTpoD) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4044CCTLinTpoD", A4044CCTLinTpoD);
+      }
+      cmbCCTLinTpoI.setName( "CCTLINTPOI" );
+      cmbCCTLinTpoI.setWebtags( "" );
+      cmbCCTLinTpoI.addItem("L", httpContext.getMessage( "Lista", ""), (short)(0));
+      cmbCCTLinTpoI.addItem("R", httpContext.getMessage( "Rango", ""), (short)(0));
+      if ( cmbCCTLinTpoI.getItemCount() > 0 )
+      {
+         A4048CCTLinTpoI = cmbCCTLinTpoI.getValidValue(A4048CCTLinTpoI) ;
+         httpContext.ajax_rsp_assign_attri("", false, "A4048CCTLinTpoI", A4048CCTLinTpoI);
+      }
+      cmbCCVTpoDat.setName( "CCVTPODAT" );
+      cmbCCVTpoDat.setWebtags( "" );
+      cmbCCVTpoDat.addItem("", httpContext.getMessage( "No Aplica", ""), (short)(0));
+      cmbCCVTpoDat.addItem("N", httpContext.getMessage( "Numerico", ""), (short)(0));
+      cmbCCVTpoDat.addItem("F", httpContext.getMessage( "Fecha", ""), (short)(0));
+      cmbCCVTpoDat.addItem("H", httpContext.getMessage( "Hora", ""), (short)(0));
+      cmbCCVTpoDat.addItem("C", httpContext.getMessage( "Caracter", ""), (short)(0));
+      if ( cmbCCVTpoDat.getItemCount() > 0 )
+      {
+         A11528CCVTpoDat = cmbCCVTpoDat.getValidValue(A11528CCVTpoDat) ;
+         n11528CCVTpoDat = false ;
+         httpContext.ajax_rsp_assign_attri("", false, "A11528CCVTpoDat", A11528CCVTpoDat);
+      }
+      /* End function init_web_controls */
+   }
+
+   public void afterkeyloadscreen( )
+   {
+      IsConfirmed = (short)(0) ;
+      httpContext.ajax_rsp_assign_attri("", false, "IsConfirmed", GXutil.ltrimstr( DecimalUtil.doubleToDec(IsConfirmed), 4, 0));
+      getEqualNoModal( ) ;
+      /* Using cursor T01VQ17 */
+      pr_default.execute(15, new Object[] {A396EmprCod});
+      if ( (pr_default.getStatus(15) == 101) )
+      {
+         httpContext.GX_msglist.addItem(GXutil.format( httpContext.getMessage( "GXSPC_ForeignKeyNotFound", ""), httpContext.getMessage( "EMPRESAS", ""), "", "", "", "", "", "", "", ""), "ForeignKeyNotFound", 1, "EMPRCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      }
+      A407EmprNom = T01VQ17_A407EmprNom[0] ;
+      n407EmprNom = T01VQ17_n407EmprNom[0] ;
+      pr_default.close(15);
+      /* Using cursor T01VQ18 */
+      pr_default.execute(16, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod)});
+      if ( (pr_default.getStatus(16) == 101) )
+      {
+         httpContext.GX_msglist.addItem(GXutil.format( httpContext.getMessage( "GXSPC_ForeignKeyNotFound", ""), httpContext.getMessage( "CCDef", ""), "", "", "", "", "", "", "", ""), "ForeignKeyNotFound", 1, "CCTCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+         httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      }
+      A4036CCTDsc = T01VQ18_A4036CCTDsc[0] ;
+      httpContext.ajax_rsp_assign_attri("", false, "A4036CCTDsc", A4036CCTDsc);
+      pr_default.close(16);
+      GX_FocusControl = edtCCTLinDsc_Internalname ;
+      httpContext.ajax_rsp_assign_attri("", false, "GX_FocusControl", GX_FocusControl);
+      standaloneNotModal( ) ;
+      standaloneModal( ) ;
+      /* End function AfterKeyLoadScreen */
+   }
+
+   public boolean isIns( )
+   {
+      return ((GXutil.strcmp(Gx_mode, "INS")==0) ? true : false) ;
+   }
+
+   public boolean isDlt( )
+   {
+      return ((GXutil.strcmp(Gx_mode, "DLT")==0) ? true : false) ;
+   }
+
+   public boolean isUpd( )
+   {
+      return ((GXutil.strcmp(Gx_mode, "UPD")==0) ? true : false) ;
+   }
+
+   public boolean isDsp( )
+   {
+      return ((GXutil.strcmp(Gx_mode, "DSP")==0) ? true : false) ;
+   }
+
+   public void valid_Emprcod( )
+   {
+      n407EmprNom = false ;
+      /* Using cursor T01VQ17 */
+      pr_default.execute(15, new Object[] {A396EmprCod});
+      if ( (pr_default.getStatus(15) == 101) )
+      {
+         httpContext.GX_msglist.addItem(GXutil.format( httpContext.getMessage( "GXSPC_ForeignKeyNotFound", ""), httpContext.getMessage( "EMPRESAS", ""), "", "", "", "", "", "", "", ""), "ForeignKeyNotFound", 1, "EMPRCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+      }
+      A407EmprNom = T01VQ17_A407EmprNom[0] ;
+      n407EmprNom = T01VQ17_n407EmprNom[0] ;
+      pr_default.close(15);
+      dynload_actions( ) ;
+      /*  Sending validation outputs */
+      httpContext.ajax_rsp_assign_attri("", false, "A407EmprNom", GXutil.rtrim( A407EmprNom));
+   }
+
+   public void valid_Cctcod( )
+   {
+      /* Using cursor T01VQ18 */
+      pr_default.execute(16, new Object[] {A396EmprCod, Integer.valueOf(A4031CCTCod)});
+      if ( (pr_default.getStatus(16) == 101) )
+      {
+         httpContext.GX_msglist.addItem(GXutil.format( httpContext.getMessage( "GXSPC_ForeignKeyNotFound", ""), httpContext.getMessage( "CCDef", ""), "", "", "", "", "", "", "", ""), "ForeignKeyNotFound", 1, "CCTCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+      }
+      A4036CCTDsc = T01VQ18_A4036CCTDsc[0] ;
+      pr_default.close(16);
+      dynload_actions( ) ;
+      /*  Sending validation outputs */
+      httpContext.ajax_rsp_assign_attri("", false, "A4036CCTDsc", GXutil.rtrim( A4036CCTDsc));
+   }
+
+   public void valid_Cctlin( )
+   {
+      n11528CCVTpoDat = false ;
+      A11528CCVTpoDat = cmbCCVTpoDat.getValue() ;
+      n11528CCVTpoDat = false ;
+      cmbCCVTpoDat.setValue( A11528CCVTpoDat );
+      A4048CCTLinTpoI = cmbCCTLinTpoI.getValue() ;
+      cmbCCTLinTpoI.setValue( A4048CCTLinTpoI );
+      A4044CCTLinTpoD = cmbCCTLinTpoD.getValue() ;
+      cmbCCTLinTpoD.setValue( A4044CCTLinTpoD );
+      httpContext.wbHandled = (byte)(1) ;
+      afterkeyloadscreen( ) ;
+      draw( ) ;
+      send_integrity_footer_hashes( ) ;
+      dynload_actions( ) ;
+      if ( cmbCCTLinTpoD.getItemCount() > 0 )
+      {
+         A4044CCTLinTpoD = cmbCCTLinTpoD.getValidValue(A4044CCTLinTpoD) ;
+         cmbCCTLinTpoD.setValue( A4044CCTLinTpoD );
+      }
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         cmbCCTLinTpoD.setValue( GXutil.rtrim( A4044CCTLinTpoD) );
+      }
+      if ( cmbCCTLinTpoI.getItemCount() > 0 )
+      {
+         A4048CCTLinTpoI = cmbCCTLinTpoI.getValidValue(A4048CCTLinTpoI) ;
+         cmbCCTLinTpoI.setValue( A4048CCTLinTpoI );
+      }
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         cmbCCTLinTpoI.setValue( GXutil.rtrim( A4048CCTLinTpoI) );
+      }
+      if ( cmbCCVTpoDat.getItemCount() > 0 )
+      {
+         A11528CCVTpoDat = cmbCCVTpoDat.getValidValue(A11528CCVTpoDat) ;
+         n11528CCVTpoDat = false ;
+         cmbCCVTpoDat.setValue( A11528CCVTpoDat );
+      }
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         cmbCCVTpoDat.setValue( GXutil.rtrim( A11528CCVTpoDat) );
+      }
+      /*  Sending validation outputs */
+      httpContext.ajax_rsp_assign_attri("", false, "A4043CCTLinDsc", GXutil.rtrim( A4043CCTLinDsc));
+      httpContext.ajax_rsp_assign_attri("", false, "A14344CCTLinDc2", GXutil.rtrim( A14344CCTLinDc2));
+      httpContext.ajax_rsp_assign_attri("", false, "A4044CCTLinTpoD", GXutil.rtrim( A4044CCTLinTpoD));
+      cmbCCTLinTpoD.setValue( GXutil.rtrim( A4044CCTLinTpoD) );
+      httpContext.ajax_rsp_assign_prop("", false, cmbCCTLinTpoD.getInternalname(), "Values", cmbCCTLinTpoD.ToJavascriptSource(), true);
+      httpContext.ajax_rsp_assign_attri("", false, "A4045CCTLinLgoD", GXutil.ltrim( localUtil.ntoc( A4045CCTLinLgoD, (byte)(3), (byte)(0), ".", "")));
+      httpContext.ajax_rsp_assign_attri("", false, "A4046CCTLinPict", GXutil.rtrim( A4046CCTLinPict));
+      httpContext.ajax_rsp_assign_attri("", false, "A4047CCTLinVarW", GXutil.rtrim( A4047CCTLinVarW));
+      httpContext.ajax_rsp_assign_attri("", false, "A4048CCTLinTpoI", GXutil.rtrim( A4048CCTLinTpoI));
+      cmbCCTLinTpoI.setValue( GXutil.rtrim( A4048CCTLinTpoI) );
+      httpContext.ajax_rsp_assign_prop("", false, cmbCCTLinTpoI.getInternalname(), "Values", cmbCCTLinTpoI.ToJavascriptSource(), true);
+      httpContext.ajax_rsp_assign_attri("", false, "A4408CCTSta", GXutil.rtrim( A4408CCTSta));
+      httpContext.ajax_rsp_assign_attri("", false, "A11522CCVCod", GXutil.rtrim( A11522CCVCod));
+      httpContext.ajax_rsp_assign_attri("", false, "A13249CCVNorma", GXutil.rtrim( A13249CCVNorma));
+      httpContext.ajax_rsp_assign_attri("", false, "A13250CCVEspecif", GXutil.rtrim( A13250CCVEspecif));
+      httpContext.ajax_rsp_assign_attri("", false, "A14345CCVEspe2", A14345CCVEspe2);
+      httpContext.ajax_rsp_assign_attri("", false, "A407EmprNom", GXutil.rtrim( A407EmprNom));
+      httpContext.ajax_rsp_assign_attri("", false, "A11526CCVPict", GXutil.rtrim( A11526CCVPict));
+      httpContext.ajax_rsp_assign_attri("", false, "A11527CCVLgoDat", GXutil.ltrim( localUtil.ntoc( A11527CCVLgoDat, (byte)(3), (byte)(0), ".", "")));
+      httpContext.ajax_rsp_assign_attri("", false, "A11528CCVTpoDat", GXutil.rtrim( A11528CCVTpoDat));
+      cmbCCVTpoDat.setValue( GXutil.rtrim( A11528CCVTpoDat) );
+      httpContext.ajax_rsp_assign_prop("", false, cmbCCVTpoDat.getInternalname(), "Values", cmbCCVTpoDat.ToJavascriptSource(), true);
+      httpContext.ajax_rsp_assign_attri("", false, "A11529CCVDsc", GXutil.rtrim( A11529CCVDsc));
+      httpContext.ajax_rsp_assign_attri("", false, "A4036CCTDsc", GXutil.rtrim( A4036CCTDsc));
+      httpContext.ajax_rsp_assign_attri("", false, "Gx_mode", GXutil.rtrim( Gx_mode));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z396EmprCod", GXutil.rtrim( Z396EmprCod));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4031CCTCod", GXutil.ltrim( localUtil.ntoc( Z4031CCTCod, (byte)(6), (byte)(0), ".", "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4034CCTLin", GXutil.ltrim( localUtil.ntoc( Z4034CCTLin, (byte)(4), (byte)(0), ".", "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4043CCTLinDsc", GXutil.rtrim( Z4043CCTLinDsc));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z14344CCTLinDc2", GXutil.rtrim( Z14344CCTLinDc2));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4044CCTLinTpoD", GXutil.rtrim( Z4044CCTLinTpoD));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4045CCTLinLgoD", GXutil.ltrim( localUtil.ntoc( Z4045CCTLinLgoD, (byte)(3), (byte)(0), ".", "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4046CCTLinPict", GXutil.rtrim( Z4046CCTLinPict));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4047CCTLinVarW", GXutil.rtrim( Z4047CCTLinVarW));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4048CCTLinTpoI", GXutil.rtrim( Z4048CCTLinTpoI));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4408CCTSta", GXutil.rtrim( Z4408CCTSta));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z11522CCVCod", GXutil.rtrim( Z11522CCVCod));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z13249CCVNorma", GXutil.rtrim( Z13249CCVNorma));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z13250CCVEspecif", GXutil.rtrim( Z13250CCVEspecif));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z14345CCVEspe2", Z14345CCVEspe2);
+      app.GxWebStd.gx_hidden_field( httpContext, "Z407EmprNom", GXutil.rtrim( Z407EmprNom));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z11526CCVPict", GXutil.rtrim( Z11526CCVPict));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z11527CCVLgoDat", GXutil.ltrim( localUtil.ntoc( Z11527CCVLgoDat, (byte)(3), (byte)(0), ".", "")));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z11528CCVTpoDat", GXutil.rtrim( Z11528CCVTpoDat));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z11529CCVDsc", GXutil.rtrim( Z11529CCVDsc));
+      app.GxWebStd.gx_hidden_field( httpContext, "Z4036CCTDsc", GXutil.rtrim( Z4036CCTDsc));
+      httpContext.ajax_rsp_assign_prop("", false, bttBtn_delete_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_delete_Enabled), 5, 0), true);
+      httpContext.ajax_rsp_assign_prop("", false, bttBtn_enter_Internalname, "Enabled", GXutil.ltrimstr( DecimalUtil.doubleToDec(bttBtn_enter_Enabled), 5, 0), true);
+      sendCloseFormHiddens( ) ;
+   }
+
+   public void valid_Ccvcod( )
+   {
+      n11526CCVPict = false ;
+      n11527CCVLgoDat = false ;
+      n11528CCVTpoDat = false ;
+      A11528CCVTpoDat = cmbCCVTpoDat.getValue() ;
+      n11528CCVTpoDat = false ;
+      cmbCCVTpoDat.setValue( A11528CCVTpoDat );
+      n11529CCVDsc = false ;
+      /* Using cursor T01VQ19 */
+      pr_default.execute(17, new Object[] {A396EmprCod, A11522CCVCod});
+      if ( (pr_default.getStatus(17) == 101) )
+      {
+         httpContext.GX_msglist.addItem(GXutil.format( httpContext.getMessage( "GXSPC_ForeignKeyNotFound", ""), httpContext.getMessage( "Variables Automáticas", ""), "", "", "", "", "", "", "", ""), "ForeignKeyNotFound", 1, "CCVCOD");
+         AnyError = (short)(1) ;
+         GX_FocusControl = edtEmprCod_Internalname ;
+      }
+      A11526CCVPict = T01VQ19_A11526CCVPict[0] ;
+      n11526CCVPict = T01VQ19_n11526CCVPict[0] ;
+      A11527CCVLgoDat = T01VQ19_A11527CCVLgoDat[0] ;
+      n11527CCVLgoDat = T01VQ19_n11527CCVLgoDat[0] ;
+      A11528CCVTpoDat = T01VQ19_A11528CCVTpoDat[0] ;
+      n11528CCVTpoDat = T01VQ19_n11528CCVTpoDat[0] ;
+      cmbCCVTpoDat.setValue( A11528CCVTpoDat );
+      A11529CCVDsc = T01VQ19_A11529CCVDsc[0] ;
+      n11529CCVDsc = T01VQ19_n11529CCVDsc[0] ;
+      pr_default.close(17);
+      dynload_actions( ) ;
+      if ( cmbCCVTpoDat.getItemCount() > 0 )
+      {
+         A11528CCVTpoDat = cmbCCVTpoDat.getValidValue(A11528CCVTpoDat) ;
+         n11528CCVTpoDat = false ;
+         cmbCCVTpoDat.setValue( A11528CCVTpoDat );
+      }
+      if ( httpContext.isAjaxRequest( ) )
+      {
+         cmbCCVTpoDat.setValue( GXutil.rtrim( A11528CCVTpoDat) );
+      }
+      /*  Sending validation outputs */
+      httpContext.ajax_rsp_assign_attri("", false, "A11526CCVPict", GXutil.rtrim( A11526CCVPict));
+      httpContext.ajax_rsp_assign_attri("", false, "A11527CCVLgoDat", GXutil.ltrim( localUtil.ntoc( A11527CCVLgoDat, (byte)(3), (byte)(0), ".", "")));
+      httpContext.ajax_rsp_assign_attri("", false, "A11528CCVTpoDat", GXutil.rtrim( A11528CCVTpoDat));
+      cmbCCVTpoDat.setValue( GXutil.rtrim( A11528CCVTpoDat) );
+      httpContext.ajax_rsp_assign_prop("", false, cmbCCVTpoDat.getInternalname(), "Values", cmbCCVTpoDat.ToJavascriptSource(), true);
+      httpContext.ajax_rsp_assign_attri("", false, "A11529CCVDsc", GXutil.rtrim( A11529CCVDsc));
+   }
+
+   public boolean supportAjaxEvent( )
+   {
+      return true ;
+   }
+
+   public String ajaxOnSessionTimeout( )
+   {
+      httpContext.setAjaxOnSessionTimeout("Warn");
+      return "Warn" ;
+   }
+
+   public void initializeDynEvents( )
+   {
+      setEventMetadata("ENTER","{handler:'userMainFullajax',iparms:[{postForm:true}]");
+      setEventMetadata("ENTER",",oparms:[]}");
+      setEventMetadata("REFRESH","{handler:'refresh',iparms:[]");
+      setEventMetadata("REFRESH",",oparms:[]}");
+      setEventMetadata("VALID_EMPRCOD","{handler:'valid_Emprcod',iparms:[{av:'A396EmprCod',fld:'EMPRCOD',pic:'@!'},{av:'A407EmprNom',fld:'EMPRNOM',pic:''}]");
+      setEventMetadata("VALID_EMPRCOD",",oparms:[{av:'A407EmprNom',fld:'EMPRNOM',pic:''}]}");
+      setEventMetadata("VALID_CCTCOD","{handler:'valid_Cctcod',iparms:[{av:'A396EmprCod',fld:'EMPRCOD',pic:'@!'},{av:'A4031CCTCod',fld:'CCTCOD',pic:'ZZZZZ9'},{av:'A4036CCTDsc',fld:'CCTDSC',pic:''}]");
+      setEventMetadata("VALID_CCTCOD",",oparms:[{av:'A4036CCTDsc',fld:'CCTDSC',pic:''}]}");
+      setEventMetadata("VALID_CCTLIN","{handler:'valid_Cctlin',iparms:[{av:'cmbCCVTpoDat'},{av:'A11528CCVTpoDat',fld:'CCVTPODAT',pic:''},{av:'cmbCCTLinTpoI'},{av:'A4048CCTLinTpoI',fld:'CCTLINTPOI',pic:''},{av:'cmbCCTLinTpoD'},{av:'A4044CCTLinTpoD',fld:'CCTLINTPOD',pic:''},{av:'A396EmprCod',fld:'EMPRCOD',pic:'@!'},{av:'A4031CCTCod',fld:'CCTCOD',pic:'ZZZZZ9'},{av:'A4034CCTLin',fld:'CCTLIN',pic:'ZZZ9'},{av:'Gx_mode',fld:'vMODE',pic:'@!'}]");
+      setEventMetadata("VALID_CCTLIN",",oparms:[{av:'A4043CCTLinDsc',fld:'CCTLINDSC',pic:''},{av:'A14344CCTLinDc2',fld:'CCTLINDC2',pic:''},{av:'cmbCCTLinTpoD'},{av:'A4044CCTLinTpoD',fld:'CCTLINTPOD',pic:''},{av:'A4045CCTLinLgoD',fld:'CCTLINLGOD',pic:'ZZ9'},{av:'A4046CCTLinPict',fld:'CCTLINPICT',pic:''},{av:'A4047CCTLinVarW',fld:'CCTLINVARW',pic:'@!'},{av:'cmbCCTLinTpoI'},{av:'A4048CCTLinTpoI',fld:'CCTLINTPOI',pic:''},{av:'A4408CCTSta',fld:'CCTSTA',pic:''},{av:'A11522CCVCod',fld:'CCVCOD',pic:''},{av:'A13249CCVNorma',fld:'CCVNORMA',pic:''},{av:'A13250CCVEspecif',fld:'CCVESPECIF',pic:''},{av:'A14345CCVEspe2',fld:'CCVESPE2',pic:''},{av:'A407EmprNom',fld:'EMPRNOM',pic:''},{av:'A11526CCVPict',fld:'CCVPICT',pic:''},{av:'A11527CCVLgoDat',fld:'CCVLGODAT',pic:'ZZ9'},{av:'cmbCCVTpoDat'},{av:'A11528CCVTpoDat',fld:'CCVTPODAT',pic:''},{av:'A11529CCVDsc',fld:'CCVDSC',pic:''},{av:'A4036CCTDsc',fld:'CCTDSC',pic:''},{av:'Gx_mode',fld:'vMODE',pic:'@!'},{av:'Z396EmprCod'},{av:'Z4031CCTCod'},{av:'Z4034CCTLin'},{av:'Z4043CCTLinDsc'},{av:'Z14344CCTLinDc2'},{av:'Z4044CCTLinTpoD'},{av:'Z4045CCTLinLgoD'},{av:'Z4046CCTLinPict'},{av:'Z4047CCTLinVarW'},{av:'Z4048CCTLinTpoI'},{av:'Z4408CCTSta'},{av:'Z11522CCVCod'},{av:'Z13249CCVNorma'},{av:'Z13250CCVEspecif'},{av:'Z14345CCVEspe2'},{av:'Z407EmprNom'},{av:'Z11526CCVPict'},{av:'Z11527CCVLgoDat'},{av:'Z11528CCVTpoDat'},{av:'Z11529CCVDsc'},{av:'Z4036CCTDsc'},{ctrl:'BTN_DELETE',prop:'Enabled'},{ctrl:'BTN_ENTER',prop:'Enabled'}]}");
+      setEventMetadata("VALID_CCVCOD","{handler:'valid_Ccvcod',iparms:[{av:'A396EmprCod',fld:'EMPRCOD',pic:'@!'},{av:'A11522CCVCod',fld:'CCVCOD',pic:''},{av:'A11526CCVPict',fld:'CCVPICT',pic:''},{av:'A11527CCVLgoDat',fld:'CCVLGODAT',pic:'ZZ9'},{av:'cmbCCVTpoDat'},{av:'A11528CCVTpoDat',fld:'CCVTPODAT',pic:''},{av:'A11529CCVDsc',fld:'CCVDSC',pic:''}]");
+      setEventMetadata("VALID_CCVCOD",",oparms:[{av:'A11526CCVPict',fld:'CCVPICT',pic:''},{av:'A11527CCVLgoDat',fld:'CCVLGODAT',pic:'ZZ9'},{av:'cmbCCVTpoDat'},{av:'A11528CCVTpoDat',fld:'CCVTPODAT',pic:''},{av:'A11529CCVDsc',fld:'CCVDSC',pic:''}]}");
+   }
+
+   protected boolean IntegratedSecurityEnabled( )
+   {
+      return false;
+   }
+
+   protected int IntegratedSecurityLevel( )
+   {
+      return 0;
+   }
+
+   protected String IntegratedSecurityPermissionPrefix( )
+   {
+      return "";
+   }
+
+   protected String EncryptURLParameters( )
+   {
+      return "NO";
+   }
+
+   protected void cleanup( )
+   {
+      super.cleanup();
+      CloseOpenCursors();
+   }
+
+   protected void CloseOpenCursors( )
+   {
+      pr_default.close(15);
+      pr_default.close(16);
+      pr_default.close(17);
+   }
+
+   /* Aggregate/select formulas */
+   public void initialize( )
+   {
+      sPrefix = "" ;
+      Z396EmprCod = "" ;
+      Z4043CCTLinDsc = "" ;
+      Z14344CCTLinDc2 = "" ;
+      Z4044CCTLinTpoD = "" ;
+      Z4046CCTLinPict = "" ;
+      Z4047CCTLinVarW = "" ;
+      Z4048CCTLinTpoI = "" ;
+      Z4408CCTSta = "" ;
+      Z13249CCVNorma = "" ;
+      Z13250CCVEspecif = "" ;
+      Z14345CCVEspe2 = "" ;
+      Z11522CCVCod = "" ;
+      scmdbuf = "" ;
+      gxfirstwebparm = "" ;
+      gxfirstwebparm_bkp = "" ;
+      A396EmprCod = "" ;
+      A11522CCVCod = "" ;
+      GXKey = "" ;
+      PreviousTooltip = "" ;
+      PreviousCaption = "" ;
+      Form = new com.genexus.webpanels.GXWebForm();
+      GX_FocusControl = "" ;
+      A4044CCTLinTpoD = "" ;
+      A4048CCTLinTpoI = "" ;
+      A11528CCVTpoDat = "" ;
+      lblTitle_Jsonclick = "" ;
+      ClassString = "" ;
+      StyleString = "" ;
+      TempTags = "" ;
+      bttBtn_first_Jsonclick = "" ;
+      bttBtn_previous_Jsonclick = "" ;
+      bttBtn_next_Jsonclick = "" ;
+      bttBtn_last_Jsonclick = "" ;
+      bttBtn_select_Jsonclick = "" ;
+      A4036CCTDsc = "" ;
+      A4043CCTLinDsc = "" ;
+      A14344CCTLinDc2 = "" ;
+      A4046CCTLinPict = "" ;
+      A4047CCTLinVarW = "" ;
+      A4408CCTSta = "" ;
+      A11526CCVPict = "" ;
+      A11529CCVDsc = "" ;
+      A13249CCVNorma = "" ;
+      A13250CCVEspecif = "" ;
+      A14345CCVEspe2 = "" ;
+      bttBtn_enter_Jsonclick = "" ;
+      bttBtn_cancel_Jsonclick = "" ;
+      bttBtn_delete_Jsonclick = "" ;
+      Gx_mode = "" ;
+      A407EmprNom = "" ;
+      sEvt = "" ;
+      EvtGridId = "" ;
+      EvtRowId = "" ;
+      sEvtType = "" ;
+      endTrnMsgTxt = "" ;
+      endTrnMsgCod = "" ;
+      Z407EmprNom = "" ;
+      Z4036CCTDsc = "" ;
+      Z11526CCVPict = "" ;
+      Z11528CCVTpoDat = "" ;
+      Z11529CCVDsc = "" ;
+      T01VQ7_A4034CCTLin = new short[1] ;
+      T01VQ7_A407EmprNom = new String[] {""} ;
+      T01VQ7_n407EmprNom = new boolean[] {false} ;
+      T01VQ7_A4036CCTDsc = new String[] {""} ;
+      T01VQ7_A4043CCTLinDsc = new String[] {""} ;
+      T01VQ7_A14344CCTLinDc2 = new String[] {""} ;
+      T01VQ7_A4044CCTLinTpoD = new String[] {""} ;
+      T01VQ7_A4045CCTLinLgoD = new short[1] ;
+      T01VQ7_A4046CCTLinPict = new String[] {""} ;
+      T01VQ7_A4047CCTLinVarW = new String[] {""} ;
+      T01VQ7_A4048CCTLinTpoI = new String[] {""} ;
+      T01VQ7_A4408CCTSta = new String[] {""} ;
+      T01VQ7_A11526CCVPict = new String[] {""} ;
+      T01VQ7_n11526CCVPict = new boolean[] {false} ;
+      T01VQ7_A11527CCVLgoDat = new short[1] ;
+      T01VQ7_n11527CCVLgoDat = new boolean[] {false} ;
+      T01VQ7_A11528CCVTpoDat = new String[] {""} ;
+      T01VQ7_n11528CCVTpoDat = new boolean[] {false} ;
+      T01VQ7_A11529CCVDsc = new String[] {""} ;
+      T01VQ7_n11529CCVDsc = new boolean[] {false} ;
+      T01VQ7_A13249CCVNorma = new String[] {""} ;
+      T01VQ7_A13250CCVEspecif = new String[] {""} ;
+      T01VQ7_A14345CCVEspe2 = new String[] {""} ;
+      T01VQ7_A396EmprCod = new String[] {""} ;
+      T01VQ7_A4031CCTCod = new int[1] ;
+      T01VQ7_A11522CCVCod = new String[] {""} ;
+      T01VQ4_A407EmprNom = new String[] {""} ;
+      T01VQ4_n407EmprNom = new boolean[] {false} ;
+      T01VQ6_A11526CCVPict = new String[] {""} ;
+      T01VQ6_n11526CCVPict = new boolean[] {false} ;
+      T01VQ6_A11527CCVLgoDat = new short[1] ;
+      T01VQ6_n11527CCVLgoDat = new boolean[] {false} ;
+      T01VQ6_A11528CCVTpoDat = new String[] {""} ;
+      T01VQ6_n11528CCVTpoDat = new boolean[] {false} ;
+      T01VQ6_A11529CCVDsc = new String[] {""} ;
+      T01VQ6_n11529CCVDsc = new boolean[] {false} ;
+      T01VQ5_A4036CCTDsc = new String[] {""} ;
+      T01VQ8_A407EmprNom = new String[] {""} ;
+      T01VQ8_n407EmprNom = new boolean[] {false} ;
+      T01VQ9_A11526CCVPict = new String[] {""} ;
+      T01VQ9_n11526CCVPict = new boolean[] {false} ;
+      T01VQ9_A11527CCVLgoDat = new short[1] ;
+      T01VQ9_n11527CCVLgoDat = new boolean[] {false} ;
+      T01VQ9_A11528CCVTpoDat = new String[] {""} ;
+      T01VQ9_n11528CCVTpoDat = new boolean[] {false} ;
+      T01VQ9_A11529CCVDsc = new String[] {""} ;
+      T01VQ9_n11529CCVDsc = new boolean[] {false} ;
+      T01VQ10_A4036CCTDsc = new String[] {""} ;
+      T01VQ11_A396EmprCod = new String[] {""} ;
+      T01VQ11_A4031CCTCod = new int[1] ;
+      T01VQ11_A4034CCTLin = new short[1] ;
+      T01VQ3_A4034CCTLin = new short[1] ;
+      T01VQ3_A4043CCTLinDsc = new String[] {""} ;
+      T01VQ3_A14344CCTLinDc2 = new String[] {""} ;
+      T01VQ3_A4044CCTLinTpoD = new String[] {""} ;
+      T01VQ3_A4045CCTLinLgoD = new short[1] ;
+      T01VQ3_A4046CCTLinPict = new String[] {""} ;
+      T01VQ3_A4047CCTLinVarW = new String[] {""} ;
+      T01VQ3_A4048CCTLinTpoI = new String[] {""} ;
+      T01VQ3_A4408CCTSta = new String[] {""} ;
+      T01VQ3_A13249CCVNorma = new String[] {""} ;
+      T01VQ3_A13250CCVEspecif = new String[] {""} ;
+      T01VQ3_A14345CCVEspe2 = new String[] {""} ;
+      T01VQ3_A396EmprCod = new String[] {""} ;
+      T01VQ3_A4031CCTCod = new int[1] ;
+      T01VQ3_A11522CCVCod = new String[] {""} ;
+      sMode622 = "" ;
+      T01VQ12_A396EmprCod = new String[] {""} ;
+      T01VQ12_A4031CCTCod = new int[1] ;
+      T01VQ12_A4034CCTLin = new short[1] ;
+      T01VQ13_A396EmprCod = new String[] {""} ;
+      T01VQ13_A4031CCTCod = new int[1] ;
+      T01VQ13_A4034CCTLin = new short[1] ;
+      T01VQ2_A4034CCTLin = new short[1] ;
+      T01VQ2_A4043CCTLinDsc = new String[] {""} ;
+      T01VQ2_A14344CCTLinDc2 = new String[] {""} ;
+      T01VQ2_A4044CCTLinTpoD = new String[] {""} ;
+      T01VQ2_A4045CCTLinLgoD = new short[1] ;
+      T01VQ2_A4046CCTLinPict = new String[] {""} ;
+      T01VQ2_A4047CCTLinVarW = new String[] {""} ;
+      T01VQ2_A4048CCTLinTpoI = new String[] {""} ;
+      T01VQ2_A4408CCTSta = new String[] {""} ;
+      T01VQ2_A13249CCVNorma = new String[] {""} ;
+      T01VQ2_A13250CCVEspecif = new String[] {""} ;
+      T01VQ2_A14345CCVEspe2 = new String[] {""} ;
+      T01VQ2_A396EmprCod = new String[] {""} ;
+      T01VQ2_A4031CCTCod = new int[1] ;
+      T01VQ2_A11522CCVCod = new String[] {""} ;
+      T01VQ17_A407EmprNom = new String[] {""} ;
+      T01VQ17_n407EmprNom = new boolean[] {false} ;
+      T01VQ18_A4036CCTDsc = new String[] {""} ;
+      T01VQ19_A11526CCVPict = new String[] {""} ;
+      T01VQ19_n11526CCVPict = new boolean[] {false} ;
+      T01VQ19_A11527CCVLgoDat = new short[1] ;
+      T01VQ19_n11527CCVLgoDat = new boolean[] {false} ;
+      T01VQ19_A11528CCVTpoDat = new String[] {""} ;
+      T01VQ19_n11528CCVTpoDat = new boolean[] {false} ;
+      T01VQ19_A11529CCVDsc = new String[] {""} ;
+      T01VQ19_n11529CCVDsc = new boolean[] {false} ;
+      T01VQ20_A396EmprCod = new String[] {""} ;
+      T01VQ20_A252CliCod = new int[1] ;
+      T01VQ20_A9713Tb1_Cod = new short[1] ;
+      T01VQ20_A11736CCArtCod = new String[] {""} ;
+      T01VQ20_A11748TipArtiId = new short[1] ;
+      T01VQ20_A11737CCColNom = new String[] {""} ;
+      T01VQ20_A11738CCColNum = new int[1] ;
+      T01VQ20_A11749CCCTc = new byte[1] ;
+      T01VQ20_A11750IntId = new short[1] ;
+      T01VQ20_A4031CCTCod = new int[1] ;
+      T01VQ20_A4034CCTLin = new short[1] ;
+      T01VQ21_A396EmprCod = new String[] {""} ;
+      T01VQ21_A252CliCod = new int[1] ;
+      T01VQ21_A65ArtCod = new String[] {""} ;
+      T01VQ21_A4058CCFColNom = new String[] {""} ;
+      T01VQ21_A4059CCFColNum = new int[1] ;
+      T01VQ21_A4031CCTCod = new int[1] ;
+      T01VQ21_A4034CCTLin = new short[1] ;
+      T01VQ22_A396EmprCod = new String[] {""} ;
+      T01VQ22_A4031CCTCod = new int[1] ;
+      T01VQ22_A4034CCTLin = new short[1] ;
+      T01VQ22_A4049CCTValLin = new byte[1] ;
+      T01VQ23_A396EmprCod = new String[] {""} ;
+      T01VQ23_A129BarCod = new int[1] ;
+      T01VQ23_A132BarCodReo = new byte[1] ;
+      T01VQ23_A130BarCodPar = new String[] {""} ;
+      T01VQ23_A758ProCod = new String[] {""} ;
+      T01VQ23_A194BarOrdLin = new short[1] ;
+      T01VQ23_A4031CCTCod = new int[1] ;
+      T01VQ23_A4034CCTLin = new short[1] ;
+      T01VQ24_A396EmprCod = new String[] {""} ;
+      T01VQ24_A4031CCTCod = new int[1] ;
+      T01VQ24_A4034CCTLin = new short[1] ;
+      sDynURL = "" ;
+      FormProcess = "" ;
+      bodyStyle = "" ;
+      ZZ396EmprCod = "" ;
+      ZZ4043CCTLinDsc = "" ;
+      ZZ14344CCTLinDc2 = "" ;
+      ZZ4044CCTLinTpoD = "" ;
+      ZZ4046CCTLinPict = "" ;
+      ZZ4047CCTLinVarW = "" ;
+      ZZ4048CCTLinTpoI = "" ;
+      ZZ4408CCTSta = "" ;
+      ZZ11522CCVCod = "" ;
+      ZZ13249CCVNorma = "" ;
+      ZZ13250CCVEspecif = "" ;
+      ZZ14345CCVEspe2 = "" ;
+      ZZ407EmprNom = "" ;
+      ZZ11526CCVPict = "" ;
+      ZZ11528CCVTpoDat = "" ;
+      ZZ11529CCVDsc = "" ;
+      ZZ4036CCTDsc = "" ;
+      pr_moda21 = new DataStoreProvider(context, remoteHandle, new app.controlcalidadhtd.controlcalidad_ccdef1__moda21(),
+         new Object[] {
+         }
+      );
+      pr_vertex = new DataStoreProvider(context, remoteHandle, new app.controlcalidadhtd.controlcalidad_ccdef1__vertex(),
+         new Object[] {
+         }
+      );
+      pr_colorservice = new DataStoreProvider(context, remoteHandle, new app.controlcalidadhtd.controlcalidad_ccdef1__colorservice(),
+         new Object[] {
+         }
+      );
+      pr_ekamat = new DataStoreProvider(context, remoteHandle, new app.controlcalidadhtd.controlcalidad_ccdef1__ekamat(),
+         new Object[] {
+         }
+      );
+      pr_default = new DataStoreProvider(context, remoteHandle, new app.controlcalidadhtd.controlcalidad_ccdef1__default(),
+         new Object[] {
+             new Object[] {
+            T01VQ2_A4034CCTLin, T01VQ2_A4043CCTLinDsc, T01VQ2_A14344CCTLinDc2, T01VQ2_A4044CCTLinTpoD, T01VQ2_A4045CCTLinLgoD, T01VQ2_A4046CCTLinPict, T01VQ2_A4047CCTLinVarW, T01VQ2_A4048CCTLinTpoI, T01VQ2_A4408CCTSta, T01VQ2_A13249CCVNorma,
+            T01VQ2_A13250CCVEspecif, T01VQ2_A14345CCVEspe2, T01VQ2_A396EmprCod, T01VQ2_A4031CCTCod, T01VQ2_A11522CCVCod
+            }
+            , new Object[] {
+            T01VQ3_A4034CCTLin, T01VQ3_A4043CCTLinDsc, T01VQ3_A14344CCTLinDc2, T01VQ3_A4044CCTLinTpoD, T01VQ3_A4045CCTLinLgoD, T01VQ3_A4046CCTLinPict, T01VQ3_A4047CCTLinVarW, T01VQ3_A4048CCTLinTpoI, T01VQ3_A4408CCTSta, T01VQ3_A13249CCVNorma,
+            T01VQ3_A13250CCVEspecif, T01VQ3_A14345CCVEspe2, T01VQ3_A396EmprCod, T01VQ3_A4031CCTCod, T01VQ3_A11522CCVCod
+            }
+            , new Object[] {
+            T01VQ4_A407EmprNom, T01VQ4_n407EmprNom
+            }
+            , new Object[] {
+            T01VQ5_A4036CCTDsc
+            }
+            , new Object[] {
+            T01VQ6_A11526CCVPict, T01VQ6_n11526CCVPict, T01VQ6_A11527CCVLgoDat, T01VQ6_n11527CCVLgoDat, T01VQ6_A11528CCVTpoDat, T01VQ6_n11528CCVTpoDat, T01VQ6_A11529CCVDsc, T01VQ6_n11529CCVDsc
+            }
+            , new Object[] {
+            T01VQ7_A4034CCTLin, T01VQ7_A407EmprNom, T01VQ7_n407EmprNom, T01VQ7_A4036CCTDsc, T01VQ7_A4043CCTLinDsc, T01VQ7_A14344CCTLinDc2, T01VQ7_A4044CCTLinTpoD, T01VQ7_A4045CCTLinLgoD, T01VQ7_A4046CCTLinPict, T01VQ7_A4047CCTLinVarW,
+            T01VQ7_A4048CCTLinTpoI, T01VQ7_A4408CCTSta, T01VQ7_A11526CCVPict, T01VQ7_n11526CCVPict, T01VQ7_A11527CCVLgoDat, T01VQ7_n11527CCVLgoDat, T01VQ7_A11528CCVTpoDat, T01VQ7_n11528CCVTpoDat, T01VQ7_A11529CCVDsc, T01VQ7_n11529CCVDsc,
+            T01VQ7_A13249CCVNorma, T01VQ7_A13250CCVEspecif, T01VQ7_A14345CCVEspe2, T01VQ7_A396EmprCod, T01VQ7_A4031CCTCod, T01VQ7_A11522CCVCod
+            }
+            , new Object[] {
+            T01VQ8_A407EmprNom, T01VQ8_n407EmprNom
+            }
+            , new Object[] {
+            T01VQ9_A11526CCVPict, T01VQ9_n11526CCVPict, T01VQ9_A11527CCVLgoDat, T01VQ9_n11527CCVLgoDat, T01VQ9_A11528CCVTpoDat, T01VQ9_n11528CCVTpoDat, T01VQ9_A11529CCVDsc, T01VQ9_n11529CCVDsc
+            }
+            , new Object[] {
+            T01VQ10_A4036CCTDsc
+            }
+            , new Object[] {
+            T01VQ11_A396EmprCod, T01VQ11_A4031CCTCod, T01VQ11_A4034CCTLin
+            }
+            , new Object[] {
+            T01VQ12_A396EmprCod, T01VQ12_A4031CCTCod, T01VQ12_A4034CCTLin
+            }
+            , new Object[] {
+            T01VQ13_A396EmprCod, T01VQ13_A4031CCTCod, T01VQ13_A4034CCTLin
+            }
+            , new Object[] {
+            }
+            , new Object[] {
+            }
+            , new Object[] {
+            }
+            , new Object[] {
+            T01VQ17_A407EmprNom, T01VQ17_n407EmprNom
+            }
+            , new Object[] {
+            T01VQ18_A4036CCTDsc
+            }
+            , new Object[] {
+            T01VQ19_A11526CCVPict, T01VQ19_n11526CCVPict, T01VQ19_A11527CCVLgoDat, T01VQ19_n11527CCVLgoDat, T01VQ19_A11528CCVTpoDat, T01VQ19_n11528CCVTpoDat, T01VQ19_A11529CCVDsc, T01VQ19_n11529CCVDsc
+            }
+            , new Object[] {
+            T01VQ20_A396EmprCod, T01VQ20_A252CliCod, T01VQ20_A9713Tb1_Cod, T01VQ20_A11736CCArtCod, T01VQ20_A11748TipArtiId, T01VQ20_A11737CCColNom, T01VQ20_A11738CCColNum, T01VQ20_A11749CCCTc, T01VQ20_A11750IntId, T01VQ20_A4031CCTCod,
+            T01VQ20_A4034CCTLin
+            }
+            , new Object[] {
+            T01VQ21_A396EmprCod, T01VQ21_A252CliCod, T01VQ21_A65ArtCod, T01VQ21_A4058CCFColNom, T01VQ21_A4059CCFColNum, T01VQ21_A4031CCTCod, T01VQ21_A4034CCTLin
+            }
+            , new Object[] {
+            T01VQ22_A396EmprCod, T01VQ22_A4031CCTCod, T01VQ22_A4034CCTLin, T01VQ22_A4049CCTValLin
+            }
+            , new Object[] {
+            T01VQ23_A396EmprCod, T01VQ23_A129BarCod, T01VQ23_A132BarCodReo, T01VQ23_A130BarCodPar, T01VQ23_A758ProCod, T01VQ23_A194BarOrdLin, T01VQ23_A4031CCTCod, T01VQ23_A4034CCTLin
+            }
+            , new Object[] {
+            T01VQ24_A396EmprCod, T01VQ24_A4031CCTCod, T01VQ24_A4034CCTLin
+            }
+         }
+      );
+   }
+
+   private byte GxWebError ;
+   private byte nKeyPressed ;
+   private byte Gx_BScreen ;
+   private byte gxajaxcallmode ;
+   private short Z4034CCTLin ;
+   private short Z4045CCTLinLgoD ;
+   private short gxcookieaux ;
+   private short IsConfirmed ;
+   private short IsModified ;
+   private short AnyError ;
+   private short A4034CCTLin ;
+   private short A4045CCTLinLgoD ;
+   private short A11527CCVLgoDat ;
+   private short Z11527CCVLgoDat ;
+   private short RcdFound622 ;
+   private short nIsDirty_622 ;
+   private short ZZ4034CCTLin ;
+   private short ZZ4045CCTLinLgoD ;
+   private short ZZ11527CCVLgoDat ;
+   private int Z4031CCTCod ;
+   private int A4031CCTCod ;
+   private int trnEnded ;
+   private int bttBtn_first_Visible ;
+   private int bttBtn_previous_Visible ;
+   private int bttBtn_next_Visible ;
+   private int bttBtn_last_Visible ;
+   private int bttBtn_select_Visible ;
+   private int edtEmprCod_Enabled ;
+   private int edtCCTCod_Enabled ;
+   private int edtCCTDsc_Enabled ;
+   private int edtCCTLin_Enabled ;
+   private int edtCCTLinDsc_Enabled ;
+   private int edtCCTLinDc2_Enabled ;
+   private int edtCCTLinLgoD_Enabled ;
+   private int edtCCTLinPict_Enabled ;
+   private int edtCCTLinVarW_Enabled ;
+   private int edtCCTSta_Enabled ;
+   private int edtCCVCod_Enabled ;
+   private int edtCCVPict_Enabled ;
+   private int edtCCVLgoDat_Enabled ;
+   private int edtCCVDsc_Enabled ;
+   private int edtCCVNorma_Enabled ;
+   private int edtCCVEspecif_Enabled ;
+   private int edtCCVEspe2_Enabled ;
+   private int bttBtn_enter_Visible ;
+   private int bttBtn_enter_Enabled ;
+   private int bttBtn_cancel_Visible ;
+   private int bttBtn_delete_Visible ;
+   private int bttBtn_delete_Enabled ;
+   private int GX_JID ;
+   private int idxLst ;
+   private int ZZ4031CCTCod ;
+   private String sPrefix ;
+   private String Z396EmprCod ;
+   private String Z4043CCTLinDsc ;
+   private String Z14344CCTLinDc2 ;
+   private String Z4044CCTLinTpoD ;
+   private String Z4046CCTLinPict ;
+   private String Z4047CCTLinVarW ;
+   private String Z4048CCTLinTpoI ;
+   private String Z4408CCTSta ;
+   private String Z13249CCVNorma ;
+   private String Z13250CCVEspecif ;
+   private String Z11522CCVCod ;
+   private String scmdbuf ;
+   private String gxfirstwebparm ;
+   private String gxfirstwebparm_bkp ;
+   private String A396EmprCod ;
+   private String A11522CCVCod ;
+   private String GXKey ;
+   private String PreviousTooltip ;
+   private String PreviousCaption ;
+   private String GX_FocusControl ;
+   private String edtEmprCod_Internalname ;
+   private String A4044CCTLinTpoD ;
+   private String A4048CCTLinTpoI ;
+   private String A11528CCVTpoDat ;
+   private String divMaintable_Internalname ;
+   private String divTitlecontainer_Internalname ;
+   private String lblTitle_Internalname ;
+   private String lblTitle_Jsonclick ;
+   private String ClassString ;
+   private String StyleString ;
+   private String divFormcontainer_Internalname ;
+   private String divToolbarcell_Internalname ;
+   private String TempTags ;
+   private String bttBtn_first_Internalname ;
+   private String bttBtn_first_Jsonclick ;
+   private String bttBtn_previous_Internalname ;
+   private String bttBtn_previous_Jsonclick ;
+   private String bttBtn_next_Internalname ;
+   private String bttBtn_next_Jsonclick ;
+   private String bttBtn_last_Internalname ;
+   private String bttBtn_last_Jsonclick ;
+   private String bttBtn_select_Internalname ;
+   private String bttBtn_select_Jsonclick ;
+   private String edtEmprCod_Jsonclick ;
+   private String edtCCTCod_Internalname ;
+   private String edtCCTCod_Jsonclick ;
+   private String edtCCTDsc_Internalname ;
+   private String A4036CCTDsc ;
+   private String edtCCTDsc_Jsonclick ;
+   private String edtCCTLin_Internalname ;
+   private String edtCCTLin_Jsonclick ;
+   private String edtCCTLinDsc_Internalname ;
+   private String A4043CCTLinDsc ;
+   private String edtCCTLinDsc_Jsonclick ;
+   private String edtCCTLinDc2_Internalname ;
+   private String A14344CCTLinDc2 ;
+   private String edtCCTLinDc2_Jsonclick ;
+   private String edtCCTLinLgoD_Internalname ;
+   private String edtCCTLinLgoD_Jsonclick ;
+   private String edtCCTLinPict_Internalname ;
+   private String A4046CCTLinPict ;
+   private String edtCCTLinPict_Jsonclick ;
+   private String edtCCTLinVarW_Internalname ;
+   private String A4047CCTLinVarW ;
+   private String edtCCTLinVarW_Jsonclick ;
+   private String edtCCTSta_Internalname ;
+   private String A4408CCTSta ;
+   private String edtCCTSta_Jsonclick ;
+   private String edtCCVCod_Internalname ;
+   private String edtCCVCod_Jsonclick ;
+   private String edtCCVPict_Internalname ;
+   private String A11526CCVPict ;
+   private String edtCCVPict_Jsonclick ;
+   private String edtCCVLgoDat_Internalname ;
+   private String edtCCVLgoDat_Jsonclick ;
+   private String edtCCVDsc_Internalname ;
+   private String A11529CCVDsc ;
+   private String edtCCVDsc_Jsonclick ;
+   private String edtCCVNorma_Internalname ;
+   private String A13249CCVNorma ;
+   private String edtCCVNorma_Jsonclick ;
+   private String edtCCVEspecif_Internalname ;
+   private String A13250CCVEspecif ;
+   private String edtCCVEspecif_Jsonclick ;
+   private String edtCCVEspe2_Internalname ;
+   private String bttBtn_enter_Internalname ;
+   private String bttBtn_enter_Jsonclick ;
+   private String bttBtn_cancel_Internalname ;
+   private String bttBtn_cancel_Jsonclick ;
+   private String bttBtn_delete_Internalname ;
+   private String bttBtn_delete_Jsonclick ;
+   private String Gx_mode ;
+   private String A407EmprNom ;
+   private String sEvt ;
+   private String EvtGridId ;
+   private String EvtRowId ;
+   private String sEvtType ;
+   private String endTrnMsgTxt ;
+   private String endTrnMsgCod ;
+   private String Z407EmprNom ;
+   private String Z4036CCTDsc ;
+   private String Z11526CCVPict ;
+   private String Z11528CCVTpoDat ;
+   private String Z11529CCVDsc ;
+   private String sMode622 ;
+   private String sDynURL ;
+   private String FormProcess ;
+   private String bodyStyle ;
+   private String ZZ396EmprCod ;
+   private String ZZ4043CCTLinDsc ;
+   private String ZZ14344CCTLinDc2 ;
+   private String ZZ4044CCTLinTpoD ;
+   private String ZZ4046CCTLinPict ;
+   private String ZZ4047CCTLinVarW ;
+   private String ZZ4048CCTLinTpoI ;
+   private String ZZ4408CCTSta ;
+   private String ZZ11522CCVCod ;
+   private String ZZ13249CCVNorma ;
+   private String ZZ13250CCVEspecif ;
+   private String ZZ407EmprNom ;
+   private String ZZ11526CCVPict ;
+   private String ZZ11528CCVTpoDat ;
+   private String ZZ11529CCVDsc ;
+   private String ZZ4036CCTDsc ;
+   private boolean entryPointCalled ;
+   private boolean toggleJsOutput ;
+   private boolean wbErr ;
+   private boolean n11528CCVTpoDat ;
+   private boolean n407EmprNom ;
+   private boolean n11526CCVPict ;
+   private boolean n11527CCVLgoDat ;
+   private boolean n11529CCVDsc ;
+   private boolean Gx_longc ;
+   private String Z14345CCVEspe2 ;
+   private String A14345CCVEspe2 ;
+   private String ZZ14345CCVEspe2 ;
+   private HTMLChoice cmbCCTLinTpoD ;
+   private HTMLChoice cmbCCTLinTpoI ;
+   private HTMLChoice cmbCCVTpoDat ;
+   private IDataStoreProvider pr_default ;
+   private short[] T01VQ7_A4034CCTLin ;
+   private String[] T01VQ7_A407EmprNom ;
+   private boolean[] T01VQ7_n407EmprNom ;
+   private String[] T01VQ7_A4036CCTDsc ;
+   private String[] T01VQ7_A4043CCTLinDsc ;
+   private String[] T01VQ7_A14344CCTLinDc2 ;
+   private String[] T01VQ7_A4044CCTLinTpoD ;
+   private short[] T01VQ7_A4045CCTLinLgoD ;
+   private String[] T01VQ7_A4046CCTLinPict ;
+   private String[] T01VQ7_A4047CCTLinVarW ;
+   private String[] T01VQ7_A4048CCTLinTpoI ;
+   private String[] T01VQ7_A4408CCTSta ;
+   private String[] T01VQ7_A11526CCVPict ;
+   private boolean[] T01VQ7_n11526CCVPict ;
+   private short[] T01VQ7_A11527CCVLgoDat ;
+   private boolean[] T01VQ7_n11527CCVLgoDat ;
+   private String[] T01VQ7_A11528CCVTpoDat ;
+   private boolean[] T01VQ7_n11528CCVTpoDat ;
+   private String[] T01VQ7_A11529CCVDsc ;
+   private boolean[] T01VQ7_n11529CCVDsc ;
+   private String[] T01VQ7_A13249CCVNorma ;
+   private String[] T01VQ7_A13250CCVEspecif ;
+   private String[] T01VQ7_A14345CCVEspe2 ;
+   private String[] T01VQ7_A396EmprCod ;
+   private int[] T01VQ7_A4031CCTCod ;
+   private String[] T01VQ7_A11522CCVCod ;
+   private String[] T01VQ4_A407EmprNom ;
+   private boolean[] T01VQ4_n407EmprNom ;
+   private String[] T01VQ6_A11526CCVPict ;
+   private boolean[] T01VQ6_n11526CCVPict ;
+   private short[] T01VQ6_A11527CCVLgoDat ;
+   private boolean[] T01VQ6_n11527CCVLgoDat ;
+   private String[] T01VQ6_A11528CCVTpoDat ;
+   private boolean[] T01VQ6_n11528CCVTpoDat ;
+   private String[] T01VQ6_A11529CCVDsc ;
+   private boolean[] T01VQ6_n11529CCVDsc ;
+   private String[] T01VQ5_A4036CCTDsc ;
+   private String[] T01VQ8_A407EmprNom ;
+   private boolean[] T01VQ8_n407EmprNom ;
+   private String[] T01VQ9_A11526CCVPict ;
+   private boolean[] T01VQ9_n11526CCVPict ;
+   private short[] T01VQ9_A11527CCVLgoDat ;
+   private boolean[] T01VQ9_n11527CCVLgoDat ;
+   private String[] T01VQ9_A11528CCVTpoDat ;
+   private boolean[] T01VQ9_n11528CCVTpoDat ;
+   private String[] T01VQ9_A11529CCVDsc ;
+   private boolean[] T01VQ9_n11529CCVDsc ;
+   private String[] T01VQ10_A4036CCTDsc ;
+   private String[] T01VQ11_A396EmprCod ;
+   private int[] T01VQ11_A4031CCTCod ;
+   private short[] T01VQ11_A4034CCTLin ;
+   private short[] T01VQ3_A4034CCTLin ;
+   private String[] T01VQ3_A4043CCTLinDsc ;
+   private String[] T01VQ3_A14344CCTLinDc2 ;
+   private String[] T01VQ3_A4044CCTLinTpoD ;
+   private short[] T01VQ3_A4045CCTLinLgoD ;
+   private String[] T01VQ3_A4046CCTLinPict ;
+   private String[] T01VQ3_A4047CCTLinVarW ;
+   private String[] T01VQ3_A4048CCTLinTpoI ;
+   private String[] T01VQ3_A4408CCTSta ;
+   private String[] T01VQ3_A13249CCVNorma ;
+   private String[] T01VQ3_A13250CCVEspecif ;
+   private String[] T01VQ3_A14345CCVEspe2 ;
+   private String[] T01VQ3_A396EmprCod ;
+   private int[] T01VQ3_A4031CCTCod ;
+   private String[] T01VQ3_A11522CCVCod ;
+   private String[] T01VQ12_A396EmprCod ;
+   private int[] T01VQ12_A4031CCTCod ;
+   private short[] T01VQ12_A4034CCTLin ;
+   private String[] T01VQ13_A396EmprCod ;
+   private int[] T01VQ13_A4031CCTCod ;
+   private short[] T01VQ13_A4034CCTLin ;
+   private short[] T01VQ2_A4034CCTLin ;
+   private String[] T01VQ2_A4043CCTLinDsc ;
+   private String[] T01VQ2_A14344CCTLinDc2 ;
+   private String[] T01VQ2_A4044CCTLinTpoD ;
+   private short[] T01VQ2_A4045CCTLinLgoD ;
+   private String[] T01VQ2_A4046CCTLinPict ;
+   private String[] T01VQ2_A4047CCTLinVarW ;
+   private String[] T01VQ2_A4048CCTLinTpoI ;
+   private String[] T01VQ2_A4408CCTSta ;
+   private String[] T01VQ2_A13249CCVNorma ;
+   private String[] T01VQ2_A13250CCVEspecif ;
+   private String[] T01VQ2_A14345CCVEspe2 ;
+   private String[] T01VQ2_A396EmprCod ;
+   private int[] T01VQ2_A4031CCTCod ;
+   private String[] T01VQ2_A11522CCVCod ;
+   private String[] T01VQ17_A407EmprNom ;
+   private boolean[] T01VQ17_n407EmprNom ;
+   private String[] T01VQ18_A4036CCTDsc ;
+   private String[] T01VQ19_A11526CCVPict ;
+   private boolean[] T01VQ19_n11526CCVPict ;
+   private short[] T01VQ19_A11527CCVLgoDat ;
+   private boolean[] T01VQ19_n11527CCVLgoDat ;
+   private String[] T01VQ19_A11528CCVTpoDat ;
+   private boolean[] T01VQ19_n11528CCVTpoDat ;
+   private String[] T01VQ19_A11529CCVDsc ;
+   private boolean[] T01VQ19_n11529CCVDsc ;
+   private String[] T01VQ20_A396EmprCod ;
+   private int[] T01VQ20_A252CliCod ;
+   private short[] T01VQ20_A9713Tb1_Cod ;
+   private String[] T01VQ20_A11736CCArtCod ;
+   private short[] T01VQ20_A11748TipArtiId ;
+   private String[] T01VQ20_A11737CCColNom ;
+   private int[] T01VQ20_A11738CCColNum ;
+   private byte[] T01VQ20_A11749CCCTc ;
+   private short[] T01VQ20_A11750IntId ;
+   private int[] T01VQ20_A4031CCTCod ;
+   private short[] T01VQ20_A4034CCTLin ;
+   private String[] T01VQ21_A396EmprCod ;
+   private int[] T01VQ21_A252CliCod ;
+   private String[] T01VQ21_A65ArtCod ;
+   private String[] T01VQ21_A4058CCFColNom ;
+   private int[] T01VQ21_A4059CCFColNum ;
+   private int[] T01VQ21_A4031CCTCod ;
+   private short[] T01VQ21_A4034CCTLin ;
+   private String[] T01VQ22_A396EmprCod ;
+   private int[] T01VQ22_A4031CCTCod ;
+   private short[] T01VQ22_A4034CCTLin ;
+   private byte[] T01VQ22_A4049CCTValLin ;
+   private String[] T01VQ23_A396EmprCod ;
+   private int[] T01VQ23_A129BarCod ;
+   private byte[] T01VQ23_A132BarCodReo ;
+   private String[] T01VQ23_A130BarCodPar ;
+   private String[] T01VQ23_A758ProCod ;
+   private short[] T01VQ23_A194BarOrdLin ;
+   private int[] T01VQ23_A4031CCTCod ;
+   private short[] T01VQ23_A4034CCTLin ;
+   private String[] T01VQ24_A396EmprCod ;
+   private int[] T01VQ24_A4031CCTCod ;
+   private short[] T01VQ24_A4034CCTLin ;
+   private IDataStoreProvider pr_moda21 ;
+   private IDataStoreProvider pr_vertex ;
+   private IDataStoreProvider pr_colorservice ;
+   private IDataStoreProvider pr_ekamat ;
+   private com.genexus.webpanels.GXWebForm Form ;
+}
+
+final  class controlcalidad_ccdef1__moda21 extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      switch ( cursor )
+      {
+      }
+   }
+
+   public String getDataStoreName( )
+   {
+      return "MODA21";
+   }
+
+}
+
+final  class controlcalidad_ccdef1__vertex extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      switch ( cursor )
+      {
+      }
+   }
+
+   public String getDataStoreName( )
+   {
+      return "VERTEX";
+   }
+
+}
+
+final  class controlcalidad_ccdef1__colorservice extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      switch ( cursor )
+      {
+      }
+   }
+
+   public String getDataStoreName( )
+   {
+      return "COLORSERVICE";
+   }
+
+}
+
+final  class controlcalidad_ccdef1__ekamat extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      switch ( cursor )
+      {
+      }
+   }
+
+   public String getDataStoreName( )
+   {
+      return "EKAMAT";
+   }
+
+}
+
+final  class controlcalidad_ccdef1__default extends DataStoreHelperBase implements ILocalDataStoreHelper
+{
+   public Cursor[] getCursors( )
+   {
+      return new Cursor[] {
+          new ForEachCursor("T01VQ2", "SELECT CCTLin, CCTLinDsc, CCTLinDc2, CCTLinTpoD, CCTLinLgoD, CCTLinPict, CCTLinVarW, CCTLinTpoI, CCTSta, CCVNorma, CCVEspecif, CCVEspe2, EmprCod, CCTCod, CCVCod FROM TXPCCDef1 WHERE EmprCod = ? AND CCTCod = ? AND CCTLin = ?  FOR UPDATE OF CCTLinDsc, CCTLinDc2, CCTLinTpoD, CCTLinLgoD, CCTLinPict, CCTLinVarW, CCTLinTpoI, CCTSta, CCVNorma, CCVEspecif, CCVEspe2, CCVCod NOWAIT",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ3", "SELECT CCTLin, CCTLinDsc, CCTLinDc2, CCTLinTpoD, CCTLinLgoD, CCTLinPict, CCTLinVarW, CCTLinTpoI, CCTSta, CCVNorma, CCVEspecif, CCVEspe2, EmprCod, CCTCod, CCVCod FROM TXPCCDef1 WHERE EmprCod = ? AND CCTCod = ? AND CCTLin = ? ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ4", "SELECT EmprNom FROM TXPEMPRES WHERE EmprCod = ? ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ5", "SELECT CCTDsc FROM TXPCCDef WHERE EmprCod = ? AND CCTCod = ? ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ6", "SELECT CCVPict, CCVLgoDat, CCVTpoDat, CCVDsc FROM TXPCCVar WHERE EmprCod = ? AND CCVCod = ? ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ7", "SELECT /*+ FIRST_ROWS(100) */ TM1.CCTLin, T2.EmprNom, T3.CCTDsc, TM1.CCTLinDsc, TM1.CCTLinDc2, TM1.CCTLinTpoD, TM1.CCTLinLgoD, TM1.CCTLinPict, TM1.CCTLinVarW, TM1.CCTLinTpoI, TM1.CCTSta, T4.CCVPict, T4.CCVLgoDat, T4.CCVTpoDat, T4.CCVDsc, TM1.CCVNorma, TM1.CCVEspecif, TM1.CCVEspe2, TM1.EmprCod, TM1.CCTCod, TM1.CCVCod FROM (((TXPCCDef1 TM1 INNER JOIN TXPEMPRES T2 ON T2.EmprCod = TM1.EmprCod) INNER JOIN TXPCCDef T3 ON T3.EmprCod = TM1.EmprCod AND T3.CCTCod = TM1.CCTCod) INNER JOIN TXPCCVar T4 ON T4.EmprCod = TM1.EmprCod AND T4.CCVCod = TM1.CCVCod) WHERE TM1.EmprCod = ? and TM1.CCTCod = ? and TM1.CCTLin = ? ORDER BY TM1.EmprCod, TM1.CCTCod, TM1.CCTLin ",true, GX_NOMASK, false, this,100, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ8", "SELECT EmprNom FROM TXPEMPRES WHERE EmprCod = ? ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ9", "SELECT CCVPict, CCVLgoDat, CCVTpoDat, CCVDsc FROM TXPCCVar WHERE EmprCod = ? AND CCVCod = ? ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ10", "SELECT CCTDsc FROM TXPCCDef WHERE EmprCod = ? AND CCTCod = ? ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ11", "SELECT /*+ FIRST_ROWS(1) */ EmprCod, CCTCod, CCTLin FROM TXPCCDef1 WHERE EmprCod = ? AND CCTCod = ? AND CCTLin = ? ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ12", "SELECT * FROM (SELECT /*+ FIRST_ROWS(1) */ EmprCod, CCTCod, CCTLin FROM TXPCCDef1 WHERE ( EmprCod > ? or EmprCod = ? and CCTCod > ? or CCTCod = ? and EmprCod = ? and CCTLin > ?) ORDER BY EmprCod, CCTCod, CCTLin) WHERE rownum <= 1 ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("T01VQ13", "SELECT * FROM (SELECT /*+ FIRST_ROWS(1) */ EmprCod, CCTCod, CCTLin FROM TXPCCDef1 WHERE ( EmprCod < ? or EmprCod = ? and CCTCod < ? or CCTCod = ? and EmprCod = ? and CCTLin < ?) ORDER BY EmprCod DESC, CCTCod DESC, CCTLin DESC) WHERE rownum <= 1 ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new UpdateCursor("T01VQ14", "INSERT INTO TXPCCDef1(CCTLin, CCTLinDsc, CCTLinDc2, CCTLinTpoD, CCTLinLgoD, CCTLinPict, CCTLinVarW, CCTLinTpoI, CCTSta, CCVNorma, CCVEspecif, CCVEspe2, EmprCod, CCTCod, CCVCod, CCTLinDscL, CCTLinVWor, CCTLinWNor) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ' ', ' ', ' ')", GX_NOMASK, "TXPCCDef1")
+         ,new UpdateCursor("T01VQ15", "UPDATE TXPCCDef1 SET CCTLinDsc=?, CCTLinDc2=?, CCTLinTpoD=?, CCTLinLgoD=?, CCTLinPict=?, CCTLinVarW=?, CCTLinTpoI=?, CCTSta=?, CCVNorma=?, CCVEspecif=?, CCVEspe2=?, CCVCod=?  WHERE EmprCod = ? AND CCTCod = ? AND CCTLin = ?", GX_NOMASK, "TXPCCDef1")
+         ,new UpdateCursor("T01VQ16", "DELETE FROM TXPCCDef1  WHERE EmprCod = ? AND CCTCod = ? AND CCTLin = ?", GX_NOMASK, "TXPCCDef1")
+         ,new ForEachCursor("T01VQ17", "SELECT EmprNom FROM TXPEMPRES WHERE EmprCod = ? ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ18", "SELECT CCTDsc FROM TXPCCDef WHERE EmprCod = ? AND CCTCod = ? ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ19", "SELECT CCVPict, CCVLgoDat, CCVTpoDat, CCVDsc FROM TXPCCVar WHERE EmprCod = ? AND CCVCod = ? ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,false )
+         ,new ForEachCursor("T01VQ20", "SELECT * FROM (SELECT EmprCod, CliCod, Tb1_Cod, CCArtCod, TipArtiId, CCColNom, CCColNum, CCCTc, IntId, CCTCod, CCTLin FROM TXPCCCNOS WHERE EmprCod = ? AND CCTCod = ? AND CCTLin = ?) WHERE rownum <= 1 ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("T01VQ21", "SELECT * FROM (SELECT EmprCod, CliCod, ArtCod, CCFColNom, CCFColNum, CCTCod, CCTLin FROM TXPCCSta WHERE EmprCod = ? AND CCTCod = ? AND CCTLin = ?) WHERE rownum <= 1 ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("T01VQ22", "SELECT * FROM (SELECT EmprCod, CCTCod, CCTLin, CCTValLin FROM TXPCCDef2 WHERE EmprCod = ? AND CCTCod = ? AND CCTLin = ?) WHERE rownum <= 1 ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("T01VQ23", "SELECT * FROM (SELECT EmprCod, BarCod, BarCodReo, BarCodPar, ProCod, BarOrdLin, CCTCod, CCTLin FROM TXPCC1 WHERE EmprCod = ? AND CCTCod = ? AND CCTLin = ?) WHERE rownum <= 1 ",true, GX_NOMASK, false, this,1, GxCacheFrequency.OFF,true )
+         ,new ForEachCursor("T01VQ24", "SELECT /*+ FIRST_ROWS(100) */ EmprCod, CCTCod, CCTLin FROM TXPCCDef1 ORDER BY EmprCod, CCTCod, CCTLin ",true, GX_NOMASK, false, this,100, GxCacheFrequency.OFF,false )
+      };
+   }
+
+   public void getResults( int cursor ,
+                           IFieldGetter rslt ,
+                           Object[] buf ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               ((short[]) buf[0])[0] = rslt.getShort(1);
+               ((String[]) buf[1])[0] = rslt.getString(2, 30);
+               ((String[]) buf[2])[0] = rslt.getString(3, 60);
+               ((String[]) buf[3])[0] = rslt.getString(4, 1);
+               ((short[]) buf[4])[0] = rslt.getShort(5);
+               ((String[]) buf[5])[0] = rslt.getString(6, 40);
+               ((String[]) buf[6])[0] = rslt.getString(7, 32);
+               ((String[]) buf[7])[0] = rslt.getString(8, 1);
+               ((String[]) buf[8])[0] = rslt.getString(9, 40);
+               ((String[]) buf[9])[0] = rslt.getString(10, 30);
+               ((String[]) buf[10])[0] = rslt.getString(11, 30);
+               ((String[]) buf[11])[0] = rslt.getVarchar(12);
+               ((String[]) buf[12])[0] = rslt.getString(13, 3);
+               ((int[]) buf[13])[0] = rslt.getInt(14);
+               ((String[]) buf[14])[0] = rslt.getString(15, 10);
+               return;
+            case 1 :
+               ((short[]) buf[0])[0] = rslt.getShort(1);
+               ((String[]) buf[1])[0] = rslt.getString(2, 30);
+               ((String[]) buf[2])[0] = rslt.getString(3, 60);
+               ((String[]) buf[3])[0] = rslt.getString(4, 1);
+               ((short[]) buf[4])[0] = rslt.getShort(5);
+               ((String[]) buf[5])[0] = rslt.getString(6, 40);
+               ((String[]) buf[6])[0] = rslt.getString(7, 32);
+               ((String[]) buf[7])[0] = rslt.getString(8, 1);
+               ((String[]) buf[8])[0] = rslt.getString(9, 40);
+               ((String[]) buf[9])[0] = rslt.getString(10, 30);
+               ((String[]) buf[10])[0] = rslt.getString(11, 30);
+               ((String[]) buf[11])[0] = rslt.getVarchar(12);
+               ((String[]) buf[12])[0] = rslt.getString(13, 3);
+               ((int[]) buf[13])[0] = rslt.getInt(14);
+               ((String[]) buf[14])[0] = rslt.getString(15, 10);
+               return;
+            case 2 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 30);
+               ((boolean[]) buf[1])[0] = rslt.wasNull();
+               return;
+            case 3 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 30);
+               return;
+            case 4 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 40);
+               ((boolean[]) buf[1])[0] = rslt.wasNull();
+               ((short[]) buf[2])[0] = rslt.getShort(2);
+               ((boolean[]) buf[3])[0] = rslt.wasNull();
+               ((String[]) buf[4])[0] = rslt.getString(3, 1);
+               ((boolean[]) buf[5])[0] = rslt.wasNull();
+               ((String[]) buf[6])[0] = rslt.getString(4, 30);
+               ((boolean[]) buf[7])[0] = rslt.wasNull();
+               return;
+            case 5 :
+               ((short[]) buf[0])[0] = rslt.getShort(1);
+               ((String[]) buf[1])[0] = rslt.getString(2, 30);
+               ((boolean[]) buf[2])[0] = rslt.wasNull();
+               ((String[]) buf[3])[0] = rslt.getString(3, 30);
+               ((String[]) buf[4])[0] = rslt.getString(4, 30);
+               ((String[]) buf[5])[0] = rslt.getString(5, 60);
+               ((String[]) buf[6])[0] = rslt.getString(6, 1);
+               ((short[]) buf[7])[0] = rslt.getShort(7);
+               ((String[]) buf[8])[0] = rslt.getString(8, 40);
+               ((String[]) buf[9])[0] = rslt.getString(9, 32);
+               ((String[]) buf[10])[0] = rslt.getString(10, 1);
+               ((String[]) buf[11])[0] = rslt.getString(11, 40);
+               ((String[]) buf[12])[0] = rslt.getString(12, 40);
+               ((boolean[]) buf[13])[0] = rslt.wasNull();
+               ((short[]) buf[14])[0] = rslt.getShort(13);
+               ((boolean[]) buf[15])[0] = rslt.wasNull();
+               ((String[]) buf[16])[0] = rslt.getString(14, 1);
+               ((boolean[]) buf[17])[0] = rslt.wasNull();
+               ((String[]) buf[18])[0] = rslt.getString(15, 30);
+               ((boolean[]) buf[19])[0] = rslt.wasNull();
+               ((String[]) buf[20])[0] = rslt.getString(16, 30);
+               ((String[]) buf[21])[0] = rslt.getString(17, 30);
+               ((String[]) buf[22])[0] = rslt.getVarchar(18);
+               ((String[]) buf[23])[0] = rslt.getString(19, 3);
+               ((int[]) buf[24])[0] = rslt.getInt(20);
+               ((String[]) buf[25])[0] = rslt.getString(21, 10);
+               return;
+            case 6 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 30);
+               ((boolean[]) buf[1])[0] = rslt.wasNull();
+               return;
+            case 7 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 40);
+               ((boolean[]) buf[1])[0] = rslt.wasNull();
+               ((short[]) buf[2])[0] = rslt.getShort(2);
+               ((boolean[]) buf[3])[0] = rslt.wasNull();
+               ((String[]) buf[4])[0] = rslt.getString(3, 1);
+               ((boolean[]) buf[5])[0] = rslt.wasNull();
+               ((String[]) buf[6])[0] = rslt.getString(4, 30);
+               ((boolean[]) buf[7])[0] = rslt.wasNull();
+               return;
+            case 8 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 30);
+               return;
+            case 9 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((short[]) buf[2])[0] = rslt.getShort(3);
+               return;
+            case 10 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((short[]) buf[2])[0] = rslt.getShort(3);
+               return;
+            case 11 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((short[]) buf[2])[0] = rslt.getShort(3);
+               return;
+            case 15 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 30);
+               ((boolean[]) buf[1])[0] = rslt.wasNull();
+               return;
+            case 16 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 30);
+               return;
+            case 17 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 40);
+               ((boolean[]) buf[1])[0] = rslt.wasNull();
+               ((short[]) buf[2])[0] = rslt.getShort(2);
+               ((boolean[]) buf[3])[0] = rslt.wasNull();
+               ((String[]) buf[4])[0] = rslt.getString(3, 1);
+               ((boolean[]) buf[5])[0] = rslt.wasNull();
+               ((String[]) buf[6])[0] = rslt.getString(4, 30);
+               ((boolean[]) buf[7])[0] = rslt.wasNull();
+               return;
+            case 18 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((short[]) buf[2])[0] = rslt.getShort(3);
+               ((String[]) buf[3])[0] = rslt.getString(4, 16);
+               ((short[]) buf[4])[0] = rslt.getShort(5);
+               ((String[]) buf[5])[0] = rslt.getString(6, 13);
+               ((int[]) buf[6])[0] = rslt.getInt(7);
+               ((byte[]) buf[7])[0] = rslt.getByte(8);
+               ((short[]) buf[8])[0] = rslt.getShort(9);
+               ((int[]) buf[9])[0] = rslt.getInt(10);
+               ((short[]) buf[10])[0] = rslt.getShort(11);
+               return;
+            case 19 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((String[]) buf[2])[0] = rslt.getString(3, 16);
+               ((String[]) buf[3])[0] = rslt.getString(4, 13);
+               ((int[]) buf[4])[0] = rslt.getInt(5);
+               ((int[]) buf[5])[0] = rslt.getInt(6);
+               ((short[]) buf[6])[0] = rslt.getShort(7);
+               return;
+            case 20 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((short[]) buf[2])[0] = rslt.getShort(3);
+               ((byte[]) buf[3])[0] = rslt.getByte(4);
+               return;
+            case 21 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((byte[]) buf[2])[0] = rslt.getByte(3);
+               ((String[]) buf[3])[0] = rslt.getString(4, 1);
+               ((String[]) buf[4])[0] = rslt.getString(5, 8);
+               ((short[]) buf[5])[0] = rslt.getShort(6);
+               ((int[]) buf[6])[0] = rslt.getInt(7);
+               ((short[]) buf[7])[0] = rslt.getShort(8);
+               return;
+            case 22 :
+               ((String[]) buf[0])[0] = rslt.getString(1, 3);
+               ((int[]) buf[1])[0] = rslt.getInt(2);
+               ((short[]) buf[2])[0] = rslt.getShort(3);
+               return;
+      }
+   }
+
+   public void setParameters( int cursor ,
+                              IFieldSetter stmt ,
+                              Object[] parms ) throws SQLException
+   {
+      switch ( cursor )
+      {
+            case 0 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setShort(3, ((Number) parms[2]).shortValue());
+               return;
+            case 1 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setShort(3, ((Number) parms[2]).shortValue());
+               return;
+            case 2 :
+               stmt.setString(1, (String)parms[0], 3);
+               return;
+            case 3 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               return;
+            case 4 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setString(2, (String)parms[1], 10);
+               return;
+            case 5 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setShort(3, ((Number) parms[2]).shortValue());
+               return;
+            case 6 :
+               stmt.setString(1, (String)parms[0], 3);
+               return;
+            case 7 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setString(2, (String)parms[1], 10);
+               return;
+            case 8 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               return;
+            case 9 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setShort(3, ((Number) parms[2]).shortValue());
+               return;
+            case 10 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setString(2, (String)parms[1], 3);
+               stmt.setInt(3, ((Number) parms[2]).intValue());
+               stmt.setInt(4, ((Number) parms[3]).intValue());
+               stmt.setString(5, (String)parms[4], 3);
+               stmt.setShort(6, ((Number) parms[5]).shortValue());
+               return;
+            case 11 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setString(2, (String)parms[1], 3);
+               stmt.setInt(3, ((Number) parms[2]).intValue());
+               stmt.setInt(4, ((Number) parms[3]).intValue());
+               stmt.setString(5, (String)parms[4], 3);
+               stmt.setShort(6, ((Number) parms[5]).shortValue());
+               return;
+            case 12 :
+               stmt.setShort(1, ((Number) parms[0]).shortValue());
+               stmt.setString(2, (String)parms[1], 30);
+               stmt.setString(3, (String)parms[2], 60);
+               stmt.setString(4, (String)parms[3], 1);
+               stmt.setShort(5, ((Number) parms[4]).shortValue());
+               stmt.setString(6, (String)parms[5], 40);
+               stmt.setString(7, (String)parms[6], 32);
+               stmt.setString(8, (String)parms[7], 1);
+               stmt.setString(9, (String)parms[8], 40);
+               stmt.setString(10, (String)parms[9], 30);
+               stmt.setString(11, (String)parms[10], 30);
+               stmt.setVarchar(12, (String)parms[11], 300, false);
+               stmt.setString(13, (String)parms[12], 3);
+               stmt.setInt(14, ((Number) parms[13]).intValue());
+               stmt.setString(15, (String)parms[14], 10);
+               return;
+            case 13 :
+               stmt.setString(1, (String)parms[0], 30);
+               stmt.setString(2, (String)parms[1], 60);
+               stmt.setString(3, (String)parms[2], 1);
+               stmt.setShort(4, ((Number) parms[3]).shortValue());
+               stmt.setString(5, (String)parms[4], 40);
+               stmt.setString(6, (String)parms[5], 32);
+               stmt.setString(7, (String)parms[6], 1);
+               stmt.setString(8, (String)parms[7], 40);
+               stmt.setString(9, (String)parms[8], 30);
+               stmt.setString(10, (String)parms[9], 30);
+               stmt.setVarchar(11, (String)parms[10], 300, false);
+               stmt.setString(12, (String)parms[11], 10);
+               stmt.setString(13, (String)parms[12], 3);
+               stmt.setInt(14, ((Number) parms[13]).intValue());
+               stmt.setShort(15, ((Number) parms[14]).shortValue());
+               return;
+            case 14 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setShort(3, ((Number) parms[2]).shortValue());
+               return;
+            case 15 :
+               stmt.setString(1, (String)parms[0], 3);
+               return;
+            case 16 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               return;
+            case 17 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setString(2, (String)parms[1], 10);
+               return;
+            case 18 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setShort(3, ((Number) parms[2]).shortValue());
+               return;
+            case 19 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setShort(3, ((Number) parms[2]).shortValue());
+               return;
+            case 20 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setShort(3, ((Number) parms[2]).shortValue());
+               return;
+            case 21 :
+               stmt.setString(1, (String)parms[0], 3);
+               stmt.setInt(2, ((Number) parms[1]).intValue());
+               stmt.setShort(3, ((Number) parms[2]).shortValue());
+               return;
+      }
+   }
+
+}
+

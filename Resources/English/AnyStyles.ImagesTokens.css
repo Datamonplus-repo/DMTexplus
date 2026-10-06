@@ -1,0 +1,872 @@
+:root
+{
+	--GX-Image_PageFirst : url(../PageFirst.png);
+	--GX-Image_PageLast : url(../PageLast.png);
+	--GX-Image_PageNext : url(../PageNext.png);
+	--GX-Image_PagePrevious : url(../PagePrevious.png);
+	--GX-Image_menuarrow : url(../menuarrow.gif);
+	--GX-Image_ClosePrompt : url(../ClosePrompt.png);
+	--GX-Image_GenericFilter : url(../GenericFilter.png);
+	--GX-Image_calendar : url(../calendar.png);
+	--GX-Image_MultimediaEdit : url(../MultimediaEdit.png);
+	--GX-Image_MultimediaClear : url(../MultimediaClear.png);
+	--GX-Image_PlaceHolderImage : url(../PlaceHolderImage.png);
+	--GX-Image_PlaceHolderVideo : url(../PlaceHolderVideo.png);
+	--GX-Image_PlaceHolderAudio : url(../PlaceHolderAudio.png);
+	--GX-Image_WarningIcon : url(../WarningIcon.png);
+	--GX-Image_ErrorIcon : url(../ErrorIcon.png);
+	--GX-Image_VideoDownload : url(../VideoDownload.png);
+	--GX-Image_AudioDownload : url(../AudioDownload.png);
+	--GX-Image_btnL : url(../btnL.gif);
+	--GX-Image_btnR : url(../btnR.gif);
+	--GX-Image_btnC : url(../btnC.gif);
+	--GX-Image_btnLDisabled : url(../btnLDisabled.gif);
+	--GX-Image_btnRDisabled : url(../btnRDisabled.gif);
+	--GX-Image_btnCDisabled : url(../btnCDisabled.gif);
+	--GX-Image_footer_body : url(../footer_body.png);
+	--GX-Image_cabezal_cuerpo : url(../cabezal_cuerpo.png);
+	--GX-Image_ActionDelete : url(../ActionDelete.png);
+	--GX-Image_ActionDisabled : url(../ActionDisabled.gif);
+	--GX-Image_ActionDisplay : url(../ActionDisplay.png);
+	--GX-Image_ActionExport : url(ActionExport.bmp);
+	--GX-Image_ActionInsert : url(../ActionInsert.gif);
+	--GX-Image_ActionUpdate : url(ActionUpdate.bmp);
+	--GX-Image_asc : url(../asc.gif);
+	--GX-Image_BigButton : url(../BigButton.gif);
+	--GX-Image_blank : url(../blank.jpg);
+	--GX-Image_btn_cancel : url(../btn_cancel.gif);
+	--GX-Image_Button : url(../Button.gif);
+	--GX-Image_Cancel : url(../Cancel.png);
+	--GX-Image_close : url(close.bmp);
+	--GX-Image_collapse : url(../collapse.gif);
+	--GX-Image_DeleteRow : url(../DeleteRow.gif);
+	--GX-Image_desc : url(../desc.gif);
+	--GX-Image_download : url(../download.gif);
+	--GX-Image_expand : url(../expand.gif);
+	--GX-Image_First : url(../First.gif);
+	--GX-Image_FooterLine : url(../FooterLine.gif);
+	--GX-Image_GXX_M : url(../GXX_M.png);
+	--GX-Image_header_small1 : url(../header_small1.gif);
+	--GX-Image_HeaderBackground : url(../HeaderBackground.gif);
+	--GX-Image_indicator : url(../indicator.gif);
+	--GX-Image_Last : url(../Last.gif);
+	--GX-Image_LeftTopWW : url(../LeftTopWW.gif);
+	--GX-Image_line_header : url(../line_header.gif);
+	--GX-Image_locateMe : url(../locateMe.png);
+	--GX-Image_NEW : url(../NEW.BMP);
+	--GX-Image_Next : url(../Next.gif);
+	--GX-Image_PDA_48x48 : url(../PDA_48x48.png);
+	--GX-Image_popupheader : url(../popupheader.gif);
+	--GX-Image_PoweredByGeneXus : url(../PoweredByGeneXus.png);
+	--GX-Image_Previous : url(../Previous.gif);
+	--GX-Image_prompt : url(../prompt.png);
+	--GX-Image_RecentLinksBackground : url(../RecentLinksBackground.gif);
+	--GX-Image_resize : url(../resize.gif);
+	--GX-Image_RightTopWW : url(../RightTopWW.gif);
+	--GX-Image_Save : url(../Save.png);
+	--GX-Image_Select : url(Select.bmp);
+	--GX-Image_SelectRow : url(../SelectRow.png);
+	--GX-Image_Smartphone_48x48 : url(../Smartphone_48x48.png);
+	--GX-Image_TabBeginSelected : url(../TabBeginSelected.gif);
+	--GX-Image_TabBeginUnselected : url(../TabBeginUnselected.gif);
+	--GX-Image_TabEndSelected : url(../TabEndSelected.gif);
+	--GX-Image_TabEndUnselected : url(../TabEndUnselected.gif);
+	--GX-Image_TabGroupNext : url(../TabGroupNext.gif);
+	--GX-Image_TabGroupPrevious : url(../TabGroupPrevious.gif);
+	--GX-Image_TabLine : url(../TabLine.gif);
+	--GX-Image_TabSelected : url(../TabSelected.gif);
+	--GX-Image_TabSelectedUnselected : url(../TabSelectedUnselected.gif);
+	--GX-Image_TabUnselected : url(../TabUnselected.gif);
+	--GX-Image_TabUnselectedSelected : url(../TabUnselectedSelected.gif);
+	--GX-Image_TabUnselectedUnselected : url(../TabUnselectedUnselected.gif);
+	--GX-Image_toolbarbg : url(../toolbarbg.gif);
+	--GX-Image_toolbarseparator : url(../toolbarseparator.gif);
+	--GX-Image_topL : url(../topL.gif);
+	--GX-Image_topR : url(../topR.gif);
+	--GX-Image_unchecked : url(../unchecked.gif);
+	--GX-Image_UndeleteRow : url(../UndeleteRow.gif);
+	--GX-Image_AddButton : url(../AddButton.gif);
+	--GX-Image_ConfirmButton : url(../ConfirmButton.gif);
+	--GX-Image_UpdateButton : url(../UpdateButton.gif);
+	--GX-Image_DeleteButton : url(../DeleteButton.gif);
+	--GX-Image_Copy : url(Copy.bmp);
+	--GX-Image_Cut : url(Cut.bmp);
+	--GX-Image_HELP : url(HELP.BMP);
+	--GX-Image_Paint : url(Paint.bmp);
+	--GX-Image_Paste : url(Paste.bmp);
+	--GX-Image_LOCATE : url(LOCATE.bmp);
+	--GX-Image_OK : url(OK.bmp);
+	--GX-Image_TRASH : url(TRASH.bmp);
+	--GX-Image_HLP_UP : url(HLP-UP.bmp);
+	--GX-Image_Prisma : url(Prisma.bmp);
+	--GX-Image_subfile : url(subfile.bmp);
+	--GX-Image_PRT_UP : url(PRT-UP.bmp);
+	--GX-Image_Selec : url(Selec.bmp);
+	--GX-Image_POLOPIQUE_CMYK : url(POLOPIQUE_CMYK.bmp);
+	--GX-Image_DELETE : url(DELETE.BMP);
+	--GX-Image_Texplus1 : url(Texplus1.jpg);
+	--GX-Image_I : url();
+	--GX-Image_refrescar : url(refrescar.BMP);
+	--GX-Image_Platino : url(Platino.jpg);
+	--GX-Image_FILTER : url(FILTER.BMP);
+	--GX-Image_I_ko_tex_logo : url(öko-tex logo.bmp);
+	--GX-Image_PME_lider : url(PME_lider.bmp);
+	--GX-Image_Fatura : url(Fatura.jpg);
+	--GX-Image_TermilenioFra : url(TermilenioFra.jpg);
+	--GX-Image_QC : url(QC.BMP);
+	--GX-Image_Colores : url(Colores.bmp);
+	--GX-Image_Tintutex : url(Tintutex.bmp);
+	--GX-Image_tintex1 : url(tintex1.bmp);
+	--GX-Image_report : url(report.ico);
+	--GX-Image_Endutex : url(C:\GeneXus\Kbs\Texplus GX 9.0\DATA006\Endutex.jpg);
+	--GX-Image_iso9001 : url(C:\GeneXus\Kbs\Texplus GX 9.0\DATA006\iso9001.jpg);
+	--GX-Image_piolerahdr : url(piolerahdr.jpg);
+	--GX-Image_BiarPrint : url(BiarPrint.bmp);
+	--GX-Image_std : url(std.bmp);
+	--GX-Image_Seleccionar : url(Seleccionar.BMP);
+	--GX-Image_Confirmar : url(Confirmar.bmp);
+	--GX-Image_Cerrar : url(Cerrar.bmp);
+	--GX-Image_Eliminar : url(Eliminar.bmp);
+	--GX-Image_Ayuda : url(Ayuda.bmp);
+	--GX-Image_moda21 : url(moda21.bmp);
+	--GX-Image_LogoDT : url(LogoDT.bmp);
+	--GX-Image_Suprema_d : url(Suprema_d.bmp);
+	--GX-Image_Refugio : url(Refugio.jpg);
+	--GX-Image_browse : url(browse.ico);
+	--GX-Image_Carvitin : url(Carvitin.bmp);
+	--GX-Image_Logots : url(Logots.bmp);
+	--GX-Image_Rontaltex : url(Rontaltex.bmp);
+	--GX-Image_LOGOTEXFINA : url(LOGOTEXFINA.bmp);
+	--GX-Image_RPT : url(RPT.ICO);
+	--GX-Image_OTS100_label_548_pt : url(OTS100_label_548_pt.bmp);
+	--GX-Image_OTS100_label_6029CIT_pt : url(OTS100_label_6029CIT_pt.bmp);
+	--GX-Image_SGS_ISO_9001_PT : url(SGS_ISO_9001_PT.jpg);
+	--GX-Image_gots_new : url(gots new.bmp);
+	--GX-Image_global_new : url(global new.bmp);
+	--GX-Image_ocs_new : url(ocs new.bmp);
+	--GX-Image_excel : url(excel.JPG);
+	--GX-Image_Horizontal_Derecha : url(Horizontal-Derecha.bmp);
+	--GX-Image_Horizontal_Izquierda : url(Horizontal-Izquierda.bmp);
+	--GX-Image_Vertical_arriba : url(Vertical-arriba.bmp);
+	--GX-Image_Vertical_abajo : url(Vertical-abajo.bmp);
+	--GX-Image_logo_guilford : url(logo_guilford.gif);
+	--GX-Image_DETINTEX : url(DETINTEX.JPG);
+	--GX-Image_TechnoColor_1 : url(TechnoColor_1.bmp);
+	--GX-Image_Molto : url(Molto.bmp);
+	--GX-Image_molto2 : url(molto2.bmp);
+	--GX-Image_Aesl_2 : url(Aesl-2.bmp);
+	--GX-Image_FINITEX : url(FINITEX.BMP);
+	--GX-Image_tintex : url(tintex.bmp);
+	--GX-Image_MODA21_BMPEICAL : url(MODA21.BMPEICAL.bmp);
+	--GX-Image_elipse : url(elipse.jpg);
+	--GX-Image_ISO_9001___IQNet : url(ISO 9001 - IQNet.bmp);
+	--GX-Image_logo_oko_tex_2208cit_pt : url(logo_oko_tex_2208cit_pt.bmp);
+	--GX-Image_POLOPIQUE_CMYK_V2 : url(POLOPIQUE_CMYK_V2.jpg);
+	--GX-Image_word : url(word.bmp);
+	--GX-Image_euro : url(euro.bmp);
+	--GX-Image_disenyo : url(disenyo.jpg);
+	--GX-Image_lasalut : url(lasalut.bmp);
+	--GX-Image_Manitex : url(Manitex.bmp);
+	--GX-Image_ctw : url(ctw.jpg);
+	--GX-Image_assinatura_CC : url(assinatura CC.jpg);
+	--GX-Image_Certm21 : url(Certm21.jpg);
+	--GX-Image_guasch1 : url(guasch1.bmp);
+	--GX-Image_guasch : url(guasch.bmp);
+	--GX-Image_JIMENEZesoko5 : url(JIMENEZesoko5.jpg);
+	--GX-Image_DibujoTextil : url(DibujoTextil.bmp);
+	--GX-Image_JIMENEZesoko6 : url(JIMENEZesoko6.jpg);
+	--GX-Image_Damf1 : url(Damf1.bmp);
+	--GX-Image_Damf2 : url(Damf2.bmp);
+	--GX-Image_DamfP : url(DamfP.bmp);
+	--GX-Image_renovar : url(renovar.bmp);
+	--GX-Image_Tinamar_l : url(Tinamar_l.bmp);
+	--GX-Image_Pizarro : url(Pizarro.bmp);
+	--GX-Image_moda21B : url(moda21B.bmp);
+	--GX-Image_TintutexOkotex : url(TintutexOkotex.bmp);
+	--GX-Image_Tintoretto : url(Tintoretto.bmp);
+	--GX-Image_Tintto_iso9002 : url(Tintto_iso9002.bmp);
+	--GX-Image_Watermark : url(Watermark.jpg);
+	--GX-Image_LOGOCIP : url(LOGOCIP.bmp);
+	--GX-Image_logo_etm : url(logo_etm.jpg);
+	--GX-Image_brochado_e_campo_LOGO : url(brochado e campo LOGO.jpg);
+	--GX-Image_Tinamar : url(Tinamar.bmp);
+	--GX-Image_Erfoc : url(Erfoc.bmp);
+	--GX-Image_Jimenez01 : url(Jimenez01.bmp);
+	--GX-Image_Bros_iso9002 : url(Bros_iso9002.bmp);
+	--GX-Image_euro_bros : url(euro_bros.bmp);
+	--GX-Image_I2012OK0410 : url(2012OK0410.bmp);
+	--GX-Image_ActionExport_2 : url(ActionExport_2.bmp);
+	--GX-Image_hidrocolor_M : url(hidrocolor_M.bmp);
+	--GX-Image_oko_hidro_M : url(oko_hidro_M.bmp);
+	--GX-Image_iso14001_hidro : url(iso14001_hidro.bmp);
+	--GX-Image_hidrocolor : url(hidrocolor.bmp);
+	--GX-Image_oko_hidro : url(oko_hidro.bmp);
+	--GX-Image_Carvema_1 : url(Carvema_1.bmp);
+	--GX-Image_Pizarrot : url(Pizarrot.bmp);
+	--GX-Image_Logo_TM : url(Logo TM.jpg);
+	--GX-Image_Tinamar_gl : url(Tinamar_gl.bmp);
+	--GX-Image_Endutex_1 : url(Endutex_1.bmp);
+	--GX-Image_Vtabuas_0 : url(Vtabuas_0.bmp);
+	--GX-Image_Vtabuas_1 : url(Vtabuas_1.bmp);
+	--GX-Image_Vtabuas_2 : url(Vtabuas_2.bmp);
+	--GX-Image_curva : url(curva.jpg);
+	--GX-Image_VINCOLOR : url(VINCOLOR.bmp);
+	--GX-Image_Mafitex : url(Mafitex.bmp);
+	--GX-Image_JPFII : url(JPFII.JPG);
+	--GX-Image_jpf_lb : url(jpf_lb.bmp);
+	--GX-Image_f : url(f.jpg);
+	--GX-Image_I0 : url(0.jpg);
+	--GX-Image_I1 : url(1.jpg);
+	--GX-Image_I2 : url(2.jpg);
+	--GX-Image_I3 : url(3.jpg);
+	--GX-Image_I4 : url(4.jpg);
+	--GX-Image_I5 : url(5.jpg);
+	--GX-Image_I6 : url(6.jpg);
+	--GX-Image_I7 : url(7.jpg);
+	--GX-Image_I8 : url(8.jpg);
+	--GX-Image_I9 : url(9.jpg);
+	--GX-Image_coma : url(coma.jpg);
+	--GX-Image_Ricoltex : url(Ricoltex.bmp);
+	--GX-Image_Ibatex : url(Ibatex.bmp);
+	--GX-Image_CarvemaNCRC : url(CarvemaNCRC.bmp);
+	--GX-Image_ApcerCarvema : url(ApcerCarvema.bmp);
+	--GX-Image_RCp : url(RCp.bmp);
+	--GX-Image_acatex : url(acatex.jpg);
+	--GX-Image_Jimenez : url(Jimenez.bmp);
+	--GX-Image_Hss : url(Hss.bmp);
+	--GX-Image_hss1 : url(hss1.bmp);
+	--GX-Image_Staack : url(Staack.bmp);
+	--GX-Image_Carvema_0 : url(Carvema_0.bmp);
+	--GX-Image_carvema_3 : url(carvema_3.bmp);
+	--GX-Image_TextilRG1 : url(TextilRG1.bmp);
+	--GX-Image_TextilRG : url(TextilRG.bmp);
+	--GX-Image_logo1_adifil : url(logo1_adifil.bmp);
+	--GX-Image_logo2_adifil : url(logo2_adifil.bmp);
+	--GX-Image_Sequei_lab : url(Sequei_lab.bmp);
+	--GX-Image_Sequei_flab : url(Sequei_flab.bmp);
+	--GX-Image_LOGO_ARTEXTIL : url(LOGO_ARTEXTIL.jpg);
+	--GX-Image_icontec : url(icontec.JPG);
+	--GX-Image_Linda_gl : url(Linda_gl.jpg);
+	--GX-Image_Indutexma_gl : url(Indutexma_gl.BMP);
+	--GX-Image_Filasur : url(Filasur.jpg);
+	--GX-Image_LABDIP : url(LABDIP.bmp);
+	--GX-Image_etm_gl : url(etm_gl.bmp);
+	--GX-Image_logohdr : url(logohdr.jpg);
+	--GX-Image_Tonalidades : url(Tonalidades.bmp);
+	--GX-Image_OTS100_label_2905CIT_pt : url(OTS100_label_2905CIT_pt.bmp);
+	--GX-Image_FACTORY : url(FACTORY.bmp);
+	--GX-Image_velta : url(velta.bmp);
+	--GX-Image_Dtyt : url(Dtyt.jpg);
+	--GX-Image_Coloretto1 : url(Coloretto1.jpg);
+	--GX-Image_ETM_l : url(ETM_l.bmp);
+	--GX-Image_FraDamf1 : url(FraDamf1.bmp);
+	--GX-Image_FraDamf2 : url(FraDamf2.bmp);
+	--GX-Image_FraJime : url(FraJime.bmp);
+	--GX-Image_artextil : url(artextil.jpg);
+	--GX-Image_ordencompra : url(ordencompra.jpg);
+	--GX-Image_Stamperia2 : url(Stamperia2.jpg);
+	--GX-Image_Pack_d_1 : url(Pack_d_1.jpg);
+	--GX-Image_Estambril : url(Estambril.bmp);
+	--GX-Image_Utexta : url(Utexta.bmp);
+	--GX-Image_coloretto_etiqueta : url(coloretto_etiqueta.jpg);
+	--GX-Image_NCP : url(NCP.jpg);
+	--GX-Image_Tosa_1 : url(Tosa_1.jpg);
+	--GX-Image_STEPnew : url(STEPnew.bmp);
+	--GX-Image_Entorno2 : url(Entorno2.bmp);
+	--GX-Image_Scan3 : url(Scan3.jpg);
+	--GX-Image_Scan_lara : url(Scan_lara.jpg);
+	--GX-Image_OTS100_label_2017OK0769_es : url(OTS100_label_2017OK0769_es.bmp);
+	--GX-Image_artextilH : url(artextilH.bmp);
+	--GX-Image_TinturasyTelas : url(TinturasyTelas.jpg);
+	--GX-Image_Tintatex : url(Tintatex.jpg);
+	--GX-Image_OKTEX : url(OKTEX.jpg);
+	--GX-Image_Interhits : url(Interhits.jpg);
+	--GX-Image_vts_quadrat : url(vts quadrat.jpg);
+	--GX-Image_I2005AN1668_en_page_0001 : url(2005AN1668-en_page-0001.jpg);
+	--GX-Image_globalrecycledStandar : url(globalrecycledStandar.jpg);
+	--GX-Image_velluts1 : url(velluts1.bmp);
+	--GX-Image_LogoFraVts : url(LogoFraVts.bmp);
+	--GX-Image_vts1 : url(vts1.bmp);
+	--GX-Image_Tintatexdp : url(Tintatexdp.bmp);
+	--GX-Image_logo : url(../logo.png);
+	--GX-Image_artemalha : url(artemalha.jpg);
+	--GX-Image_logo_bn : url(logo_bn.jpg);
+	--GX-Image_Lletres : url(Lletres.jpg);
+	--GX-Image_fontex : url(fontex.jpg);
+	--GX-Image_logo1083 : url(logo1083.jpg);
+	--GX-Image_logo_ms_negre : url(logo ms negre.JPG);
+	--GX-Image_geisa : url(geisa.jpg);
+	--GX-Image_logoeti : url(logoeti.jpg);
+	--GX-Image_yonashY : url(yonashY.bmp);
+	--GX-Image_yonash : url(yonash.jpg);
+	--GX-Image_yonasHYY : url(yonasHYY.jpg);
+	--GX-Image_termilenio : url(termilenio.jpg);
+	--GX-Image_Imprimir : url(Imprimir.bmp);
+	--GX-Image_Dorado : url(Dorado.jpg);
+	--GX-Image_tenydos : url(tenydos.jpg);
+	--GX-Image_logonext : url(logonext.bmp);
+	--GX-Image_logotest : url(logotest.bmp);
+	--GX-Image_ActionExportReport_2 : url(ActionExportReport_2.bmp);
+	--GX-Image_tintoriente : url(tintoriente.jpg);
+	--GX-Image_pioleraeti : url(pioleraeti.jpg);
+	--GX-Image_C_okotex : url(C_okotex.bmp);
+	--GX-Image_digital03_peque : url(digital03_peque.jpg);
+	--GX-Image_Logo_ARTEXTIL_lo_hacemos_posible : url(Logo ARTEXTIL.lo hacemos posible.jpg);
+	--GX-Image_LOGO_ESTAMPAMOS : url(C:\GeneXus\Kbs\Texplus GX 9.0\DATA006\LOGO ESTAMPAMOS.jpg);
+	--GX-Image_balalaika : url(balalaika.bmp);
+	--GX-Image_LogoBalalaika : url(LogoBalalaika.jpg);
+	--GX-Image_logoAnahuac : url(logoAnahuac.jpg);
+	--GX-Image_logo_anahuac : url(logo anahuac.jpg);
+	--GX-Image_Mex : url(Mex.bmp);
+	--GX-Image_PequePOLOPIQUE_CMYK : url(PequePOLOPIQUE_CMYK.bmp);
+	--GX-Image_erfocdefectos : url(erfocdefectos.bmp);
+	--GX-Image_LogoPakinglist : url(LogoPakinglist.jpg);
+	--GX-Image_Retro : url(Retro.bmp);
+	--GX-Image_Avance : url(Avance.bmp);
+	--GX-Image_Anterior : url(Anterior.bmp);
+	--GX-Image_logo_datamon_1 : url(logo datamon 1.jpg);
+	--GX-Image_ActionBack : url(../ActionBack.png);
+	--GX-Image_BtnUpdateImage : url(../BtnUpdateImage.png);
+	--GX-Image_user : url(user.bmp);
+	--GX-Image_ActionFiltersClean : url(../ActionFiltersClean.png);
+	--GX-Image_fondo1_940x470__1_ : url(../fondo1_940x470__1_.jpg);
+	--GX-Image_fondo6_940x4702 : url(../fondo6_940x4702.jpg);
+	--GX-Image_ActionNewDynamicFilter : url(../ActionNewDynamicFilter.png);
+	--GX-Image_ActionRemoveDynamicFilter : url(../ActionRemoveDynamicFilter.png);
+	--GX-Image_userInfoMaterial : url(../userInfoMaterial.png);
+	--GX-Image_MenuIconMaterial : url(../MenuIconMaterial.png);
+	--GX-Image_LogoLogin : url(../LogoLogin.png);
+	--GX-Image_LogoIcon : url(../LogoIcon.png);
+	--GX-Image_Favicon : url(../Favicon.png);
+	--GX-Image_ChineseIcon : url(../ChineseIcon.png);
+	--GX-Image_EnglishIcon : url(../EnglishIcon.png);
+	--GX-Image_GermanIcon : url(../GermanIcon.png);
+	--GX-Image_ItalianIcon : url(../ItalianIcon.png);
+	--GX-Image_JapaneseIcon : url(../JapaneseIcon.png);
+	--GX-Image_PortugueseIcon : url(../PortugueseIcon.png);
+	--GX-Image_SpanishIcon : url(../SpanishIcon.png);
+	--GX-Image_ArabicIcon : url(../ArabicIcon.png);
+	--GX-Image_StepSelectedUnSelected : url(../StepSelectedUnSelected.png);
+	--GX-Image_StepUnSelectedSelected : url(../StepUnSelectedSelected.png);
+	--GX-Image_WizardCompleted : url(../WizardCompleted.png);
+	--GX-Image_DVelopComboCollapse : url(../DVelopComboCollapse.png);
+	--GX-Image_DVelopComboExpand : url(../DVelopComboExpand.png);
+	--GX-Image_PromptMultipleSelection : url(../PromptMultipleSelection.png);
+	--GX-Image_LoadingResults : url(../LoadingResults.gif);
+	--GX-Image_PanelCardGray_Expand : url(../PanelCardGray_Expand.png);
+	--GX-Image_Geolocation : url(../Geolocation.png);
+	--GX-Image_BtnDeleteImage : url(../BtnDeleteImage.png);
+	--GX-Image_BtnDisplayImage : url(../BtnDisplayImage.png);
+	--GX-Image_WizardStepChecked : url(../WizardStepChecked.png);
+	--GX-Image_ActionCancel : url(../ActionCancel.png);
+	--GX-Image_HomeModulesBackground1 : url(../HomeModulesBackground1.jpg);
+	--GX-Image_HomeModulesBackground2 : url(../HomeModulesBackground2.jpg);
+	--GX-Image_HomeModulesBackground3 : url(../HomeModulesBackground3.jpg);
+	--GX-Image_HomeModulesBackground4 : url(../HomeModulesBackground4.jpg);
+	--GX-Image_HomeModulesBackground5 : url(../HomeModulesBackground5.jpg);
+	--GX-Image_HomeModulesBackground6 : url(../HomeModulesBackground6.jpg);
+	--GX-Image_DDODefault : url(../DDODefault.png);
+	--GX-Image_DDOFiltered : url(../DDOFiltered.png);
+	--GX-Image_DDOFilteredSortedASC : url(../DDOFilteredSortedASC.png);
+	--GX-Image_DDOFilteredSortedDSC : url(../DDOFilteredSortedDSC.png);
+	--GX-Image_DDOMultiselOption : url(../DDOMultiselOption.png);
+	--GX-Image_DDOMultiselSelOption : url(../DDOMultiselSelOption.png);
+	--GX-Image_DDOOptionApplyFilter : url(../DDOOptionApplyFilter.png);
+	--GX-Image_DDOOptionCleanFilters : url(../DDOOptionCleanFilters.png);
+	--GX-Image_DDOOptionFilteringData : url(../DDOOptionFilteringData.gif);
+	--GX-Image_DDOOptionSortASC : url(../DDOOptionSortASC.png);
+	--GX-Image_DDOOptionSortDSC : url(../DDOOptionSortDSC.png);
+	--GX-Image_DDOSelectedOption : url(../DDOSelectedOption.png);
+	--GX-Image_DDOSortedASC : url(../DDOSortedASC.png);
+	--GX-Image_DDOSortedDSC : url(../DDOSortedDSC.png);
+	--GX-Image_ActionSave : url(../ActionSave.png);
+	--GX-Image_ActionExportReport : url(../ActionExportReport.png);
+	--GX-Image_MoveDown : url(../MoveDown.png);
+	--GX-Image_MoveUp : url(../MoveUp.png);
+	--GX-Image_ActionFiltersSave : url(../ActionFiltersSave.png);
+	--GX-Image_ActionManageFilters : url(../ActionManageFilters.png);
+	--GX-Image_ActionManage : url(../ActionManage.png);
+	--GX-Image_RequiredTriangle : url(../RequiredTriangle.gif);
+	--GX-Image_ActionCopyRecord : url(../ActionCopyRecord.jpg);
+	--GX-Image_AssociationItemsLeft : url(../AssociationItemsLeft.png);
+	--GX-Image_AssociationItemsRight : url(../AssociationItemsRight.png);
+	--GX-Image_AssociationRight : url(../AssociationRight.png);
+	--GX-Image_AssociationLeft : url(../AssociationLeft.png);
+	--GX-Image_HomeBannerImageSample : url(../HomeBannerImageSample.png);
+	--GX-Image_ActionAdd : url(../ActionAdd.png);
+	--GX-Image_ActionCSV : url(../ActionCSV.png);
+	--GX-Image_SortedAsc : url(../SortedAsc.png);
+	--GX-Image_SortedDsc : url(../SortedDsc.png);
+	--GX-Image_ActionCleanFilters : url(../ActionCleanFilters.png);
+	--GX-Image_AttHelpIcon : url(../AttHelpIcon.png);
+	--GX-Image_BulletLine : url(../BulletLine.png);
+	--GX-Image_LoginImage : url(../LoginImage.jpg);
+	--GX-Image_ActionUpdate1 : url(../ActionUpdate1.bmp);
+	--GX-Image_prompt1 : url(../prompt1.png);
+	--GX-Image_NotAuthorizedImage : url(../NotAuthorizedImage.png);
+	--GX-Image_LogoIcon1 : url(../LogoIcon1.png);
+	--GX-Image_FavIconDM : url(../FavIconDM.png);
+	--GX-Image_LogoDMPlus : url(../LogoDMPlus.png);
+	--GX-Image_Carvitin1 : url(../Carvitin1.bmp);
+	--GX-Image_moda211 : url(../moda211.JPG);
+	--GX-Image_BackgroundImage : url(../BackgroundImage.png);
+	--GX-Image_moda212 : url(../moda212.BMP);
+	--GX-Image_moda21B1 : url(../moda21B1.bmp);
+	--GX-Image_moda213 : url(../moda213.JPG);
+	--GX-Image_moda214 : url(../moda214.JPG);
+	--GX-Image_Texplus11 : url(../Texplus11.jpg);
+	--GX-Image_Datamon40anios : url(../Datamon40anios.jpg);
+	--GX-Image_Carvitin2 : url(../Carvitin2.bmp);
+	--GX-Image_ctw1 : url(../ctw1.JPG);
+	--GX-Image_MODA215 : url(../MODA215.BMP);
+	--GX-Image_Datamon_LogoMasterPage : url(../Datamon.LogoMasterPage.png);
+	--GX-Image_Datamon_Avatar : url(../Datamon.Avatar.png);
+	--GX-Image_Datamon_background_login : url(../Datamon.background_login.jpeg);
+	--GX-Image_europeanflax_moda21 : url(europeanflax_moda21.bmp);
+	--GX-Image_Alert : url(../Alert.png);
+	--GX-Image_qrcode : url(../qrcode.png);
+	--GX-Image_Email : url(../Email.png);
+	--GX-Image_EmailError : url(../EmailError.png);
+	--GX-Image_MarcaAgua_NOAT_8x111 : url(../MarcaAgua_NOAT_8x111.jpg);
+	--GX-Image_MarcaAgua_NOAT_8x11 : url(../MarcaAgua_NOAT_8x11.jpg);
+	--GX-Image_MarcadeAgua : url(C:\Program Files\Apache Software Foundation\Tomcat 10.1\webapps\TexplusNETJavaOracle\static\Resources);
+	--GX-Image_Printer : url(../Printer.png);
+	--GX-Image_SendEmail : url(../SendEmail.png);
+	--GX-Image_moda2121 : url(../moda2121.BMP);
+	--GX-Image_assinaturaCC : url(../assinaturaCC.png);
+}
+
+.GX_Image_PageFirst_Class{content: var(--GX-Image_PageFirst);}
+.GX_Image_PageLast_Class{content: var(--GX-Image_PageLast);}
+.GX_Image_PageNext_Class{content: var(--GX-Image_PageNext);}
+.GX_Image_PagePrevious_Class{content: var(--GX-Image_PagePrevious);}
+.GX_Image_menuarrow_Class{content: var(--GX-Image_menuarrow);}
+.GX_Image_ClosePrompt_Class{content: var(--GX-Image_ClosePrompt);}
+.GX_Image_GenericFilter_Class{content: var(--GX-Image_GenericFilter);}
+.GX_Image_calendar_Class{content: var(--GX-Image_calendar);}
+.GX_Image_MultimediaEdit_Class{content: var(--GX-Image_MultimediaEdit);}
+.GX_Image_MultimediaClear_Class{content: var(--GX-Image_MultimediaClear);}
+.GX_Image_PlaceHolderImage_Class{content: var(--GX-Image_PlaceHolderImage);}
+.GX_Image_PlaceHolderVideo_Class{content: var(--GX-Image_PlaceHolderVideo);}
+.GX_Image_PlaceHolderAudio_Class{content: var(--GX-Image_PlaceHolderAudio);}
+.GX_Image_WarningIcon_Class{content: var(--GX-Image_WarningIcon);}
+.GX_Image_ErrorIcon_Class{content: var(--GX-Image_ErrorIcon);}
+.GX_Image_VideoDownload_Class{content: var(--GX-Image_VideoDownload);}
+.GX_Image_AudioDownload_Class{content: var(--GX-Image_AudioDownload);}
+.GX_Image_btnL_Class{content: var(--GX-Image_btnL);}
+.GX_Image_btnR_Class{content: var(--GX-Image_btnR);}
+.GX_Image_btnC_Class{content: var(--GX-Image_btnC);}
+.GX_Image_btnLDisabled_Class{content: var(--GX-Image_btnLDisabled);}
+.GX_Image_btnRDisabled_Class{content: var(--GX-Image_btnRDisabled);}
+.GX_Image_btnCDisabled_Class{content: var(--GX-Image_btnCDisabled);}
+.GX_Image_footer_body_Class{content: var(--GX-Image_footer_body);}
+.GX_Image_cabezal_cuerpo_Class{content: var(--GX-Image_cabezal_cuerpo);}
+.GX_Image_ActionDelete_Class{content: var(--GX-Image_ActionDelete);}
+.GX_Image_ActionDisabled_Class{content: var(--GX-Image_ActionDisabled);}
+.GX_Image_ActionDisplay_Class{content: var(--GX-Image_ActionDisplay);}
+.GX_Image_ActionExport_Class{content: var(--GX-Image_ActionExport);}
+.GX_Image_ActionInsert_Class{content: var(--GX-Image_ActionInsert);}
+.GX_Image_ActionUpdate_Class{content: var(--GX-Image_ActionUpdate);}
+.GX_Image_asc_Class{content: var(--GX-Image_asc);}
+.GX_Image_BigButton_Class{content: var(--GX-Image_BigButton);}
+.GX_Image_blank_Class{content: var(--GX-Image_blank);}
+.GX_Image_btn_cancel_Class{content: var(--GX-Image_btn_cancel);}
+.GX_Image_Button_Class{content: var(--GX-Image_Button);}
+.GX_Image_Cancel_Class{content: var(--GX-Image_Cancel);}
+.GX_Image_close_Class{content: var(--GX-Image_close);}
+.GX_Image_collapse_Class{content: var(--GX-Image_collapse);}
+.GX_Image_DeleteRow_Class{content: var(--GX-Image_DeleteRow);}
+.GX_Image_desc_Class{content: var(--GX-Image_desc);}
+.GX_Image_download_Class{content: var(--GX-Image_download);}
+.GX_Image_expand_Class{content: var(--GX-Image_expand);}
+.GX_Image_First_Class{content: var(--GX-Image_First);}
+.GX_Image_FooterLine_Class{content: var(--GX-Image_FooterLine);}
+.GX_Image_GXX_M_Class{content: var(--GX-Image_GXX_M);}
+.GX_Image_header_small1_Class{content: var(--GX-Image_header_small1);}
+.GX_Image_HeaderBackground_Class{content: var(--GX-Image_HeaderBackground);}
+.GX_Image_indicator_Class{content: var(--GX-Image_indicator);}
+.GX_Image_Last_Class{content: var(--GX-Image_Last);}
+.GX_Image_LeftTopWW_Class{content: var(--GX-Image_LeftTopWW);}
+.GX_Image_line_header_Class{content: var(--GX-Image_line_header);}
+.GX_Image_locateMe_Class{content: var(--GX-Image_locateMe);}
+.GX_Image_NEW_Class{content: var(--GX-Image_NEW);}
+.GX_Image_Next_Class{content: var(--GX-Image_Next);}
+.GX_Image_PDA_48x48_Class{content: var(--GX-Image_PDA_48x48);}
+.GX_Image_popupheader_Class{content: var(--GX-Image_popupheader);}
+.GX_Image_PoweredByGeneXus_Class{content: var(--GX-Image_PoweredByGeneXus);}
+.GX_Image_Previous_Class{content: var(--GX-Image_Previous);}
+.GX_Image_prompt_Class{content: var(--GX-Image_prompt);}
+.GX_Image_RecentLinksBackground_Class{content: var(--GX-Image_RecentLinksBackground);}
+.GX_Image_resize_Class{content: var(--GX-Image_resize);}
+.GX_Image_RightTopWW_Class{content: var(--GX-Image_RightTopWW);}
+.GX_Image_Save_Class{content: var(--GX-Image_Save);}
+.GX_Image_Select_Class{content: var(--GX-Image_Select);}
+.GX_Image_SelectRow_Class{content: var(--GX-Image_SelectRow);}
+.GX_Image_Smartphone_48x48_Class{content: var(--GX-Image_Smartphone_48x48);}
+.GX_Image_TabBeginSelected_Class{content: var(--GX-Image_TabBeginSelected);}
+.GX_Image_TabBeginUnselected_Class{content: var(--GX-Image_TabBeginUnselected);}
+.GX_Image_TabEndSelected_Class{content: var(--GX-Image_TabEndSelected);}
+.GX_Image_TabEndUnselected_Class{content: var(--GX-Image_TabEndUnselected);}
+.GX_Image_TabGroupNext_Class{content: var(--GX-Image_TabGroupNext);}
+.GX_Image_TabGroupPrevious_Class{content: var(--GX-Image_TabGroupPrevious);}
+.GX_Image_TabLine_Class{content: var(--GX-Image_TabLine);}
+.GX_Image_TabSelected_Class{content: var(--GX-Image_TabSelected);}
+.GX_Image_TabSelectedUnselected_Class{content: var(--GX-Image_TabSelectedUnselected);}
+.GX_Image_TabUnselected_Class{content: var(--GX-Image_TabUnselected);}
+.GX_Image_TabUnselectedSelected_Class{content: var(--GX-Image_TabUnselectedSelected);}
+.GX_Image_TabUnselectedUnselected_Class{content: var(--GX-Image_TabUnselectedUnselected);}
+.GX_Image_toolbarbg_Class{content: var(--GX-Image_toolbarbg);}
+.GX_Image_toolbarseparator_Class{content: var(--GX-Image_toolbarseparator);}
+.GX_Image_topL_Class{content: var(--GX-Image_topL);}
+.GX_Image_topR_Class{content: var(--GX-Image_topR);}
+.GX_Image_unchecked_Class{content: var(--GX-Image_unchecked);}
+.GX_Image_UndeleteRow_Class{content: var(--GX-Image_UndeleteRow);}
+.GX_Image_AddButton_Class{content: var(--GX-Image_AddButton);}
+.GX_Image_ConfirmButton_Class{content: var(--GX-Image_ConfirmButton);}
+.GX_Image_UpdateButton_Class{content: var(--GX-Image_UpdateButton);}
+.GX_Image_DeleteButton_Class{content: var(--GX-Image_DeleteButton);}
+.GX_Image_Copy_Class{content: var(--GX-Image_Copy);}
+.GX_Image_Cut_Class{content: var(--GX-Image_Cut);}
+.GX_Image_HELP_Class{content: var(--GX-Image_HELP);}
+.GX_Image_Paint_Class{content: var(--GX-Image_Paint);}
+.GX_Image_Paste_Class{content: var(--GX-Image_Paste);}
+.GX_Image_LOCATE_Class{content: var(--GX-Image_LOCATE);}
+.GX_Image_OK_Class{content: var(--GX-Image_OK);}
+.GX_Image_TRASH_Class{content: var(--GX-Image_TRASH);}
+.GX_Image_HLP_UP_Class{content: var(--GX-Image_HLP_UP);}
+.GX_Image_Prisma_Class{content: var(--GX-Image_Prisma);}
+.GX_Image_subfile_Class{content: var(--GX-Image_subfile);}
+.GX_Image_PRT_UP_Class{content: var(--GX-Image_PRT_UP);}
+.GX_Image_Selec_Class{content: var(--GX-Image_Selec);}
+.GX_Image_POLOPIQUE_CMYK_Class{content: var(--GX-Image_POLOPIQUE_CMYK);}
+.GX_Image_DELETE_Class{content: var(--GX-Image_DELETE);}
+.GX_Image_Texplus1_Class{content: var(--GX-Image_Texplus1);}
+.GX_Image_I_Class{content: var(--GX-Image_I);}
+.GX_Image_refrescar_Class{content: var(--GX-Image_refrescar);}
+.GX_Image_Platino_Class{content: var(--GX-Image_Platino);}
+.GX_Image_FILTER_Class{content: var(--GX-Image_FILTER);}
+.GX_Image_I_ko_tex_logo_Class{content: var(--GX-Image_I_ko_tex_logo);}
+.GX_Image_PME_lider_Class{content: var(--GX-Image_PME_lider);}
+.GX_Image_Fatura_Class{content: var(--GX-Image_Fatura);}
+.GX_Image_TermilenioFra_Class{content: var(--GX-Image_TermilenioFra);}
+.GX_Image_QC_Class{content: var(--GX-Image_QC);}
+.GX_Image_Colores_Class{content: var(--GX-Image_Colores);}
+.GX_Image_Tintutex_Class{content: var(--GX-Image_Tintutex);}
+.GX_Image_tintex1_Class{content: var(--GX-Image_tintex1);}
+.GX_Image_report_Class{content: var(--GX-Image_report);}
+.GX_Image_Endutex_Class{content: var(--GX-Image_Endutex);}
+.GX_Image_iso9001_Class{content: var(--GX-Image_iso9001);}
+.GX_Image_piolerahdr_Class{content: var(--GX-Image_piolerahdr);}
+.GX_Image_BiarPrint_Class{content: var(--GX-Image_BiarPrint);}
+.GX_Image_std_Class{content: var(--GX-Image_std);}
+.GX_Image_Seleccionar_Class{content: var(--GX-Image_Seleccionar);}
+.GX_Image_Confirmar_Class{content: var(--GX-Image_Confirmar);}
+.GX_Image_Cerrar_Class{content: var(--GX-Image_Cerrar);}
+.GX_Image_Eliminar_Class{content: var(--GX-Image_Eliminar);}
+.GX_Image_Ayuda_Class{content: var(--GX-Image_Ayuda);}
+.GX_Image_moda21_Class{content: var(--GX-Image_moda21);}
+.GX_Image_LogoDT_Class{content: var(--GX-Image_LogoDT);}
+.GX_Image_Suprema_d_Class{content: var(--GX-Image_Suprema_d);}
+.GX_Image_Refugio_Class{content: var(--GX-Image_Refugio);}
+.GX_Image_browse_Class{content: var(--GX-Image_browse);}
+.GX_Image_Carvitin_Class{content: var(--GX-Image_Carvitin);}
+.GX_Image_Logots_Class{content: var(--GX-Image_Logots);}
+.GX_Image_Rontaltex_Class{content: var(--GX-Image_Rontaltex);}
+.GX_Image_LOGOTEXFINA_Class{content: var(--GX-Image_LOGOTEXFINA);}
+.GX_Image_RPT_Class{content: var(--GX-Image_RPT);}
+.GX_Image_OTS100_label_548_pt_Class{content: var(--GX-Image_OTS100_label_548_pt);}
+.GX_Image_OTS100_label_6029CIT_pt_Class{content: var(--GX-Image_OTS100_label_6029CIT_pt);}
+.GX_Image_SGS_ISO_9001_PT_Class{content: var(--GX-Image_SGS_ISO_9001_PT);}
+.GX_Image_gots_new_Class{content: var(--GX-Image_gots_new);}
+.GX_Image_global_new_Class{content: var(--GX-Image_global_new);}
+.GX_Image_ocs_new_Class{content: var(--GX-Image_ocs_new);}
+.GX_Image_excel_Class{content: var(--GX-Image_excel);}
+.GX_Image_Horizontal_Derecha_Class{content: var(--GX-Image_Horizontal_Derecha);}
+.GX_Image_Horizontal_Izquierda_Class{content: var(--GX-Image_Horizontal_Izquierda);}
+.GX_Image_Vertical_arriba_Class{content: var(--GX-Image_Vertical_arriba);}
+.GX_Image_Vertical_abajo_Class{content: var(--GX-Image_Vertical_abajo);}
+.GX_Image_logo_guilford_Class{content: var(--GX-Image_logo_guilford);}
+.GX_Image_DETINTEX_Class{content: var(--GX-Image_DETINTEX);}
+.GX_Image_TechnoColor_1_Class{content: var(--GX-Image_TechnoColor_1);}
+.GX_Image_Molto_Class{content: var(--GX-Image_Molto);}
+.GX_Image_molto2_Class{content: var(--GX-Image_molto2);}
+.GX_Image_Aesl_2_Class{content: var(--GX-Image_Aesl_2);}
+.GX_Image_FINITEX_Class{content: var(--GX-Image_FINITEX);}
+.GX_Image_tintex_Class{content: var(--GX-Image_tintex);}
+.GX_Image_MODA21_BMPEICAL_Class{content: var(--GX-Image_MODA21_BMPEICAL);}
+.GX_Image_elipse_Class{content: var(--GX-Image_elipse);}
+.GX_Image_ISO_9001___IQNet_Class{content: var(--GX-Image_ISO_9001___IQNet);}
+.GX_Image_logo_oko_tex_2208cit_pt_Class{content: var(--GX-Image_logo_oko_tex_2208cit_pt);}
+.GX_Image_POLOPIQUE_CMYK_V2_Class{content: var(--GX-Image_POLOPIQUE_CMYK_V2);}
+.GX_Image_word_Class{content: var(--GX-Image_word);}
+.GX_Image_euro_Class{content: var(--GX-Image_euro);}
+.GX_Image_disenyo_Class{content: var(--GX-Image_disenyo);}
+.GX_Image_lasalut_Class{content: var(--GX-Image_lasalut);}
+.GX_Image_Manitex_Class{content: var(--GX-Image_Manitex);}
+.GX_Image_ctw_Class{content: var(--GX-Image_ctw);}
+.GX_Image_assinatura_CC_Class{content: var(--GX-Image_assinatura_CC);}
+.GX_Image_Certm21_Class{content: var(--GX-Image_Certm21);}
+.GX_Image_guasch1_Class{content: var(--GX-Image_guasch1);}
+.GX_Image_guasch_Class{content: var(--GX-Image_guasch);}
+.GX_Image_JIMENEZesoko5_Class{content: var(--GX-Image_JIMENEZesoko5);}
+.GX_Image_DibujoTextil_Class{content: var(--GX-Image_DibujoTextil);}
+.GX_Image_JIMENEZesoko6_Class{content: var(--GX-Image_JIMENEZesoko6);}
+.GX_Image_Damf1_Class{content: var(--GX-Image_Damf1);}
+.GX_Image_Damf2_Class{content: var(--GX-Image_Damf2);}
+.GX_Image_DamfP_Class{content: var(--GX-Image_DamfP);}
+.GX_Image_renovar_Class{content: var(--GX-Image_renovar);}
+.GX_Image_Tinamar_l_Class{content: var(--GX-Image_Tinamar_l);}
+.GX_Image_Pizarro_Class{content: var(--GX-Image_Pizarro);}
+.GX_Image_moda21B_Class{content: var(--GX-Image_moda21B);}
+.GX_Image_TintutexOkotex_Class{content: var(--GX-Image_TintutexOkotex);}
+.GX_Image_Tintoretto_Class{content: var(--GX-Image_Tintoretto);}
+.GX_Image_Tintto_iso9002_Class{content: var(--GX-Image_Tintto_iso9002);}
+.GX_Image_Watermark_Class{content: var(--GX-Image_Watermark);}
+.GX_Image_LOGOCIP_Class{content: var(--GX-Image_LOGOCIP);}
+.GX_Image_logo_etm_Class{content: var(--GX-Image_logo_etm);}
+.GX_Image_brochado_e_campo_LOGO_Class{content: var(--GX-Image_brochado_e_campo_LOGO);}
+.GX_Image_Tinamar_Class{content: var(--GX-Image_Tinamar);}
+.GX_Image_Erfoc_Class{content: var(--GX-Image_Erfoc);}
+.GX_Image_Jimenez01_Class{content: var(--GX-Image_Jimenez01);}
+.GX_Image_Bros_iso9002_Class{content: var(--GX-Image_Bros_iso9002);}
+.GX_Image_euro_bros_Class{content: var(--GX-Image_euro_bros);}
+.GX_Image_I2012OK0410_Class{content: var(--GX-Image_I2012OK0410);}
+.GX_Image_ActionExport_2_Class{content: var(--GX-Image_ActionExport_2);}
+.GX_Image_hidrocolor_M_Class{content: var(--GX-Image_hidrocolor_M);}
+.GX_Image_oko_hidro_M_Class{content: var(--GX-Image_oko_hidro_M);}
+.GX_Image_iso14001_hidro_Class{content: var(--GX-Image_iso14001_hidro);}
+.GX_Image_hidrocolor_Class{content: var(--GX-Image_hidrocolor);}
+.GX_Image_oko_hidro_Class{content: var(--GX-Image_oko_hidro);}
+.GX_Image_Carvema_1_Class{content: var(--GX-Image_Carvema_1);}
+.GX_Image_Pizarrot_Class{content: var(--GX-Image_Pizarrot);}
+.GX_Image_Logo_TM_Class{content: var(--GX-Image_Logo_TM);}
+.GX_Image_Tinamar_gl_Class{content: var(--GX-Image_Tinamar_gl);}
+.GX_Image_Endutex_1_Class{content: var(--GX-Image_Endutex_1);}
+.GX_Image_Vtabuas_0_Class{content: var(--GX-Image_Vtabuas_0);}
+.GX_Image_Vtabuas_1_Class{content: var(--GX-Image_Vtabuas_1);}
+.GX_Image_Vtabuas_2_Class{content: var(--GX-Image_Vtabuas_2);}
+.GX_Image_curva_Class{content: var(--GX-Image_curva);}
+.GX_Image_VINCOLOR_Class{content: var(--GX-Image_VINCOLOR);}
+.GX_Image_Mafitex_Class{content: var(--GX-Image_Mafitex);}
+.GX_Image_JPFII_Class{content: var(--GX-Image_JPFII);}
+.GX_Image_jpf_lb_Class{content: var(--GX-Image_jpf_lb);}
+.GX_Image_f_Class{content: var(--GX-Image_f);}
+.GX_Image_I0_Class{content: var(--GX-Image_I0);}
+.GX_Image_I1_Class{content: var(--GX-Image_I1);}
+.GX_Image_I2_Class{content: var(--GX-Image_I2);}
+.GX_Image_I3_Class{content: var(--GX-Image_I3);}
+.GX_Image_I4_Class{content: var(--GX-Image_I4);}
+.GX_Image_I5_Class{content: var(--GX-Image_I5);}
+.GX_Image_I6_Class{content: var(--GX-Image_I6);}
+.GX_Image_I7_Class{content: var(--GX-Image_I7);}
+.GX_Image_I8_Class{content: var(--GX-Image_I8);}
+.GX_Image_I9_Class{content: var(--GX-Image_I9);}
+.GX_Image_coma_Class{content: var(--GX-Image_coma);}
+.GX_Image_Ricoltex_Class{content: var(--GX-Image_Ricoltex);}
+.GX_Image_Ibatex_Class{content: var(--GX-Image_Ibatex);}
+.GX_Image_CarvemaNCRC_Class{content: var(--GX-Image_CarvemaNCRC);}
+.GX_Image_ApcerCarvema_Class{content: var(--GX-Image_ApcerCarvema);}
+.GX_Image_RCp_Class{content: var(--GX-Image_RCp);}
+.GX_Image_acatex_Class{content: var(--GX-Image_acatex);}
+.GX_Image_Jimenez_Class{content: var(--GX-Image_Jimenez);}
+.GX_Image_Hss_Class{content: var(--GX-Image_Hss);}
+.GX_Image_hss1_Class{content: var(--GX-Image_hss1);}
+.GX_Image_Staack_Class{content: var(--GX-Image_Staack);}
+.GX_Image_Carvema_0_Class{content: var(--GX-Image_Carvema_0);}
+.GX_Image_carvema_3_Class{content: var(--GX-Image_carvema_3);}
+.GX_Image_TextilRG1_Class{content: var(--GX-Image_TextilRG1);}
+.GX_Image_TextilRG_Class{content: var(--GX-Image_TextilRG);}
+.GX_Image_logo1_adifil_Class{content: var(--GX-Image_logo1_adifil);}
+.GX_Image_logo2_adifil_Class{content: var(--GX-Image_logo2_adifil);}
+.GX_Image_Sequei_lab_Class{content: var(--GX-Image_Sequei_lab);}
+.GX_Image_Sequei_flab_Class{content: var(--GX-Image_Sequei_flab);}
+.GX_Image_LOGO_ARTEXTIL_Class{content: var(--GX-Image_LOGO_ARTEXTIL);}
+.GX_Image_icontec_Class{content: var(--GX-Image_icontec);}
+.GX_Image_Linda_gl_Class{content: var(--GX-Image_Linda_gl);}
+.GX_Image_Indutexma_gl_Class{content: var(--GX-Image_Indutexma_gl);}
+.GX_Image_Filasur_Class{content: var(--GX-Image_Filasur);}
+.GX_Image_LABDIP_Class{content: var(--GX-Image_LABDIP);}
+.GX_Image_etm_gl_Class{content: var(--GX-Image_etm_gl);}
+.GX_Image_logohdr_Class{content: var(--GX-Image_logohdr);}
+.GX_Image_Tonalidades_Class{content: var(--GX-Image_Tonalidades);}
+.GX_Image_OTS100_label_2905CIT_pt_Class{content: var(--GX-Image_OTS100_label_2905CIT_pt);}
+.GX_Image_FACTORY_Class{content: var(--GX-Image_FACTORY);}
+.GX_Image_velta_Class{content: var(--GX-Image_velta);}
+.GX_Image_Dtyt_Class{content: var(--GX-Image_Dtyt);}
+.GX_Image_Coloretto1_Class{content: var(--GX-Image_Coloretto1);}
+.GX_Image_ETM_l_Class{content: var(--GX-Image_ETM_l);}
+.GX_Image_FraDamf1_Class{content: var(--GX-Image_FraDamf1);}
+.GX_Image_FraDamf2_Class{content: var(--GX-Image_FraDamf2);}
+.GX_Image_FraJime_Class{content: var(--GX-Image_FraJime);}
+.GX_Image_artextil_Class{content: var(--GX-Image_artextil);}
+.GX_Image_ordencompra_Class{content: var(--GX-Image_ordencompra);}
+.GX_Image_Stamperia2_Class{content: var(--GX-Image_Stamperia2);}
+.GX_Image_Pack_d_1_Class{content: var(--GX-Image_Pack_d_1);}
+.GX_Image_Estambril_Class{content: var(--GX-Image_Estambril);}
+.GX_Image_Utexta_Class{content: var(--GX-Image_Utexta);}
+.GX_Image_coloretto_etiqueta_Class{content: var(--GX-Image_coloretto_etiqueta);}
+.GX_Image_NCP_Class{content: var(--GX-Image_NCP);}
+.GX_Image_Tosa_1_Class{content: var(--GX-Image_Tosa_1);}
+.GX_Image_STEPnew_Class{content: var(--GX-Image_STEPnew);}
+.GX_Image_Entorno2_Class{content: var(--GX-Image_Entorno2);}
+.GX_Image_Scan3_Class{content: var(--GX-Image_Scan3);}
+.GX_Image_Scan_lara_Class{content: var(--GX-Image_Scan_lara);}
+.GX_Image_OTS100_label_2017OK0769_es_Class{content: var(--GX-Image_OTS100_label_2017OK0769_es);}
+.GX_Image_artextilH_Class{content: var(--GX-Image_artextilH);}
+.GX_Image_TinturasyTelas_Class{content: var(--GX-Image_TinturasyTelas);}
+.GX_Image_Tintatex_Class{content: var(--GX-Image_Tintatex);}
+.GX_Image_OKTEX_Class{content: var(--GX-Image_OKTEX);}
+.GX_Image_Interhits_Class{content: var(--GX-Image_Interhits);}
+.GX_Image_vts_quadrat_Class{content: var(--GX-Image_vts_quadrat);}
+.GX_Image_I2005AN1668_en_page_0001_Class{content: var(--GX-Image_I2005AN1668_en_page_0001);}
+.GX_Image_globalrecycledStandar_Class{content: var(--GX-Image_globalrecycledStandar);}
+.GX_Image_velluts1_Class{content: var(--GX-Image_velluts1);}
+.GX_Image_LogoFraVts_Class{content: var(--GX-Image_LogoFraVts);}
+.GX_Image_vts1_Class{content: var(--GX-Image_vts1);}
+.GX_Image_Tintatexdp_Class{content: var(--GX-Image_Tintatexdp);}
+.GX_Image_logo_Class{content: var(--GX-Image_logo);}
+.GX_Image_artemalha_Class{content: var(--GX-Image_artemalha);}
+.GX_Image_logo_bn_Class{content: var(--GX-Image_logo_bn);}
+.GX_Image_Lletres_Class{content: var(--GX-Image_Lletres);}
+.GX_Image_fontex_Class{content: var(--GX-Image_fontex);}
+.GX_Image_logo1083_Class{content: var(--GX-Image_logo1083);}
+.GX_Image_logo_ms_negre_Class{content: var(--GX-Image_logo_ms_negre);}
+.GX_Image_geisa_Class{content: var(--GX-Image_geisa);}
+.GX_Image_logoeti_Class{content: var(--GX-Image_logoeti);}
+.GX_Image_yonashY_Class{content: var(--GX-Image_yonashY);}
+.GX_Image_yonash_Class{content: var(--GX-Image_yonash);}
+.GX_Image_yonasHYY_Class{content: var(--GX-Image_yonasHYY);}
+.GX_Image_termilenio_Class{content: var(--GX-Image_termilenio);}
+.GX_Image_Imprimir_Class{content: var(--GX-Image_Imprimir);}
+.GX_Image_Dorado_Class{content: var(--GX-Image_Dorado);}
+.GX_Image_tenydos_Class{content: var(--GX-Image_tenydos);}
+.GX_Image_logonext_Class{content: var(--GX-Image_logonext);}
+.GX_Image_logotest_Class{content: var(--GX-Image_logotest);}
+.GX_Image_ActionExportReport_2_Class{content: var(--GX-Image_ActionExportReport_2);}
+.GX_Image_tintoriente_Class{content: var(--GX-Image_tintoriente);}
+.GX_Image_pioleraeti_Class{content: var(--GX-Image_pioleraeti);}
+.GX_Image_C_okotex_Class{content: var(--GX-Image_C_okotex);}
+.GX_Image_digital03_peque_Class{content: var(--GX-Image_digital03_peque);}
+.GX_Image_Logo_ARTEXTIL_lo_hacemos_posible_Class{content: var(--GX-Image_Logo_ARTEXTIL_lo_hacemos_posible);}
+.GX_Image_LOGO_ESTAMPAMOS_Class{content: var(--GX-Image_LOGO_ESTAMPAMOS);}
+.GX_Image_balalaika_Class{content: var(--GX-Image_balalaika);}
+.GX_Image_LogoBalalaika_Class{content: var(--GX-Image_LogoBalalaika);}
+.GX_Image_logoAnahuac_Class{content: var(--GX-Image_logoAnahuac);}
+.GX_Image_logo_anahuac_Class{content: var(--GX-Image_logo_anahuac);}
+.GX_Image_Mex_Class{content: var(--GX-Image_Mex);}
+.GX_Image_PequePOLOPIQUE_CMYK_Class{content: var(--GX-Image_PequePOLOPIQUE_CMYK);}
+.GX_Image_erfocdefectos_Class{content: var(--GX-Image_erfocdefectos);}
+.GX_Image_LogoPakinglist_Class{content: var(--GX-Image_LogoPakinglist);}
+.GX_Image_Retro_Class{content: var(--GX-Image_Retro);}
+.GX_Image_Avance_Class{content: var(--GX-Image_Avance);}
+.GX_Image_Anterior_Class{content: var(--GX-Image_Anterior);}
+.GX_Image_logo_datamon_1_Class{content: var(--GX-Image_logo_datamon_1);}
+.GX_Image_ActionBack_Class{content: var(--GX-Image_ActionBack);}
+.GX_Image_BtnUpdateImage_Class{content: var(--GX-Image_BtnUpdateImage);}
+.GX_Image_user_Class{content: var(--GX-Image_user);}
+.GX_Image_ActionFiltersClean_Class{content: var(--GX-Image_ActionFiltersClean);}
+.GX_Image_fondo1_940x470__1__Class{content: var(--GX-Image_fondo1_940x470__1_);}
+.GX_Image_fondo6_940x4702_Class{content: var(--GX-Image_fondo6_940x4702);}
+.GX_Image_ActionNewDynamicFilter_Class{content: var(--GX-Image_ActionNewDynamicFilter);}
+.GX_Image_ActionRemoveDynamicFilter_Class{content: var(--GX-Image_ActionRemoveDynamicFilter);}
+.GX_Image_userInfoMaterial_Class{content: var(--GX-Image_userInfoMaterial);}
+.GX_Image_MenuIconMaterial_Class{content: var(--GX-Image_MenuIconMaterial);}
+.GX_Image_LogoLogin_Class{content: var(--GX-Image_LogoLogin);}
+.GX_Image_LogoIcon_Class{content: var(--GX-Image_LogoIcon);}
+.GX_Image_Favicon_Class{content: var(--GX-Image_Favicon);}
+.GX_Image_ChineseIcon_Class{content: var(--GX-Image_ChineseIcon);}
+.GX_Image_EnglishIcon_Class{content: var(--GX-Image_EnglishIcon);}
+.GX_Image_GermanIcon_Class{content: var(--GX-Image_GermanIcon);}
+.GX_Image_ItalianIcon_Class{content: var(--GX-Image_ItalianIcon);}
+.GX_Image_JapaneseIcon_Class{content: var(--GX-Image_JapaneseIcon);}
+.GX_Image_PortugueseIcon_Class{content: var(--GX-Image_PortugueseIcon);}
+.GX_Image_SpanishIcon_Class{content: var(--GX-Image_SpanishIcon);}
+.GX_Image_ArabicIcon_Class{content: var(--GX-Image_ArabicIcon);}
+.GX_Image_StepSelectedUnSelected_Class{content: var(--GX-Image_StepSelectedUnSelected);}
+.GX_Image_StepUnSelectedSelected_Class{content: var(--GX-Image_StepUnSelectedSelected);}
+.GX_Image_WizardCompleted_Class{content: var(--GX-Image_WizardCompleted);}
+.GX_Image_DVelopComboCollapse_Class{content: var(--GX-Image_DVelopComboCollapse);}
+.GX_Image_DVelopComboExpand_Class{content: var(--GX-Image_DVelopComboExpand);}
+.GX_Image_PromptMultipleSelection_Class{content: var(--GX-Image_PromptMultipleSelection);}
+.GX_Image_LoadingResults_Class{content: var(--GX-Image_LoadingResults);}
+.GX_Image_PanelCardGray_Expand_Class{content: var(--GX-Image_PanelCardGray_Expand);}
+.GX_Image_Geolocation_Class{content: var(--GX-Image_Geolocation);}
+.GX_Image_BtnDeleteImage_Class{content: var(--GX-Image_BtnDeleteImage);}
+.GX_Image_BtnDisplayImage_Class{content: var(--GX-Image_BtnDisplayImage);}
+.GX_Image_WizardStepChecked_Class{content: var(--GX-Image_WizardStepChecked);}
+.GX_Image_ActionCancel_Class{content: var(--GX-Image_ActionCancel);}
+.GX_Image_HomeModulesBackground1_Class{content: var(--GX-Image_HomeModulesBackground1);}
+.GX_Image_HomeModulesBackground2_Class{content: var(--GX-Image_HomeModulesBackground2);}
+.GX_Image_HomeModulesBackground3_Class{content: var(--GX-Image_HomeModulesBackground3);}
+.GX_Image_HomeModulesBackground4_Class{content: var(--GX-Image_HomeModulesBackground4);}
+.GX_Image_HomeModulesBackground5_Class{content: var(--GX-Image_HomeModulesBackground5);}
+.GX_Image_HomeModulesBackground6_Class{content: var(--GX-Image_HomeModulesBackground6);}
+.GX_Image_DDODefault_Class{content: var(--GX-Image_DDODefault);}
+.GX_Image_DDOFiltered_Class{content: var(--GX-Image_DDOFiltered);}
+.GX_Image_DDOFilteredSortedASC_Class{content: var(--GX-Image_DDOFilteredSortedASC);}
+.GX_Image_DDOFilteredSortedDSC_Class{content: var(--GX-Image_DDOFilteredSortedDSC);}
+.GX_Image_DDOMultiselOption_Class{content: var(--GX-Image_DDOMultiselOption);}
+.GX_Image_DDOMultiselSelOption_Class{content: var(--GX-Image_DDOMultiselSelOption);}
+.GX_Image_DDOOptionApplyFilter_Class{content: var(--GX-Image_DDOOptionApplyFilter);}
+.GX_Image_DDOOptionCleanFilters_Class{content: var(--GX-Image_DDOOptionCleanFilters);}
+.GX_Image_DDOOptionFilteringData_Class{content: var(--GX-Image_DDOOptionFilteringData);}
+.GX_Image_DDOOptionSortASC_Class{content: var(--GX-Image_DDOOptionSortASC);}
+.GX_Image_DDOOptionSortDSC_Class{content: var(--GX-Image_DDOOptionSortDSC);}
+.GX_Image_DDOSelectedOption_Class{content: var(--GX-Image_DDOSelectedOption);}
+.GX_Image_DDOSortedASC_Class{content: var(--GX-Image_DDOSortedASC);}
+.GX_Image_DDOSortedDSC_Class{content: var(--GX-Image_DDOSortedDSC);}
+.GX_Image_ActionSave_Class{content: var(--GX-Image_ActionSave);}
+.GX_Image_ActionExportReport_Class{content: var(--GX-Image_ActionExportReport);}
+.GX_Image_MoveDown_Class{content: var(--GX-Image_MoveDown);}
+.GX_Image_MoveUp_Class{content: var(--GX-Image_MoveUp);}
+.GX_Image_ActionFiltersSave_Class{content: var(--GX-Image_ActionFiltersSave);}
+.GX_Image_ActionManageFilters_Class{content: var(--GX-Image_ActionManageFilters);}
+.GX_Image_ActionManage_Class{content: var(--GX-Image_ActionManage);}
+.GX_Image_RequiredTriangle_Class{content: var(--GX-Image_RequiredTriangle);}
+.GX_Image_ActionCopyRecord_Class{content: var(--GX-Image_ActionCopyRecord);}
+.GX_Image_AssociationItemsLeft_Class{content: var(--GX-Image_AssociationItemsLeft);}
+.GX_Image_AssociationItemsRight_Class{content: var(--GX-Image_AssociationItemsRight);}
+.GX_Image_AssociationRight_Class{content: var(--GX-Image_AssociationRight);}
+.GX_Image_AssociationLeft_Class{content: var(--GX-Image_AssociationLeft);}
+.GX_Image_HomeBannerImageSample_Class{content: var(--GX-Image_HomeBannerImageSample);}
+.GX_Image_ActionAdd_Class{content: var(--GX-Image_ActionAdd);}
+.GX_Image_ActionCSV_Class{content: var(--GX-Image_ActionCSV);}
+.GX_Image_SortedAsc_Class{content: var(--GX-Image_SortedAsc);}
+.GX_Image_SortedDsc_Class{content: var(--GX-Image_SortedDsc);}
+.GX_Image_ActionCleanFilters_Class{content: var(--GX-Image_ActionCleanFilters);}
+.GX_Image_AttHelpIcon_Class{content: var(--GX-Image_AttHelpIcon);}
+.GX_Image_BulletLine_Class{content: var(--GX-Image_BulletLine);}
+.GX_Image_LoginImage_Class{content: var(--GX-Image_LoginImage);}
+.GX_Image_ActionUpdate1_Class{content: var(--GX-Image_ActionUpdate1);}
+.GX_Image_prompt1_Class{content: var(--GX-Image_prompt1);}
+.GX_Image_NotAuthorizedImage_Class{content: var(--GX-Image_NotAuthorizedImage);}
+.GX_Image_LogoIcon1_Class{content: var(--GX-Image_LogoIcon1);}
+.GX_Image_FavIconDM_Class{content: var(--GX-Image_FavIconDM);}
+.GX_Image_LogoDMPlus_Class{content: var(--GX-Image_LogoDMPlus);}
+.GX_Image_Carvitin1_Class{content: var(--GX-Image_Carvitin1);}
+.GX_Image_moda211_Class{content: var(--GX-Image_moda211);}
+.GX_Image_BackgroundImage_Class{content: var(--GX-Image_BackgroundImage);}
+.GX_Image_moda212_Class{content: var(--GX-Image_moda212);}
+.GX_Image_moda21B1_Class{content: var(--GX-Image_moda21B1);}
+.GX_Image_moda213_Class{content: var(--GX-Image_moda213);}
+.GX_Image_moda214_Class{content: var(--GX-Image_moda214);}
+.GX_Image_Texplus11_Class{content: var(--GX-Image_Texplus11);}
+.GX_Image_Datamon40anios_Class{content: var(--GX-Image_Datamon40anios);}
+.GX_Image_Carvitin2_Class{content: var(--GX-Image_Carvitin2);}
+.GX_Image_ctw1_Class{content: var(--GX-Image_ctw1);}
+.GX_Image_MODA215_Class{content: var(--GX-Image_MODA215);}
+.GX_Image_Datamon_LogoMasterPage_Class{content: var(--GX-Image_Datamon_LogoMasterPage);}
+.GX_Image_Datamon_Avatar_Class{content: var(--GX-Image_Datamon_Avatar);}
+.GX_Image_Datamon_background_login_Class{content: var(--GX-Image_Datamon_background_login);}
+.GX_Image_europeanflax_moda21_Class{content: var(--GX-Image_europeanflax_moda21);}
+.GX_Image_Alert_Class{content: var(--GX-Image_Alert);}
+.GX_Image_qrcode_Class{content: var(--GX-Image_qrcode);}
+.GX_Image_Email_Class{content: var(--GX-Image_Email);}
+.GX_Image_EmailError_Class{content: var(--GX-Image_EmailError);}
+.GX_Image_MarcaAgua_NOAT_8x111_Class{content: var(--GX-Image_MarcaAgua_NOAT_8x111);}
+.GX_Image_MarcaAgua_NOAT_8x11_Class{content: var(--GX-Image_MarcaAgua_NOAT_8x11);}
+.GX_Image_MarcadeAgua_Class{content: var(--GX-Image_MarcadeAgua);}
+.GX_Image_Printer_Class{content: var(--GX-Image_Printer);}
+.GX_Image_SendEmail_Class{content: var(--GX-Image_SendEmail);}
+.GX_Image_moda2121_Class{content: var(--GX-Image_moda2121);}
+.GX_Image_assinaturaCC_Class{content: var(--GX-Image_assinaturaCC);}

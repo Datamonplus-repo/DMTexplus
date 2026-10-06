@@ -1,0 +1,86 @@
+openapi: 3.0.0
+info:
+  title: "Texplus NET"
+  version: "20260902135456"
+servers:
+  - url: http://localhost:8080/TexplusNETJavaOracle/AsyncBatch/AsyncBatchAPI
+paths:
+  /SetParameters:
+    post:
+      tags:
+        - AsyncBatch  
+      operationId: "AsyncBatch.AsyncBatchAPI.SetParameters__post"
+      summary: "SetParameters__post"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetParameters__postInput"
+      
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GeneXus.Common.Messages_Message"  
+
+        404:
+          description: "Not found"
+
+components:
+  schemas:
+    SetParameters__postInput:
+      properties:
+        JobData:
+          description: Job Parameter Data
+          $ref: "#/components/schemas/AsyncBatch.JobParameterData"
+  
+    AsyncBatch.JobParameterData:
+      properties:
+        JobId:
+          description: Job Id
+          type: "string"
+          format: "uuid"
+
+        JobParSdt:
+          type: array
+          items:
+            description: JobParSdtItem
+            $ref: "#/components/schemas/AsyncBatch.JobParameterData.JobParSdt_JobParSdtItem"
+
+
+    AsyncBatch.JobParameterData.JobParSdt_JobParSdtItem:
+      properties:
+        ParKey:
+          description: Par Key
+          type: "string"
+        ParVal:
+          description: Par Val
+          type: "string"
+        ValTyp:
+          description: Val Typ
+          type: "string"
+
+
+      x-gx-level: "JobParameterData"
+
+    GeneXus.Common.Messages_Message:
+      properties:
+        Id:
+          description: Id
+          type: "string"
+        Type:
+          description: Type
+          type: "integer"
+          format: "int32"
+        Description:
+          description: Description
+          type: "string"
+
+
+
+

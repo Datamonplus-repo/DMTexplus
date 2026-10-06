@@ -1,0 +1,463 @@
+{
+	"Name": "DatamonJS",
+	"Target": "",
+	"IsControlType": false,
+	"Template": "<div class=\"rows\">    <div class=\"modal right fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\">        <div class=\"modal-dialog\" role=\"document\">            <div class=\"modal-content-ret\">                                <div class=\"modal-header-ret\">                                        <div class=\"rows\">                        <i style=\"position: relative;cursor: pointer;float: left;top: 8px;\" id=\"myModalIcon\" class=\"fas fa-arrow-left\"></i>                        <h4 style=\"position:relative;cursor:pointer;width:100px;\" class=\"modal-title-ret\" id=\"myModalLabel\">empty</h4>                    </div>                                    </div>                <div class=\"modal-body\">                    <div class=\"row\" style=\"position: relative; text-align: center;\">			  				<div id=\"spinner\" style=\"display: none;\">            			<img src=\"./Resources/app.Loader.gif\" alt=\"Carregando...\" style=\"width: 100px; height: 100px; margin: 50px auto; transform: translate(-50%, -50%);display: block;\">         			</div>                        <iframe class=\"foo\" id=\"modaliframe\" width=\"99.9%\" src=\"\" frameborder=\"0\" scrolling=\"yes\" style=\"display: none;\"></iframe>                    </div>                </div>                            </div>                    </div>            </div></div>",
+	"Events": [
+		{
+			"Name": "OnTimer",
+			"On": "timer",
+			"Parameters": ""
+		} ,
+		{
+			"Name": "GetFilters",
+			"On": "getfilters",
+			"Parameters": ""
+		} 
+	],
+	"Properties": [
+		{
+			"Id": "Paramstr",
+			"Name": "Paramstr",
+			"Type": "string",
+			"Default": ""
+		} 
+	],
+	"Methods": {
+		"Public": [
+			{
+				"Name": "FormSerialize",
+				"Source": "	const result = { Param: [] };	const root = (window.parent && window.parent.document) ? window.parent.document : document;	const elements = root.querySelectorAll(\'input[id^=\"v\"], select[id^=\"v\"], textarea[id^=\"v\"]\');		elements.forEach(el => {	if (el.disabled) return;		let value;	let type = \"STR\";		if (el.type === \"checkbox\") {				if (el.checked) {			value = \'S\'; 					} else {			value = \'N\';		}				//value = el.checked; 					type = \"BOOL\";	} else {		value = el.value;			const normalized = (value == null ? \"\" : String(value)).trim();		if (normalized === \"\" || normalized === \"/  /\" || normalized === \"//\") return;			value = normalized;			if (!isNaN(value)) {		type = \"NUM\";		} else if (!isNaN(Date.parse(value))) {		// Se você precisa que data fique como STR (igual ao seu exemplo),		// comente esta linha e deixe sempre STR.		type = \"DATE\";		} else if (value.startsWith(\"{\") || value.startsWith(\"[\")) {		type = \"JSON\";		}	}		result.Param.push({			ParKey: el.id.startsWith(\"v\") ? el.id.substring(1) : el.id,			ParVal: String(value), 			ValTyp: type		});	});			const payload = {		JobData: {			JobId: cod,			JobParSdt: result.Param		}	};		fetch(\"./AsyncBatch/AsyncBatchAPI/SetParameters\", {	method: \"POST\",	headers: {		\"Content-Type\": \"application/json\"	},	body: JSON.stringify(payload)	});		console.log(payload);	",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "cod",
+						"Type": "cod"
+					} ,
+					 {
+						"Name": "endpoint",
+						"Type": "endpoint"
+					} 
+				]
+			} ,
+			{
+				"Name": "Caller",
+				"Source": "	document.body.classList.add(\"gx-spa-navigating\", \"gx-masked\");if (!document.querySelector(\".gx-mask\")) {	const mask = document.createElement(\"div\");	mask.className = \"gx-mask\";	mask.style.zIndex = \"2\";	mask.style.animation = \"none\"; 	document.body.appendChild(mask);}setTimeout(() => {	window.location.href = url; }, 1000);",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "url",
+						"Type": "url"
+					} 
+				]
+			} ,
+			{
+				"Name": "GridLayoutClean",
+				"Source": "$(function () {  const thClasses = \'gx-tab-padding-fix-1 WWColumn hidden-xs GridWithPaginationBar GridNoBorder WorkWithSelection WorkWithTitle WWPDraggable\';  $(\'th\')    .removeClass()       .addClass(thClasses);});",
+				"Return": "",
+				"Parameters": [
+				]
+			} ,
+			{
+				"Name": "windows",
+				"Source": "        window.open(objeto, param);  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "objeto",
+						"Type": "objeto"
+					} ,
+					 {
+						"Name": "param",
+						"Type": "param"
+					} 
+				]
+			} ,
+			{
+				"Name": "CollapsePanel",
+				"Source": "         var el = \'#\' + Element;         $(el).click();  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "Element",
+						"Type": "Element"
+					} 
+				]
+			} ,
+			{
+				"Name": "ClosePopup",
+				"Source": "        if (gx.popup.ispopup()) {              $(parent.document.getElementsByClassName(\"gx-popup-close\")).click();           } else {              $(parent.document.getElementById(\"myModal\")).click();                }  ",
+				"Return": "",
+				"Parameters": [
+				]
+			} ,
+			{
+				"Name": "ClosePopupRecursive",
+				"Source": "     setTimeout(() => {        window.parent.location.reload(true)    }, 2000);      const docList = [document, parent.document];        docList.forEach(doc => {            Array.from(doc.querySelectorAll(\".gx-popup-close, .modal-close, .close\"))      .forEach(el => el.click());            Array.from(doc.querySelectorAll(\"#myModal, .modal, .gx-popup\"))      .forEach(modal => {	        if (modal.style.display !== \"none\") {	          modal.style.display = \"none\";	        }      });    });  ",
+				"Return": "",
+				"Parameters": [
+				]
+			} ,
+			{
+				"Name": "MethodLoop",
+				"Source": "    		if (!this.nIntervId) {          	this.nIntervId = setInterval( this.OnTimer, time);		}  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "time",
+						"Type": "time"
+					} 
+				]
+			} ,
+			{
+				"Name": "MethodLoopStop",
+				"Source": "  		clearInterval(this.nIntervId); 		this.nIntervId = null;  ",
+				"Return": "",
+				"Parameters": [
+				]
+			} ,
+			{
+				"Name": "SetProgress",
+				"Source": "	 	const wrapper = `<div class=\"progress-wrapper\" id=\"${el}_wrapper\">    		<progress id=\"${el}\" value=\"0\" max=\"${max}\"></progress>    		<span class=\"progress-text\">0%</span>  		</div>`;	const $wrapper = $(\"#\" + el + \"_wrapper\");		if ($wrapper.length === 0) {		$(\"#\" + el).replaceWith(wrapper);	}		const $progress = $(\"#\" + el);	$progress.attr(\"max\", Number(max));	$progress.val(Number(value));     	$progress.siblings(\".progress-text\").text(value + \"%\");	",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "el",
+						"Type": "el"
+					} ,
+					 {
+						"Name": "value",
+						"Type": "value"
+					} ,
+					 {
+						"Name": "max",
+						"Type": "max"
+					} 
+				]
+			} ,
+			{
+				"Name": "SetInputType",
+				"Source": "		var elem = \"#\"+el;   		$(elem).attr(\'type\', type);  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "el",
+						"Type": "el"
+					} ,
+					 {
+						"Name": "type",
+						"Type": "type"
+					} 
+				]
+			} ,
+			{
+				"Name": "HiddenModal",
+				"Source": "	  $(\"[data-dismiss=\'modal\']\").click();  ",
+				"Return": "",
+				"Parameters": [
+				]
+			} ,
+			{
+				"Name": "ModalHtmlRedirect",
+				"Source": "     	   $(\'#iframerow\').remove();        $(\'#myModalLabel\').text(title);        $(\'.modal-body\').empty();        $(\'.modal-body\').append(html);        var modal = $(\'#myModal\').modal();        $(function() {            $(\'#myModal\').on(\'show.bs.modal\', function() {                $(this).find(\'.modal-body\').css({                    \'max-height\': \'100%\'                });            });            $(\'#myModal\').on(\'hidden.bs.modal\', function() {                window.open(goto, \"_parent\");            });            if (visibleclose == false) {                $(\'.modal-footer\').hide();            }        });  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "html",
+						"Type": "html"
+					} ,
+					 {
+						"Name": "title",
+						"Type": "title"
+					} ,
+					 {
+						"Name": "goto",
+						"Type": "goto"
+					} ,
+					 {
+						"Name": "visibleclose",
+						"Type": "visibleclose"
+					} 
+				]
+			} ,
+			{
+				"Name": "ModalPageRedirect",
+				"Source": "	$(\'#myModalIcon, #myModalLabel\').click(function () {	$(\'#myModal\').modal(\'hide\');	});		$(\'#modaliframe\').on(\'load\', function () {		$(\'#spinner\').hide();		$(\'#modaliframe\').fadeIn(100);	});		$(\'#myModal\').on(\'show.bs.modal\', function () {		$(\'#spinner\').show();		$(\'#modaliframe\').hide();			$(this).css({ \'display\': \'block\' });		$(this).find(\'.modal-body\').css({ \'max-height\': \'100%\' });	});		$(\'#modaliframe\').attr(\'src\', url);	$(\'#modaliframe\').attr(\'sandbox\', \'allow-scripts allow-same-origin allow-forms allow-popups allow-downloads\');			$(\'#myModalLabel\').text(title);	$(\'#myModal\').modal();		$(\'#myModal\').on(\'hidden.bs.modal\', function () {		$(\'#modaliframe\').attr(\'src\', \"\");    		window.open(goto, \"_parent\");	});		if (visibleclose === false) {		$(\'.modal-footer\').hide();	}		if (width.length > 0) {		$(\".modal-dialog.modal-lg\").css(\"width\", width);		$(\".modal-content\").css(\"width\", width);	}",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "url",
+						"Type": "url"
+					} ,
+					 {
+						"Name": "title",
+						"Type": "title"
+					} ,
+					 {
+						"Name": "goto",
+						"Type": "goto"
+					} ,
+					 {
+						"Name": "width",
+						"Type": "width"
+					} ,
+					 {
+						"Name": "visibleclose",
+						"Type": "visibleclose"
+					} 
+				]
+			} ,
+			{
+				"Name": "ModalRedirect",
+				"Source": "        $(\'#modaliframe\').attr(\'src\', url);        $(\'#myModalLabel\').text(title);        var modal = $(\'#myModal\').modal();        $(function() {            $(\'#myModal\').on(\'show.bs.modal\', function() {                $(this).find(\'.modal-body\').css({                    \'max-height\': \'100%\'					                });            });            $(\'#myModal\').on(\'hidden.bs.modal\', function() {                $(\'#modaliframe\').attr(\'src\', \"\");                window.open(goto, \"_parent\");            });            if (visibleclose == false) {	           	$(\'.modal-footer\').hide();					        }					 if (height.length > 0) {				$(\".foo\").css(\"height\", height);            }            if (width.length > 0) {                $(\".modal-dialog.modal-lg\").css(\"width\",width);                $(\".modal-content\").css(\"width\",width);            }                });  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "url",
+						"Type": "url"
+					} ,
+					 {
+						"Name": "title",
+						"Type": "title"
+					} ,
+					 {
+						"Name": "goto",
+						"Type": "goto"
+					} ,
+					 {
+						"Name": "width",
+						"Type": "width"
+					} ,
+					 {
+						"Name": "height",
+						"Type": "height"
+					} ,
+					 {
+						"Name": "visibleclose",
+						"Type": "visibleclose"
+					} 
+				]
+			} ,
+			{
+				"Name": "RemoveElement",
+				"Source": "       /* Remove Element */	  $(parent.document).find(el).remove();	    ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "el",
+						"Type": "el"
+					} 
+				]
+			} ,
+			{
+				"Name": "ModalHtml",
+				"Source": "        		$(\'#iframerow\').remove();        $(\'#myModalLabel\').text(title);        $(\'.modal-body\').empty();        $(\'.modal-body\').append(html);        var modal = $(\'#myModal\').modal();        $(function() {            $(\'#myModal\').on(\'show.bs.modal\', function() {                $(this).find(\'.modal-body\').css({                    \'max-height\': \'100%\'                });            });            $(\'#myModal\').on(\'hidden.bs.modal\', function() {                window.open(goto, \"_parent\");            });        });  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "html",
+						"Type": "html"
+					} ,
+					 {
+						"Name": "title",
+						"Type": "title"
+					} ,
+					 {
+						"Name": "size",
+						"Type": "size"
+					} 
+				]
+			} ,
+			{
+				"Name": "Modal",
+				"Source": "         $(\'#iframerow\').remove();        $(\'#myModalLabel\').text(title);        $(\'.modal-body\').empty();        $(\'.modal-body\').append($(\'#\' + id));        var modal = $(\'#myModal\').modal();        $(function() {            $(\'#myModal\').on(\'show.bs.modal\', function() {                $(this).find(\'.modal-body\').css({                    \'max-height\': \'100%\'                });            });            $(\'#myModal\').on(\'hidden.bs.modal\', function() {                $(\'#TABLEINIVISIBLE\').append($(\'#\' + id));            });        });  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "id",
+						"Type": "id"
+					} ,
+					 {
+						"Name": "title",
+						"Type": "title"
+					} ,
+					 {
+						"Name": "size",
+						"Type": "size"
+					} 
+				]
+			} ,
+			{
+				"Name": "Prompt",
+				"Source": "          var template = null;        $(\'#modaliframe\').attr(\'src\', url);        $(\'#myModalLabel\').text(title);        var modal = $(\'#myModal\').modal();        $(function() {            $(\'#myModal\').on(\'show.bs.modal\', function() {                $(this).find(\'.modal-body\').css({                    \'max-height\': \'100%\'                });            });            $(\'#myModal\').on(\'hidden.bs.modal\', function() {                $(\'#modaliframe\').attr(\'src\', \'\');            });        });  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "url",
+						"Type": "url"
+					} ,
+					 {
+						"Name": "title",
+						"Type": "title"
+					} 
+				]
+			} ,
+			{
+				"Name": "AddNewLineGrid",
+				"Source": "  			 			var el = \'#\'+id;			var html = h;			var tbody = $(el).children(\'tbody\');			var table = tbody.length ? tbody : $(el);			table.append(html);	    				  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "id",
+						"Type": "id"
+					} ,
+					 {
+						"Name": "h",
+						"Type": "h"
+					} 
+				]
+			} ,
+			{
+				"Name": "AppendTo",
+				"Source": "	var a = \'#\'+id;	var b = \'#\'+to;	$(\"span[data-gx-enabled-id=\'+to+\']\").detach().appendTo(a);  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "id",
+						"Type": "id"
+					} ,
+					 {
+						"Name": "to",
+						"Type": "to"
+					} 
+				]
+			} ,
+			{
+				"Name": "ClickElement",
+				"Source": "         $(Element).click();  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "Element",
+						"Type": "Element"
+					} 
+				]
+			} ,
+			{
+				"Name": "ClearCombo",
+				"Source": "         var el = \"#\"+Element;         $(el).text(\"\");  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "Element",
+						"Type": "Element"
+					} 
+				]
+			} ,
+			{
+				"Name": "ChangeEventElement",
+				"Source": "        document.getElementById(input).addEventListener(\'keydown\', function (e) {            if (e.key === \'Enter\') {                e.preventDefault(); // Evita comportamento padrão do Enter                e.stopPropagation(); // Impede que o evento seja propagado para outros elementos                const cursorPos = this.selectionStart;                this.value = this.value.substring(0, cursorPos) + \'\n\' + this.value.substring(cursorPos);                this.selectionEnd = cursorPos + 1; // Mantém o cursor após a nova linha            }        });  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "input",
+						"Type": "input"
+					} 
+				]
+			} ,
+			{
+				"Name": "InvertGridMenu",
+				"Source": "      $(input).css({\"top\": \"auto\", \"bottom\": \"100%\"});  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "input",
+						"Type": "input"
+					} 
+				]
+			} ,
+			{
+				"Name": "ChangeClass",
+				"Source": "     $(input).addClass(cl);  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "input",
+						"Type": "input"
+					} ,
+					 {
+						"Name": "cl",
+						"Type": "cl"
+					} 
+				]
+			} ,
+			{
+				"Name": "RemoveClass",
+				"Source": "     $(input).removeAttr(\'class\');  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "input",
+						"Type": "input"
+					} 
+				]
+			} ,
+			{
+				"Name": "ChangeTextElement",
+				"Source": "     $(el).text(b);  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "el",
+						"Type": "el"
+					} ,
+					 {
+						"Name": "b",
+						"Type": "b"
+					} 
+				]
+			} ,
+			{
+				"Name": "SeFocuAtt",
+				"Source": "	var el = \'#\'+a;    	$(el).focus();    ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "a",
+						"Type": "a"
+					} 
+				]
+			} ,
+			{
+				"Name": "DisableFocus",
+				"Source": "	var el = \'#\'+a;    	$(el).attr(\'tabindex\', \'-1\');  ",
+				"Return": "",
+				"Parameters": [
+					 {
+						"Name": "a",
+						"Type": "a"
+					} 
+				]
+			} 
+		],
+		"Private": [
+		]
+	},
+	"Scripts": {
+		"AfterShow": [
+			{
+				"Name": "Init",
+				"Source": "	const UC = this;	var nIntervId = null ;				if (!this.IsPostBack) {		wasLoaded = true;  				}",
+				"AngularLocation": ""
+			} 
+		],
+		"BeforeShow": [
+		]
+	},
+	"Dependencies": [
+	],
+	"Imports": [
+	],
+	"Styles": [
+	]
+}
